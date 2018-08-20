@@ -25,7 +25,7 @@ def from_cursor(row: Row) -> PurchaseRecord:
   (date, arrangement, basis, head_count, avg_price, low_price, high_price) = row
 
   return PurchaseRecord(
-    date = datetime.strptime("%Y-%m-%d", date),
+    date = datetime.strptime(date, "%Y-%m-%d"),
     seller = Seller.PRODUCER,
     arrangement = Arrangement(arrangement),
     basis = Basis(basis),

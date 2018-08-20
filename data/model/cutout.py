@@ -25,7 +25,7 @@ def from_cursor(row: Row) -> CutoutRecord:
       carcass_price, loin_price, butt_price, picnic_price, rib_price, ham_price, belly_price) = row
 
   return CutoutRecord(
-    date = datetime.strptime("%Y-%m-%d", date),
+    date = datetime.strptime(date, "%Y-%m-%d"),
     primal_loads = primal_loads,
     trimming_loads = trimming_loads,
     carcass_price = carcass_price,
