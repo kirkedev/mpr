@@ -49,9 +49,9 @@ def filter_section(elements: Iterator[Tuple[str, Element]], section: str) -> Ite
         </report>
       </record>
 
-      It's typical to use the date of each element as an index, so this method yields a merged dictionary from the
-      parent date <record> attributes and the child data <record> attributes matching the section filter, using a stream of
-      lazily parsed XML elements from the api response stream. """
+      It's typical to use the date of each element as an index, so this method flattens the data by yielding a merged dictionary
+      from the parent date <record> attributes and the child data <record> attributes matching the section filter, using a stream
+      of lazily parsed XML elements from the api response. """
 
   depth = 0
   current_section = None

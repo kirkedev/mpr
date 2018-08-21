@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import NamedTuple, Iterator
 from datetime import date
 
@@ -29,17 +29,27 @@ def compute_cash_index(records: Iterator[SlaughterRecord]) -> pd.DataFrame:
   cash_totals = map(cash_total, filter(filter_types, records))
   data = pd.DataFrame.from_records(cash_totals, columns=CashTotal._fields)
 
-  # pivot by date and calculate total weight and value
+  # pivot by date and calculate total weight, total value, and weighted average price
   table = pd.pivot_table(data, index=DATE, values=[TOTAL_WEIGHT, TOTAL_VALUE], aggfunc=np.sum)
+  table['weighted_price'] = table[TOTAL_VALUE] / table[TOTAL_WEIGHT]
 
   # compute daily cash index from two day sliding window of total value / total weight
   totals = table.rolling(2).sum().dropna()
-  totals['cash_index'] = totals[TOTAL_VALUE] / totals[TOTAL_WEIGHT]
+  table['cash_index'] = totals[TOTAL_VALUE] / totals[TOTAL_WEIGHT]
 
-  return totals['cash_index']
+  return table.drop([TOTAL_VALUE, TOTAL_WEIGHT], axis=1)
 
 def get_cash_index(start_date: date, end_date: date = date.today()):
   return compute_cash_index(get_slaughter(start_date, end_date))
 
 if __name__ == '__main__':
-  print(get_cash_index(date(2018, 8, 1)).tail())
+  import argparse
+  parser = argparse.ArgumentParser(description='Calculate the CME Lean Hog Index')
+  parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=5)
+
+  days = parser.parse_args().days
+  today = date.today()
+  start_date = today - timedelta(days=days * 2)
+
+  pd.options.display.precision = 2
+  print(get_cash_index(start_date, today).tail(days))
