@@ -69,11 +69,11 @@ def get_attributes(attr: Attributes) -> Line:
     get_optional(attr, 'loineye_area'),
     get_optional(attr, 'avg_lean_percent'))
 
-def create_records(attributes: Attributes) -> SlaughterRecord:
+def from_attributes(attributes: Attributes) -> SlaughterRecord:
   return create_record(get_attributes(attributes))
 
 def get_slaughter(start_date: date, end_date: date=date.today()) -> Iterator[SlaughterRecord]:
   response = fetch(Report.SLAUGHTERED_SWINE, start_date + timedelta(days=1), end_date)
   attributes = filter_section(response, Section.BARROWS_AND_GILTS.value)
 
-  return map(create_records, attributes)
+  return map(from_attributes, attributes)
