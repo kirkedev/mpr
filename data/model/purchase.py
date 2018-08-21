@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Tuple, NamedTuple, List, Optional as Maybe
 
-from purchase_type import PurchaseType, Seller, Arrangement, Basis
+from .purchase_type import PurchaseType, Seller, Arrangement, Basis
 
 class PurchaseRecord(NamedTuple):
   """ Aggregate data structure for pricing of purchased barrows and gilts per date and purchase type, as
