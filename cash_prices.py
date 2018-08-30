@@ -1,9 +1,6 @@
-import csv
-from datetime import datetime, timedelta
-from typing import NamedTuple, Iterator
+from typing import Tuple, NamedTuple, Iterator
 from datetime import date
 
-import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series
 
@@ -13,14 +10,12 @@ def filter_types(record: SlaughterRecord) -> bool:
   return record.purchase_type in ('Prod. Sold Negotiated', 'Prod. Sold Negotiated Formula',
     'Prod. Sold Swine or Pork Market Formula')
 
-def compute_weight(head_count: Series, carcass_weight: Series) -> Series:
-  return (head_count * carcass_weight).rename('total_weight')
+compute_weight = lambda head_count, carcass_weight: head_count * carcass_weight
+compute_value = lambda total_weight, net_price: total_weight * net_price
+compute_price = lambda total_value, total_weight: total_value / total_weight
 
-def compute_value(total_weight: Series, net_price: Series) -> Series:
-  return (total_weight * net_price).rename('total_value')
-
-def compute_price(total_value: Series, total_weight: Series) -> Series:
-  return (total_value / total_weight).rename('weighted_price')
+def compute_change(series: Series) -> Series:
+  return series - series.shift(1)
 
 def compute_cash_index(records: Iterator[SlaughterRecord]) -> DataFrame:
   slaughter = DataFrame.from_records(records, columns=SlaughterRecord._fields)
@@ -33,26 +28,33 @@ def compute_cash_index(records: Iterator[SlaughterRecord]) -> DataFrame:
 
   slaughter = slaughter.set_index(['date', 'purchase_type'])
 
-  total_weight = compute_weight(slaughter['head_count'], slaughter['carcass_weight'])
-  total_value = compute_value(total_weight, slaughter['net_price'])
-  price = compute_price(total_value, total_weight)
+  total_weight = compute_weight(slaughter['head_count'], slaughter['carcass_weight']).rename('total_weight')
+  total_value = compute_value(total_weight, slaughter['net_price']).rename('total_value')
 
   totals = pd.pivot_table(pd.concat([total_weight, total_value], axis=1), index='date')
-  daily_price = compute_price(totals['total_value'], totals['total_weight'])
-  rolling_totals = totals.rolling(2).sum().dropna()
-  cme_index = compute_price(rolling_totals['total_value'], rolling_totals['total_weight']).rename('cme_index')
+  daily_price = compute_price(totals['total_value'], totals['total_weight']).rename('Daily Weighted Price')
+  price_change = compute_change(daily_price).rename('Price Change')
 
-  table = pd.concat([slaughter['head_count'], slaughter['carcass_weight'], price], axis=1).unstack()
-  cols = [(col, purchase_type) for (col, purchase_type) in table.columns if purchase_type != 'Negotiated Formula']
+  rolling_totals = totals.rolling(2).sum().dropna()
+  cme_index = compute_price(rolling_totals['total_value'], rolling_totals['total_weight']).rename('CME Index')
+  index_change = compute_change(cme_index).rename('Index Change')
+
+  table = pd.concat([slaughter['head_count'], slaughter['carcass_weight'], slaughter['net_price']], axis=1).unstack()
+  cols = filter(lambda it: it[1] != 'Negotiated Formula', table.columns)
+  cols = sorted(cols, key=lambda it: ('Negotiated', 'Market Formula').index(it[1]))
+
   table = table[cols]
 
-  price_change = (daily_price - daily_price.shift(1)).rename('price_change')
-  index_change = (cme_index - cme_index.shift(1)).rename('index_change')
+  def rename_cols(it: Tuple[str, str]) -> str:
+    (col, purchase_type) = it
+    return purchase_type + ' ' + col.replace('_', ' ').title()
+
+  table.columns = map(rename_cols, table.columns)
 
   return pd.concat([table, daily_price, price_change, cme_index, index_change], axis=1)
 
 def get_cash_prices(days: int) -> DataFrame:
-  return compute_cash_index(filter(filter_types, get_slaughter(days + 2))).tail(days)
+  return compute_cash_index(filter(filter_types, get_slaughter(days + 3))).tail(days)
 
 if __name__ == '__main__':
   import argparse

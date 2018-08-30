@@ -3,7 +3,7 @@ from functools import singledispatch
 from typing import NamedTuple, Optional, Iterator
 from datetime import date, datetime, timedelta
 
-from api import fetch, parse_elements, opt_float, opt_int, date_interval, Report, Attributes
+from .api import fetch, parse_elements, opt_float, opt_int, date_interval, Report, Attributes
 
 date_format = "%m/%d/%Y"
 
