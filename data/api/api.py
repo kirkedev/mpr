@@ -92,15 +92,15 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
 
   for event, element in elements:
     if element.tag == 'report' and event == 'start':
-      section = element
+      section = element.items()
 
     if element.tag == 'record':
       if event == 'start':
         if depth == 0:
-          date = element
+          date = element.items()
 
         if depth == 1:
-          yield { **date.attrib, **section.attrib , **element.attrib }
+          yield dict(date + section + element.items())
 
         depth += 1
 
