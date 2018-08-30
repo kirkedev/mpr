@@ -5,7 +5,7 @@ from datetime import date
 
 import numpy as np
 import pandas as pd
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 from data.hg201 import get_slaughter
 from data.model.purchase_type import Arrangement, Seller

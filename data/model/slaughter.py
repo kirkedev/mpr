@@ -1,6 +1,5 @@
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from typing import Tuple, NamedTuple, Iterable, Iterator, Optional as Maybe
-from datetime import date, timedelta
 
 from .purchase_type import PurchaseType, Seller, Arrangement, Basis
 
@@ -9,7 +8,7 @@ class SlaughterRecord(NamedTuple):
       Data is retrieved from the USDA's daily Slaughtered Swine Report (LM_HG201)
       https://www.ams.usda.gov/mnreports/lm_hg201.txt """
 
-  date: datetime
+  date: date
   seller: Seller
   arrangement: Arrangement
   basis: Basis
@@ -39,7 +38,7 @@ def from_cursor(row: Row) -> SlaughterRecord:
       base_price, net_price, low_price, high_price, live_weight, carcass_weight, lean_percent) = row
 
   return SlaughterRecord(
-    date = datetime.strptime(date, "%Y-%m-%d"),
+    date = datetime.strptime(date, "%Y-%m-%d").date(),
     seller = Seller(seller),
     arrangement = Arrangement(arrangement),
     basis = Basis.CARCASS,

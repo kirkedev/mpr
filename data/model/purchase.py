@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Tuple, NamedTuple, List, Optional as Maybe
+from tables import IsDescription, Time32Col, EnumCol, UInt8Col, UInt16Col, UInt32Col
 
 from .purchase_type import PurchaseType, Seller, Arrangement, Basis
 
@@ -8,7 +9,7 @@ class PurchaseRecord(NamedTuple):
       retrieved from a USDA purchased swine report (LMHG201, LM_HG202, and LM_HG203)
       https://www.ams.usda.gov/mnreports/lm_hg202.txt """
 
-  date: datetime
+  date: date
   seller: Seller
   arrangement: Arrangement
   basis: Basis
@@ -19,20 +20,6 @@ class PurchaseRecord(NamedTuple):
 
 # Type alias to represent a row in a sqlite3 table of purchase records
 Row = Tuple[str, str, str, int, Maybe[float], Maybe[float], Maybe[float]]
-
-def from_cursor(row: Row) -> PurchaseRecord:
-  """ Creates a new PurchaseRecord out of a Row fetched from a sqlite3 table """
-  (date, arrangement, basis, head_count, avg_price, low_price, high_price) = row
-
-  return PurchaseRecord(
-    date = datetime.strptime(date, "%Y-%m-%d"),
-    seller = Seller.PRODUCER,
-    arrangement = Arrangement(arrangement),
-    basis = Basis(basis),
-    head_count = head_count,
-    avg_price = avg_price,
-    low_price = low_price,
-    high_price = high_price)
 
 PURCHASE_TYPES = {
   'Negotiated (carcass basis)': PurchaseType(Seller.PRODUCER, Arrangement.NEGOTIATED, Basis.CARCASS),
@@ -51,7 +38,7 @@ def parse_line(line: List[str]) -> PurchaseRecord:
   (seller, arrangement, basis) = PURCHASE_TYPES[purchase_type]
 
   return PurchaseRecord(
-    date = datetime.strptime(date, "%m/%d/%Y"),
+    date = datetime.strptime(date, "%m/%d/%Y").date(),
     seller = seller,
     arrangement = arrangement,
     basis = basis,

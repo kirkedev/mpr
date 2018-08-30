@@ -5,6 +5,7 @@ from typing import NamedTuple
 class Seller(Enum):
   PRODUCER = 'producer'
   PACKER = 'packer'
+  ALL = 'all'
 
 @unique
 class Arrangement(Enum):
