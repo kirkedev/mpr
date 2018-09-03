@@ -5,7 +5,7 @@ from functools import singledispatch
 from operator import itemgetter
 from typing import Iterator, NamedTuple, Tuple
 
-from api import Attributes, Report, fetch, parse_elements, opt_float, opt_int, date_interval
+from .api import Attributes, Report, fetch, parse_elements, opt_float, opt_int, date_interval
 
 date_format = "%m/%d/%Y"
 
@@ -51,10 +51,10 @@ def parse_attributes(group: Tuple[str, Iterator[Attributes]]) -> Record:
     picnic_price = float(cutout['pork_picnic']),
     rib_price = float(cutout['pork_rib']),
     ham_price = float(cutout['pork_ham']),
-    belly_price =  float(cutout['pork_belly']))
+    belly_price = float(cutout['pork_belly']))
 
 @singledispatch
-def get_morning(start_date: date, end_date: date=date.today()) -> Iterator[Record]:
+def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
   response = fetch(Report.CUTOUT_MORNING, start_date, end_date)
 
   attrs = (attr for attr in parse_elements(response)
@@ -67,7 +67,7 @@ def get_morning_days(days: int) -> Iterator[Record]:
   return get_morning(*date_interval(days))
 
 @singledispatch
-def get_afternoon(start_date: date, end_date: date=date.today()) -> Iterator[Record]:
+def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
   response = fetch(Report.CUTOUT_AFTERNOON, start_date, end_date)
 
   attrs = (attr for attr in parse_elements(response)

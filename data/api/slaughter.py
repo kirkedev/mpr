@@ -55,7 +55,7 @@ def parse_attributes(attr: Attributes) -> Record:
     lean_percent = opt_float(attr, 'avg_lean_percent'))
 
 @singledispatch
-def get_slaughter(start_date: date, end_date: date=date.today()) -> Iterator[Record]:
+def get_slaughter(start_date: date, end_date=date.today()) -> Iterator[Record]:
   response = fetch(Report.SLAUGHTERED_SWINE, start_date + timedelta(days=1), end_date)
 
   return (parse_attributes(attr) for attr in parse_elements(response)

@@ -3,7 +3,7 @@ from typing import NamedTuple, Optional, Iterator
 from datetime import date, datetime, timedelta
 from functools import singledispatch
 
-from api import fetch, parse_elements, opt_float, opt_int, date_interval, Report, Attributes
+from .api import fetch, parse_elements, opt_float, opt_int, date_interval, Report, Attributes
 
 date_format = "%m/%d/%Y"
 
@@ -37,7 +37,7 @@ def parse_attributes(attr: Attributes) -> Record:
     high_price = opt_float(attr, 'price_high'))
 
 @singledispatch
-def get_prior_day(start_date: date, end_date: date=date.today()) -> Iterator[Record]:
+def get_prior_day(start_date: date, end_date=date.today()) -> Iterator[Record]:
   response = fetch(Report.PURCHASED_SWINE, start_date + timedelta(days = 1), end_date)
 
   return (parse_attributes(attr) for attr in parse_elements(response)
@@ -48,7 +48,7 @@ def get_prior_days(days: int) -> Iterator[Record]:
   return get_prior_day(*date_interval(days))
 
 @singledispatch
-def get_morning(start_date: date, end_date: date=date.today()) -> Iterator[Record]:
+def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
   response = fetch(Report.DIRECT_HOG_MORNING, start_date, end_date)
 
   return (parse_attributes(attr) for attr in parse_elements(response)
@@ -59,7 +59,7 @@ def get_morning_days(days: int) -> Iterator[Record]:
   return get_morning(*date_interval(days))
 
 @singledispatch
-def get_afternoon(start_date: date, end_date: date=date.today()) -> Iterator[Record]:
+def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
   response = fetch(Report.DIRECT_HOG_AFTERNOON, start_date, end_date)
 
   return (parse_attributes(attr) for attr in parse_elements(response)
