@@ -1,7 +1,6 @@
 from datetime import date
 from enum import Enum
-from functools import singledispatch
-from typing import Dict, Iterator, Optional, Tuple,Any
+from typing import Dict, Iterator, Optional, Tuple
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
@@ -41,7 +40,7 @@ def date_interval(days: int) -> Tuple[date, date]:
 
   return (start, today)
 
-def fetch(report: Report, start_date: date, end_date: date=date.today()) -> Iterator[ParsedElement]:
+def fetch(report: Report, start_date: date, end_date=date.today()) -> Iterator[ParsedElement]:
   url = base_url.format(
     report=report.value,
     start_date=start_date.strftime(date_format),
@@ -92,15 +91,15 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
 
   for event, element in elements:
     if element.tag == 'report' and event == 'start':
-      section = element.items()
+      section = element
 
     if element.tag == 'record':
       if event == 'start':
         if depth == 0:
-          date = element.items()
+          date = element
 
         if depth == 1:
-          yield dict(date + section + element.items())
+          yield dict(date.items() + section.items() + element.items())
 
         depth += 1
 
