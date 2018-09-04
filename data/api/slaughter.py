@@ -3,7 +3,7 @@ from functools import singledispatch
 from typing import NamedTuple, Optional, Iterator
 from datetime import date, datetime, timedelta
 
-from .api import fetch, parse_elements, opt_float, opt_int, date_interval, Report, Attributes
+from .api import fetch, opt_float, opt_int, date_interval, Report, Attributes
 
 date_format = "%m/%d/%Y"
 
@@ -55,15 +55,15 @@ def parse_attributes(attr: Attributes) -> Record:
     lean_percent = opt_float(attr, 'avg_lean_percent'))
 
 @singledispatch
-def get_slaughter(start_date: date, end_date=date.today()) -> Iterator[Record]:
-  response = fetch(Report.SLAUGHTERED_SWINE, start_date + timedelta(days=1), end_date)
+async def get_slaughter(start_date: date, end_date=date.today()) -> Iterator[Record]:
+  response = await fetch(Report.SLAUGHTERED_SWINE, start_date + timedelta(days=1), end_date)
 
-  return (parse_attributes(attr) for attr in parse_elements(response)
+  return (parse_attributes(attr) for attr in response
     if attr['label'] == Section.BARROWS_AND_GILTS.value)
 
 @get_slaughter.register(int)
-def get_slaughter_days(days: int) -> Iterator[Record]:
-  return get_slaughter(*date_interval(days))
+async def get_slaughter_days(days: int) -> Iterator[Record]:
+  return await get_slaughter(*date_interval(days))
 
 lm_hg201 = hg201 = get_slaughter
 

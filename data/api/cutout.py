@@ -5,7 +5,7 @@ from functools import singledispatch
 from operator import itemgetter
 from typing import Iterator, NamedTuple, Tuple
 
-from .api import Attributes, Report, fetch, parse_elements, opt_float, opt_int, date_interval
+from .api import Attributes, Report, fetch, opt_float, opt_int, date_interval
 
 date_format = "%m/%d/%Y"
 
@@ -54,30 +54,30 @@ def parse_attributes(group: Tuple[str, Iterator[Attributes]]) -> Record:
     belly_price = float(cutout['pork_belly']))
 
 @singledispatch
-def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
-  response = fetch(Report.CUTOUT_MORNING, start_date, end_date)
+async def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
+  report = await fetch(Report.CUTOUT_MORNING, start_date, end_date)
 
-  attrs = (attr for attr in parse_elements(response)
+  attrs = (attr for attr in report
     if attr['label'] in (Section.VOLUME.value, Section.CUTOUT.value))
 
   return (parse_attributes(group) for group in groupby(attrs, itemgetter('report_date')))
 
 @get_morning.register(int)
-def get_morning_days(days: int) -> Iterator[Record]:
-  return get_morning(*date_interval(days))
+async def get_morning_days(days: int) -> Iterator[Record]:
+  return await get_morning(*date_interval(days))
 
 @singledispatch
-def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
-  response = fetch(Report.CUTOUT_AFTERNOON, start_date, end_date)
+async def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
+  response = await fetch(Report.CUTOUT_AFTERNOON, start_date, end_date)
 
-  attrs = (attr for attr in parse_elements(response)
+  attrs = (attr for attr in response
     if attr['label'] in (Section.VOLUME.value, Section.CUTOUT.value))
 
   return (parse_attributes(group) for group in groupby(attrs, itemgetter('report_date')))
 
 @get_afternoon.register(int)
-def get_afternoon_days(days: int) -> Iterator[Record]:
-  return get_afternoon(*date_interval(days))
+async def get_afternoon_days(days: int) -> Iterator[Record]:
+  return await get_afternoon(*date_interval(days))
 
 lm_pk602 = pk602 = get_morning
 lm_pk603 = pk603 = get_afternoon
