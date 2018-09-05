@@ -20,6 +20,10 @@ class Model(ABC):
     raise NotImplementedError
 
   @classmethod
+  def get(cls) -> 'Iterator[Model]':
+    return map(cls.from_row, cls.table.iterrows())
+
+  @classmethod
   def query(cls, condition: str, params: Dict) -> 'Iterator[Model]':
     return map(cls.from_row, cls.table.where(condition, params))
 
@@ -47,7 +51,17 @@ class Model(ABC):
 
 class Observation(Model):
   @classmethod
-  def get(cls, start: date, end = date.today()) -> 'Iterator[Observation]':
+  def get(cls) -> 'Iterator[Observation]':
+    return map(cls.from_row, cls.table.itersorted())
+
+  @classmethod
+  def get_date(cls, observation_date: date) -> 'Iterator[Observation]':
+    return super(Observation, cls).query("""date == observation_date""", {
+      'observation_date': observation_date
+    })
+
+  @classmethod
+  def get_range(cls, start: date, end = date.today()) -> 'Iterator[Observation]':
     return super(Observation, cls).query("""(start <= date) & (date <= end)""", {
       'start': start.toordinal(),
       'end': end.toordinal()
@@ -58,8 +72,8 @@ class Observation(Model):
     today = date.today()
     start = np.busday_offset(today, -days).astype('O')
 
-    return cls.get(start, today)
+    return cls.get_range(start, today)
 
   @classmethod
   def get_year(cls, year: int) -> 'Iterator[Observation]':
-    return cls.get(date(year, 1, 1), date(year, 12, 31))
+    return cls.get_range(date(year, 1, 1), date(year, 12, 31))
