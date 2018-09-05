@@ -1,0 +1,13 @@
+[name: mpr
+channels:
+  - intel
+  - anaconda
+  - defaults
+dependencies:
+  - aiohttp=3.3.2=py37h14c3975_0
+  - jupyter=1.0.0=py37_5
+  - numpy=1.15.0=py37h1b885b7_0
+  - pandas=0.23.4=py37h04863e7_0
+  - pytables=3.4.4=py37ha205bf6_0
+  - python=3.7.0=hc3d631a_0
+
