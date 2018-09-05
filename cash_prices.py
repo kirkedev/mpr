@@ -2,6 +2,7 @@ from typing import Tuple, NamedTuple, Iterator
 from datetime import date
 
 import pandas as pd
+import asyncio
 from pandas import DataFrame, Series
 
 from data.api.slaughter import get_slaughter, Record as SlaughterRecord
@@ -54,12 +55,13 @@ def compute_cash_index(records: Iterator[SlaughterRecord]) -> DataFrame:
   return pd.concat([table, daily_price, price_change, cme_index, index_change], axis=1)
 
 def get_cash_prices(days: int) -> DataFrame:
-  return compute_cash_index(filter(filter_types, get_slaughter(days + 3))).tail(days)
+  slaughter = asyncio.run(get_slaughter(days + 3))
+  return compute_cash_index(filter(filter_types, slaughter)).tail(days)
 
 if __name__ == '__main__':
   import argparse
   parser = argparse.ArgumentParser(description='Calculate the CME Lean Hog Index')
   parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
-  days = parser.parse_args().days
 
-  print(get_cash_prices(days))
+  days = parser.parse_args().days
+  print(get_cash_prices(days=days))

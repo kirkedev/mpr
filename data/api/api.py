@@ -51,6 +51,7 @@ async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iter
     async with session.get(url) as response:
       data = io.BytesIO(await response.read())
       elements = ElementTree.iterparse(data, events=['start', 'end'])
+
       return parse_elements(elements)
 
 def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
