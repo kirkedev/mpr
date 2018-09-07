@@ -61,18 +61,22 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
 
       Here is an example of the layout described above, from one section of one day of the daily pork cutout report:
 
-      <record report_date="08/20/2018">
-        <report label="Cutout and Primal Values">
-          <record
-            pork_carcass="67.18"
-            pork_loin="75.51"
-            pork_butt="89.55"`
-            pork_picnic="41.82"
-            pork_rib="113.95"
-            pork_ham="57.52"
-            pork_belly="77.77" />
+      <results exportTime="2018-09-07 12:25:37 CDT">
+        <report label="National Daily Pork Report - Negotiated Sales" slug="LM_PK603">
+          <record report_date="08/20/2018">
+            <report label="Cutout and Primal Values">
+              <record
+                pork_carcass="67.18"
+                pork_loin="75.51"
+                pork_butt="89.55"`
+                pork_picnic="41.82"
+                pork_rib="113.95"
+                pork_ham="57.52"
+                pork_belly="77.77" />
+            </report>
+          </record>
         </report>
-      </record>
+      </results>
 
       This generator flattens the data by yielding a merged dictionary of all attributes from the child data elements
       up to the parent elements, using a stream of lazily parsed XML elements from the api response.
@@ -92,23 +96,24 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
   """
 
   depth = 0
+  metadata = dict()
 
   for event, element in elements:
-    if element.tag == 'report' and event == 'start':
-      section = element
+    if event == 'start':
+      if 1 < depth < 4:
+        # collect report_date and label into metadata dict
+        metadata.update(element.items())
 
-    if element.tag == 'record':
-      if event == 'start':
-        if depth == 0:
-          date = element
+      elif depth == 4:
+        # yield merged dictionary of metadata and record attributes
+        yield dict(metadata.items() | element.items())
 
-        if depth == 1:
-          yield dict(date.items() + section.items() + element.items())
+      depth += 1
 
-        depth += 1
+    if event == 'end':
+      depth -= 1
 
-      if event == 'end':
-        depth -= 1
-
-        if depth == 0:
-          date.clear()
+      # clear after parsing each date
+      if depth == 2:
+        element.clear()
+        metadata.clear()
