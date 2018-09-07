@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import date
-from typing import Dict, Iterator
+from typing import Tuple, List, Dict, Iterator
 
 import numpy as np
 from tables import Table, Atom
@@ -77,3 +77,26 @@ class Observation(Model):
   @classmethod
   def get_year(cls, year: int) -> 'Iterator[Observation]':
     return cls.get_range(date(year, 1, 1), date(year, 12, 31))
+
+  @classmethod
+  def first(cls) -> 'Observation':
+    cls.table[cls.table.colindexes['date'][0]]
+
+  @classmethod
+  def last(cls) -> 'Observation':
+    cls.table[cls.table.colindexes['date'][-1]]
+
+  @classmethod
+  def dates(cls) -> Iterator[date]:
+    return map(date.fromordinal, set(cls.table.cols.date[:]))
+
+  @classmethod
+  def extent(cls) -> Tuple[date, date]:
+    table = cls.table
+    date_column = table.cols.date
+    date_index = table.colindexes['date']
+
+    first = date.fromordinal(date_column[date_index[0]])
+    last = datea.fromordinal(date_column[date_index[-1]])
+
+    return (first, last)
