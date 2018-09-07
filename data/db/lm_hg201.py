@@ -3,7 +3,7 @@ from typing import Optional
 from tables import Node, Group
 
 import db
-from model.slaughter import Slaughter
+from .model.slaughter import Slaughter
 
 def create() -> Group:
   group = db.connection.create_group('/mpr', name='lm_hg201',
