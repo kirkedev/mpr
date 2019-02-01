@@ -1,4 +1,3 @@
-from datetime import date
 from typing import Optional
 from tables import Node, Group
 

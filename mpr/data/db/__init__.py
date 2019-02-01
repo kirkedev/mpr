@@ -1,4 +1,3 @@
-from typing import Dict, Iterator, NamedTuple, Generic, TypeVar
 from pathlib import Path
 
 import tables
