@@ -100,12 +100,9 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
 
   for event, element in elements:
     if event == 'start':
-      if 1 < depth < 4:
-        # collect report_date and label into metadata dict
+      if depth < 4:
         metadata.update(element.items())
-
-      elif depth == 4:
-        # yield merged dictionary of metadata and record attributes
+      else:
         yield dict(metadata.items() | element.items())
 
       depth += 1
