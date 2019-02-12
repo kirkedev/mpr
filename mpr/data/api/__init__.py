@@ -84,53 +84,16 @@ async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iter
 
 
 def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
-    """ The USDA reports all follow a similar structure, with an outer <record> holding the date for each observation in the set.
-        Within each date <record>, there are several <report> elements, each marking a new section with a label attribute.
-        Within each section, there are one or more <record> elements which hold the actual report data.
-
-        Here is an example of the layout described above, from one section of one day of the daily pork cutout report:
-
-        <results exportTime="2018-09-07 12:25:37 CDT">
-            <report label="National Daily Pork Report - Negotiated Sales" slug="LM_PK603">
-            <record report_date="08/20/2018">
-                <report label="Cutout and Primal Values">
-                <record
-                    pork_carcass="67.18"
-                    pork_loin="75.51"
-                    pork_butt="89.55"`
-                    pork_picnic="41.82"
-                    pork_rib="113.95"
-                    pork_ham="57.52"
-                    pork_belly="77.77" />
-                </report>
-            </record>
-            </report>
-        </results>
-
-        This generator flattens the data by yielding a merged dictionary of all attributes from the child data elements
-        up to the parent elements, using a stream of lazily parsed XML elements from the api response.
-
-        The result from the above example would be this dictionary:
-        {
-            'report_date': '08/20/2018',
-            'label': 'Cutout and Primal Values',
-            'pork_carcass': '67.18',
-            'pork_loin': '75.51',
-            'pork_butt': '89.55"',
-            'pork_picnic': '41.82',
-            'pork_rib': '113.95',
-            'pork_ham': '57.52',
-            'pork_belly': '77.77'
-        }
-        """
-
     depth = 0
     metadata: Dict[str, str] = dict()
 
     for event, element in elements:
         if event == 'start':
+            # Currently parsing a parent element, merge its properties into the metadata
             if depth < 4:
                 metadata.update(element.items())
+
+            # Found the child element, combine its properties with the metadata and yield
             else:
                 yield dict(metadata.items() | element.items())
 
@@ -139,7 +102,7 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
         if event == 'end':
             depth -= 1
 
-        # clear after parsing each date
+        # After parsing a full day's report, clear the metadata and parsed tree
         if depth == 2:
             element.clear()
             metadata.clear()
