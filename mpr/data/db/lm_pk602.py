@@ -1,5 +1,6 @@
 from typing import Optional
-from tables import Node, Group
+from tables import Node
+from tables import Group
 
 from mpr.data import db
 from mpr.data.db.model.cutout import Cutout
