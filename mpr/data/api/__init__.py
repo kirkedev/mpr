@@ -85,12 +85,11 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
 
     for event, element in elements:
         if event == 'start':
-            # Currently parsing a parent element, merge its properties into the metadata
             if depth < 4:
+                # Currently parsing a parent element: merge its properties into the metadata
                 metadata.update(element.items())
-
-            # Found the child element, combine its properties with the metadata and yield
             else:
+                # Found the child element: combine its properties with the metadata and yield
                 yield dict(metadata.items() | element.items())
 
             depth += 1
@@ -98,7 +97,7 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
         if event == 'end':
             depth -= 1
 
-            # After parsing a full day's report, clear the metadata and parsed tree
             if depth == 2:
+                # Finished parsing a daily report: clear the metadata and element tree
                 element.clear()
                 metadata.clear()

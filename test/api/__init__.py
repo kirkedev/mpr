@@ -1,6 +1,7 @@
-from typing import Iterator, TextIO
-from xml.etree import ElementTree
+from typing import Iterator
+from typing import TextIO
 from io import StringIO
+from xml.etree import ElementTree
 
 from mpr.data.api import Attributes
 from mpr.data.api import parse_elements
