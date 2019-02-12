@@ -3,7 +3,7 @@ from enum import Enum
 from functools import singledispatch
 from typing import Iterator, NamedTuple, Tuple
 
-from . import Attributes, Report, fetch, opt_float, opt_int, date_format, date_interval, pairwise
+from . import Attributes, Report, fetch, filter_sections, opt_float, opt_int, date_format, date_interval
 
 date_format = "%m/%d/%Y"
 
@@ -51,10 +51,8 @@ def parse_attributes(pair: Tuple[Attributes, Attributes]) -> Record:
         belly_price = float(cutout['pork_belly']))
 
 async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
-    attrs = (attr for attr in await fetch(report, start_date, end_date)
-        if attr['label'] in (Section.VOLUME.value, Section.CUTOUT.value))
-
-    return map(parse_attributes, pairwise(filter))
+    response = await fetch(Report.PURCHASED_SWINE, start_date, end_date)
+    return map(parse_attributes, filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
 
 @singledispatch
 async def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:

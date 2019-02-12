@@ -1,7 +1,7 @@
 from datetime import date
 from enum import Enum
 from typing import Dict, Iterator, Optional, Tuple
-from itertools import zip_longest
+from itertools import zip_longest, tee
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 import io
@@ -40,7 +40,6 @@ def opt_int(attr: Attributes, key: str) -> Optional[int]:
 def date_interval(days: int) -> Tuple[date, date]:
     today = date.today()
     start = np.busday_offset(today, -days).astype('O')
-
     return (start, today)
 
 def pairwise(iterable):
@@ -54,6 +53,10 @@ def chunk(iterable, n, fillvalue=None):
 
 def filter_section(records: Iterator[Attributes], section: str) -> Iterator[Attributes]:
     return filter(lambda it: it['label'] == section, records)
+
+def filter_sections(records: Iterator[Attributes], first: str, second: str) -> Iterator[Tuple[Attributes, Attributes]]:
+    attrs = filter(lambda it: it['label'] in (first, second), records)
+    return pairwise(attrs)
 
 async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iterator[Attributes]:
     url = base_url.format(
