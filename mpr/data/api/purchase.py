@@ -52,7 +52,7 @@ def parse_attributes(attr: Attributes) -> Record:
 
 @singledispatch
 async def get_prior_day(start_date: date, end_date=date.today()) -> Iterator[Record]:
-    response = await fetch(Report.PURCHASED_SWINE, start_date + timedelta(days = 1), end_date)
+    response = await fetch(Report.PURCHASED_SWINE, start_date + timedelta(days=1), end_date)
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
@@ -81,6 +81,7 @@ async def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Rec
 @get_afternoon.register(int)
 async def get_afternoon_days(days: int) -> Iterator[Record]:
     return await get_afternoon(*date_interval(days))
+
 
 lm_hg200 = hg200 = get_prior_day
 lm_hg202 = hg202 = get_morning
