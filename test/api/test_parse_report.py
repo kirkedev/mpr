@@ -28,6 +28,12 @@ class ParseReportTest(TestCase):
         attr = {'weight': 'null'}
         self.assertEqual(opt_float(attr, 'volume'), None)
 
+    def test_volume_export_time(self):
+        self.assertEqual(volume['exportTime'], '2018-09-07 12:25:37 CDT')
+
+    def test_volume_slug(self):
+        self.assertEqual(volume['slug'], 'LM_PK603')
+
     def test_volume_date(self):
         self.assertEqual(volume['report_date'], '08/20/2018')
 
@@ -39,6 +45,12 @@ class ParseReportTest(TestCase):
 
     def test_trimming_loads(self):
         self.assertEqual(volume['temp_process_total_load'], '39.61')
+
+    def test_cutout_export_time(self):
+        self.assertEqual(volume['exportTime'], '2018-09-07 12:25:37 CDT')
+
+    def test_cutout_slug(self):
+        self.assertEqual(volume['slug'], 'LM_PK603')
 
     def test_cutout_date(self):
         self.assertEqual(cutout['report_date'], '08/20/2018')
