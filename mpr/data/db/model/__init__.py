@@ -1,13 +1,15 @@
 from abc import ABC
 from abc import abstractmethod
-from typing import Tuple
 from typing import Dict
 from typing import Iterator
-from datetime import date
+from typing import Type
+from typing import TypeVar
 
-import numpy as np
-from tables import Table, Atom
+from tables import Atom
+from tables import Table
 from tables.tableextension import Row
+
+T = TypeVar('T', bound=Model)
 
 
 class Model(ABC):
@@ -24,15 +26,15 @@ class Model(ABC):
         raise NotImplementedError
 
     @classmethod
-    def get(cls) -> 'Iterator[Model]':
+    def get(cls: Type[T]) -> Iterator[T]:
         return map(cls.from_row, cls.table.iterrows())
 
     @classmethod
-    def query(cls, condition: str, params: Dict) -> 'Iterator[Model]':
+    def query(cls: Type[T], condition: str, params: Dict) -> Iterator[T]:
         return map(cls.from_row, cls.table.where(condition, params))
 
     @classmethod
-    def insert(cls, records: 'Iterator[Model]'):
+    def insert(cls: T, records: Iterator[T]):
         table = cls.table
 
         for record in records:
@@ -42,7 +44,7 @@ class Model(ABC):
 
     @classmethod
     @abstractmethod
-    def from_row(cls, row: Row) -> 'Model':
+    def from_row(cls: Type[T], row: Row) -> T:
         raise NotImplementedError
 
     @abstractmethod
@@ -52,56 +54,3 @@ class Model(ABC):
     @classmethod
     def commit(cls):
         cls.table.flush()
-
-
-class Observation(Model):
-    @classmethod
-    def get(cls) -> 'Iterator[Observation]':
-        return map(cls.from_row, cls.table.itersorted())
-
-    @classmethod
-    def get_date(cls, observation_date: date) -> 'Iterator[Observation]':
-        return super(Observation, cls).query("""date == observation_date""", {
-            'observation_date': observation_date
-        })
-
-    @classmethod
-    def get_range(cls, start: date, end=date.today()) -> 'Iterator[Observation]':
-        return super(Observation, cls).query("""(start <= date) & (date <= end)""", {
-            'start': start.toordinal(),
-            'end': end.toordinal()
-        })
-
-    @classmethod
-    def get_recent(cls, days: int) -> 'Iterator[Observation]':
-        today = date.today()
-        start = np.busday_offset(today, -days).astype('O')
-
-        return cls.get_range(start, today)
-
-    @classmethod
-    def get_year(cls, year: int) -> 'Iterator[Observation]':
-        return cls.get_range(date(year, 1, 1), date(year, 12, 31))
-
-    @classmethod
-    def first(cls) -> 'Observation':
-        cls.table[cls.table.colindexes['date'][0]]
-
-    @classmethod
-    def last(cls) -> 'Observation':
-        cls.table[cls.table.colindexes['date'][-1]]
-
-    @classmethod
-    def dates(cls) -> Iterator[date]:
-        return map(date.fromordinal, set(cls.table.cols.date[:]))
-
-    @classmethod
-    def extent(cls) -> Tuple[date, date]:
-        table = cls.table
-        date_column = table.cols.date
-        date_index = table.colindexes['date']
-
-        first = date.fromordinal(date_column[date_index[0]])
-        last = date.fromordinal(date_column[date_index[-1]])
-
-        return first, last

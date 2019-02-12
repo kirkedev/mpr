@@ -1,3 +1,4 @@
+from typing import Type
 from typing import Optional
 from dataclasses import dataclass
 from datetime import date
@@ -6,14 +7,14 @@ from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
-from . import Observation
+from .observation import Observation
 from .purchase_type import Seller
 from .purchase_type import Arrangement
 from .purchase_type import Basis
 from .purchase_type import PurchaseTypeCol
 
 
-@dataclass
+@dataclass(Type[Purchase])
 class Purchase(Observation):
     """
     Aggregate data structure for pricing of purchased barrows and gilts per date and purchase type, as
