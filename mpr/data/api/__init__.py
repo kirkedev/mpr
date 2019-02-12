@@ -6,6 +6,7 @@ from typing import Tuple
 from datetime import date
 from itertools import zip_longest
 from itertools import tee
+from io import BytesIO
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
@@ -78,9 +79,9 @@ async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iter
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            async with response.read() as data:
-                elements = ElementTree.iterparse(data, events=['start', 'end'])
-                return parse_elements(elements)
+            data = BytesIO(await response.read())
+            elements = ElementTree.iterparse(data, events=['start', 'end'])
+            return parse_elements(elements)
 
 
 def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
