@@ -1,7 +1,8 @@
-from datetime import date
 from dataclasses import dataclass
+from datetime import date
 
-from tables import UInt32Col, Float32Col
+from tables import UInt32Col
+from tables import Float32Col
 from tables.tableextension import Row
 
 from . import Observation

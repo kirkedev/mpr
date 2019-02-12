@@ -1,6 +1,8 @@
-from enum import Enum, unique
+from enum import Enum
+from enum import unique
 from typing import NamedTuple
-from tables import IsDescription, EnumCol
+from tables import IsDescription
+from tables import EnumCol
 
 
 @unique

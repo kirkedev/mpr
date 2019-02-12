@@ -2,11 +2,15 @@ from datetime import date
 from dataclasses import dataclass
 from typing import Optional
 
-from tables import UInt32Col, Float32Col
+from tables import UInt32Col
+from tables import Float32Col
 from tables.tableextension import Row
 
 from . import Observation
-from .purchase_type import PurchaseTypeCol, Seller, Arrangement, Basis
+from .purchase_type import Seller
+from .purchase_type import Arrangement
+from .purchase_type import Basis
+from .purchase_type import PurchaseTypeCol
 
 
 @dataclass

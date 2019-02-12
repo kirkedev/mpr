@@ -25,10 +25,10 @@ class ParseReportTest(TestCase):
         self.assertEqual(opt_float(attr, 'weight'), 1234.56)
 
     def test_opt_float(self):
-        attr = {'volume': 'null'}
+        attr = {'weight': 'null'}
         self.assertEqual(opt_float(attr, 'volume'), None)
 
-    def test_volume_datel(self):
+    def test_volume_date(self):
         self.assertEqual(volume['report_date'], '08/20/2018')
 
     def test_volume_label(self):
