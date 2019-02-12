@@ -2,11 +2,16 @@ from datetime import date
 from dataclasses import dataclass
 from typing import Optional
 
-from tables import UInt32Col, Float32Col
+from tables import UInt32Col
+from tables import Float32Col
 from tables.tableextension import Row
 
 from . import Observation
-from .purchase_type import PurchaseTypeCol, Seller, Arrangement, Basis
+from .purchase_type import Seller
+from .purchase_type import Arrangement
+from .purchase_type import Basis
+from .purchase_type import PurchaseTypeCol
+
 
 @dataclass
 class Slaughter(Observation):
@@ -83,19 +88,19 @@ class Slaughter(Observation):
     @classmethod
     def from_row(cls, row: Row) -> 'Slaughter':
         return cls(
-            date = date.fromordinal(row['date']),
-            seller = Seller.from_ordinal(row['purchase_type/seller']),
-            arrangement = Arrangement.from_ordinal(row['purchase_type/arrangement']),
-            basis = Basis.from_ordinal(row['purchase_type/basis']),
-            head_count = row['head_count'],
-            base_price = row['base_price'],
-            net_price = row['net_price'],
-            low_price = row['low_price'],
-            high_price = row['high_price'],
-            live_weight = row['live_weight'],
-            carcass_weight = row['carcass_weight'],
-            sort_loss = row['sort_loss'],
-            backfat = row['backfat'],
-            loin_depth = row['loin_depth'],
-            loineye_area = row['loineye_area'],
-            lean_percent = row['lean_percent'])
+            date=date.fromordinal(row['date']),
+            seller=Seller.from_ordinal(row['purchase_type/seller']),
+            arrangement=Arrangement.from_ordinal(row['purchase_type/arrangement']),
+            basis=Basis.from_ordinal(row['purchase_type/basis']),
+            head_count=row['head_count'],
+            base_price=row['base_price'],
+            net_price=row['net_price'],
+            low_price=row['low_price'],
+            high_price=row['high_price'],
+            live_weight=row['live_weight'],
+            carcass_weight=row['carcass_weight'],
+            sort_loss=row['sort_loss'],
+            backfat=row['backfat'],
+            loin_depth=row['loin_depth'],
+            loineye_area=row['loineye_area'],
+            lean_percent=row['lean_percent'])

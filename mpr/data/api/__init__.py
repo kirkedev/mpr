@@ -1,11 +1,11 @@
 from enum import Enum
-from typing import Dict
-from typing import Iterator
 from typing import Optional
 from typing import Tuple
+from typing import Dict
+from typing import Iterator
+from typing import TypeVar
 from datetime import date
 from itertools import zip_longest
-from itertools import tee
 from io import BytesIO
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
@@ -13,6 +13,7 @@ from xml.etree.ElementTree import Element
 import aiohttp
 import numpy as np
 
+T = TypeVar('T')
 Attributes = Dict[str, str]
 ParsedElement = Tuple[str, Element]
 
@@ -51,24 +52,18 @@ def date_interval(days: int) -> Tuple[date, date]:
     return start, today
 
 
-def pairwise(iterable):
-    a, b = tee(iterable)
-    next(b, None)
-    return zip(a, b)
-
-
-def chunk(iterable, n, fillvalue=None):
-    args = [iter(iterable)] * n
-    return zip_longest(*args, fillvalue=fillvalue)
+def chunk(iterator: Iterator[T], n: int) -> Iterator[Iterator[T]]:
+    args = [iterator] * n
+    return zip_longest(*args, fillvalue=None)
 
 
 def filter_section(records: Iterator[Attributes], section: str) -> Iterator[Attributes]:
     return filter(lambda it: it['label'] == section, records)
 
 
-def filter_sections(records: Iterator[Attributes], first: str, second: str) -> Iterator[Tuple[Attributes, Attributes]]:
-    attrs = filter(lambda it: it['label'] in (first, second), records)
-    return pairwise(attrs)
+def filter_sections(records: Iterator[Attributes], *args: str) -> Iterator[Iterator[Attributes]]:
+    attrs = filter(lambda it: it['label'] in args, records)
+    return chunk(attrs, len(args))
 
 
 async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iterator[Attributes]:
@@ -103,7 +98,7 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
         if event == 'end':
             depth -= 1
 
-        # After parsing a full day's report, clear the metadata and parsed tree
-        if depth == 2:
-            element.clear()
-            metadata.clear()
+            # After parsing a full day's report, clear the metadata and parsed tree
+            if depth == 2:
+                element.clear()
+                metadata.clear()

@@ -1,12 +1,17 @@
-from datetime import date
-from dataclasses import dataclass
 from typing import Optional
+from dataclasses import dataclass
+from datetime import date
 
-from tables import UInt32Col, Float32Col
+from tables import UInt32Col
+from tables import Float32Col
 from tables.tableextension import Row
 
 from . import Observation
-from .purchase_type import PurchaseTypeCol, Seller, Arrangement, Basis
+from .purchase_type import Seller
+from .purchase_type import Arrangement
+from .purchase_type import Basis
+from .purchase_type import PurchaseTypeCol
+
 
 @dataclass
 class Purchase(Observation):
@@ -37,14 +42,14 @@ class Purchase(Observation):
     @classmethod
     def from_row(cls, row: Row) -> 'Purchase':
         return cls(
-        date = date.fromordinal(row['date']),
-        seller = Seller.from_ordinal(row['purchase_type/seller']),
-        arrangement = Arrangement.from_ordinal(row['purchase_type/arrangement']),
-        basis = Basis.from_ordinal(row['purchase_type/basis']),
-        head_count = row['head_count'],
-        avg_price = row['avg_price'],
-        low_price = row['low_price'],
-        high_price = row['high_price'])
+            date=date.fromordinal(row['date']),
+            seller=Seller.from_ordinal(row['purchase_type/seller']),
+            arrangement=Arrangement.from_ordinal(row['purchase_type/arrangement']),
+            basis=Basis.from_ordinal(row['purchase_type/basis']),
+            head_count=row['head_count'],
+            avg_price=row['avg_price'],
+            low_price=row['low_price'],
+            high_price=row['high_price'])
 
     def append(self):
         row = self.table.row
