@@ -98,7 +98,7 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
         if event == 'end':
             depth -= 1
 
-        # After parsing a full day's report, clear the metadata and parsed tree
-        if depth == 2:
-            element.clear()
-            metadata.clear()
+            # After parsing a full day's report, clear the metadata and parsed tree
+            if depth == 2:
+                element.clear()
+                metadata.clear()
