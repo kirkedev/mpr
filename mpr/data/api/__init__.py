@@ -1,10 +1,13 @@
-from datetime import date
 from enum import Enum
-from typing import Dict, Iterator, Optional, Tuple
-from itertools import zip_longest, tee
+from typing import Dict
+from typing import Iterator
+from typing import Optional
+from typing import Tuple
+from datetime import date
+from itertools import zip_longest
+from itertools import tee
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
-import io
 
 import aiohttp
 import numpy as np
@@ -66,10 +69,9 @@ async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iter
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            data = io.BytesIO(await response.read())
-            elements = ElementTree.iterparse(data, events=['start', 'end'])
-
-            return parse_elements(elements)
+            async with response.read() as data:
+                elements = ElementTree.iterparse(data, events=['start', 'end'])
+                return parse_elements(elements)
 
 def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
     """ The USDA reports all follow a similar structure, with an outer <record> holding the date for each observation in the set.

@@ -8,6 +8,7 @@ records = load_resource('test/api/resources/cutout.xml')
 attributes = (next(records), next(records))
 cutout = parse_attributes(attributes)
 
+
 class CutoutTest(TestCase):
     def test_parse_date(self):
         self.assertEqual(cutout.date, date(2018, 8, 20))
@@ -26,15 +27,15 @@ class CutoutTest(TestCase):
 
     def test_butt_price(self):
         self.assertEqual(cutout.butt_price, 89.55)
-    
+
     def test_picnic_price(self):
         self.assertEqual(cutout.picnic_price, 41.82)
-    
+
     def test_rib_price(self):
         self.assertEqual(cutout.rib_price, 113.95)
 
     def test_ham_price(self):
         self.assertEqual(cutout.ham_price, 57.52)
-    
+
     def test_belly_price(self):
         self.assertEqual(cutout.belly_price, 77.77)

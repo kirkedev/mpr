@@ -1,11 +1,7 @@
 from unittest import TestCase
-from xml.etree import ElementTree
-from io import StringIO
 
-from mpr.data.api import Attributes
 from mpr.data.api import opt_int
 from mpr.data.api import opt_float
-from mpr.data.api import parse_elements
 from mpr.data.api import filter_sections
 
 from test.api import load_resource
@@ -13,6 +9,7 @@ from test.api import load_resource
 elements = load_resource('test/api/resources/cutout.xml')
 records = filter_sections(elements, 'Cutout and Primal Values', 'Current Volume')
 volume, cutout = next(records)
+
 
 class ParseReportTest(TestCase):
     def test_parse_int(self):
@@ -36,10 +33,10 @@ class ParseReportTest(TestCase):
 
     def test_volume_label(self):
         self.assertEqual(volume['label'], 'Current Volume')
-    
+
     def test_primal_loads(self):
         self.assertEqual(volume['temp_cuts_total_load'], '334.74')
-    
+
     def test_trimming_loads(self):
         self.assertEqual(volume['temp_process_total_load'], '39.61')
 
