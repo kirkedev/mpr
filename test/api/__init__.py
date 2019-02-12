@@ -2,12 +2,11 @@ from typing import Iterator, TextIO
 from xml.etree import ElementTree
 from io import StringIO
 
-from mpr.data.api import ParsedElement
 from mpr.data.api import Attributes
 from mpr.data.api import parse_elements
 
 
-def load_report(report: str) -> Iterator[ParsedElement]:
+def load_report(report: str) -> Iterator[Attributes]:
     return parse_report(StringIO(report))
 
 
@@ -16,7 +15,7 @@ def parse_report(report: TextIO) -> Iterator[Attributes]:
     return parse_elements(elements)
 
 
-def load_resource(path: str) -> Iterator[ParsedElement]:
+def load_resource(path: str) -> Iterator[Attributes]:
     with open(path) as report:
         for element in parse_report(report):
             yield element
