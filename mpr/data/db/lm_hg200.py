@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Optional
 from tables import Node
 from tables import Group
@@ -26,6 +27,6 @@ def get(table: Optional[str] = None) -> Node:
     group = db.connection.get_node('/mpr', 'lm_hg200') if '/mpr/lm_hg200' in db.connection else create()
     return group if table is None else group[table]
 
-
+@dataclass
 class barrows_gilts(Purchase):
     table = get('barrows_gilts')

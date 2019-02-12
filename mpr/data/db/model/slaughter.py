@@ -16,12 +16,6 @@ from .purchase_type import PurchaseTypeCol
 
 @dataclass
 class Slaughter(Observation, ABC):
-    """
-    Aggregate data structure for pricing and weights of slaughtered barrows and gilts per date and purchase type.
-    Data is retrieved from the USDA's daily Slaughtered Swine Report (LM_HG201)
-    https://www.ams.usda.gov/mnreports/lm_hg201.txt
-    """
-
     date: date
     seller: Seller
     arrangement: Arrangement

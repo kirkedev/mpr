@@ -10,11 +10,6 @@ from .observation import Observation
 
 @dataclass
 class Cutout(Observation, ABC):
-    """
-    Aggregate data structure for pricing of primal pork cuts, as retrieved from the
-    USDA Daily Pork reports (LM_PK602, LM_PK603)
-    """
-
     date: date
     primal_loads: float
     trimming_loads: float
