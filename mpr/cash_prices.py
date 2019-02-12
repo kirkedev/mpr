@@ -1,11 +1,12 @@
 from typing import Tuple
 from typing import Iterator
+from pandas import DataFrame, Series
 
 import asyncio
 import pandas as pd
-from pandas import DataFrame, Series
 
-from data.api.slaughter import get_slaughter, Record as SlaughterRecord
+from mpr.data.api.slaughter import Record as SlaughterRecord
+from mpr.data.api.slaughter import get_slaughter
 
 
 def filter_types(record: SlaughterRecord) -> bool:

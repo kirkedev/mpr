@@ -1,1 +1,1 @@
-python3 mpr/cash_prices.py "$@"
+python3 -m mpr.cash_prices "$@"
