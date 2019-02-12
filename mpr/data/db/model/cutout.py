@@ -1,3 +1,4 @@
+from typing import Type
 from dataclasses import dataclass
 from datetime import date
 
@@ -5,10 +6,10 @@ from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
-from . import Observation
+from .observation import Observation
 
 
-@dataclass
+@dataclass(Type[Cutout])
 class Cutout(Observation):
     """
     Aggregate data structure for pricing of primal pork cuts, as retrieved from the

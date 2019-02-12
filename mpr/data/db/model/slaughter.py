@@ -1,19 +1,20 @@
 from datetime import date
 from dataclasses import dataclass
 from typing import Optional
+from typing import Type
 
 from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
-from . import Observation
+from .observation import Observation
 from .purchase_type import Seller
 from .purchase_type import Arrangement
 from .purchase_type import Basis
 from .purchase_type import PurchaseTypeCol
 
 
-@dataclass
+@dataclass(Type[Slaughter])
 class Slaughter(Observation):
     """
     Aggregate data structure for pricing and weights of slaughtered barrows and gilts per date and purchase type.
