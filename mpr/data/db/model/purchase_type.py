@@ -2,6 +2,7 @@ from enum import Enum, unique
 from typing import NamedTuple
 from tables import IsDescription, EnumCol
 
+
 @unique
 class Seller(Enum):
     PRODUCER = 'producer'
@@ -15,7 +16,9 @@ class Seller(Enum):
     def to_ordinal(self):
         return sellers.index(self)
 
+
 sellers = list(Seller)
+
 
 @unique
 class Arrangement(Enum):
@@ -37,7 +40,9 @@ class Arrangement(Enum):
     def to_ordinal(self):
         return arrangements.index(self)
 
+
 arrangements = list(Arrangement)
+
 
 @unique
 class Basis(Enum):
@@ -51,17 +56,21 @@ class Basis(Enum):
     def to_ordinal(self):
         return bases.index(self)
 
+
 bases = list(Basis)
+
 
 class PurchaseType(NamedTuple):
     seller: Seller
     arrangements: Arrangement
     basis: Basis
 
+
 class PurchaseTypeCol(IsDescription):
     seller = EnumCol([entry.value for entry in sellers], 'producer', base='uint8')
     arrangement = EnumCol([entry.value for entry in arrangements], 'negotiated', base='uint8')
     basis = EnumCol([entry.value for entry in bases], 'carcass', base='uint8')
+
 
 # Lookup table for purchase type descriptions
 PURCHASE_TYPES = {

@@ -6,6 +6,7 @@ from tables.tableextension import Row
 
 from . import Observation
 
+
 @dataclass
 class Cutout(Observation):
     """
@@ -40,16 +41,16 @@ class Cutout(Observation):
     @classmethod
     def from_row(cls, row: Row) -> 'Cutout':
         return cls(
-        date = date.fromordinal(row['date']),
-        primal_loads = row['primal_loads'],
-        trimming_loads = row['trimming_loads'],
-        carcass_price = row['carcass_price'],
-        loin_price = row['loin_price'],
-        butt_price = row['butt_price'],
-        picnic_price = row['picnic_price'],
-        rib_price = row['rib_price'],
-        ham_price = row['ham_price'],
-        belly_price = row['belly_price'])
+            date=date.fromordinal(row['date']),
+            primal_loads=row['primal_loads'],
+            trimming_loads=row['trimming_loads'],
+            carcass_price=row['carcass_price'],
+            loin_price=row['loin_price'],
+            butt_price=row['butt_price'],
+            picnic_price=row['picnic_price'],
+            rib_price=row['rib_price'],
+            ham_price=row['ham_price'],
+            belly_price=row['belly_price'])
 
     def append(self):
         row = self.table.row
