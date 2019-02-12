@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Tuple
 from typing import NamedTuple
 from typing import Iterator
 from datetime import date
@@ -45,8 +44,8 @@ class Record(NamedTuple):
     belly_price: float
 
 
-def parse_attributes(pair: Tuple[Attributes, Attributes]) -> Record:
-    (volume, cutout) = pair
+def parse_attributes(sections: Iterator[Attributes]) -> Record:
+    volume, cutout = sections
 
     return Record(
         date=datetime.strptime(volume['report_date'], date_format).date(),
