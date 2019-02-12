@@ -2,9 +2,12 @@ from unittest import TestCase
 from xml.etree import ElementTree
 from io import StringIO
 
-from mpr.data.api.report import opt_int
-from mpr.data.api.report import opt_float
-from mpr.data.api.report import parse_elements
+from mpr.data.api import Attributes
+from mpr.data.api import opt_int
+from mpr.data.api import opt_float
+from mpr.data.api import parse_elements
+
+from test.api import load_report
 
 report = """
     <results exportTime="2018-09-07 12:25:37 CDT">
@@ -25,7 +28,7 @@ report = """
     </results>
 """
 
-elements = ElementTree.iterparse(StringIO(report), events=['start', 'end'])
+elements = load_report(report)
 records = parse_elements(elements)
 attributes = next(records)
 
@@ -34,9 +37,17 @@ class ParseReportTest(TestCase):
         attr = {'volume': '1,234'}
         self.assertEqual(opt_int(attr, 'volume'), 1234)
 
+    def test_opt_int(self):
+        attr = {'volume': 'null'}
+        self.assertEqual(opt_int(attr, 'volume'), None)
+
     def test_parse_float(self):
-        attr = {'weight': '1234.56'}
+        attr = {'weight': '1,234.56'}
         self.assertEqual(opt_float(attr, 'weight'), 1234.56)
+
+    def test_opt_float(self):
+        attr = {'volume': 'null'}
+        self.assertEqual(opt_float(attr, 'volume'), None)
 
     def test_report_date(self):
         self.assertEqual(attributes['report_date'], '08/20/2018')
