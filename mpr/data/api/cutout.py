@@ -36,7 +36,7 @@ class Record(NamedTuple):
     belly_price: float
 
 def parse_attributes(pair: Tuple[Attributes, Attributes]) -> Record:
-    (cutout, volume) = pair
+    (volume, cutout) = pair
 
     return Record(
         date = datetime.strptime(volume['report_date'], date_format).date(),

@@ -1,34 +1,10 @@
 from unittest import TestCase
 from datetime import date
 
-from test.api import parse_report
+from test.api import load_resource
 from mpr.data.api.cutout import parse_attributes
 
-report = """
-    <results exportTime="2018-09-07 12:25:37 CDT">
-        <report label="National Daily Pork Report - Negotiated Sales" slug="LM_PK603">
-            <record report_date="08/20/2018">
-                <report label="Cutout and Primal Values">
-                    <record
-                        pork_carcass="67.18"
-                        pork_loin="75.51"
-                        pork_butt="89.55"
-                        pork_picnic="41.82"
-                        pork_rib="113.95"
-                        pork_ham="57.52"
-                        pork_belly="77.77"/>
-                </report>
-                <report label="Current Volume">
-                    <record 
-                        temp_cuts_total_load="334.74" 
-                        temp_process_total_load="39.61"/>
-                </report>
-            </record>
-        </report>
-    </results>
-"""
-
-records = parse_report(report)
+records = load_resource('test/api/resources/cutout.xml')
 attributes = (next(records), next(records))
 cutout = parse_attributes(attributes)
 

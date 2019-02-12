@@ -8,34 +8,10 @@ from mpr.data.api import opt_float
 from mpr.data.api import parse_elements
 from mpr.data.api import filter_sections
 
-from test.api import load_report
+from test.api import load_resource
 
-report = """
-    <results exportTime="2018-09-07 12:25:37 CDT">
-        <report label="National Daily Pork Report - Negotiated Sales" slug="LM_PK603">
-            <record report_date="08/20/2018">
-                <report label="Current Volume">
-                    <record
-                        temp_cuts_total_load="334.74"
-                        temp_process_total_load="39.61"/>
-                </report>
-                <report label="Cutout and Primal Values">
-                    <record
-                        pork_carcass="67.18"
-                        pork_loin="75.51"
-                        pork_butt="89.55"
-                        pork_picnic="41.82"
-                        pork_rib="113.95"
-                        pork_ham="57.52"
-                        pork_belly="77.77"/>
-                </report>
-            </record>
-        </report>
-    </results>
-"""
-
-elements = load_report(report)
-records = filter_sections(parse_elements(elements), 'Cutout and Primal Values', 'Current Volume')
+elements = load_resource('test/api/resources/cutout.xml')
+records = filter_sections(elements, 'Cutout and Primal Values', 'Current Volume')
 volume, cutout = next(records)
 
 class ParseReportTest(TestCase):
