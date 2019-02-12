@@ -19,9 +19,6 @@ class Seller(Enum):
         return sellers.index(self)
 
 
-sellers = list(Seller)
-
-
 @unique
 class Arrangement(Enum):
     NEGOTIATED = 'negotiated'
@@ -43,9 +40,6 @@ class Arrangement(Enum):
         return arrangements.index(self)
 
 
-arrangements = list(Arrangement)
-
-
 @unique
 class Basis(Enum):
     CARCASS = 'carcass'
@@ -57,9 +51,6 @@ class Basis(Enum):
 
     def to_ordinal(self):
         return bases.index(self)
-
-
-bases = list(Basis)
 
 
 class PurchaseType(NamedTuple):
@@ -74,8 +65,11 @@ class PurchaseTypeCol(IsDescription):
     basis = EnumCol([entry.value for entry in bases], 'carcass', base='uint8')
 
 
-# Lookup table for purchase type descriptions
-PURCHASE_TYPES = {
+sellers = list(Seller)
+arrangements = list(Arrangement)
+bases = list(Basis)
+
+purchase_types = {
     'Negotiated (carcass basis)':
         PurchaseType(Seller.ALL, Arrangement.NEGOTIATED, Basis.CARCASS),
 
