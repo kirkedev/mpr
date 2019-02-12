@@ -1,16 +1,20 @@
 from typing import Optional
 from tables import Group, Node
 
-import db
-from model.cutout import Cutout
+from mpr.data import db
+from mpr.data.db.model.cutout import Cutout
 
 
 def create() -> Group:
-    group = db.connection.create_group('/mpr', name='lm_pk603',
+    group = db.connection.create_group(
+        where='/mpr',
+        name='lm_pk603',
         title='National Daily Pork - Negotiated Sales - Afternoon')
 
-    cutout_table = db.connection.create_table(group, 'cutout', Cutout.schema,
-        'Volume and pricing for primal pork cuts as of 3:00pm central time')
+    cutout_table = db.connection.create_table(
+        where=group,
+        name='cutout',
+        description=Cutout.schema)
 
     cutout_table.cols.date.create_csindex()
 
