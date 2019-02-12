@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import Type
 from typing import TypeVar
 from typing import Tuple
@@ -8,7 +9,7 @@ from . import Model
 T = TypeVar('T', bound=Observation)
 
 
-class Observation(Model):
+class Observation(Model, ABC):
     @classmethod
     def get(cls: Type[T]) -> Iterator[T]:
         return map(cls.from_row, cls.table.itersorted())

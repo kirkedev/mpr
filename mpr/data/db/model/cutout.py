@@ -1,7 +1,6 @@
-from typing import Type
+from abc import ABC
 from dataclasses import dataclass
 from datetime import date
-
 from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
@@ -9,8 +8,8 @@ from tables.tableextension import Row
 from .observation import Observation
 
 
-@dataclass(Type[Cutout])
-class Cutout(Observation):
+@dataclass
+class Cutout(Observation, ABC):
     """
     Aggregate data structure for pricing of primal pork cuts, as retrieved from the
     USDA Daily Pork reports (LM_PK602, LM_PK603)
