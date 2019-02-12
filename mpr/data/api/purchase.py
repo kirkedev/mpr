@@ -50,10 +50,14 @@ def parse_attributes(attr: Attributes) -> Record:
         high_price=opt_float(attr, 'price_high'))
 
 
+async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
+    response = await fetch(report, start_date, end_date)
+    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+
+
 @singledispatch
 async def get_prior_day(start_date: date, end_date=date.today()) -> Iterator[Record]:
-    response = await fetch(Report.PURCHASED_SWINE, start_date + timedelta(days=1), end_date)
-    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+    return await fetch_cutout(Report.PURCHASED_SWINE, start_date + timedelta(days=1), end_date)
 
 
 @get_prior_day.register(int)
@@ -63,8 +67,7 @@ async def get_prior_days(days: int) -> Iterator[Record]:
 
 @singledispatch
 async def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
-    response = await fetch(Report.DIRECT_HOG_MORNING, start_date + timedelta(days=1), end_date)
-    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+    return await fetch_cutout(Report.DIRECT_HOG_MORNING, start_date, end_date)
 
 
 @get_morning.register(int)
@@ -74,8 +77,7 @@ async def get_morning_days(days: int) -> Iterator[Record]:
 
 @singledispatch
 async def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
-    response = await fetch(Report.DIRECT_HOG_AFTERNOON, start_date + timedelta(days=1), end_date)
-    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+    return await fetch_cutout(Report.DIRECT_HOG_AFTERNOON, start_date, end_date)
 
 
 @get_afternoon.register(int)
