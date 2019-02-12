@@ -51,12 +51,6 @@ def date_interval(days: int) -> Tuple[date, date]:
     return start, today
 
 
-def pairwise(iterable):
-    a, b = tee(iterable)
-    next(b, None)
-    return zip(a, b)
-
-
 def chunk(iterable, n, fillvalue=None):
     args = [iter(iterable)] * n
     return zip_longest(*args, fillvalue=fillvalue)
@@ -66,9 +60,9 @@ def filter_section(records: Iterator[Attributes], section: str) -> Iterator[Attr
     return filter(lambda it: it['label'] == section, records)
 
 
-def filter_sections(records: Iterator[Attributes], first: str, second: str) -> Iterator[Tuple[Attributes, Attributes]]:
-    attrs = filter(lambda it: it['label'] in (first, second), records)
-    return pairwise(attrs)
+def filter_sections(records: Iterator[Attributes], *args: str) -> Iterator[Tuple[Attributes, Attributes]]:
+    attrs = filter(lambda it: it['label'] in args, records)
+    return chunk(attrs, len(args))
 
 
 async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iterator[Attributes]:
