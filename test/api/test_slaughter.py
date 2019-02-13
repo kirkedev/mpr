@@ -5,14 +5,13 @@ from test.api import load_resource
 from mpr.data.api.slaughter import parse_attributes
 
 records = list(load_resource('test/api/resources/slaughter.xml'))
-attributes = records[0]
-negotiated = parse_attributes(attributes)
+assert len(records) == 8
+
+negotiated = parse_attributes(records[0])
+negotiated_formula = parse_attributes(records[4])
 
 
-class PurchaseTest(TestCase):
-    def test_parse_length(self):
-        self.assertEqual(len(records), 8)
-
+class NegotiatedPurchaseTest(TestCase):
     def test_date(self):
         self.assertEqual(negotiated.date, date(2019, 2, 1))
 
@@ -54,3 +53,47 @@ class PurchaseTest(TestCase):
 
     def test_lean_percent(self):
         self.assertEqual(negotiated.lean_percent, 55.6)
+
+
+class NegotiatedFormulaTest(TestCase):
+    def test_date(self):
+        self.assertEqual(negotiated_formula.date, date(2019, 2, 1))
+
+    def test_purchase_type(self):
+        self.assertEqual(negotiated_formula.purchase_type, 'Prod. Sold Negotiated Formula')
+
+    def test_head_count(self):
+        self.assertEqual(negotiated_formula.head_count, 683)
+
+    def test_base_price(self):
+        self.assertEqual(negotiated_formula.base_price, None)
+
+    def test_net_price(self):
+        self.assertEqual(negotiated_formula.net_price, None)
+
+    def test_low_price(self):
+        self.assertEqual(negotiated_formula.low_price, None)
+
+    def test_high_price(self):
+        self.assertEqual(negotiated_formula.high_price, None)
+
+    def test_live_weight(self):
+        self.assertEqual(negotiated_formula.live_weight, None)
+
+    def test_carcass_weight(self):
+        self.assertEqual(negotiated_formula.carcass_weight, None)
+
+    def test_sort_loss(self):
+        self.assertEqual(negotiated_formula.sort_loss, None)
+
+    def test_backfat(self):
+        self.assertEqual(negotiated_formula.backfat, None)
+
+    def test_loin_depth(self):
+        self.assertEqual(negotiated_formula.loin_depth, None)
+
+    def test_loineye_area(self):
+        self.assertEqual(negotiated_formula.loineye_area, None)
+
+    def test_lean_percent(self):
+        self.assertEqual(negotiated_formula.lean_percent, None)
