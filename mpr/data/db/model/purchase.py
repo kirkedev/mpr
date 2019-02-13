@@ -1,4 +1,4 @@
-from typing import Type
+from abc import ABC
 from typing import Optional
 from dataclasses import dataclass
 from datetime import date
@@ -14,14 +14,8 @@ from .purchase_type import Basis
 from .purchase_type import PurchaseTypeCol
 
 
-@dataclass(Type[Purchase])
-class Purchase(Observation):
-    """
-    Aggregate data structure for pricing of purchased barrows and gilts per date and purchase type, as
-    retrieved from a USDA purchased swine report (LMHG201 - Prior Day, LM_HG202 - Morning, and LM_HG203 - Afternoon)
-    https://www.ams.usda.gov/mnreports/lm_hg202.txt
-    """
-
+@dataclass
+class Purchase(Observation, ABC):
     date: date
     seller: Seller
     arrangement: Arrangement

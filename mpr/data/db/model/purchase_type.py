@@ -19,9 +19,6 @@ class Seller(Enum):
         return sellers.index(self)
 
 
-sellers = list(Seller)
-
-
 @unique
 class Arrangement(Enum):
     NEGOTIATED = 'negotiated'
@@ -43,9 +40,6 @@ class Arrangement(Enum):
         return arrangements.index(self)
 
 
-arrangements = list(Arrangement)
-
-
 @unique
 class Basis(Enum):
     CARCASS = 'carcass'
@@ -59,23 +53,24 @@ class Basis(Enum):
         return bases.index(self)
 
 
-bases = list(Basis)
-
-
 class PurchaseType(NamedTuple):
     seller: Seller
     arrangements: Arrangement
     basis: Basis
 
 
+sellers = list(Seller)
+arrangements = list(Arrangement)
+bases = list(Basis)
+
+
 class PurchaseTypeCol(IsDescription):
-    seller = EnumCol([entry.value for entry in sellers], 'producer', base='uint8')
-    arrangement = EnumCol([entry.value for entry in arrangements], 'negotiated', base='uint8')
-    basis = EnumCol([entry.value for entry in bases], 'carcass', base='uint8')
+    seller = EnumCol(map(lambda it: it.value, sellers), 'producer', base='uint8')
+    arrangement = EnumCol(map(lambda it: it.value, arrangements), 'negotiated', base='uint8')
+    basis = EnumCol(map(lambda it: it.value, bases), 'carcass', base='uint8')
 
 
-# Lookup table for purchase type descriptions
-PURCHASE_TYPES = {
+purchase_types = {
     'Negotiated (carcass basis)':
         PurchaseType(Seller.ALL, Arrangement.NEGOTIATED, Basis.CARCASS),
 
