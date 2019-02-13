@@ -59,15 +59,16 @@ class PurchaseType(NamedTuple):
     basis: Basis
 
 
-class PurchaseTypeCol(IsDescription):
-    seller = EnumCol([entry.value for entry in sellers], 'producer', base='uint8')
-    arrangement = EnumCol([entry.value for entry in arrangements], 'negotiated', base='uint8')
-    basis = EnumCol([entry.value for entry in bases], 'carcass', base='uint8')
-
-
 sellers = list(Seller)
 arrangements = list(Arrangement)
 bases = list(Basis)
+
+
+class PurchaseTypeCol(IsDescription):
+    seller = EnumCol(map(lambda it: it.value, sellers), 'producer', base='uint8')
+    arrangement = EnumCol(map(lambda it: it.value, arrangements), 'negotiated', base='uint8')
+    basis = EnumCol(map(lambda it: it.value, bases), 'carcass', base='uint8')
+
 
 purchase_types = {
     'Negotiated (carcass basis)':
