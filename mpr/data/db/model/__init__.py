@@ -2,7 +2,6 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Dict
 from typing import Iterator
-from typing import Type
 from typing import TypeVar
 
 from tables import Atom
@@ -26,31 +25,29 @@ class Model(ABC):
         raise NotImplementedError
 
     @classmethod
-    def get(cls: Type[T]) -> Iterator[T]:
+    @abstractmethod
+    def from_row(cls, row: Row) -> T:
+        raise NotImplementedError
+
+    @classmethod
+    def get(cls) -> Iterator[T]:
         return map(cls.from_row, cls.table.iterrows())
 
     @classmethod
-    def query(cls: Type[T], condition: str, params: Dict) -> Iterator[T]:
+    def query(cls, condition: str, params: Dict) -> Iterator[T]:
         return map(cls.from_row, cls.table.where(condition, params))
 
     @classmethod
-    def insert(cls: T, records: Iterator[T]):
-        table = cls.table
-
+    def insert(cls, records: Iterator[T]):
         for record in records:
             record.append()
 
-        table.flush()
-
-    @classmethod
-    @abstractmethod
-    def from_row(cls: Type[T], row: Row) -> T:
-        raise NotImplementedError
-
-    @abstractmethod
-    def append(self):
-        raise NotImplementedError
+        cls.commit()
 
     @classmethod
     def commit(cls):
         cls.table.flush()
+
+    @abstractmethod
+    def append(self):
+        raise NotImplementedError
