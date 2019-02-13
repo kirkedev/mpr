@@ -5,14 +5,13 @@ from test.api import load_resource
 from mpr.data.api.purchase import parse_attributes
 
 records = list(load_resource('test/api/resources/purchase.xml'))
-attributes = records[0]
-negotiated = parse_attributes(attributes)
+assert len(records) == 7
+
+negotiated = parse_attributes(records[0])
+negotiated_formula = parse_attributes(records[1])
 
 
-class PurchaseTest(TestCase):
-    def test_parse_length(self):
-        self.assertEqual(len(records), 7)
-
+class NegotiatedPurchaseTest(TestCase):
     def test_report_date(self):
         self.assertEqual(negotiated.date, date(2019, 1, 31))
 
@@ -30,3 +29,23 @@ class PurchaseTest(TestCase):
 
     def test_high_price(self):
         self.assertEqual(negotiated.high_price, 51.75)
+
+
+class NegotiatedFormulaTest(TestCase):
+    def test_report_date(self):
+        self.assertEqual(negotiated_formula.date, date(2019, 1, 31))
+
+    def test_purchase_type(self):
+        self.assertEqual(negotiated_formula.purchase_type, 'Negotiated Formula (carcass basis)')
+
+    def test_head_count(self):
+        self.assertEqual(negotiated_formula.head_count, 165)
+
+    def test_avg_price(self):
+        self.assertEqual(negotiated_formula.avg_price, None)
+
+    def test_low_price(self):
+        self.assertEqual(negotiated_formula.low_price, None)
+
+    def test_high_price(self):
+        self.assertEqual(negotiated_formula.high_price, None)
