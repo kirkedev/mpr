@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Optional
+from typing import TypeVar
 from dataclasses import dataclass
 from datetime import date
 
@@ -13,9 +14,11 @@ from .purchase_type import Arrangement
 from .purchase_type import Basis
 from .purchase_type import PurchaseTypeCol
 
+T = TypeVar('T', bound=Purchase)
+
 
 @dataclass
-class Purchase(Observation, ABC):
+class Purchase(ABC, Observation[T]):
     date: date
     seller: Seller
     arrangement: Arrangement
@@ -35,7 +38,7 @@ class Purchase(Observation, ABC):
     }
 
     @classmethod
-    def from_row(cls, row: Row) -> 'Purchase':
+    def from_row(cls, row: Row) -> T:
         return cls(
             date=date.fromordinal(row['date']),
             seller=Seller.from_ordinal(row['purchase_type/seller']),

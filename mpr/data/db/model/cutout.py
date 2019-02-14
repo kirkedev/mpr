@@ -1,15 +1,19 @@
 from abc import ABC
+from typing import TypeVar
 from dataclasses import dataclass
 from datetime import date
+
 from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
 from .observation import Observation
 
+T = TypeVar('T', bound=Cutout)
+
 
 @dataclass
-class Cutout(Observation, ABC):
+class Cutout(ABC, Observation[T]):
     date: date
     primal_loads: float
     trimming_loads: float
@@ -35,7 +39,7 @@ class Cutout(Observation, ABC):
     }
 
     @classmethod
-    def from_row(cls, row: Row) -> 'Cutout':
+    def from_row(cls, row: Row) -> T:
         return cls(
             date=date.fromordinal(row['date']),
             primal_loads=row['primal_loads'],

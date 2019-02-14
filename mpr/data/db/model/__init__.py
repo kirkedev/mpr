@@ -2,6 +2,7 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Dict
 from typing import Iterator
+from typing import Generic
 from typing import TypeVar
 
 from tables import Atom
@@ -11,7 +12,7 @@ from tables.tableextension import Row
 T = TypeVar('T', bound=Model)
 
 
-class Model(ABC):
+class Model(Generic[T], ABC):
     @staticmethod
     @property
     @abstractmethod

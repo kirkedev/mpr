@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Generic
 from typing import TypeVar
 from typing import Tuple
 from typing import Iterator
@@ -10,9 +11,9 @@ from . import Model
 T = TypeVar('T', bound=Observation)
 
 
-class Observation(Model, ABC):
+class Observation(Generic[T], Model[T], ABC):
     @classmethod
-    def get(cls) -> 'Iterator[Observation]':
+    def get(cls) -> Iterator[T]:
         return map(cls.from_row, cls.table.itersorted())
 
     @classmethod
