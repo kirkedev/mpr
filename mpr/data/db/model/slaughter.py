@@ -1,7 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
 from typing import Optional
-from typing import TypeVar
 from datetime import date
 
 from tables import UInt32Col
@@ -14,11 +13,9 @@ from .purchase_type import Arrangement
 from .purchase_type import Basis
 from .purchase_type import PurchaseTypeCol
 
-T = TypeVar('T', bound=Slaughter)
-
 
 @dataclass
-class Slaughter(ABC, Observation[T]):
+class Slaughter(Observation, ABC):
     date: date
     seller: Seller
     arrangement: Arrangement
@@ -84,7 +81,7 @@ class Slaughter(ABC, Observation[T]):
         row.append()
 
     @classmethod
-    def from_row(cls, row: Row) -> T:
+    def from_row(cls, row: Row) -> 'Slaughter':
         return cls(
             date=date.fromordinal(row['date']),
             seller=Seller.from_ordinal(row['purchase_type/seller']),

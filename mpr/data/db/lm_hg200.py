@@ -1,5 +1,4 @@
 from typing import Optional
-from tables import File
 from tables import Node
 from tables import Group
 
@@ -7,13 +6,13 @@ from mpr.data import db
 from mpr.data.db.model.purchase import Purchase
 
 
-def create(connection: File = db.connection) -> Group:
-    group = connection.create_group(
+def create() -> Group:
+    group = db.connection.create_group(
         where='/mpr',
         name='lm_hg200',
         title='Daily Direct Hog Prior Day - Purchased Swine')
 
-    barrows_gilts_table = connection.create_table(
+    barrows_gilts_table = db.connection.create_table(
         where=group,
         name='barrows_gilts',
         description=Purchase.schema)
@@ -23,8 +22,8 @@ def create(connection: File = db.connection) -> Group:
     return group
 
 
-def get(connection: File = db.connection, table: Optional[str] = None) -> Node:
-    group = connection.get_node('/mpr', 'lm_hg200') if '/mpr/lm_hg200' in connection else create()
+def get(table: Optional[str] = None) -> Node:
+    group = db.connection.get_node('/mpr', 'lm_hg200') if '/mpr/lm_hg200' in db.connection else create()
     return group if table is None else group[table]
 
 

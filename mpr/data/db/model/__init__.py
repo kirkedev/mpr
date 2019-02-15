@@ -2,17 +2,13 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Dict
 from typing import Iterator
-from typing import Generic
-from typing import TypeVar
 
 from tables import Atom
 from tables import Table
 from tables.tableextension import Row
 
-T = TypeVar('T', bound=Model)
 
-
-class Model(Generic[T], ABC):
+class Model(ABC):
     @staticmethod
     @property
     @abstractmethod
@@ -27,19 +23,19 @@ class Model(Generic[T], ABC):
 
     @classmethod
     @abstractmethod
-    def from_row(cls, row: Row) -> T:
+    def from_row(cls, row: Row) -> 'Model':
         raise NotImplementedError
 
     @classmethod
-    def get(cls) -> Iterator[T]:
+    def get(cls) -> 'Iterator[Model]':
         return map(cls.from_row, cls.table.iterrows())
 
     @classmethod
-    def query(cls, condition: str, params: Dict) -> Iterator[T]:
+    def query(cls, condition: str, params: Dict) -> 'Iterator[Model]':
         return map(cls.from_row, cls.table.where(condition, params))
 
     @classmethod
-    def insert(cls, records: Iterator[T]):
+    def insert(cls, records: 'Iterator[Model]'):
         for record in records:
             record.append()
 

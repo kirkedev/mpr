@@ -37,9 +37,9 @@ class PurchaseType(NamedTuple):
 
 
 class PurchaseTypeCol(IsDescription):
-    seller = EnumCol(map(lambda it: it.value, Seller.values), 'producer', base='uint8')
-    arrangement = EnumCol(map(lambda it: it.value, Arrangement.values), 'negotiated', base='uint8')
-    basis = EnumCol(map(lambda it: it.value, Basis.values), 'carcass', base='uint8')
+    seller = EnumCol(Seller.values(), 'all', base='uint8')
+    arrangement = EnumCol(Arrangement.values(), 'all', base='uint8')
+    basis = EnumCol(Basis.values(), 'carcass', base='uint8')
 
 
 purchase_types = {
