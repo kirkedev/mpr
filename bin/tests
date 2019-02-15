@@ -1,4 +1,4 @@
 export DB='test/db/db.h5'
-rm $DB
+rm -f $DB
 python3 -m unittest "$@"
-rm $DB
+rm -f $DB
