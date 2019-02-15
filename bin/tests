@@ -1,1 +1,4 @@
-export ENV='TEST'; python3 -m unittest "$@"
+export DB='test/db/db.h5'
+rm $DB
+python3 -m unittest "$@"
+rm $DB
