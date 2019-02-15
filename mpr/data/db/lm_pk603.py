@@ -15,7 +15,8 @@ def create() -> Group:
     cutout_table = db.connection.create_table(
         where=group,
         name='cutout',
-        description=Cutout.schema)
+        description=Cutout.schema,
+        title='Cutout')
 
     cutout_table.cols.date.create_csindex()
 
