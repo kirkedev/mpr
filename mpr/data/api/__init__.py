@@ -80,16 +80,28 @@ async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iter
 
 
 def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
+    """
+    Parses a USDA report by saving metadata from parent elements to a dictionary while traversing down the tree.
+    When at the maximum depth (4), yield all collected metadata with each child element's attributes.
+
+    Typical layout of a USDA report:
+
+     <results exportTime>
+        <report label slug>
+            <record report_date reported_for_date>
+                <report label>
+                    <record.../>
+    """
     depth = 0
     metadata: Dict[str, str] = dict()
 
     for event, element in elements:
         if event == 'start':
-            if depth < 4:
-                # Currently parsing a parent element: merge its properties into the metadata
+            if 1 <= depth < 4:
+                # Parsing a parent element: merge its properties into the metadata
                 metadata.update(element.items())
-            else:
-                # Found the child element: combine its properties with the metadata and yield
+            elif depth == 4:
+                # Parsing a child element: combine its properties with the metadata and yield
                 yield dict(metadata.items() | element.items())
 
             depth += 1
@@ -98,6 +110,6 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
             depth -= 1
 
             if depth == 2:
-                # Finished parsing a daily report: clear the metadata and element tree
+                # Finished parsing one day's data: clear the metadata and element tree
                 element.clear()
                 metadata.clear()

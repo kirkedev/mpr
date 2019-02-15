@@ -1,1 +1,1 @@
-python3 -m unittest "$@"
+export ENV='TEST'; python3 -m unittest "$@"
