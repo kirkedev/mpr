@@ -56,35 +56,35 @@ async def fetch_purchase(report: Report, start_date: date, end_date=date.today()
 
 
 @singledispatch
-async def get_prior_day(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def prior_day(start_date: date, end_date=date.today()) -> Iterator[Record]:
     return await fetch_purchase(Report.PURCHASED_SWINE, start_date + timedelta(days=1), end_date)
 
 
 @singledispatch
-async def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
     return await fetch_purchase(Report.DIRECT_HOG_MORNING, start_date, end_date)
 
 
 @singledispatch
-async def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
     return await fetch_purchase(Report.DIRECT_HOG_AFTERNOON, start_date, end_date)
 
 
-@get_prior_day.register(int)
-async def get_prior_days(days: int) -> Iterator[Record]:
-    return await get_prior_day(*date_interval(days))
+@prior_day.register(int)
+async def prior_days(days: int) -> Iterator[Record]:
+    return await prior_day(*date_interval(days))
 
 
-@get_morning.register(int)
-async def get_morning_days(days: int) -> Iterator[Record]:
-    return await get_morning(*date_interval(days))
+@morning.register(int)
+async def morning_days(days: int) -> Iterator[Record]:
+    return await morning(*date_interval(days))
 
 
-@get_afternoon.register(int)
-async def get_afternoon_days(days: int) -> Iterator[Record]:
-    return await get_afternoon(*date_interval(days))
+@afternoon.register(int)
+async def afternoon_days(days: int) -> Iterator[Record]:
+    return await afternoon(*date_interval(days))
 
 
-lm_hg200 = hg200 = get_prior_day
-lm_hg202 = hg202 = get_morning
-lm_hg203 = hg203 = get_afternoon
+lm_hg200 = hg200 = prior_day
+lm_hg202 = hg202 = morning
+lm_hg203 = hg203 = afternoon

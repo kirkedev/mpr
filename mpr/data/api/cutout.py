@@ -66,24 +66,24 @@ async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) 
 
 
 @singledispatch
-async def get_morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
     return await fetch_cutout(Report.CUTOUT_MORNING, start_date, end_date)
 
 
 @singledispatch
-async def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
     return await fetch_cutout(Report.CUTOUT_AFTERNOON, start_date, end_date)
 
 
-@get_morning.register(int)
-async def get_morning_days(days: int) -> Iterator[Record]:
-    return await get_morning(*date_interval(days))
+@morning.register(int)
+async def morning_days(days: int) -> Iterator[Record]:
+    return await morning(*date_interval(days))
 
 
-@get_afternoon.register(int)
-async def get_afternoon_days(days: int) -> Iterator[Record]:
-    return await get_afternoon(*date_interval(days))
+@afternoon.register(int)
+async def afternoon_days(days: int) -> Iterator[Record]:
+    return await afternoon(*date_interval(days))
 
 
-lm_pk602 = pk602 = get_morning
-lm_pk603 = pk603 = get_afternoon
+lm_pk602 = pk602 = morning
+lm_pk603 = pk603 = afternoon
