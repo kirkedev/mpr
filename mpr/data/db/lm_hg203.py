@@ -15,7 +15,7 @@ def create() -> Group:
     barrows_gilts_table = db.connection.create_table(
         where=group,
         name='barrows_gilts',
-        schema=Purchase.schema)
+        description=Purchase.schema)
 
     barrows_gilts_table.cols.date.create_csindex()
 

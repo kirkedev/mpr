@@ -1,26 +1,18 @@
-from enum import Enum
-from enum import unique
 from typing import NamedTuple
+
 from tables import IsDescription
 from tables import EnumCol
 
+from .enum_field import EnumField
 
-@unique
-class Seller(Enum):
+
+class Seller(EnumField):
     PRODUCER = 'producer'
     PACKER = 'packer'
     ALL = 'all'
 
-    @staticmethod
-    def from_ordinal(ordinal: int) -> 'Seller':
-        return sellers[ordinal]
 
-    def to_ordinal(self):
-        return sellers.index(self)
-
-
-@unique
-class Arrangement(Enum):
+class Arrangement(EnumField):
     NEGOTIATED = 'negotiated'
     MARKET_FORMULA = 'market formula'
     NEGOTIATED_FORMULA = 'negotiated formula'
@@ -32,25 +24,10 @@ class Arrangement(Enum):
     PACKER_OWNED = 'packer owned'
     PACKER_SOLD = 'packer sold'
 
-    @staticmethod
-    def from_ordinal(ordinal: int) -> 'Arrangement':
-        return arrangements[ordinal]
 
-    def to_ordinal(self):
-        return arrangements.index(self)
-
-
-@unique
-class Basis(Enum):
+class Basis(EnumField):
     CARCASS = 'carcass'
     LIVE = 'live'
-
-    @staticmethod
-    def from_ordinal(ordinal: int) -> 'Basis':
-        return bases[ordinal]
-
-    def to_ordinal(self):
-        return bases.index(self)
 
 
 class PurchaseType(NamedTuple):
@@ -59,15 +36,10 @@ class PurchaseType(NamedTuple):
     basis: Basis
 
 
-sellers = list(Seller)
-arrangements = list(Arrangement)
-bases = list(Basis)
-
-
 class PurchaseTypeCol(IsDescription):
-    seller = EnumCol(map(lambda it: it.value, sellers), 'producer', base='uint8')
-    arrangement = EnumCol(map(lambda it: it.value, arrangements), 'negotiated', base='uint8')
-    basis = EnumCol(map(lambda it: it.value, bases), 'carcass', base='uint8')
+    seller = EnumCol(Seller.values(), 'all', base='uint8')
+    arrangement = EnumCol(Arrangement.values(), 'all', base='uint8')
+    basis = EnumCol(Basis.values(), 'carcass', base='uint8')
 
 
 purchase_types = {

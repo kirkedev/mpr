@@ -70,14 +70,14 @@ async def get_morning(start_date: date, end_date=date.today()) -> Iterator[Recor
     return await fetch_cutout(Report.CUTOUT_MORNING, start_date, end_date)
 
 
+@singledispatch
+async def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
+    return await fetch_cutout(Report.CUTOUT_AFTERNOON, start_date, end_date)
+
+
 @get_morning.register(int)
 async def get_morning_days(days: int) -> Iterator[Record]:
     return await get_morning(*date_interval(days))
-
-
-@singledispatch
-async def get_afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
-    return await fetch_cutout(Report.CUTOUT_MORNING, start_date, end_date)
 
 
 @get_afternoon.register(int)
