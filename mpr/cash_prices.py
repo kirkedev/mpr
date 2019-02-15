@@ -6,7 +6,7 @@ import asyncio
 import pandas as pd
 
 from mpr.data.api.slaughter import Record as SlaughterRecord
-from mpr.data.api.slaughter import get_slaughter
+from mpr.data.api.slaughter import slaughter
 
 
 def filter_types(record: SlaughterRecord) -> bool:
@@ -63,7 +63,7 @@ def compute_cash_index(records: Iterator[SlaughterRecord]) -> DataFrame:
 
 
 def get_cash_prices(days: int) -> DataFrame:
-    slaughter = asyncio.run(get_slaughter(days + 3))
+    slaughter = asyncio.run(slaughter(days + 3))
     return compute_cash_index(filter(filter_types, slaughter)).tail(days)
 
 
