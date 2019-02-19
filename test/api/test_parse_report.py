@@ -1,4 +1,5 @@
 from unittest import TestCase
+from numpy import isnan
 
 from mpr.data.api import opt_int
 from mpr.data.api import opt_float
@@ -18,7 +19,7 @@ class ParseReportTest(TestCase):
 
     def test_opt_int(self):
         attr = {'volume': 'null'}
-        self.assertEqual(opt_int(attr, 'volume'), None)
+        self.assertTrue(isnan(opt_int(attr, 'volume')))
 
     def test_parse_float(self):
         attr = {'weight': '1,234.56'}
@@ -26,7 +27,7 @@ class ParseReportTest(TestCase):
 
     def test_opt_float(self):
         attr = {'weight': 'null'}
-        self.assertEqual(opt_float(attr, 'volume'), None)
+        self.assertTrue(isnan(opt_float(attr, 'volume')))
 
     def test_volume_slug(self):
         self.assertEqual(volume['slug'], 'LM_PK603')
