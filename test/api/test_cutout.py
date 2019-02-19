@@ -5,8 +5,7 @@ from test.api import load_resource
 from mpr.data.api.cutout import parse_attributes
 
 records = load_resource('test/api/resources/cutout.xml')
-attributes = (next(records), next(records))
-cutout = parse_attributes(attributes)
+cutout = parse_attributes(next(records), next(records))
 
 
 class CutoutTest(TestCase):
