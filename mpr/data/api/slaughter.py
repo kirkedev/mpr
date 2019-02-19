@@ -59,9 +59,9 @@ def parse_attributes(attr: Attributes) -> Record:
 
     return Record(
         date=datetime64(report_date),
-        seller=seller,
-        arrangement=arrangement,
-        basis=basis,
+        seller=seller.to_ordinal(),
+        arrangement=arrangement.to_ordinal(),
+        basis=basis.to_ordinal(),
         head_count=opt_int(attr, 'head_count') or 0,
         base_price=opt_float(attr, 'base_price'),
         net_price=opt_float(attr, 'avg_net_price'),
