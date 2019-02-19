@@ -1,11 +1,17 @@
 from enum import Enum
 from typing import NamedTuple
-from typing import Optional
 from typing import Iterator
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
 from functools import singledispatch
+
+from numpy import datetime64
+from numpy import uint8
+from numpy import uint32
+from numpy import float32
+
+from mpr.data.model.purchase_type import purchase_types
 
 from . import Report
 from . import Attributes
@@ -29,21 +35,27 @@ class Section(Enum):
 
 
 class Record(NamedTuple):
-    date: date
-    purchase_type: str
-    head_count: int
-    avg_price: Optional[float]
-    low_price: Optional[float]
-    high_price: Optional[float]
+    date: datetime64
+    seller: uint8
+    arrangement: uint8
+    basis: uint8
+    head_count: uint32
+    avg_price: float32
+    low_price: float32
+    high_price: float32
 
 
 def parse_attributes(attr: Attributes) -> Record:
-    report_date = attr['reported_for_date']
+    report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
+
     purchase_type = attr['purchase_type']
+    (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Record(
-        date=datetime.strptime(report_date, date_format).date(),
-        purchase_type=purchase_type,
+        date=datetime64(report_date),
+        seller=seller.to_ordinal(),
+        arrangement=arrangement.to_ordinal(),
+        basis=basis.to_ordinal(),
         head_count=opt_int(attr, 'head_count') or 0,
         avg_price=opt_float(attr, 'wtd_avg'),
         low_price=opt_float(attr, 'price_low'),

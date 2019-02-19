@@ -1,40 +1,44 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Optional
 from datetime import date
+
+from numpy import uint8
+from numpy import uint32
+from numpy import float32
+from numpy import datetime64
 
 from tables import UInt32Col
 from tables import Float32Col
+from tables import Time32Col
 from tables.tableextension import Row
 
 from .observation import Observation
-from .purchase_type import Seller
-from .purchase_type import Arrangement
-from .purchase_type import Basis
+from .purchase_type import PurchaseType
 from .purchase_type import PurchaseTypeCol
 
 
 @dataclass
 class Slaughter(Observation, ABC):
-    date: date
-    seller: Seller
-    arrangement: Arrangement
-    basis: Basis
-    head_count: int
-    base_price: Optional[float]
-    net_price: Optional[float]
-    low_price: Optional[float]
-    high_price: Optional[float]
-    live_weight: Optional[float]
-    carcass_weight: Optional[float]
-    sort_loss: Optional[float]
-    backfat: Optional[float]
-    loin_depth: Optional[float]
-    loineye_area: Optional[float]
-    lean_percent: Optional[float]
+    date: datetime64
+    seller: uint8
+    arrangement: uint8
+    basis: uint8
+    purchase_type: PurchaseType
+    head_count: uint32
+    base_price: float32
+    net_price: float32
+    low_price: float32
+    high_price: float32
+    live_weight: float32
+    carcass_weight: float32
+    sort_loss: float32
+    backfat: float32
+    loin_depth: float32
+    loineye_area: float32
+    lean_percent: float32
 
     schema = {
-        'date': UInt32Col(),
+        'date': Time32Col(),
         'purchase_type': PurchaseTypeCol(),
         'head_count': UInt32Col(),
         'base_price': Float32Col(),
@@ -61,10 +65,10 @@ class Slaughter(Observation, ABC):
     def append(self):
         row = self.table.row
 
-        row['date'] = self.date.toordinal()
-        row['purchase_type/seller'] = self.seller.to_ordinal()
-        row['purchase_type/arrangement'] = self.arrangement.to_ordinal()
-        row['purchase_type/basis'] = self.basis.to_ordinal()
+        row['date'] = self.date
+        row['purchase_type/seller'] = self.seller
+        row['purchase_type/arrangement'] = self.arrangement
+        row['purchase_type/basis'] = self.basis
         row['head_count'] = self.head_count
         row['base_price'] = self.base_price
         row['net_price'] = self.net_price
@@ -82,20 +86,4 @@ class Slaughter(Observation, ABC):
 
     @classmethod
     def from_row(cls, row: Row) -> 'Slaughter':
-        return cls(
-            date=date.fromordinal(row['date']),
-            seller=Seller.from_ordinal(row['purchase_type/seller']),
-            arrangement=Arrangement.from_ordinal(row['purchase_type/arrangement']),
-            basis=Basis.from_ordinal(row['purchase_type/basis']),
-            head_count=row['head_count'],
-            base_price=row['base_price'],
-            net_price=row['net_price'],
-            low_price=row['low_price'],
-            high_price=row['high_price'],
-            live_weight=row['live_weight'],
-            carcass_weight=row['carcass_weight'],
-            sort_loss=row['sort_loss'],
-            backfat=row['backfat'],
-            loin_depth=row['loin_depth'],
-            loineye_area=row['loineye_area'],
-            lean_percent=row['lean_percent'])
+        return cls(row.fetch_all_fields())
