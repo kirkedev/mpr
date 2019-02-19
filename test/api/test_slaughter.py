@@ -1,8 +1,13 @@
 from unittest import TestCase
 from datetime import date
+from numpy import isnan
+from numpy import isclose
 
-from test.api import load_resource
 from mpr.data.api.slaughter import parse_attributes
+from mpr.data.model.purchase_type import Seller
+from mpr.data.model.purchase_type import Arrangement
+from mpr.data.model.purchase_type import Basis
+from test.api import load_resource
 
 records = list(load_resource('test/api/resources/slaughter.xml'))
 assert len(records) == 8
@@ -15,85 +20,91 @@ class NegotiatedPurchaseTest(TestCase):
     def test_date(self):
         self.assertEqual(negotiated.date, date(2019, 2, 1))
 
-    def test_purchase_type(self):
-        self.assertEqual(negotiated.purchase_type, 'Prod. Sold Negotiated')
+    def test_seller(self):
+        self.assertEqual(negotiated.seller, Seller.PRODUCER.to_ordinal())
+
+    def test_arrangement(self):
+        self.assertEqual(negotiated.arrangement, Arrangement.NEGOTIATED.to_ordinal())
+
+    def test_basis(self):
+        self.assertEqual(negotiated.basis, Basis.ALL.to_ordinal())
 
     def test_head_count(self):
-        self.assertEqual(negotiated.head_count, 12771)
+        self.assertTrue(isclose(negotiated.head_count, 12771))
 
     def test_base_price(self):
-        self.assertEqual(negotiated.base_price, 51.8)
+        self.assertTrue(isclose(negotiated.base_price, 51.8))
 
     def test_net_price(self):
-        self.assertEqual(negotiated.net_price, 53.26)
+        self.assertTrue(isclose(negotiated.net_price, 53.26))
 
     def test_low_price(self):
-        self.assertEqual(negotiated.low_price, 43.57)
+        self.assertTrue(isclose(negotiated.low_price, 43.57))
 
     def test_high_price(self):
-        self.assertEqual(negotiated.high_price, 57.85)
+        self.assertTrue(isclose(negotiated.high_price, 57.85))
 
     def test_live_weight(self):
-        self.assertEqual(negotiated.live_weight, 273.54)
+        self.assertTrue(isclose(negotiated.live_weight, 273.54))
 
     def test_carcass_weight(self):
-        self.assertEqual(negotiated.carcass_weight, 205.41)
+        self.assertTrue(isclose(negotiated.carcass_weight, 205.41))
 
     def test_sort_loss(self):
-        self.assertEqual(negotiated.sort_loss, -2.16)
+        self.assertTrue(isclose(negotiated.sort_loss, -2.16))
 
     def test_backfat(self):
-        self.assertEqual(negotiated.backfat, 0.61)
+        self.assertTrue(isclose(negotiated.backfat, 0.61))
 
     def test_loin_depth(self):
-        self.assertEqual(negotiated.loin_depth, 2.61)
+        self.assertTrue(isclose(negotiated.loin_depth, 2.61))
 
     def test_loineye_area(self):
-        self.assertEqual(negotiated.loineye_area, 7.83)
+        self.assertTrue(isclose(negotiated.loineye_area, 7.83))
 
     def test_lean_percent(self):
-        self.assertEqual(negotiated.lean_percent, 55.6)
+        self.assertTrue(isclose(negotiated.lean_percent, 55.6))
 
 
 class NegotiatedFormulaTest(TestCase):
     def test_date(self):
         self.assertEqual(negotiated_formula.date, date(2019, 2, 1))
 
-    def test_purchase_type(self):
-        self.assertEqual(negotiated_formula.purchase_type, 'Prod. Sold Negotiated Formula')
+    def test_arrangement(self):
+        self.assertEqual(negotiated_formula.arrangement, Arrangement.NEGOTIATED_FORMULA.to_ordinal())
 
     def test_head_count(self):
         self.assertEqual(negotiated_formula.head_count, 683)
 
     def test_base_price(self):
-        self.assertEqual(negotiated_formula.base_price, None)
+        self.assertTrue(isnan(negotiated_formula.base_price))
 
     def test_net_price(self):
-        self.assertEqual(negotiated_formula.net_price, None)
+        self.assertTrue(isnan(negotiated_formula.net_price))
 
     def test_low_price(self):
-        self.assertEqual(negotiated_formula.low_price, None)
+        self.assertTrue(isnan(negotiated_formula.low_price))
 
     def test_high_price(self):
-        self.assertEqual(negotiated_formula.high_price, None)
+        self.assertTrue(isnan(negotiated_formula.high_price))
 
     def test_live_weight(self):
-        self.assertEqual(negotiated_formula.live_weight, None)
+        self.assertTrue(isnan(negotiated_formula.live_weight))
 
     def test_carcass_weight(self):
-        self.assertEqual(negotiated_formula.carcass_weight, None)
+        self.assertTrue(isnan(negotiated_formula.carcass_weight))
 
     def test_sort_loss(self):
-        self.assertEqual(negotiated_formula.sort_loss, None)
+        self.assertTrue(isnan(negotiated_formula.sort_loss))
 
     def test_backfat(self):
-        self.assertEqual(negotiated_formula.backfat, None)
+        self.assertTrue(isnan(negotiated_formula.backfat))
 
     def test_loin_depth(self):
-        self.assertEqual(negotiated_formula.loin_depth, None)
+        self.assertTrue(isnan(negotiated_formula.loin_depth))
 
     def test_loineye_area(self):
-        self.assertEqual(negotiated_formula.loineye_area, None)
+        self.assertTrue(isnan(negotiated_formula.loineye_area))
 
     def test_lean_percent(self):
-        self.assertEqual(negotiated_formula.lean_percent, None)
+        self.assertTrue(isnan(negotiated_formula.lean_percent))
