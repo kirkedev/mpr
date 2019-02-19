@@ -66,14 +66,14 @@ def parse_attributes(attr: Attributes) -> Record:
 
 
 @singledispatch
-async def slaughter(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def fetch_slaughter(start_date: date, end_date=date.today()) -> Iterator[Record]:
     response = await fetch(Report.SLAUGHTERED_SWINE, start_date + timedelta(days=1), end_date)
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
-@slaughter.register(int)
-async def slaughter_days(days: int) -> Iterator[Record]:
-    return await slaughter(*date_interval(days))
+@fetch_slaughter.register(int)
+async def fetch_slaughter_days(days: int) -> Iterator[Record]:
+    return await fetch_slaughter(*date_interval(days))
 
 
-lm_hg201 = hg201 = slaughter
+lm_hg201 = hg201 = fetch_slaughter
