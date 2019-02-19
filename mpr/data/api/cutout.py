@@ -47,8 +47,7 @@ class Record(NamedTuple):
     belly_price: float32
 
 
-def parse_attributes(sections: Iterator[Attributes]) -> Record:
-    volume, cutout = sections
+def parse_attributes(volume: Attributes, cutout: Attributes) -> Record:
     report_date = datetime.strptime(volume['report_date'], date_format).date()
 
     return Record(
@@ -66,7 +65,7 @@ def parse_attributes(sections: Iterator[Attributes]) -> Record:
 
 async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
     response = await fetch(report, start_date, end_date)
-    return map(parse_attributes, filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
+    return map(parse_attributes, *filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
 
 
 @singledispatch
