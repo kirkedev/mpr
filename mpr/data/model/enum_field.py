@@ -10,7 +10,7 @@ class EnumField(Enum):
         return list(map(lambda it: it.value, cls))
 
     def to_ordinal(self) -> int:
-        return self.values().index(self)
+        return self.values().index(self.value)
 
     @classmethod
     def from_ordinal(cls, ordinal: int) -> 'EnumField':
