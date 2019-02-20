@@ -1,26 +1,62 @@
 from abc import ABC
-from dataclasses import dataclass
-from datetime import date
+from typing import NamedTuple
+from typing import Iterator
+from datetime import datetime
+
+import numpy as np
+from numpy import datetime64
+from numpy import float32
+from numpy import recarray
 
 from tables import Time32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
+from . import Attributes
+from . import Date
+
 from .observation import Observation
 
+date_format = "%m/%d/%Y"
 
-class Cutout(Observation, ABC):
-    date: date
-    primal_loads: float
-    trimming_loads: float
-    carcass_price: float
-    loin_price: float
-    butt_price: float
-    picnic_price: float
-    rib_price: float
-    ham_price: float
-    belly_price: float
 
+class Record(NamedTuple):
+    date: Date
+    primal_loads: float32
+    trimming_loads: float32
+    carcass_price: float32
+    loin_price: float32
+    butt_price: float32
+    picnic_price: float32
+    rib_price: float32
+    ham_price: float32
+    belly_price: float32
+
+    @classmethod
+    def from_attributes(cls, volume: Attributes, cutout: Attributes) -> 'Record':
+        report_date = datetime.strptime(volume['report_date'], date_format).date()
+
+        return cls(
+            date=datetime64(report_date, 'D'),
+            primal_loads=float32(volume['temp_cuts_total_load']),
+            trimming_loads=float32(volume['temp_process_total_load']),
+            carcass_price=float32(cutout['pork_carcass']),
+            loin_price=float32(cutout['pork_loin']),
+            butt_price=float32(cutout['pork_butt']),
+            picnic_price=float32(cutout['pork_picnic']),
+            rib_price=float32(cutout['pork_rib']),
+            ham_price=float32(cutout['pork_ham']),
+            belly_price=float32(cutout['pork_belly']))
+
+
+dtype = np.dtype(list(Record._field_types.items()))
+
+
+def to_array(records: Iterator[Record]) -> recarray:
+    return np.rec.array(list(records), dtype=dtype)
+
+
+class Cutout(Record, Observation, ABC):
     schema = {
         'date': Time32Col(),
         'primal_loads': Float32Col(),
@@ -36,7 +72,7 @@ class Cutout(Observation, ABC):
 
     @classmethod
     def from_row(cls, row: Row) -> 'Cutout':
-        return cls(row.fetch_all_fields())
+        return cls(**row.fetch_all_fields())
 
     def append(self):
         row = self.table.row

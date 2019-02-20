@@ -1,15 +1,14 @@
 from unittest import TestCase
 from datetime import date
-import numpy as np
 from numpy import isclose
 
 from test.api import load_resource
-from mpr.data.api.cutout import parse_attributes
-from mpr.data.api.cutout import dtype
+from mpr.data.model.cutout import Record
+from mpr.data.model.cutout import to_array
 
 attributes = load_resource('test/api/resources/cutout.xml')
-cutout = parse_attributes(next(attributes), next(attributes))
-records = np.rec.fromrecords([cutout], dtype=dtype)
+cutout = Record.from_attributes(next(attributes), next(attributes))
+records = to_array([cutout])
 
 
 class CutoutTest(TestCase):
