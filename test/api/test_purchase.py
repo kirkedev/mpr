@@ -1,11 +1,10 @@
 from unittest import TestCase
 from datetime import date
-import numpy as np
 from numpy import isnan
 from numpy import isclose
 
-from mpr.data.api.purchase import parse_attributes
-from mpr.data.api.purchase import dtype
+from mpr.data.api.purchase import Record
+from mpr.data.model.purchase import to_array
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.purchase_type import Basis
@@ -15,9 +14,9 @@ from test.api import load_resource
 attributes = list(load_resource('test/api/resources/purchase.xml'))
 assert len(attributes) == 7
 
-negotiated = parse_attributes(attributes[0])
-negotiated_formula = parse_attributes(attributes[1])
-records = np.rec.fromrecords([negotiated, negotiated_formula], dtype=dtype)
+negotiated = Record.from_attributes(attributes[0])
+negotiated_formula = Record.from_attributes(attributes[1])
+records = to_array([negotiated, negotiated_formula])
 
 
 class NegotiatedPurchaseTest(TestCase):
