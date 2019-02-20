@@ -1,15 +1,24 @@
 from enum import Enum
 from typing import Iterator
 from datetime import date
+from datetime import datetime
 from datetime import timedelta
 from functools import singledispatch
 
+from numpy import datetime64
+
 from mpr.data.model.purchase import Purchase
 
+from . import Attributes
 from . import Report
+from . import opt_int
+from . import opt_float
 from . import date_interval
 from . import fetch
 from . import filter_section
+from .purchase_type import purchase_types
+
+date_format = "%m/%d/%Y"
 
 
 class Section(Enum):
@@ -22,9 +31,26 @@ class Section(Enum):
     # STATES = 'State of Origin'
 
 
+def parse_attributes(attr: Attributes) -> Purchase:
+    report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
+
+    purchase_type = attr['purchase_type']
+    (seller, arrangement, basis) = purchase_types[purchase_type]
+
+    return Purchase(
+        date=datetime64(report_date, 'D'),
+        seller=seller.to_ordinal(),
+        arrangement=arrangement.to_ordinal(),
+        basis=basis.to_ordinal(),
+        head_count=opt_int(attr, 'head_count') or 0,
+        avg_price=opt_float(attr, 'wtd_avg'),
+        low_price=opt_float(attr, 'price_low'),
+        high_price=opt_float(attr, 'price_high'))
+
+
 async def fetch_purchase(report: Report, start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     response = await fetch(report, start_date, end_date)
-    return map(Purchase.from_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
 @singledispatch
