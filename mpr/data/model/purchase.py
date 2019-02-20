@@ -6,7 +6,9 @@ from numpy import uint32
 from numpy import float32
 from numpy import recarray
 
+from . import date_type
 from . import Date
+from .purchase_type import dtype as purchase_type
 from .purchase_type import PurchaseType
 from .purchase_type import Seller
 from .purchase_type import Arrangement
@@ -34,7 +36,14 @@ class Purchase(NamedTuple):
         return Basis.from_ordinal(self.purchase_type[2])
 
 
-dtype = np.dtype(list(Purchase._field_types.items()))
+dtype = np.dtype([
+    ('date', date_type),
+    ('purchase_type', purchase_type),
+    ('head_count', uint32),
+    ('avg_price', float32),
+    ('low_price', float32),
+    ('high_price', float32)
+])
 
 
 def to_array(records: Iterator[Purchase]) -> recarray:
