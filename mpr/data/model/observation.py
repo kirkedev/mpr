@@ -10,7 +10,7 @@ from . import Model
 class Observation(Model, ABC):
     @classmethod
     def get(cls) -> 'Iterator[Observation]':
-        return map(cls.from_row, cls.table.itersorted())
+        return map(cls.from_row, cls.table.itersorted(sortby='date'))
 
     @classmethod
     def get_date(cls, observation_date: date) -> 'Iterator[Observation]':

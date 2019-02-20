@@ -47,6 +47,23 @@ class Record(NamedTuple):
     low_price: float32
     high_price: float32
 
+    @classmethod
+    def from_attributes(cls, attr: Attributes) -> 'Record':
+        report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
+
+        purchase_type = attr['purchase_type']
+        (seller, arrangement, basis) = purchase_types[purchase_type]
+
+        return cls(
+            date=datetime64(report_date, 'D'),
+            seller=seller.to_ordinal(),
+            arrangement=arrangement.to_ordinal(),
+            basis=basis.to_ordinal(),
+            head_count=opt_int(attr, 'head_count') or 0,
+            avg_price=opt_float(attr, 'wtd_avg'),
+            low_price=opt_float(attr, 'price_low'),
+            high_price=opt_float(attr, 'price_high'))
+
 
 dtype = np.dtype(list(Record._field_types.items()))
 
@@ -55,26 +72,9 @@ def to_array(records: Iterator[Record]) -> recarray:
     return np.rec.array(records, dtype=dtype)
 
 
-def parse_attributes(attr: Attributes) -> Record:
-    report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
-
-    purchase_type = attr['purchase_type']
-    (seller, arrangement, basis) = purchase_types[purchase_type]
-
-    return Record(
-        date=datetime64(report_date, 'D'),
-        seller=seller.to_ordinal(),
-        arrangement=arrangement.to_ordinal(),
-        basis=basis.to_ordinal(),
-        head_count=opt_int(attr, 'head_count') or 0,
-        avg_price=opt_float(attr, 'wtd_avg'),
-        low_price=opt_float(attr, 'price_low'),
-        high_price=opt_float(attr, 'price_high'))
-
-
 async def fetch_purchase(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
     response = await fetch(report, start_date, end_date)
-    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+    return map(Record.from_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
 @singledispatch

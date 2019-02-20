@@ -1,26 +1,15 @@
 from abc import ABC
-from dataclasses import dataclass
-from datetime import date
 
 from tables import Time32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
+from mpr.data.api.cutout import Record
+
 from .observation import Observation
 
 
-class Cutout(Observation, ABC):
-    date: date
-    primal_loads: float
-    trimming_loads: float
-    carcass_price: float
-    loin_price: float
-    butt_price: float
-    picnic_price: float
-    rib_price: float
-    ham_price: float
-    belly_price: float
-
+class Cutout(Record, Observation, ABC):
     schema = {
         'date': Time32Col(),
         'primal_loads': Float32Col(),
@@ -36,7 +25,7 @@ class Cutout(Observation, ABC):
 
     @classmethod
     def from_row(cls, row: Row) -> 'Cutout':
-        return cls(row.fetch_all_fields())
+        return cls(**row.fetch_all_fields())
 
     def append(self):
         row = self.table.row
