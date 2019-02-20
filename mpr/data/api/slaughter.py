@@ -6,14 +6,17 @@ from datetime import datetime
 from datetime import timedelta
 from functools import singledispatch
 
+import numpy as np
 from numpy import datetime64
 from numpy import uint8
 from numpy import uint32
 from numpy import float32
 
 from mpr.data.model.purchase_type import purchase_types
+
 from . import Report
 from . import Attributes
+from . import Date
 from . import opt_float
 from . import opt_int
 from . import date_interval
@@ -33,7 +36,7 @@ class Section(Enum):
 
 
 class Record(NamedTuple):
-    date: datetime64
+    date: Date
     seller: uint8
     arrangement: uint8
     basis: uint8
@@ -51,6 +54,9 @@ class Record(NamedTuple):
     lean_percent: float32
 
 
+dtype = np.dtype(list(Record._field_types.items()))
+
+
 def parse_attributes(attr: Attributes) -> Record:
     report_date = datetime.strptime(attr['for_date_begin'], date_format).date()
 
@@ -58,7 +64,7 @@ def parse_attributes(attr: Attributes) -> Record:
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Record(
-        date=datetime64(report_date),
+        date=datetime64(report_date, 'D'),
         seller=seller.to_ordinal(),
         arrangement=arrangement.to_ordinal(),
         basis=basis.to_ordinal(),
