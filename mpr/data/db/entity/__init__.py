@@ -54,3 +54,8 @@ class Entity(Generic[Record], ABC):
     @abstractmethod
     def append(cls, record: Record):
         raise NotImplementedError
+
+    @classmethod
+    @abstractmethod
+    def append_rows(cls, records: Iterator[Record]):
+        raise NotImplementedError

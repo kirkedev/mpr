@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Iterator
 from datetime import date
 
 from numpy import datetime64
@@ -8,6 +9,8 @@ from tables import Time32Col
 from tables.tableextension import Row
 
 from mpr.data.model.slaughter import Slaughter
+from mpr.data.model.slaughter import to_array
+
 from .observation import Observation
 from .purchase_type import PurchaseTypeCol
 
@@ -72,3 +75,8 @@ class SlaughterEntity(Observation[Slaughter], ABC):
         row['lean_percent'] = record.lean_percent
 
         row.append()
+
+    @classmethod
+    def append_rows(cls, records: Iterator[Slaughter]):
+        cls.table.append(to_array(records))
+        cls.commit()

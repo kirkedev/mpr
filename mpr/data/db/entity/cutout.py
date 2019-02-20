@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Iterator
 from datetime import date
 
 from numpy import datetime64
@@ -7,6 +8,8 @@ from tables import Float32Col
 from tables.tableextension import Row
 
 from mpr.data.model.cutout import Cutout
+from mpr.data.model.cutout import to_array
+
 from .observation import Observation
 
 
@@ -54,3 +57,8 @@ class CutoutEntity(Observation[Cutout], ABC):
         row['belly_price'] = record.belly_price
 
         row.append()
+
+    @classmethod
+    def append_rows(cls, records: Iterator[Cutout]):
+        cls.table.append(to_array(records))
+        cls.commit()
