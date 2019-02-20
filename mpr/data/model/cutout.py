@@ -1,6 +1,7 @@
 from abc import ABC
 from typing import NamedTuple
 from typing import Iterator
+from datetime import date
 from datetime import datetime
 
 import numpy as np
@@ -72,12 +73,22 @@ class Cutout(Record, Observation, ABC):
 
     @classmethod
     def from_row(cls, row: Row) -> 'Cutout':
-        return cls(**row.fetch_all_fields())
+        return cls(
+            date=datetime64(date.fromordinal(row['date']), 'D'),
+            primal_loads=row['primal_loads'],
+            trimming_loads=row['trimming_loads'],
+            carcass_price=row['carcass_price'],
+            loin_price=row['loin_price'],
+            butt_price=row['butt_price'],
+            picnic_price=row['picnic_price'],
+            rib_price=row['rib_price'],
+            ham_price=row['ham_price'],
+            belly_price=row['belly_price'])
 
     def append(self):
         row = self.table.row
 
-        row['date'] = self.date
+        row['date'] = self.date.astype(date).to_ordinal()
         row['primal_loads'] = self.primal_loads
         row['trimming_loads'] = self.trimming_loads
         row['carcass_price'] = self.carcass_price

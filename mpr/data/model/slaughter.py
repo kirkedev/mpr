@@ -1,6 +1,7 @@
 from abc import ABC
 from typing import NamedTuple
 from typing import Iterator
+from datetime import date
 from datetime import datetime
 
 import numpy as np
@@ -89,25 +90,7 @@ def to_array(records: Iterator[Record]) -> recarray:
     return np.rec.array(list(records), dtype=dtype)
 
 
-class Slaughter(Observation, ABC):
-    date: datetime64
-    seller: uint8
-    arrangement: uint8
-    basis: uint8
-    purchase_type: PurchaseType
-    head_count: uint32
-    base_price: float32
-    net_price: float32
-    low_price: float32
-    high_price: float32
-    live_weight: float32
-    carcass_weight: float32
-    sort_loss: float32
-    backfat: float32
-    loin_depth: float32
-    loineye_area: float32
-    lean_percent: float32
-
+class Slaughter(Record, Observation, ABC):
     schema = {
         'date': Time32Col(),
         'purchase_type': PurchaseTypeCol(),
@@ -133,6 +116,26 @@ class Slaughter(Observation, ABC):
     def total_value(self) -> float:
         return self.total_weight * self.net_price if self.net_price else 0.0
 
+    @classmethod
+    def from_row(cls, row: Row) -> 'Slaughter':
+        return cls(
+            date=datetime64(date.fromordinal(row['date']), 'D'),
+            seller=row['purchase_type/seller'],
+            arrangement=row['purchase_type/arrangement'],
+            basis=row['purchase_type/basis'],
+            head_count=row['head_count'],
+            base_price=row['base_price'],
+            net_price=row['net_price'],
+            low_price=row['low_price'],
+            high_price=row['high_price'],
+            live_weight=row['live_weight'],
+            carcass_weight=row['carcass_weight'],
+            sort_loss=row['sort_loss'],
+            backfat=row['backfat'],
+            loin_depth=row['loin_depth'],
+            loineye_area=row['loineye_area'],
+            lean_percent=row['lean_percent'])
+
     def append(self):
         row = self.table.row
 
@@ -154,7 +157,3 @@ class Slaughter(Observation, ABC):
         row['lean_percent'] = self.lean_percent
 
         row.append()
-
-    @classmethod
-    def from_row(cls, row: Row) -> 'Slaughter':
-        return cls(row.fetch_all_fields())
