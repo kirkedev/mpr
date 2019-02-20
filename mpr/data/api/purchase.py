@@ -4,7 +4,7 @@ from datetime import date
 from datetime import timedelta
 from functools import singledispatch
 
-from mpr.data.model.purchase import Record
+from mpr.data.model.purchase import Purchase
 
 from . import Report
 from . import date_interval
@@ -22,38 +22,38 @@ class Section(Enum):
     # STATES = 'State of Origin'
 
 
-async def fetch_purchase(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def fetch_purchase(report: Report, start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     response = await fetch(report, start_date, end_date)
-    return map(Record.from_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+    return map(Purchase.from_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
 @singledispatch
-async def prior_day(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def prior_day(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     return await fetch_purchase(Report.PURCHASED_SWINE, start_date + timedelta(days=1), end_date)
 
 
 @singledispatch
-async def morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def morning(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     return await fetch_purchase(Report.DIRECT_HOG_MORNING, start_date, end_date)
 
 
 @singledispatch
-async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     return await fetch_purchase(Report.DIRECT_HOG_AFTERNOON, start_date, end_date)
 
 
 @prior_day.register(int)
-async def prior_days(days: int) -> Iterator[Record]:
+async def prior_days(days: int) -> Iterator[Purchase]:
     return await prior_day(*date_interval(days))
 
 
 @morning.register(int)
-async def morning_days(days: int) -> Iterator[Record]:
+async def morning_days(days: int) -> Iterator[Purchase]:
     return await morning(*date_interval(days))
 
 
 @afternoon.register(int)
-async def afternoon_days(days: int) -> Iterator[Record]:
+async def afternoon_days(days: int) -> Iterator[Purchase]:
     return await afternoon(*date_interval(days))
 
 
