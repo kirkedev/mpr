@@ -22,6 +22,9 @@ from . import opt_float
 
 from .observation import Observation
 from .purchase_type import PurchaseType
+from .purchase_type import Seller
+from .purchase_type import Arrangement
+from .purchase_type import Basis
 from .purchase_type import PurchaseTypeCol
 from .purchase_type import purchase_types
 
@@ -45,6 +48,13 @@ class Record(NamedTuple):
     loin_depth: float32
     loineye_area: float32
     lean_percent: float32
+
+    @property
+    def purchase_type(self):
+        return PurchaseType(
+            seller=Seller.from_ordinal(self.seller),
+            arrangements=Arrangement.from_ordinal(self.arrangement),
+            basis=Basis.from_ordinal(self.basis))
 
     @classmethod
     def from_attributes(cls, attr: Attributes) -> 'Record':
