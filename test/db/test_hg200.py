@@ -4,6 +4,7 @@ from numpy import isclose
 from numpy import isnan
 
 from mpr.data import db
+from mpr.data.model.purchase import to_array
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.purchase_type import Basis
@@ -69,3 +70,19 @@ class TestHg200(TestCase):
         self.assertTrue(isnan(data.low_price))
         self.assertTrue(isnan(data.high_price))
         self.assertTrue(isnan(data.avg_price))
+
+    def test_recarray(self):
+        purchase = self.model.from_attributes({
+            'reported_for_date': '1/1/2018',
+            'purchase_type': 'Negotiated (carcass basis)',
+            'head_count': '11,234',
+            'price_low': '48.00',
+            'price_high': '51.75',
+            'wtd_avg': '50.70'
+        })
+
+        purchase.save()
+
+        records = to_array(self.model.get())
+        self.assertEqual(len(records), 1)
+        self.assertTrue(all(records.date == date(2018, 1, 1)))
