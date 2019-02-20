@@ -11,6 +11,7 @@ from numpy import datetime64
 from numpy import uint8
 from numpy import uint32
 from numpy import float32
+from numpy import recarray
 
 from mpr.data.model.purchase_type import purchase_types
 
@@ -55,6 +56,10 @@ class Record(NamedTuple):
 
 
 dtype = np.dtype(list(Record._field_types.items()))
+
+
+def to_array(records: Iterator[Record]) -> recarray:
+    return np.rec.array(records, dtype=dtype)
 
 
 def parse_attributes(attr: Attributes) -> Record:
