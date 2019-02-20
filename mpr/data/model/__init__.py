@@ -48,3 +48,7 @@ class Model(ABC):
     @abstractmethod
     def append(self):
         raise NotImplementedError
+
+    def save(self):
+        self.append()
+        self.commit()

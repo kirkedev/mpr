@@ -1,32 +1,26 @@
 from abc import ABC
-from typing import Optional
-from dataclasses import dataclass
 from datetime import date
 
+from numpy import datetime64
+
+from tables import Time32Col
 from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
+from mpr.data.api.purchase import Record
+
 from .observation import Observation
+from .purchase_type import PurchaseType
 from .purchase_type import Seller
 from .purchase_type import Arrangement
 from .purchase_type import Basis
 from .purchase_type import PurchaseTypeCol
 
 
-@dataclass
-class Purchase(Observation, ABC):
-    date: date
-    seller: Seller
-    arrangement: Arrangement
-    basis: Basis
-    head_count: int
-    avg_price: Optional[float]
-    low_price: Optional[float]
-    high_price: Optional[float]
-
+class Purchase(Record, Observation, ABC):
     schema = {
-        'date': UInt32Col(),
+        'date': Time32Col(),
         'purchase_type': PurchaseTypeCol(),
         'head_count': UInt32Col(),
         'avg_price': Float32Col(),
@@ -34,13 +28,20 @@ class Purchase(Observation, ABC):
         'high_price': Float32Col()
     }
 
+    @property
+    def purchase_type(self):
+        return PurchaseType(
+            seller=Seller.from_ordinal(self.seller),
+            arrangements=Arrangement.from_ordinal(self.arrangement),
+            basis=Basis.from_ordinal(self.basis))
+
     @classmethod
     def from_row(cls, row: Row) -> 'Purchase':
         return cls(
-            date=date.fromordinal(row['date']),
-            seller=Seller.from_ordinal(row['purchase_type/seller']),
-            arrangement=Arrangement.from_ordinal(row['purchase_type/arrangement']),
-            basis=Basis.from_ordinal(row['purchase_type/basis']),
+            date=datetime64(date.fromordinal(row['date']), 'D'),
+            seller=row['purchase_type/seller'],
+            arrangement=row['purchase_type/arrangement'],
+            basis=row['purchase_type/basis'],
             head_count=row['head_count'],
             avg_price=row['avg_price'],
             low_price=row['low_price'],
@@ -49,10 +50,10 @@ class Purchase(Observation, ABC):
     def append(self):
         row = self.table.row
 
-        row['date'] = self.date.toordinal()
-        row['purchase_type/seller'] = self.seller.to_ordinal()
-        row['purchase_type/arrangement'] = self.arrangement.to_ordinal()
-        row['purchase_type/basis'] = self.basis.to_ordinal()
+        row['date'] = self.date.astype(date).toordinal()
+        row['purchase_type/seller'] = self.seller
+        row['purchase_type/arrangement'] = self.arrangement
+        row['purchase_type/basis'] = self.basis
         row['head_count'] = self.head_count
         row['avg_price'] = self.avg_price
         row['low_price'] = self.low_price
