@@ -1,4 +1,3 @@
-from mpr.data.model.purchase_type import PurchaseType
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.purchase_type import Basis
@@ -6,41 +5,41 @@ from mpr.data.model.purchase_type import Basis
 
 purchase_types = {
     'Negotiated (carcass basis)':
-        PurchaseType(Seller.ALL, Arrangement.NEGOTIATED, Basis.CARCASS),
+        (Seller.ALL.to_ordinal(), Arrangement.NEGOTIATED.to_ordinal(), Basis.CARCASS.to_ordinal()),
 
     'Negotiated Formula (carcass basis)':
-        PurchaseType(Seller.ALL, Arrangement.NEGOTIATED_FORMULA, Basis.CARCASS),
+        (Seller.ALL.to_ordinal(), Arrangement.NEGOTIATED_FORMULA.to_ordinal(), Basis.CARCASS.to_ordinal()),
 
     'Combined Negotiated/Negotiated Formula (carcass basis)':
-        PurchaseType(Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.CARCASS),
+        (Seller.ALL.to_ordinal(), Arrangement.ALL_NEGOTIATED.to_ordinal(), Basis.CARCASS.to_ordinal()),
 
     'Swine/Pork Market Formula (carcass basis)':
-        PurchaseType(Seller.ALL, Arrangement.MARKET_FORMULA, Basis.CARCASS),
+        (Seller.ALL.to_ordinal(), Arrangement.MARKET_FORMULA.to_ordinal(), Basis.CARCASS.to_ordinal()),
 
     'Negotiated (live basis)':
-        PurchaseType(Seller.ALL, Arrangement.NEGOTIATED, Basis.LIVE),
+        (Seller.ALL.to_ordinal(), Arrangement.NEGOTIATED.to_ordinal(), Basis.LIVE.to_ordinal()),
 
     'Negotiated Formula (live basis)':
-        PurchaseType(Seller.ALL, Arrangement.NEGOTIATED_FORMULA, Basis.LIVE),
+        (Seller.ALL.to_ordinal(), Arrangement.NEGOTIATED_FORMULA.to_ordinal(), Basis.LIVE.to_ordinal()),
 
     'Combined Negotiated/Negotiated Formula (live basis)':
-        PurchaseType(Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.LIVE),
+        (Seller.ALL.to_ordinal(), Arrangement.ALL_NEGOTIATED.to_ordinal(), Basis.LIVE.to_ordinal()),
 
     'Prod. Sold Negotiated':
-        PurchaseType(Seller.PRODUCER, Arrangement.NEGOTIATED, Basis.ALL),
+        (Seller.PRODUCER.to_ordinal(), Arrangement.NEGOTIATED.to_ordinal(), Basis.ALL.to_ordinal()),
 
     'Prod. Sold Other Market Formula':
-        PurchaseType(Seller.PRODUCER, Arrangement.OTHER_MARKET_FORMULA, Basis.ALL),
+        (Seller.PRODUCER.to_ordinal(), Arrangement.OTHER_MARKET_FORMULA.to_ordinal(), Basis.ALL.to_ordinal()),
 
     'Prod. Sold Swine/Pork Market Formula':
-        PurchaseType(Seller.PRODUCER, Arrangement.MARKET_FORMULA, Basis.ALL),
+        (Seller.PRODUCER.to_ordinal(), Arrangement.MARKET_FORMULA.to_ordinal(), Basis.ALL.to_ordinal()),
 
     'Prod. Sold Other Purchase Arrangement':
-        PurchaseType(Seller.PRODUCER, Arrangement.OTHER_PURCHASE, Basis.ALL),
+        (Seller.PRODUCER.to_ordinal(), Arrangement.OTHER_PURCHASE.to_ordinal(), Basis.ALL.to_ordinal()),
 
     'Prod. Sold Negotiated Formula':
-        PurchaseType(Seller.PRODUCER, Arrangement.NEGOTIATED_FORMULA, Basis.ALL),
+        (Seller.PRODUCER.to_ordinal(), Arrangement.NEGOTIATED_FORMULA.to_ordinal(), Basis.ALL.to_ordinal()),
 
     'Pack. Sold (all purchase types)':
-        PurchaseType(Seller.PACKER, Arrangement.ALL, Basis.ALL)
+        (Seller.PACKER.to_ordinal(), Arrangement.ALL.to_ordinal(), Basis.ALL.to_ordinal())
 }

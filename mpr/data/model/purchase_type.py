@@ -1,4 +1,9 @@
 from typing import NamedTuple
+
+import numpy as np
+from numpy import uint8
+
+
 from . import EnumField
 
 
@@ -25,7 +30,10 @@ class Basis(EnumField):
     LIVE = 'live'
 
 
-class PurchaseType(NamedTuple):
-    seller: Seller
-    arrangements: Arrangement
-    basis: Basis
+dtype = np.dtype([
+    ('seller', uint8),
+    ('arrangement', uint8),
+    ('basis', uint8)
+])
+
+PurchaseType = type(dtype)
