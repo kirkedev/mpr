@@ -3,7 +3,7 @@ from datetime import date
 from numpy import isnan
 from numpy import isclose
 
-from mpr.data.api.purchase import Purchase
+from mpr.data.api.purchase import parse_attributes
 from mpr.data.model.purchase import to_array
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
@@ -14,8 +14,8 @@ from test.api import load_resource
 attributes = list(load_resource('test/api/resources/purchase.xml'))
 assert len(attributes) == 7
 
-negotiated = Purchase.from_attributes(attributes[0])
-negotiated_formula = Purchase.from_attributes(attributes[1])
+negotiated = parse_attributes(attributes[0])
+negotiated_formula = parse_attributes(attributes[1])
 records = to_array([negotiated, negotiated_formula])
 
 
