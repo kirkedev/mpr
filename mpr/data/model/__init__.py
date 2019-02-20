@@ -1,18 +1,14 @@
-from abc import ABC
-from abc import abstractmethod
 from typing import TypeVar
 from typing import Optional
+from typing import List
 from typing import Dict
-from typing import Iterator
+from enum import Enum
+from enum import unique
 
 from numpy import dtype
 from numpy import uint32
 from numpy import float32
 from numpy import nan
-
-from tables import Atom
-from tables import Table
-from tables.tableextension import Row
 
 T = TypeVar('T')
 Attributes = Dict[str, str]
@@ -33,47 +29,15 @@ def opt_int(attr: Attributes, key: str) -> uint32:
     return int(value.replace(',', '')) if value else nan
 
 
-class Model(ABC):
-    @staticmethod
-    @property
-    @abstractmethod
-    def table() -> Table:
-        raise NotImplementedError
+@unique
+class EnumField(Enum):
+    @classmethod
+    def values(cls) -> List[Enum]:
+        return list(map(lambda it: it.value, cls))
 
-    @staticmethod
-    @property
-    @abstractmethod
-    def schema() -> Dict[str, Atom]:
-        raise NotImplementedError
+    def to_ordinal(self) -> int:
+        return self.values().index(self.value)
 
     @classmethod
-    @abstractmethod
-    def from_row(cls, row: Row) -> 'Model':
-        raise NotImplementedError
-
-    @classmethod
-    def get(cls) -> 'Iterator[Model]':
-        return map(cls.from_row, cls.table.iterrows())
-
-    @classmethod
-    def query(cls, condition: str, params: Dict) -> 'Iterator[Model]':
-        return map(cls.from_row, cls.table.where(condition, params))
-
-    @classmethod
-    def insert(cls, records: 'Iterator[Model]'):
-        for record in records:
-            record.append()
-
-        cls.commit()
-
-    @classmethod
-    def commit(cls):
-        cls.table.flush()
-
-    @abstractmethod
-    def append(self):
-        raise NotImplementedError
-
-    def save(self):
-        self.append()
-        self.commit()
+    def from_ordinal(cls, ordinal: int) -> 'EnumField':
+        return list(cls)[ordinal]

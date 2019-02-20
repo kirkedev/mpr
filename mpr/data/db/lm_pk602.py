@@ -3,7 +3,7 @@ from tables import Node
 from tables import Group
 
 from mpr.data import db
-from mpr.data.model.cutout import Cutout
+from .entity.cutout import CutoutEntity
 
 
 def create() -> Group:
@@ -15,7 +15,7 @@ def create() -> Group:
     cutout_table = db.connection.create_table(
         where=group,
         name='cutout',
-        description=Cutout.schema,
+        description=CutoutEntity.schema,
         title='Cutout')
 
     cutout_table.cols.date.create_csindex()
@@ -28,5 +28,5 @@ def get(table: Optional[str] = None) -> Node:
     return group if table is None else group[table]
 
 
-class cutout(Cutout):
+class cutout(CutoutEntity):
     table = get('cutout')
