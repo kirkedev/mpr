@@ -1,17 +1,14 @@
 from typing import TypeVar
-from typing import Optional
 from typing import List
 from typing import Dict
 from enum import Enum
 from enum import unique
 
 from numpy import dtype
-from numpy import uint32
-from numpy import float32
-from numpy import nan
 
 T = TypeVar('T')
 Attributes = Dict[str, str]
+
 date_type = dtype('datetime64[D]')
 Date = type(date_type)
 
