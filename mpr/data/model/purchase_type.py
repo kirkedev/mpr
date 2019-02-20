@@ -1,9 +1,5 @@
 from typing import NamedTuple
-
-from tables import IsDescription
-from tables import EnumCol
-
-from .enum_field import EnumField
+from . import EnumField
 
 
 class Seller(EnumField):
@@ -35,12 +31,6 @@ class PurchaseType(NamedTuple):
     seller: Seller
     arrangements: Arrangement
     basis: Basis
-
-
-class PurchaseTypeCol(IsDescription):
-    seller = EnumCol(Seller.values(), 'all', base='uint8', pos=0)
-    arrangement = EnumCol(Arrangement.values(), 'all', base='uint8', pos=1)
-    basis = EnumCol(Basis.values(), 'all', base='uint8', pos=2)
 
 
 purchase_types = {

@@ -3,7 +3,7 @@ from typing import Iterator
 from datetime import date
 from functools import singledispatch
 
-from mpr.data.model.cutout import Record
+from mpr.data.model.cutout import Cutout
 
 from . import Report
 from . import date_interval
@@ -28,28 +28,28 @@ class Section(Enum):
     # ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Cutout]:
     response = await fetch(report, start_date, end_date)
-    return map(Record.from_attributes, *filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
+    return map(Cutout.from_attributes, *filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
 
 
 @singledispatch
-async def morning(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def morning(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
     return await fetch_cutout(Report.CUTOUT_MORNING, start_date, end_date)
 
 
 @singledispatch
-async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Record]:
+async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
     return await fetch_cutout(Report.CUTOUT_AFTERNOON, start_date, end_date)
 
 
 @morning.register(int)
-async def morning_days(days: int) -> Iterator[Record]:
+async def morning_days(days: int) -> Iterator[Cutout]:
     return await morning(*date_interval(days))
 
 
 @afternoon.register(int)
-async def afternoon_days(days: int) -> Iterator[Record]:
+async def afternoon_days(days: int) -> Iterator[Cutout]:
     return await afternoon(*date_interval(days))
 
 

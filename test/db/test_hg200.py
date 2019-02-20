@@ -4,6 +4,7 @@ from numpy import isclose
 from numpy import isnan
 
 from mpr.data import db
+from mpr.data.model.purchase import Purchase
 from mpr.data.model.purchase import to_array
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
@@ -29,7 +30,7 @@ class TestHg200(TestCase):
         self.model.table.remove_rows()
 
     def test_insert(self):
-        purchase = self.model.from_attributes({
+        purchase = Purchase.from_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',
@@ -38,7 +39,8 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         })
 
-        purchase.save()
+        self.model.append(purchase)
+        self.model.commit()
 
         data = next(self.model.get())
         self.assertEqual(data.date, date(2018, 1, 1))
@@ -53,13 +55,14 @@ class TestHg200(TestCase):
         self.assertEqual(basis, Basis.CARCASS)
 
     def test_insert_with_nans(self):
-        purchase = self.model.from_attributes({
+        purchase = Purchase.from_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated Formula (carcass basis)',
             'head_count': '165'
         })
 
-        purchase.save()
+        self.model.append(purchase)
+        self.model.commit()
 
         data = next(self.model.get())
         self.assertEqual(data.date, date(2018, 1, 1))
@@ -72,7 +75,7 @@ class TestHg200(TestCase):
         self.assertTrue(isnan(data.avg_price))
 
     def test_recarray(self):
-        purchase = self.model.from_attributes({
+        purchase = Purchase.from_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',
@@ -81,7 +84,8 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         })
 
-        purchase.save()
+        self.model.append(purchase)
+        self.model.commit()
 
         records = to_array(self.model.get())
         self.assertEqual(len(records), 1)
