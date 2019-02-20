@@ -12,7 +12,8 @@ from numpy import nan
 
 T = TypeVar('T')
 Attributes = Dict[str, str]
-Date = type(dtype('datetime64[D]'))
+date_type = dtype('datetime64[D]')
+Date = type(date_type)
 
 
 @unique

@@ -6,8 +6,9 @@ from numpy import uint32
 from numpy import float32
 from numpy import recarray
 
+from . import date_type
 from . import Date
-
+from .purchase_type import dtype as purchase_type
 from .purchase_type import PurchaseType
 from .purchase_type import Seller
 from .purchase_type import Arrangement
@@ -51,7 +52,22 @@ class Slaughter(NamedTuple):
         return self.total_weight * self.net_price if self.net_price else 0.0
 
 
-dtype = np.dtype(list(Slaughter._field_types.items()))
+dtype = np.dtype([
+    ('date', date_type),
+    ('purchase_type', purchase_type),
+    ('head_count', uint32),
+    ('base_price', float32),
+    ('net_price', float32),
+    ('low_price', float32),
+    ('high_price', float32),
+    ('live_weight', float32),
+    ('carcass_weight', float32),
+    ('sort_loss', float32),
+    ('backfat', float32),
+    ('loin_depth', float32),
+    ('loineye_area', float32),
+    ('lean_percent', float32)
+])
 
 
 def to_array(records: Iterator[Slaughter]) -> recarray:
