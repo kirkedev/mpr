@@ -7,18 +7,18 @@ from .enum_field import EnumField
 
 
 class Seller(EnumField):
+    ALL = 'all'
     PRODUCER = 'producer'
     PACKER = 'packer'
-    ALL = 'all'
 
 
 class Arrangement(EnumField):
+    ALL = 'all'
     NEGOTIATED = 'negotiated'
     MARKET_FORMULA = 'market formula'
     NEGOTIATED_FORMULA = 'negotiated formula'
     OTHER_MARKET_FORMULA = 'other market formula'
     OTHER_PURCHASE = 'other'
-    ALL = 'all'
     ALL_NEGOTIATED = 'all negotiated'
 
     PACKER_OWNED = 'packer owned'
@@ -26,6 +26,7 @@ class Arrangement(EnumField):
 
 
 class Basis(EnumField):
+    ALL = 'all'
     CARCASS = 'carcass'
     LIVE = 'live'
 
@@ -37,9 +38,9 @@ class PurchaseType(NamedTuple):
 
 
 class PurchaseTypeCol(IsDescription):
-    seller = EnumCol(Seller.values(), 'all', base='uint8')
-    arrangement = EnumCol(Arrangement.values(), 'all', base='uint8')
-    basis = EnumCol(Basis.values(), 'carcass', base='uint8')
+    seller = EnumCol(Seller.values(), 'all', base='uint8', pos=0)
+    arrangement = EnumCol(Arrangement.values(), 'all', base='uint8', pos=1)
+    basis = EnumCol(Basis.values(), 'all', base='uint8', pos=2)
 
 
 purchase_types = {
@@ -62,17 +63,23 @@ purchase_types = {
         PurchaseType(Seller.ALL, Arrangement.NEGOTIATED_FORMULA, Basis.LIVE),
 
     'Combined Negotiated/Negotiated Formula (live basis)':
-        PurchaseType(Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.LIVE)
+        PurchaseType(Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.LIVE),
 
-    # 'Prod. Sold Negotiated':
+    'Prod. Sold Negotiated':
+        PurchaseType(Seller.PRODUCER, Arrangement.NEGOTIATED, Basis.ALL),
 
-    # 'Prod. Sold Other Market Formula':
+    'Prod. Sold Other Market Formula':
+        PurchaseType(Seller.PRODUCER, Arrangement.OTHER_MARKET_FORMULA, Basis.ALL),
 
-    # 'Prod. Sold Swine/Pork Market Formula':
+    'Prod. Sold Swine/Pork Market Formula':
+        PurchaseType(Seller.PRODUCER, Arrangement.MARKET_FORMULA, Basis.ALL),
 
-    # 'Prod. Sold Other Purchase Arrangement':
+    'Prod. Sold Other Purchase Arrangement':
+        PurchaseType(Seller.PRODUCER, Arrangement.OTHER_PURCHASE, Basis.ALL),
 
-    # 'Prod. Sold Negotiated Formula':
+    'Prod. Sold Negotiated Formula':
+        PurchaseType(Seller.PRODUCER, Arrangement.NEGOTIATED_FORMULA, Basis.ALL),
 
-    # 'Pack. Sold (all purchase types)':
+    'Pack. Sold (all purchase types)':
+        PurchaseType(Seller.PACKER, Arrangement.ALL, Basis.ALL)
 }
