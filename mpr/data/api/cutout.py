@@ -10,9 +10,10 @@ from numpy import datetime64
 from numpy import float32
 from numpy import recarray
 
+from mpr.data.model import Attributes
+from mpr.data.model import Date
+
 from . import Report
-from . import Attributes
-from . import Date
 from . import date_interval
 from . import fetch
 from . import filter_sections

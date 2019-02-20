@@ -14,12 +14,12 @@ from numpy import float32
 from numpy import recarray
 
 from mpr.data.model.purchase_type import purchase_types
+from mpr.data.model import Attributes
+from mpr.data.model import Date
+from mpr.data.model import opt_float
+from mpr.data.model import opt_int
 
 from . import Report
-from . import Attributes
-from . import Date
-from . import opt_float
-from . import opt_int
 from . import date_interval
 from . import fetch
 from . import filter_section
