@@ -29,9 +29,7 @@ class PurchaseEntity(Observation[Purchase], ABC):
     def from_row(cls, row: Row) -> Purchase:
         return Purchase(
             date=datetime64(date.fromordinal(row['date']), 'D'),
-            seller=row['purchase_type/seller'],
-            arrangement=row['purchase_type/arrangement'],
-            basis=row['purchase_type/basis'],
+            purchase_type=row['purchase_type'],
             head_count=row['head_count'],
             avg_price=row['avg_price'],
             low_price=row['low_price'],
@@ -42,9 +40,7 @@ class PurchaseEntity(Observation[Purchase], ABC):
         row = cls.table.row
 
         row['date'] = record.date.astype(date).toordinal()
-        row['purchase_type/seller'] = record.seller
-        row['purchase_type/arrangement'] = record.arrangement
-        row['purchase_type/basis'] = record.basis
+        row['purchase_type'] = record.purchase_type
         row['head_count'] = record.head_count
         row['avg_price'] = record.avg_price
         row['low_price'] = record.low_price
@@ -54,5 +50,7 @@ class PurchaseEntity(Observation[Purchase], ABC):
 
     @classmethod
     def append_rows(cls, records: Iterator[Purchase]):
+        print(records)
+        print(cls.table.cols)
         cls.table.append(to_array(records))
         cls.commit()

@@ -2,7 +2,6 @@ from typing import NamedTuple
 from typing import Iterator
 
 import numpy as np
-from numpy import uint8
 from numpy import uint32
 from numpy import float32
 from numpy import recarray
@@ -17,9 +16,7 @@ from .purchase_type import Basis
 
 class Slaughter(NamedTuple):
     date: Date
-    seller: uint8
-    arrangement: uint8
-    basis: uint8
+    purchase_type: PurchaseType
     head_count: uint32
     base_price: float32
     net_price: float32
@@ -34,11 +31,16 @@ class Slaughter(NamedTuple):
     lean_percent: float32
 
     @property
-    def purchase_type(self):
-        return PurchaseType(
-            seller=Seller.from_ordinal(self.seller),
-            arrangements=Arrangement.from_ordinal(self.arrangement),
-            basis=Basis.from_ordinal(self.basis))
+    def seller(self) -> Seller:
+        return Seller.from_ordinal(self.purchase_type[0])
+
+    @property
+    def arrangement(self) -> Arrangement:
+        return Arrangement.from_ordinal(self.purchase_type[1])
+
+    @property
+    def basis(self) -> Basis:
+        return Basis.from_ordinal(self.purchase_type[2])
 
     @property
     def total_weight(self) -> float:
