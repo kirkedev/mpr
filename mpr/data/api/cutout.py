@@ -55,7 +55,7 @@ dtype = np.dtype(list(Record._field_types.items()))
 
 
 def to_array(records: Iterator[Record]) -> recarray:
-    return np.rec.array(records, dtype=dtype)
+    return np.rec.array(list(records), dtype=dtype)
 
 
 def parse_attributes(volume: Attributes, cutout: Attributes) -> Record:
