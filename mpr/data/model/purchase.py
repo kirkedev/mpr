@@ -28,13 +28,6 @@ class Purchase(Record, Observation, ABC):
         'high_price': Float32Col()
     }
 
-    @property
-    def purchase_type(self):
-        return PurchaseType(
-            seller=Seller.from_ordinal(self.seller),
-            arrangements=Arrangement.from_ordinal(self.arrangement),
-            basis=Basis.from_ordinal(self.basis))
-
     @classmethod
     def from_row(cls, row: Row) -> 'Purchase':
         return cls(

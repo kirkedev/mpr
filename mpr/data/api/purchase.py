@@ -14,6 +14,10 @@ from numpy import float32
 from numpy import recarray
 
 from mpr.data.model.purchase_type import purchase_types
+from mpr.data.model.purchase_type import PurchaseType
+from mpr.data.model.purchase_type import Seller
+from mpr.data.model.purchase_type import Arrangement
+from mpr.data.model.purchase_type import Basis
 
 from . import Report
 from . import Attributes
@@ -46,6 +50,13 @@ class Record(NamedTuple):
     avg_price: float32
     low_price: float32
     high_price: float32
+
+    @property
+    def purchase_type(self):
+        return PurchaseType(
+            seller=Seller.from_ordinal(self.seller),
+            arrangements=Arrangement.from_ordinal(self.arrangement),
+            basis=Basis.from_ordinal(self.basis))
 
     @classmethod
     def from_attributes(cls, attr: Attributes) -> 'Record':
