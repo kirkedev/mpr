@@ -16,9 +16,7 @@ class Arrangement(EnumField):
     OTHER_MARKET_FORMULA = 'other market formula'
     OTHER_PURCHASE = 'other'
     ALL_NEGOTIATED = 'all negotiated'
-
     PACKER_OWNED = 'packer owned'
-    PACKER_SOLD = 'packer sold'
 
 
 class Basis(EnumField):
