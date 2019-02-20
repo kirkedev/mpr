@@ -5,6 +5,9 @@ from datetime import date
 from datetime import datetime
 from functools import singledispatch
 
+from numpy import datetime64
+from numpy import float32
+
 from . import Report
 from . import Attributes
 from . import date_interval
@@ -32,37 +35,37 @@ class Section(Enum):
 
 
 class Record(NamedTuple):
-    date: date
-    primal_loads: float
-    trimming_loads: float
-    carcass_price: float
-    loin_price: float
-    butt_price: float
-    picnic_price: float
-    rib_price: float
-    ham_price: float
-    belly_price: float
+    date: datetime64
+    primal_loads: float32
+    trimming_loads: float32
+    carcass_price: float32
+    loin_price: float32
+    butt_price: float32
+    picnic_price: float32
+    rib_price: float32
+    ham_price: float32
+    belly_price: float32
 
 
-def parse_attributes(sections: Iterator[Attributes]) -> Record:
-    volume, cutout = sections
+def parse_attributes(volume: Attributes, cutout: Attributes) -> Record:
+    report_date = datetime.strptime(volume['report_date'], date_format).date()
 
     return Record(
-        date=datetime.strptime(volume['report_date'], date_format).date(),
-        primal_loads=float(volume['temp_cuts_total_load']),
-        trimming_loads=float(volume['temp_process_total_load']),
-        carcass_price=float(cutout['pork_carcass']),
-        loin_price=float(cutout['pork_loin']),
-        butt_price=float(cutout['pork_butt']),
-        picnic_price=float(cutout['pork_picnic']),
-        rib_price=float(cutout['pork_rib']),
-        ham_price=float(cutout['pork_ham']),
-        belly_price=float(cutout['pork_belly']))
+        date=datetime64(report_date),
+        primal_loads=float32(volume['temp_cuts_total_load']),
+        trimming_loads=float32(volume['temp_process_total_load']),
+        carcass_price=float32(cutout['pork_carcass']),
+        loin_price=float32(cutout['pork_loin']),
+        butt_price=float32(cutout['pork_butt']),
+        picnic_price=float32(cutout['pork_picnic']),
+        rib_price=float32(cutout['pork_rib']),
+        ham_price=float32(cutout['pork_ham']),
+        belly_price=float32(cutout['pork_belly']))
 
 
 async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
     response = await fetch(report, start_date, end_date)
-    return map(parse_attributes, filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
+    return map(parse_attributes, *filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
 
 
 @singledispatch
