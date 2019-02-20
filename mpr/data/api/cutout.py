@@ -11,6 +11,7 @@ from numpy import float32
 
 from . import Report
 from . import Attributes
+from . import Date
 from . import date_interval
 from . import fetch
 from . import filter_sections
@@ -36,7 +37,7 @@ class Section(Enum):
 
 
 class Record(NamedTuple):
-    date: datetime64
+    date: Date
     primal_loads: float32
     trimming_loads: float32
     carcass_price: float32
@@ -55,7 +56,7 @@ def parse_attributes(volume: Attributes, cutout: Attributes) -> Record:
     report_date = datetime.strptime(volume['report_date'], date_format).date()
 
     return Record(
-        date=datetime64(report_date),
+        date=datetime64(report_date, 'D'),
         primal_loads=float32(volume['temp_cuts_total_load']),
         trimming_loads=float32(volume['temp_process_total_load']),
         carcass_price=float32(cutout['pork_carcass']),

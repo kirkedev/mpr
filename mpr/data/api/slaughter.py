@@ -13,8 +13,10 @@ from numpy import uint32
 from numpy import float32
 
 from mpr.data.model.purchase_type import purchase_types
+
 from . import Report
 from . import Attributes
+from . import Date
 from . import opt_float
 from . import opt_int
 from . import date_interval
@@ -34,7 +36,7 @@ class Section(Enum):
 
 
 class Record(NamedTuple):
-    date: datetime64
+    date: Date
     seller: uint8
     arrangement: uint8
     basis: uint8
@@ -62,7 +64,7 @@ def parse_attributes(attr: Attributes) -> Record:
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Record(
-        date=datetime64(report_date),
+        date=datetime64(report_date, 'D'),
         seller=seller.to_ordinal(),
         arrangement=arrangement.to_ordinal(),
         basis=basis.to_ordinal(),
