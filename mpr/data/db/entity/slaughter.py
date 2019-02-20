@@ -5,7 +5,6 @@ from datetime import date
 from numpy import datetime64
 from tables import UInt32Col
 from tables import Float32Col
-from tables import Time32Col
 from tables.tableextension import Row
 
 from mpr.data.model.slaughter import Slaughter
@@ -17,7 +16,7 @@ from .purchase_type import PurchaseTypeCol
 
 class SlaughterEntity(Observation[Slaughter], ABC):
     schema = {
-        'date': Time32Col(),
+        'date': UInt32Col(),
         'purchase_type': PurchaseTypeCol(),
         'head_count': UInt32Col(),
         'base_price': Float32Col(),
@@ -37,9 +36,7 @@ class SlaughterEntity(Observation[Slaughter], ABC):
     def from_row(cls, row: Row) -> Slaughter:
         return Slaughter(
             date=datetime64(date.fromordinal(row['date']), 'D'),
-            seller=row['purchase_type/seller'],
-            arrangement=row['purchase_type/arrangement'],
-            basis=row['purchase_type/basis'],
+            purchase_type=row['purchase_type'],
             head_count=row['head_count'],
             base_price=row['base_price'],
             net_price=row['net_price'],
@@ -57,10 +54,8 @@ class SlaughterEntity(Observation[Slaughter], ABC):
     def append(cls, record: Slaughter):
         row = cls.table.row
 
-        row['date'] = record.date
-        row['purchase_type/seller'] = record.seller
-        row['purchase_type/arrangement'] = record.arrangement
-        row['purchase_type/basis'] = record.basis
+        row['date'] = record.date.astype(date).toordinal()
+        row['purchase_type'] = record.purchase_type
         row['head_count'] = record.head_count
         row['base_price'] = record.base_price
         row['net_price'] = record.net_price
