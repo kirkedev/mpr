@@ -4,7 +4,7 @@ from numpy import isnan
 from numpy import isclose
 
 from mpr.data.api.purchase import Record
-from mpr.data.api.purchase import to_array
+from mpr.data.model.purchase import to_array
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.purchase_type import Basis

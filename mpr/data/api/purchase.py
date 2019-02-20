@@ -1,34 +1,15 @@
 from enum import Enum
-from typing import NamedTuple
 from typing import Iterator
 from datetime import date
-from datetime import datetime
 from datetime import timedelta
 from functools import singledispatch
 
-import numpy as np
-from numpy import datetime64
-from numpy import uint8
-from numpy import uint32
-from numpy import float32
-from numpy import recarray
-
-from mpr.data.model.purchase_type import purchase_types
-from mpr.data.model.purchase_type import PurchaseType
-from mpr.data.model.purchase_type import Seller
-from mpr.data.model.purchase_type import Arrangement
-from mpr.data.model.purchase_type import Basis
+from mpr.data.model.purchase import Record
 
 from . import Report
-from . import Attributes
-from . import Date
-from . import opt_float
-from . import opt_int
 from . import date_interval
 from . import fetch
 from . import filter_section
-
-date_format = "%m/%d/%Y"
 
 
 class Section(Enum):
@@ -39,48 +20,6 @@ class Section(Enum):
     # AVERAGE_MARKET_HOG = '5-Day Rolling Average Market Hog based on Slaughter Data Submitted'
     # SOWS = 'Sows'
     # STATES = 'State of Origin'
-
-
-class Record(NamedTuple):
-    date: Date
-    seller: uint8
-    arrangement: uint8
-    basis: uint8
-    head_count: uint32
-    avg_price: float32
-    low_price: float32
-    high_price: float32
-
-    @property
-    def purchase_type(self):
-        return PurchaseType(
-            seller=Seller.from_ordinal(self.seller),
-            arrangements=Arrangement.from_ordinal(self.arrangement),
-            basis=Basis.from_ordinal(self.basis))
-
-    @classmethod
-    def from_attributes(cls, attr: Attributes) -> 'Record':
-        report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
-
-        purchase_type = attr['purchase_type']
-        (seller, arrangement, basis) = purchase_types[purchase_type]
-
-        return cls(
-            date=datetime64(report_date, 'D'),
-            seller=seller.to_ordinal(),
-            arrangement=arrangement.to_ordinal(),
-            basis=basis.to_ordinal(),
-            head_count=opt_int(attr, 'head_count') or 0,
-            avg_price=opt_float(attr, 'wtd_avg'),
-            low_price=opt_float(attr, 'price_low'),
-            high_price=opt_float(attr, 'price_high'))
-
-
-dtype = np.dtype(list(Record._field_types.items()))
-
-
-def to_array(records: Iterator[Record]) -> recarray:
-    return np.rec.array(records, dtype=dtype)
 
 
 async def fetch_purchase(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
