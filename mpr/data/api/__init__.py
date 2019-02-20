@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import TypeVar
+from typing import Optional
 from typing import Tuple
 from typing import Dict
 from typing import Iterator
@@ -10,7 +11,11 @@ from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 import aiohttp
+
 import numpy as np
+from numpy import uint32
+from numpy import float32
+from numpy import nan
 
 from mpr.data.model import Attributes
 
@@ -31,6 +36,20 @@ class Report(Enum):
     DIRECT_HOG_AFTERNOON = 'LM_HG203'
     CUTOUT_MORNING = 'LM_PK602'
     CUTOUT_AFTERNOON = 'LM_PK603'
+
+
+def get_optional(attr: Attributes, key: str) -> Optional[T]:
+    return attr[key] if key in attr and attr[key] != 'null' else None
+
+
+def opt_float(attr: Attributes, key: str) -> float32:
+    value = get_optional(attr, key)
+    return float(value.replace(',', '')) if value else nan
+
+
+def opt_int(attr: Attributes, key: str) -> uint32:
+    value = get_optional(attr, key)
+    return int(value.replace(',', '')) if value else nan
 
 
 def date_interval(days: int) -> DateInterval:
