@@ -3,7 +3,7 @@ from tables import Node
 from tables import Group
 
 from mpr.data import db
-from mpr.data.model.purchase import Purchase
+from .entity.purchase import PurchaseEntity
 
 
 def create() -> Group:
@@ -15,7 +15,7 @@ def create() -> Group:
     barrows_gilts_table = db.connection.create_table(
         where=group,
         name='barrows_gilts',
-        description=Purchase.schema,
+        description=PurchaseEntity.schema,
         title='Barrows and Gilts')
 
     barrows_gilts_table.cols.date.create_csindex()
@@ -28,5 +28,5 @@ def get(table: Optional[str] = None) -> Node:
     return group if table is None else group[table]
 
 
-class barrows_gilts(Purchase):
+class barrows_gilts(PurchaseEntity):
     table = get('barrows_gilts')
