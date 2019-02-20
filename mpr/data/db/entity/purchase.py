@@ -3,7 +3,6 @@ from typing import Iterator
 from datetime import date
 
 from numpy import datetime64
-from tables import Time32Col
 from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
@@ -17,7 +16,7 @@ from .purchase_type import PurchaseTypeCol
 
 class PurchaseEntity(Observation[Purchase], ABC):
     schema = {
-        'date': Time32Col(),
+        'date': UInt32Col(),
         'purchase_type': PurchaseTypeCol(),
         'head_count': UInt32Col(),
         'avg_price': Float32Col(),

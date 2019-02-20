@@ -3,7 +3,7 @@ from typing import Iterator
 from datetime import date
 
 from numpy import datetime64
-from tables import Time32Col
+from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
@@ -15,7 +15,7 @@ from .observation import Observation
 
 class CutoutEntity(Observation[Cutout], ABC):
     schema = {
-        'date': Time32Col(),
+        'date': UInt32Col(),
         'primal_loads': Float32Col(),
         'trimming_loads': Float32Col(),
         'carcass_price': Float32Col(),
