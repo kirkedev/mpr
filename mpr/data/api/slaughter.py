@@ -6,6 +6,7 @@ from datetime import datetime
 from datetime import timedelta
 from functools import singledispatch
 
+import numpy as np
 from numpy import datetime64
 from numpy import uint8
 from numpy import uint32
@@ -49,6 +50,9 @@ class Record(NamedTuple):
     loin_depth: float32
     loineye_area: float32
     lean_percent: float32
+
+
+dtype = np.dtype(list(Record._field_types.items()))
 
 
 def parse_attributes(attr: Attributes) -> Record:
