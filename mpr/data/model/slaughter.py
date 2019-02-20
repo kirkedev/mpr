@@ -1,23 +1,84 @@
 from abc import ABC
-from dataclasses import dataclass
-from datetime import date
+from typing import NamedTuple
+from typing import Iterator
+from datetime import datetime
 
+import numpy as np
 from numpy import uint8
 from numpy import uint32
 from numpy import float32
 from numpy import datetime64
+from numpy import recarray
 
 from tables import UInt32Col
 from tables import Float32Col
 from tables import Time32Col
 from tables.tableextension import Row
 
+from . import Attributes
+from . import Date
+from . import opt_int
+from . import opt_float
+
 from .observation import Observation
 from .purchase_type import PurchaseType
 from .purchase_type import PurchaseTypeCol
+from .purchase_type import purchase_types
+
+date_format = "%m/%d/%Y"
 
 
-@dataclass
+class Record(NamedTuple):
+    date: Date
+    seller: uint8
+    arrangement: uint8
+    basis: uint8
+    head_count: uint32
+    base_price: float32
+    net_price: float32
+    low_price: float32
+    high_price: float32
+    live_weight: float32
+    carcass_weight: float32
+    sort_loss: float32
+    backfat: float32
+    loin_depth: float32
+    loineye_area: float32
+    lean_percent: float32
+
+    @classmethod
+    def from_attributes(cls, attr: Attributes) -> 'Record':
+        report_date = datetime.strptime(attr['for_date_begin'], date_format).date()
+
+        purchase_type = attr['purchase_type']
+        (seller, arrangement, basis) = purchase_types[purchase_type]
+
+        return cls(
+            date=datetime64(report_date, 'D'),
+            seller=seller.to_ordinal(),
+            arrangement=arrangement.to_ordinal(),
+            basis=basis.to_ordinal(),
+            head_count=opt_int(attr, 'head_count') or 0,
+            base_price=opt_float(attr, 'base_price'),
+            net_price=opt_float(attr, 'avg_net_price'),
+            low_price=opt_float(attr, 'lowest_net_price'),
+            high_price=opt_float(attr, 'highest_net_price'),
+            live_weight=opt_float(attr, 'avg_live_weight'),
+            carcass_weight=opt_float(attr, 'avg_carcass_weight'),
+            sort_loss=opt_float(attr, 'avg_sort_loss'),
+            backfat=opt_float(attr, 'avg_backfat'),
+            loin_depth=opt_float(attr, 'avg_loin_depth'),
+            loineye_area=opt_float(attr, 'loineye_area'),
+            lean_percent=opt_float(attr, 'avg_lean_percent'))
+
+
+dtype = np.dtype(list(Record._field_types.items()))
+
+
+def to_array(records: Iterator[Record]) -> recarray:
+    return np.rec.array(list(records), dtype=dtype)
+
+
 class Slaughter(Observation, ABC):
     date: datetime64
     seller: uint8

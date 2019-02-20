@@ -3,11 +3,11 @@ from datetime import date
 from numpy import isclose
 
 from test.api import load_resource
-from mpr.data.api.cutout import parse_attributes
-from mpr.data.api.cutout import to_array
+from mpr.data.model.cutout import Record
+from mpr.data.model.cutout import to_array
 
 attributes = load_resource('test/api/resources/cutout.xml')
-cutout = parse_attributes(next(attributes), next(attributes))
+cutout = Record.from_attributes(next(attributes), next(attributes))
 records = to_array([cutout])
 
 

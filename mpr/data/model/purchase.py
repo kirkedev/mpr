@@ -16,6 +16,11 @@ from tables import UInt32Col
 from tables import Float32Col
 from tables.tableextension import Row
 
+from . import Attributes
+from . import Date
+from . import opt_float
+from . import opt_int
+
 from .observation import Observation
 from .purchase_type import purchase_types
 from .purchase_type import PurchaseTypeCol
@@ -23,11 +28,6 @@ from .purchase_type import PurchaseType
 from .purchase_type import Seller
 from .purchase_type import Arrangement
 from .purchase_type import Basis
-
-from . import Attributes
-from . import Date
-from . import opt_float
-from . import opt_int
 
 date_format = "%m/%d/%Y"
 

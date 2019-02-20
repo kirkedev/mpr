@@ -1,24 +1,14 @@
 from enum import Enum
-from typing import NamedTuple
 from typing import Iterator
 from datetime import date
-from datetime import datetime
 from functools import singledispatch
 
-import numpy as np
-from numpy import datetime64
-from numpy import float32
-from numpy import recarray
-
-from mpr.data.model import Attributes
-from mpr.data.model import Date
+from mpr.data.model.cutout import Record
 
 from . import Report
 from . import date_interval
 from . import fetch
 from . import filter_sections
-
-date_format = "%m/%d/%Y"
 
 
 class Section(Enum):
@@ -38,45 +28,9 @@ class Section(Enum):
     # ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-class Record(NamedTuple):
-    date: Date
-    primal_loads: float32
-    trimming_loads: float32
-    carcass_price: float32
-    loin_price: float32
-    butt_price: float32
-    picnic_price: float32
-    rib_price: float32
-    ham_price: float32
-    belly_price: float32
-
-
-dtype = np.dtype(list(Record._field_types.items()))
-
-
-def to_array(records: Iterator[Record]) -> recarray:
-    return np.rec.array(list(records), dtype=dtype)
-
-
-def parse_attributes(volume: Attributes, cutout: Attributes) -> Record:
-    report_date = datetime.strptime(volume['report_date'], date_format).date()
-
-    return Record(
-        date=datetime64(report_date, 'D'),
-        primal_loads=float32(volume['temp_cuts_total_load']),
-        trimming_loads=float32(volume['temp_process_total_load']),
-        carcass_price=float32(cutout['pork_carcass']),
-        loin_price=float32(cutout['pork_loin']),
-        butt_price=float32(cutout['pork_butt']),
-        picnic_price=float32(cutout['pork_picnic']),
-        rib_price=float32(cutout['pork_rib']),
-        ham_price=float32(cutout['pork_ham']),
-        belly_price=float32(cutout['pork_belly']))
-
-
 async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Record]:
     response = await fetch(report, start_date, end_date)
-    return map(parse_attributes, *filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
+    return map(Record.from_attributes, *filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
 
 
 @singledispatch

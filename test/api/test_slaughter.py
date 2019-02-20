@@ -3,8 +3,8 @@ from datetime import date
 from numpy import isnan
 from numpy import isclose
 
-from mpr.data.api.slaughter import parse_attributes
-from mpr.data.api.slaughter import to_array
+from mpr.data.model.slaughter import Record
+from mpr.data.model.slaughter import to_array
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.purchase_type import Basis
@@ -14,8 +14,8 @@ from test.api import load_resource
 attributes = list(load_resource('test/api/resources/slaughter.xml'))
 assert len(attributes) == 8
 
-negotiated = parse_attributes(attributes[0])
-negotiated_formula = parse_attributes(attributes[4])
+negotiated = Record.from_attributes(attributes[0])
+negotiated_formula = Record.from_attributes(attributes[4])
 records = to_array([negotiated, negotiated_formula])
 
 
