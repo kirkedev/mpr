@@ -29,6 +29,7 @@ date_format = "%m-%d-%Y"
 base_url = 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs/{report}?\
 filter={{"filters":[{{"fieldName":"Report date","operatorType":"BETWEEN","values":["{start_date}", "{end_date}"]}}]}}'
 
+
 class Report(Enum):
     PURCHASED_SWINE = 'LM_HG200'
     SLAUGHTERED_SWINE = 'LM_HG201'
