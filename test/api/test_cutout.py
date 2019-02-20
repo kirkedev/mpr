@@ -1,11 +1,15 @@
 from unittest import TestCase
 from datetime import date
+import numpy as np
 from numpy import isclose
+
 from test.api import load_resource
 from mpr.data.api.cutout import parse_attributes
+from mpr.data.api.cutout import dtype
 
-records = load_resource('test/api/resources/cutout.xml')
-cutout = parse_attributes(next(records), next(records))
+attributes = load_resource('test/api/resources/cutout.xml')
+cutout = parse_attributes(next(attributes), next(attributes))
+records = np.rec.fromrecords([cutout], dtype=dtype)
 
 
 class CutoutTest(TestCase):
@@ -38,3 +42,11 @@ class CutoutTest(TestCase):
 
     def test_belly_price(self):
         self.assertTrue(isclose(cutout.belly_price, 77.77))
+
+
+class TestRecordArray(TestCase):
+    def test_length(self):
+        self.assertEqual(len(records), 1)
+
+    def test_index(self):
+        self.assertTrue(all(records.date == date(2018, 8, 20)))
