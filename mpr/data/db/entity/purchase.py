@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Iterator
 from datetime import date
 
 from numpy import datetime64
@@ -8,6 +9,8 @@ from tables import Float32Col
 from tables.tableextension import Row
 
 from mpr.data.model.purchase import Purchase
+from mpr.data.model.purchase import to_array
+
 from .observation import Observation
 from .purchase_type import PurchaseTypeCol
 
@@ -48,3 +51,8 @@ class PurchaseEntity(Observation[Purchase], ABC):
         row['high_price'] = record.high_price
 
         row.append()
+
+    @classmethod
+    def append_rows(cls, records: Iterator[Purchase]):
+        cls.table.append(to_array(records))
+        cls.commit()
