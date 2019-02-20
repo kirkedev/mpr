@@ -6,6 +6,7 @@ from datetime import datetime
 from datetime import timedelta
 from functools import singledispatch
 
+import numpy as np
 from numpy import datetime64
 from numpy import uint8
 from numpy import uint32
@@ -43,6 +44,9 @@ class Record(NamedTuple):
     avg_price: float32
     low_price: float32
     high_price: float32
+
+
+dtype = np.dtype(list(Record._field_types.items()))
 
 
 def parse_attributes(attr: Attributes) -> Record:

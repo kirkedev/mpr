@@ -5,6 +5,7 @@ from datetime import date
 from datetime import datetime
 from functools import singledispatch
 
+import numpy as np
 from numpy import datetime64
 from numpy import float32
 
@@ -45,6 +46,9 @@ class Record(NamedTuple):
     rib_price: float32
     ham_price: float32
     belly_price: float32
+
+
+dtype = np.dtype(list(Record._field_types.items()))
 
 
 def parse_attributes(volume: Attributes, cutout: Attributes) -> Record:
