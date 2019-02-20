@@ -13,6 +13,7 @@ from xml.etree.ElementTree import Element
 import aiohttp
 
 import numpy as np
+from numpy import dtype
 from numpy import uint32
 from numpy import float32
 from numpy import nan
@@ -20,13 +21,13 @@ from numpy import nan
 T = TypeVar('T')
 Attributes = Dict[str, str]
 ParsedElement = Tuple[str, Element]
+Date = type(dtype('datetime64[D]'))
 DateInterval = Tuple[date, date]
 
 date_format = "%m-%d-%Y"
 
 base_url = 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs/{report}?\
 filter={{"filters":[{{"fieldName":"Report date","operatorType":"BETWEEN","values":["{start_date}", "{end_date}"]}}]}}'
-
 
 class Report(Enum):
     PURCHASED_SWINE = 'LM_HG200'
