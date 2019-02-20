@@ -4,7 +4,7 @@ from numpy import isclose
 from numpy import isnan
 
 from mpr.data import db
-from mpr.data.model.purchase import Purchase
+from mpr.data.api.purchase import parse_attributes
 from mpr.data.model.purchase import to_array
 from mpr.data.model.purchase_type import Seller
 from mpr.data.model.purchase_type import Arrangement
@@ -30,7 +30,7 @@ class TestHg200(TestCase):
         self.model.table.remove_rows()
 
     def test_insert(self):
-        purchase = Purchase.from_attributes({
+        purchase = parse_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',
@@ -55,7 +55,7 @@ class TestHg200(TestCase):
         self.assertEqual(basis, Basis.CARCASS)
 
     def test_insert_with_nans(self):
-        purchase = Purchase.from_attributes({
+        purchase = parse_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated Formula (carcass basis)',
             'head_count': '165'
@@ -75,7 +75,7 @@ class TestHg200(TestCase):
         self.assertTrue(isnan(data.avg_price))
 
     def test_recarray(self):
-        purchase = Purchase.from_attributes({
+        purchase = parse_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',

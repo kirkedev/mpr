@@ -2,8 +2,8 @@ from unittest import TestCase
 from numpy import isnan
 
 from mpr.data.api import filter_sections
-from mpr.data.model import opt_int
-from mpr.data.model import opt_float
+from mpr.data.api import opt_int
+from mpr.data.api import opt_float
 
 from test.api import load_resource
 

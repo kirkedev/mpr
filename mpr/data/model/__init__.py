@@ -15,20 +15,6 @@ Attributes = Dict[str, str]
 Date = type(dtype('datetime64[D]'))
 
 
-def get_optional(attr: Attributes, key: str) -> Optional[T]:
-    return attr[key] if key in attr and attr[key] != 'null' else None
-
-
-def opt_float(attr: Attributes, key: str) -> float32:
-    value = get_optional(attr, key)
-    return float(value.replace(',', '')) if value else nan
-
-
-def opt_int(attr: Attributes, key: str) -> uint32:
-    value = get_optional(attr, key)
-    return int(value.replace(',', '')) if value else nan
-
-
 @unique
 class EnumField(Enum):
     @classmethod
