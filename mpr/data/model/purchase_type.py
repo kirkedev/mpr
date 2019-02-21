@@ -1,6 +1,4 @@
 from enum import IntEnum
-import numpy as np
-from numpy import uint8
 
 
 class Seller(IntEnum):

@@ -43,7 +43,7 @@ class CutoutEntity(Observation[Cutout], ABC):
     @staticmethod
     def to_row(record: Cutout) -> Tuple:
         return (
-            record.date.astype(date).to_ordinal(),
+            record.date.astype(date).toordinal(),
             record.primal_loads,
             record.trimming_loads,
             record.carcass_price,
