@@ -6,7 +6,7 @@ from test.api import load_resource
 from mpr.data.api.cutout import parse_attributes
 from mpr.data.model.cutout import to_array
 
-attributes = load_resource('test/api/resources/cutout.xml')
+attributes = load_resource('test/resources/api/cutout.xml')
 cutout = parse_attributes(next(attributes), next(attributes))
 records = to_array([cutout])
 
