@@ -32,19 +32,6 @@ class PurchaseEntity(Observation[Purchase], ABC):
             low_price=row['low_price'],
             high_price=row['high_price'])
 
-    @classmethod
-    def append(cls, record: Purchase):
-        row = cls.table.row
-
-        row['date'] = record.date.astype(date).toordinal()
-        row['purchase_type'] = record.purchase_type
-        row['head_count'] = record.head_count
-        row['avg_price'] = record.avg_price
-        row['low_price'] = record.low_price
-        row['high_price'] = record.high_price
-
-        row.append()
-
     @staticmethod
     def to_row(record: Purchase):
         return (
