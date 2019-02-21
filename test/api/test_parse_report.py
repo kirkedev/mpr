@@ -18,17 +18,17 @@ class ParseReportTest(TestCase):
         attr = {'volume': '1,234'}
         self.assertEqual(opt_int(attr, 'volume'), 1234)
 
-    def test_opt_int(self):
-        attr = {'volume': 'null'}
-        self.assertEqual(opt_int(attr, 'volume'), 0)
-
     def test_parse_float(self):
         attr = {'weight': '1,234.56'}
         self.assertTrue(isclose(opt_float(attr, 'weight'), 1234.56))
 
+    def test_opt_int(self):
+        self.assertEqual(opt_int({}, 'volume'), 0)
+        self.assertEqual(opt_int({'volume': 'null'}, 'volume'), 0)
+
     def test_opt_float(self):
-        attr = {'weight': 'null'}
-        self.assertTrue(isnan(opt_float(attr, 'volume')))
+        self.assertTrue(isnan(opt_float({}, 'volume')))
+        self.assertTrue(isnan(opt_float({'weight': 'null'}, 'volume')))
 
     def test_volume_slug(self):
         self.assertEqual(volume['slug'], 'LM_PK603')
