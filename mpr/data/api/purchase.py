@@ -34,10 +34,13 @@ class Section(Enum):
 def parse_attributes(attr: Attributes) -> Purchase:
     report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
     purchase_type = attr['purchase_type']
+    (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Purchase(
         date=datetime64(report_date, 'D'),
-        purchase_type=purchase_types[purchase_type],
+        seller=seller,
+        arrangement=arrangement,
+        basis=basis,
         head_count=opt_int(attr, 'head_count'),
         avg_price=opt_float(attr, 'wtd_avg'),
         low_price=opt_float(attr, 'price_low'),

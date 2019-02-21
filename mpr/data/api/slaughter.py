@@ -33,10 +33,13 @@ class Section(Enum):
 def parse_attributes(attr: Attributes) -> Slaughter:
     report_date = datetime.strptime(attr['for_date_begin'], date_format).date()
     purchase_type = attr['purchase_type']
+    (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Slaughter(
         date=datetime64(report_date, 'D'),
-        purchase_type=purchase_types[purchase_type],
+        seller=seller,
+        arrangement=arrangement,
+        basis=basis,
         head_count=opt_int(attr, 'head_count'),
         base_price=opt_float(attr, 'base_price'),
         net_price=opt_float(attr, 'avg_net_price'),

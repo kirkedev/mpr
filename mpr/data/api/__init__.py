@@ -44,7 +44,7 @@ def get_optional(attr: Attributes, key: str) -> Optional[T]:
 
 def opt_float(attr: Attributes, key: str) -> float32:
     value = get_optional(attr, key)
-    return float32(value.replace(',', ''))
+    return float32(value.replace(',', '')) if value else nan
 
 
 def opt_int(attr: Attributes, key: str) -> uint32:
