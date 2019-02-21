@@ -31,11 +31,11 @@ class Slaughter(NamedTuple):
 
     @property
     def total_weight(self) -> float:
-        return self.head_count * self.carcass_weight if self.carcass_weight else 0.0
+        return self.head_count * self.carcass_weight
 
     @property
     def total_value(self) -> float:
-        return self.total_weight * self.net_price if self.net_price else 0.0
+        return self.total_weight * self.net_price
 
 
 dtype = np.dtype([
