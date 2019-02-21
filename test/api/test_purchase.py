@@ -24,13 +24,13 @@ class NegotiatedPurchaseTest(TestCase):
         self.assertEqual(negotiated.date, date(2019, 1, 31))
 
     def test_seller(self):
-        self.assertEqual(negotiated.seller, Seller.ALL.to_ordinal())
+        self.assertEqual(negotiated.seller, Seller.ALL)
 
     def test_arrangement(self):
-        self.assertEqual(negotiated.arrangement, Arrangement.NEGOTIATED.to_ordinal())
+        self.assertEqual(negotiated.arrangement, Arrangement.NEGOTIATED)
 
     def test_basis(self):
-        self.assertEqual(negotiated.basis, Basis.CARCASS.to_ordinal())
+        self.assertEqual(negotiated.basis, Basis.CARCASS)
 
     def test_head_count(self):
         self.assertEqual(negotiated.head_count, 11325)
@@ -50,7 +50,7 @@ class NegotiatedFormulaTest(TestCase):
         self.assertEqual(negotiated_formula.date, date(2019, 1, 31))
 
     def test_arrangement(self):
-        self.assertEqual(negotiated_formula.arrangement, Arrangement.NEGOTIATED_FORMULA.to_ordinal())
+        self.assertEqual(negotiated_formula.arrangement, Arrangement.NEGOTIATED_FORMULA)
 
     def test_head_count(self):
         self.assertEqual(negotiated_formula.head_count, 165)

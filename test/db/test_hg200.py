@@ -39,20 +39,17 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         })
 
-        self.model.append(purchase)
-        self.model.commit()
+        self.model.insert([purchase])
 
         data = next(self.model.get())
         self.assertEqual(data.date, date(2018, 1, 1))
+        self.assertEqual(data.seller, Seller.ALL)
+        self.assertEqual(data.arrangement, Arrangement.NEGOTIATED)
+        self.assertEqual(data.basis, Basis.CARCASS)
         self.assertEqual(data.head_count, 11234)
         self.assertTrue(isclose(data.low_price, 48.00))
         self.assertTrue(isclose(data.high_price, 51.75))
         self.assertTrue(isclose(data.avg_price, 50.70))
-
-        (seller, arrangement, basis) = data.purchase_type
-        self.assertEqual(seller, Seller.ALL)
-        self.assertEqual(arrangement, Arrangement.NEGOTIATED)
-        self.assertEqual(basis, Basis.CARCASS)
 
     def test_insert_with_nans(self):
         purchase = parse_attributes({
@@ -61,18 +58,34 @@ class TestHg200(TestCase):
             'head_count': '165'
         })
 
-        self.model.append(purchase)
-        self.model.commit()
+        self.model.insert([purchase])
 
         data = next(self.model.get())
         self.assertEqual(data.date, date(2018, 1, 1))
-
-        (_, arrangement, _) = data.purchase_type
-        self.assertEqual(arrangement, Arrangement.NEGOTIATED_FORMULA)
+        self.assertEqual(data.arrangement, Arrangement.NEGOTIATED_FORMULA)
         self.assertEqual(data.head_count, 165)
         self.assertTrue(isnan(data.low_price))
         self.assertTrue(isnan(data.high_price))
         self.assertTrue(isnan(data.avg_price))
+
+    def test_insert_multiple(self):
+        purchases = (parse_attributes({
+            'reported_for_date': '1/1/2018',
+            'purchase_type': 'Negotiated (carcass basis)',
+            'head_count': '11,234',
+            'price_low': '48.00',
+            'price_high': '51.75',
+            'wtd_avg': '50.70'
+        }), parse_attributes({
+            'reported_for_date': '1/1/2018',
+            'purchase_type': 'Negotiated Formula (carcass basis)',
+            'head_count': '165'
+        }))
+
+        self.model.insert(purchases)
+
+        data = self.model.get()
+        self.assertEqual(len(list(data)), 2)
 
     def test_recarray(self):
         purchase = parse_attributes({
@@ -84,7 +97,7 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         })
 
-        self.model.append(purchase)
+        self.model.insert([purchase])
         self.model.commit()
 
         records = to_array(self.model.get())

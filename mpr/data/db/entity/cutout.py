@@ -1,31 +1,30 @@
 from abc import ABC
-from typing import Iterator
+from typing import Tuple
 from datetime import date
 
+from numpy import dtype
 from numpy import datetime64
-from tables import Time32Col
-from tables import Float32Col
+from numpy import uint32
+from numpy import float32
 from tables.tableextension import Row
 
 from mpr.data.model.cutout import Cutout
-from mpr.data.model.cutout import to_array
-
 from .observation import Observation
 
 
 class CutoutEntity(Observation[Cutout], ABC):
-    schema = {
-        'date': Time32Col(),
-        'primal_loads': Float32Col(),
-        'trimming_loads': Float32Col(),
-        'carcass_price': Float32Col(),
-        'loin_price': Float32Col(),
-        'butt_price': Float32Col(),
-        'picnic_price': Float32Col(),
-        'rib_price': Float32Col(),
-        'ham_price': Float32Col(),
-        'belly_price': Float32Col()
-    }
+    schema = dtype([
+        ('date', uint32),
+        ('primal_loads', float32),
+        ('trimming_loads', float32),
+        ('carcass_price', float32),
+        ('loin_price', float32),
+        ('butt_price', float32),
+        ('picnic_price', float32),
+        ('rib_price', float32),
+        ('ham_price', float32),
+        ('belly_price', float32)
+    ])
 
     @classmethod
     def from_row(cls, row: Row) -> Cutout:
@@ -41,24 +40,16 @@ class CutoutEntity(Observation[Cutout], ABC):
             ham_price=row['ham_price'],
             belly_price=row['belly_price'])
 
-    @classmethod
-    def append(cls, record: Cutout):
-        row = cls.table.row
-
-        row['date'] = record.date.astype(date).to_ordinal()
-        row['primal_loads'] = record.primal_loads
-        row['trimming_loads'] = record.trimming_loads
-        row['carcass_price'] = record.carcass_price
-        row['loin_price'] = record.loin_price
-        row['butt_price'] = record.butt_price
-        row['picnic_price'] = record.picnic_price
-        row['rib_price'] = record.rib_price
-        row['ham_price'] = record.ham_price
-        row['belly_price'] = record.belly_price
-
-        row.append()
-
-    @classmethod
-    def append_rows(cls, records: Iterator[Cutout]):
-        cls.table.append(to_array(records))
-        cls.commit()
+    @staticmethod
+    def to_row(record: Cutout) -> Tuple:
+        return (
+            record.date.astype(date).to_ordinal(),
+            record.primal_loads,
+            record.trimming_loads,
+            record.carcass_price,
+            record.loin_price,
+            record.butt_price,
+            record.picnic_price,
+            record.rib_price,
+            record.ham_price,
+            record.belly_price)
