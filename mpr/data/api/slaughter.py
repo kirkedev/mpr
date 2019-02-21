@@ -37,7 +37,7 @@ def parse_attributes(attr: Attributes) -> Slaughter:
     return Slaughter(
         date=datetime64(report_date, 'D'),
         purchase_type=purchase_types[purchase_type],
-        head_count=opt_int(attr, 'head_count') or 0,
+        head_count=opt_int(attr, 'head_count'),
         base_price=opt_float(attr, 'base_price'),
         net_price=opt_float(attr, 'avg_net_price'),
         low_price=opt_float(attr, 'lowest_net_price'),
