@@ -39,11 +39,13 @@ class Observation(Entity[Record], ABC):
 
     @classmethod
     def first(cls) -> Record:
-        return cls.table[cls.table.colindexes['date'][0]]
+        row = cls.table[cls.table.colindexes['date'][0]]
+        return cls.from_row(row)
 
     @classmethod
     def last(cls) -> Record:
-        return cls.table[cls.table.colindexes['date'][-1]]
+        row = cls.table[cls.table.colindexes['date'][-1]]
+        return cls.from_row(row)
 
     @classmethod
     def dates(cls) -> Iterator[date]:
