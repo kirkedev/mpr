@@ -70,7 +70,7 @@ class TestHg200(TestCase):
         self.assertTrue(isnan(data.high_price))
         self.assertTrue(isnan(data.avg_price))
 
-    def insert_multiple(self):
+    def test_insert_multiple(self):
         purchases = (parse_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated (carcass basis)',
@@ -84,7 +84,7 @@ class TestHg200(TestCase):
             'head_count': '165'
         }))
 
-        self.model.append_rows(purchases)
+        self.model.insert(purchases)
 
         data = self.model.get()
         self.assertEqual(len(list(data)), 2)
