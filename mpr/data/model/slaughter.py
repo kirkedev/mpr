@@ -11,6 +11,11 @@ from . import date_type
 from . import Date
 
 
+total_weight = lambda head_count, carcass_weight: head_count * carcass_weight
+total_value = lambda weight, net_price: weight * net_price
+avg_price = lambda value, weight: value / weight
+
+
 class Slaughter(NamedTuple):
     date: Date
     seller: uint8
@@ -31,11 +36,15 @@ class Slaughter(NamedTuple):
 
     @property
     def total_weight(self) -> float:
-        return self.head_count * self.carcass_weight
+        return total_weight(self.head_count, self.carcass_weight)
 
     @property
     def total_value(self) -> float:
-        return self.total_weight * self.net_price
+        return total_value(self.total_weight, self.net_price)
+
+    @property
+    def avg_price(self) -> float:
+        return avg_price(self.total_value, self.total_weight)
 
 
 def to_array(records: Iterator[Slaughter]) -> recarray:
