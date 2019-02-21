@@ -1,22 +1,7 @@
 from typing import Iterator
-from typing import TextIO
-from io import StringIO
-from xml.etree import ElementTree
-
+from .. import load_resource as load
 from mpr.data.api import Attributes
-from mpr.data.api import parse_elements
 
 
-def parse_report(report: TextIO) -> Iterator[Attributes]:
-    elements = ElementTree.iterparse(report, events=['start', 'end'])
-    return parse_elements(elements)
-
-
-def load_report(report: str) -> Iterator[Attributes]:
-    return parse_report(StringIO(report))
-
-
-def load_resource(path: str) -> Iterator[Attributes]:
-    with open(path) as report:
-        for element in parse_report(report):
-            yield element
+def load_resource(name: str) -> Iterator[Attributes]:
+    return load(f"api/{name}")
