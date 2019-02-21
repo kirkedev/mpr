@@ -1,35 +1,34 @@
+from enum import IntEnum
 import numpy as np
 from numpy import uint8
-from . import EnumField
 
-
-class Seller(EnumField):
-    ALL = 'all'
-    PRODUCER = 'producer'
-    PACKER = 'packer'
-
-
-class Arrangement(EnumField):
-    ALL = 'all'
-    NEGOTIATED = 'negotiated'
-    MARKET_FORMULA = 'market formula'
-    NEGOTIATED_FORMULA = 'negotiated formula'
-    OTHER_MARKET_FORMULA = 'other market formula'
-    OTHER_PURCHASE = 'other'
-    ALL_NEGOTIATED = 'all negotiated'
-    PACKER_OWNED = 'packer owned'
-
-
-class Basis(EnumField):
-    ALL = 'all'
-    CARCASS = 'carcass'
-    LIVE = 'live'
-
-
-dtype = np.dtype([
+purchase_type = np.dtype([
     ('seller', uint8),
     ('arrangement', uint8),
     ('basis', uint8)
 ])
 
-PurchaseType = type(dtype)
+PurchaseType = type(purchase_type)
+
+
+class Seller(IntEnum):
+    ALL = 0
+    PRODUCER = 1
+    PACKER = 2
+
+
+class Arrangement(IntEnum):
+    ALL = 0
+    NEGOTIATED = 1
+    MARKET_FORMULA = 2
+    NEGOTIATED_FORMULA = 3
+    OTHER_MARKET_FORMULA = 4
+    OTHER_PURCHASE = 5
+    ALL_NEGOTIATED = 6
+    PACKER_OWNED = 7
+
+
+class Basis(IntEnum):
+    ALL = 0
+    CARCASS = 1
+    LIVE = 2
