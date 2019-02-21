@@ -2,14 +2,6 @@ from enum import IntEnum
 import numpy as np
 from numpy import uint8
 
-purchase_type = np.dtype([
-    ('seller', uint8),
-    ('arrangement', uint8),
-    ('basis', uint8)
-])
-
-PurchaseType = type(purchase_type)
-
 
 class Seller(IntEnum):
     ALL = 0
