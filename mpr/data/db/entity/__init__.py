@@ -31,6 +31,11 @@ class Entity(Generic[Record], ABC):
     def from_row(cls, row: Row) -> Record:
         raise NotImplementedError
 
+    @staticmethod
+    @abstractmethod
+    def to_row(record: Record) -> Tuple:
+        raise NotImplementedError
+
     @classmethod
     def get(cls) -> Iterator[Record]:
         return map(cls.from_row, cls.table.iterrows())
@@ -40,22 +45,11 @@ class Entity(Generic[Record], ABC):
         return map(cls.from_row, cls.table.where(condition, params))
 
     @classmethod
+    @abstractmethod
     def insert(cls, records: Iterator[Record]):
-        for record in records:
-            record.append()
-
+        cls.table.append(list(map(cls.to_row, records)))
         cls.commit()
 
     @classmethod
     def commit(cls):
         cls.table.flush()
-
-    @classmethod
-    @abstractmethod
-    def append(cls, record: Record):
-        raise NotImplementedError
-
-    @classmethod
-    @abstractmethod
-    def append_rows(cls, records: Iterator[Record]):
-        raise NotImplementedError
