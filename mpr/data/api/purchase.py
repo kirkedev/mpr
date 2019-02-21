@@ -38,7 +38,7 @@ def parse_attributes(attr: Attributes) -> Purchase:
     return Purchase(
         date=datetime64(report_date, 'D'),
         purchase_type=purchase_types[purchase_type],
-        head_count=opt_int(attr, 'head_count') or 0,
+        head_count=opt_int(attr, 'head_count'),
         avg_price=opt_float(attr, 'wtd_avg'),
         low_price=opt_float(attr, 'price_low'),
         high_price=opt_float(attr, 'price_high'))
