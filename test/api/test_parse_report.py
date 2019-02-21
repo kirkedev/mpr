@@ -1,5 +1,6 @@
 from unittest import TestCase
 from numpy import isnan
+from numpy import isclose
 
 from mpr.data.api import filter_sections
 from mpr.data.api import opt_int
@@ -19,11 +20,11 @@ class ParseReportTest(TestCase):
 
     def test_opt_int(self):
         attr = {'volume': 'null'}
-        self.assertTrue(isnan(opt_int(attr, 'volume')))
+        self.assertEqual(opt_int(attr, 'volume'), 0)
 
     def test_parse_float(self):
         attr = {'weight': '1,234.56'}
-        self.assertEqual(opt_float(attr, 'weight'), 1234.56)
+        self.assertTrue(isclose(opt_float(attr, 'weight'), 1234.56))
 
     def test_opt_float(self):
         attr = {'weight': 'null'}
