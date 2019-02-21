@@ -1,58 +1,43 @@
 from abc import ABC
-from typing import Iterator
 from datetime import date
 
+from numpy import dtype
+from numpy import uint32
+from numpy import float32
 from numpy import datetime64
-from tables import Time32Col
-from tables import UInt32Col
-from tables import Float32Col
 from tables.tableextension import Row
 
 from mpr.data.model.purchase import Purchase
-from mpr.data.model.purchase import to_array
-
+from mpr.data.model.purchase_type import purchase_type
 from .observation import Observation
-from .purchase_type import PurchaseTypeCol
 
 
 class PurchaseEntity(Observation[Purchase], ABC):
-    schema = {
-        'date': Time32Col(),
-        'purchase_type': PurchaseTypeCol(),
-        'head_count': UInt32Col(),
-        'avg_price': Float32Col(),
-        'low_price': Float32Col(),
-        'high_price': Float32Col()
-    }
+    schema = dtype([
+        ('date', uint32),
+        ('purchase_type', purchase_type),
+        ('head_count', uint32),
+        ('avg_price', float32),
+        ('low_price', float32),
+        ('high_price', float32)
+    ])
 
     @classmethod
     def from_row(cls, row: Row) -> Purchase:
         return Purchase(
             date=datetime64(date.fromordinal(row['date']), 'D'),
-            seller=row['purchase_type/seller'],
-            arrangement=row['purchase_type/arrangement'],
-            basis=row['purchase_type/basis'],
+            purchase_type=row['purchase_type'],
             head_count=row['head_count'],
             avg_price=row['avg_price'],
             low_price=row['low_price'],
             high_price=row['high_price'])
 
-    @classmethod
-    def append(cls, record: Purchase):
-        row = cls.table.row
-
-        row['date'] = record.date.astype(date).toordinal()
-        row['purchase_type/seller'] = record.seller
-        row['purchase_type/arrangement'] = record.arrangement
-        row['purchase_type/basis'] = record.basis
-        row['head_count'] = record.head_count
-        row['avg_price'] = record.avg_price
-        row['low_price'] = record.low_price
-        row['high_price'] = record.high_price
-
-        row.append()
-
-    @classmethod
-    def append_rows(cls, records: Iterator[Purchase]):
-        cls.table.append(to_array(records))
-        cls.commit()
+    @staticmethod
+    def to_row(record: Purchase):
+        return (
+            record.date.astype(date).toordinal(),
+            record.purchase_type,
+            record.head_count,
+            record.avg_price,
+            record.low_price,
+            record.high_price)
