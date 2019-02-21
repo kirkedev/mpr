@@ -8,7 +8,7 @@ from numpy import recarray
 
 from . import date_type
 from . import Date
-from .purchase_type import dtype as purchase_type
+from .purchase_type import purchase_type
 from .purchase_type import PurchaseType
 from .purchase_type import Seller
 from .purchase_type import Arrangement
@@ -33,15 +33,18 @@ class Slaughter(NamedTuple):
 
     @property
     def seller(self) -> Seller:
-        return Seller.from_ordinal(self.purchase_type[0])
+        seller = self.purchase_type[0]
+        return Seller(seller)
 
     @property
     def arrangement(self) -> Arrangement:
-        return Arrangement.from_ordinal(self.purchase_type[1])
+        arrangement = self.purchase_type[1]
+        return Arrangement(arrangement)
 
     @property
     def basis(self) -> Basis:
-        return Basis.from_ordinal(self.purchase_type[2])
+        basis = self.purchase_type[2]
+        return Basis(basis)
 
     @property
     def total_weight(self) -> float:
