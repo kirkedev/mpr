@@ -6,7 +6,7 @@ from typing import Tuple
 from typing import Dict
 from typing import Iterator
 
-from tables import Atom
+from numpy import dtype
 from tables import Table
 from tables.tableextension import Row
 
@@ -23,7 +23,7 @@ class Entity(Generic[Record], ABC):
     @staticmethod
     @property
     @abstractmethod
-    def schema() -> Dict[str, Atom]:
+    def schema() -> dtype:
         raise NotImplementedError
 
     @classmethod

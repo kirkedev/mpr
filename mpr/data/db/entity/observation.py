@@ -1,5 +1,4 @@
 from abc import ABC
-from typing import Tuple
 from typing import Iterator
 from datetime import date
 
@@ -40,23 +39,14 @@ class Observation(Entity[Record], ABC):
 
     @classmethod
     def first(cls) -> Record:
-        return cls.table[cls.table.colindexes['date'][0]]
+        row = cls.table[cls.table.colindexes['date'][0]]
+        return cls.from_row(row)
 
     @classmethod
     def last(cls) -> Record:
-        return cls.table[cls.table.colindexes['date'][-1]]
+        row = cls.table[cls.table.colindexes['date'][-1]]
+        return cls.from_row(row)
 
     @classmethod
     def dates(cls) -> Iterator[date]:
         return map(date.fromordinal, set(cls.table.cols.date[:]))
-
-    @classmethod
-    def extent(cls) -> Tuple[date, date]:
-        table = cls.table
-        date_column = table.cols.date
-        date_index = table.colindexes['date']
-
-        first = date.fromordinal(date_column[date_index[0]])
-        last = date.fromordinal(date_column[date_index[-1]])
-
-        return first, last
