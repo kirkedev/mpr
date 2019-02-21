@@ -8,7 +8,7 @@ from mpr.data.api import opt_float
 
 from test.api import load_resource
 
-elements = load_resource('test/resources/api/cutout.xml')
+elements = load_resource('cutout.xml')
 records = filter_sections(elements, 'Cutout and Primal Values', 'Current Volume')
 volume, cutout = next(records)
 
