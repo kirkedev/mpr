@@ -87,19 +87,26 @@ class TestHg200(TestCase):
         self.assertEqual(self.report.table.nrows, 2)
 
     def test_recarray(self):
-        purchase = parse_attributes({
+        purchases = parse_attributes({
             'reported_for_date': '1/1/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',
             'price_low': '48.00',
             'price_high': '51.75',
             'wtd_avg': '50.70'
+        }), parse_attributes({
+            'reported_for_date': '1/1/2018',
+            'purchase_type': 'Negotiated Formula (carcass basis)',
+            'head_count': '165'
         })
 
-        self.report.insert([purchase])
+        self.report.insert(purchases)
         self.report.commit()
 
         records = to_array(self.report.get())
-        self.assertEqual(len(records), 1)
+        self.assertEqual(len(records), 2)
         self.assertTrue(all(records.date == date(2018, 1, 1)))
+        self.assertTrue(all(records.seller == Seller.ALL))
         self.assertTrue(all(records.basis == Basis.CARCASS))
+        self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED), 1)
+        self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED_FORMULA), 1)
