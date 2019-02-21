@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Tuple
 from datetime import date
 
 from numpy import dtype
@@ -37,7 +38,7 @@ class PurchaseEntity(Observation[Purchase], ABC):
             high_price=row['high_price'])
 
     @staticmethod
-    def to_row(record: Purchase):
+    def to_row(record: Purchase) -> Tuple:
         return (
             record.date.astype(date).toordinal(),
             record.seller,
