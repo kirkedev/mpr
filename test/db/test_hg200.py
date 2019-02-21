@@ -39,8 +39,7 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         })
 
-        self.model.append(purchase)
-        self.model.commit()
+        self.model.insert([purchase])
 
         data = next(self.model.get())
         self.assertEqual(data.date, date(2018, 1, 1))
@@ -59,8 +58,7 @@ class TestHg200(TestCase):
             'head_count': '165'
         })
 
-        self.model.append(purchase)
-        self.model.commit()
+        self.model.insert([purchase])
 
         data = next(self.model.get())
         self.assertEqual(data.date, date(2018, 1, 1))
@@ -99,7 +97,7 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         })
 
-        self.model.append(purchase)
+        self.model.insert([purchase])
         self.model.commit()
 
         records = to_array(self.model.get())
