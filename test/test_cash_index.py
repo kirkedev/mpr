@@ -1,6 +1,7 @@
 from unittest import TestCase
 from datetime import date
 import numpy as np
+
 from mpr.data.api.slaughter import parse_attributes
 from mpr.data.model.slaughter import to_array
 from mpr.data.model.slaughter import total_weight
@@ -27,7 +28,7 @@ class CashIndexTest(TestCase):
     @staticmethod
     def weighted_avg_price(data: np.recarray) -> float:
         weights = total_weight(data.head_count, data.carcass_weight)
-        values = total_value(weights, data.net_price)
+        values = total_value(data.net_price, weights)
         prices = avg_price(np.nansum(values), np.nansum(weights))
         return np.round(prices, decimals=2)
 
