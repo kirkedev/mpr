@@ -4,20 +4,16 @@ import numpy as np
 
 from mpr.data.api.slaughter import parse_attributes
 from mpr.data.model.slaughter import to_array
-from mpr.data.model.slaughter import total_weight
-from mpr.data.model.slaughter import total_value
-from mpr.data.model.slaughter import avg_price
 from mpr.data.model.purchase_type import Arrangement
 
 from . import load_resource
 
 records = to_array(map(parse_attributes, load_resource('cash_prices.xml')))
-
 negotiated = records.arrangement == Arrangement.NEGOTIATED
-negotiated_formula = records.arrangement == Arrangement.NEGOTIATED_FORMULA
 market_formula = records.arrangement == Arrangement.MARKET_FORMULA
-purchase_types = records[negotiated | negotiated_formula | market_formula]
+negotiated_formula = records.arrangement == Arrangement.NEGOTIATED_FORMULA
 
+purchase_types = records[negotiated | negotiated_formula | market_formula]
 latest = purchase_types.date == date(2019, 2, 19)
 prior_day = purchase_types.date == date(2019, 2, 18)
 
@@ -27,9 +23,9 @@ class CashIndexTest(TestCase):
     # ftp://ftp.cmegroup.com/cash_settled_commodity_index_prices/daily_data/lean_hogs/LH190219.txt
     @staticmethod
     def weighted_avg_price(data: np.recarray) -> float:
-        weights = total_weight(data.head_count, data.carcass_weight)
-        values = total_value(data.net_price, weights)
-        prices = avg_price(np.nansum(values), np.nansum(weights))
+        total_weights = data.head_count * data.carcass_weight
+        total_values = data.net_price * total_weights
+        prices = np.nansum(total_values) / np.nansum(total_weights)
         return np.round(prices, decimals=2)
 
     def test_latest_weighted_price(self):
