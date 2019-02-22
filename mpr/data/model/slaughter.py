@@ -12,7 +12,7 @@ from . import Date
 
 
 total_weight = lambda head_count, carcass_weight: head_count * carcass_weight
-total_value = lambda weight, net_price: weight * net_price
+total_value = lambda net_price, weight: net_price * weight
 avg_price = lambda value, weight: value / weight
 
 
