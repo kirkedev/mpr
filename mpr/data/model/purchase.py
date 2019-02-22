@@ -22,17 +22,14 @@ class Purchase(NamedTuple):
     high_price: float32
 
 
-dtype = np.dtype([
-    ('date', date_type),
-    ('seller', uint8),
-    ('arrangement', uint8),
-    ('basis', uint8),
-    ('head_count', uint32),
-    ('avg_price', float32),
-    ('low_price', float32),
-    ('high_price', float32)
-])
-
-
 def to_array(records: Iterator[Purchase]) -> recarray:
-    return np.rec.array(list(records), dtype=dtype)
+    return np.rec.array(list(records), dtype=np.dtype([
+        ('date', date_type),
+        ('seller', uint8),
+        ('arrangement', uint8),
+        ('basis', uint8),
+        ('head_count', uint32),
+        ('avg_price', float32),
+        ('low_price', float32),
+        ('high_price', float32)
+    ]))
