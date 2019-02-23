@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+rm -f mpr/data/db/db.h5
