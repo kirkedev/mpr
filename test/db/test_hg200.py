@@ -91,3 +91,6 @@ class TestHg200(TestCase):
         date_index = self.report.table.colindexes['date']
         self.assertEqual(date_column[date_index[0]], date(2018, 1, 1).toordinal())
         self.assertEqual(date_column[date_index[-1]], date(2018, 1, 2).toordinal())
+
+    def test_merge(self):
+        pass

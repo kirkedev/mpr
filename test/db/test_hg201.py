@@ -56,7 +56,7 @@ class TestHg201(TestCase):
         self.report.table.remove_rows()
 
     def test_query(self):
-        record = self.report.first()
+        record = next(self.report.get())
         self.assertEqual(record.date, date(2019, 2, 1))
         self.assertEqual(record.seller, Seller.PRODUCER)
         self.assertEqual(record.arrangement, Arrangement.NEGOTIATED)
