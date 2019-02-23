@@ -27,25 +27,15 @@ def create_table(head_count: Series, carcass_weight: Series, net_price: Series) 
 
 
 def pivot_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
-    weight = total_weight(head_count, carcass_weight)
-    value = total_value(weight, net_price)
+    weight = (head_count * carcass_weight).rename('weight')
+    value = (weight * net_price).rename('value')
     return pd.pivot_table(pd.concat([weight, value], axis=1), index='date')
 
 
-def total_weight(head_count: Series, carcass_weight: Series) -> Series:
-    return (head_count * carcass_weight).rename('weight')
-
-
-def total_value(weight: Series, net_price: Series) -> Series:
-    return (weight * net_price).rename('value')
-
-
-def avg_price(value: Series, weight: Series) -> Series:
-    return value / weight
-
-
-def compute_change(series: Series) -> Series:
-    return series - series.shift(1)
+def avg_price(value: Series, weight: Series) -> Tuple[Series, Series]:
+    price = value / weight
+    change = price - price.shift(1)
+    return price, change
 
 
 def column_title(column: Tuple[str, int]) -> str:
@@ -56,32 +46,35 @@ def column_title(column: Tuple[str, int]) -> str:
     return f"{arrangement} {title}"
 
 
-def compute_cash_index(records: Iterator[Slaughter]) -> DataFrame:
+def cash_index(records: Iterator[Slaughter]) -> DataFrame:
     columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
 
     data = DataFrame(to_array(records), columns=columns).set_index(['date', 'arrangement'])
-    head_count = data['head_count']
-    carcass_weight = data['carcass_weight']
-    net_price = data['net_price']
+    head_count = data.head_count
+    carcass_weight = data.carcass_weight
+    net_price = data.net_price
 
     table = create_table(head_count, carcass_weight, net_price)
     table.columns = map(column_title, table.columns)
 
     totals = pivot_table(head_count, carcass_weight, net_price)
+    daily_price, daily_change = avg_price(totals.value, totals.weight)
+
     rolling_totals = totals.rolling(2).sum().dropna()
+    cme_index, index_change = avg_price(rolling_totals.value, rolling_totals.weight)
 
-    daily_price = avg_price(totals['value'], totals['weight']).rename('Daily Weighted Price')
-    price_change = compute_change(daily_price)
+    return pd.concat([
+        table,
+        daily_price.rename('Daily Avg Price'),
+        daily_change.rename('Price Change'),
+        cme_index.rename('CME Index'),
+        index_change.rename('Index Change')
+    ], axis=1)
 
-    cme_index = avg_price(rolling_totals['value'], rolling_totals['weight']).rename('CME Index')
-    index_change = compute_change(cme_index).rename('Index Change')
 
-    return pd.concat([table, daily_price, price_change, cme_index, index_change], axis=1)
-
-
-def get_cash_prices(days: int) -> DataFrame:
-    slaughter = asyncio.run(fetch_slaughter(days + 3))
-    return compute_cash_index(filter_types(slaughter)).tail(days)
+def get_cash_prices(n: int) -> DataFrame:
+    slaughter = asyncio.run(fetch_slaughter(n + 3))
+    return cash_index(filter_types(slaughter)).tail(n)
 
 
 if __name__ == '__main__':
@@ -91,4 +84,4 @@ if __name__ == '__main__':
     parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
 
     days = parser.parse_args().days
-    print(get_cash_prices(days=days))
+    print(get_cash_prices(days))
