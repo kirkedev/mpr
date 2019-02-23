@@ -1,5 +1,6 @@
 from typing import NamedTuple
 from typing import Iterator
+from datetime import date
 
 import numpy as np
 from numpy import uint8
@@ -20,6 +21,12 @@ class Purchase(NamedTuple):
     avg_price: float32
     low_price: float32
     high_price: float32
+
+    def __hash__(self) -> int:
+        return hash((self.date.astype(date).toordinal(), self.seller, self.arrangement, self.basis))
+
+    def __eq__(self, other) -> bool:
+        return isinstance(other, Purchase) and hash(self) == hash(other) and np.allclose(self[4:], other[4:])
 
 
 def to_array(records: Iterator[Purchase]) -> recarray:
