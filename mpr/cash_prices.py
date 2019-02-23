@@ -1,9 +1,11 @@
 from typing import Tuple
 from typing import Iterator
-from pandas import DataFrame, Series
+from datetime import date
+from functools import singledispatch
 
 import asyncio
 import pandas as pd
+from pandas import DataFrame, Series
 
 from mpr.data.model.slaughter import to_array
 from mpr.data.model.slaughter import Slaughter
@@ -25,6 +27,7 @@ def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
 def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     table = pd.concat([head_count, carcass_weight, net_price], axis=1).unstack()
     columns = filter(lambda it: it[1] != Arrangement.NEGOTIATED_FORMULA, table.columns)
+    columns = sorted(columns, key=lambda it: it[1])
     return table[columns]
 
 
@@ -73,7 +76,14 @@ def cash_index(records: Iterator[Slaughter]) -> DataFrame:
     ], axis=1)
 
 
-async def get_cash_prices(n: int) -> DataFrame:
+@singledispatch
+async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
+    slaughter = await fetch_slaughter(start, end)
+    return cash_index(filter_types(slaughter))
+
+
+@get_cash_prices.register(int)
+async def get_cash_prices_days(n: int) -> DataFrame:
     slaughter = await fetch_slaughter(n + 3)
     return cash_index(filter_types(slaughter)).tail(n)
 
