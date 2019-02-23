@@ -11,6 +11,8 @@ from mpr.data.model.purchase_type import Arrangement
 
 from mpr.data.api.slaughter import fetch_slaughter
 
+pd.options.display.float_format = '{:,.2f}'.format
+
 
 def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
     return filter(lambda it: it.arrangement in (
@@ -42,7 +44,6 @@ def column_title(column: Tuple[str, int]) -> str:
     (col, arrangement_id) = column
     arrangement = Arrangement(arrangement_id).name.replace('_', ' ').title()
     title = col.replace('_', ' ').title()
-
     return f"{arrangement} {title}"
 
 
@@ -72,8 +73,8 @@ def cash_index(records: Iterator[Slaughter]) -> DataFrame:
     ], axis=1)
 
 
-def get_cash_prices(n: int) -> DataFrame:
-    slaughter = asyncio.run(fetch_slaughter(n + 3))
+async def get_cash_prices(n: int) -> DataFrame:
+    slaughter = await fetch_slaughter(n + 3)
     return cash_index(filter_types(slaughter)).tail(n)
 
 
@@ -84,4 +85,4 @@ if __name__ == '__main__':
     parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
 
     days = parser.parse_args().days
-    print(get_cash_prices(days))
+    print(asyncio.run(get_cash_prices(days)))
