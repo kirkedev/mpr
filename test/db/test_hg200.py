@@ -96,4 +96,14 @@ class TestHg200(TestCase):
         self.assertEqual(date_column[date_index[-1]], date(2018, 1, 2).toordinal())
 
     def test_merge(self):
-        pass
+        purchase = parse_attributes({
+            'reported_for_date': '1/1/2018',
+            'purchase_type': 'Negotiated (carcass basis)',
+            'head_count': '11,234',
+            'price_low': '48.00',
+            'price_high': '52.00',
+            'wtd_avg': '50.00'
+        })
+
+        self.report.insert([purchase])
+        self.assertEqual(self.report.table.nrows, 2)

@@ -45,7 +45,6 @@ class Entity(Generic[Record], ABC):
         return map(cls.from_row, cls.table.where(condition, params))
 
     @classmethod
-    @abstractmethod
     def insert(cls, records: Iterator[Record]):
         cls.table.append(list(map(cls.to_row, records)))
         cls.commit()
