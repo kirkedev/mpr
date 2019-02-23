@@ -3,8 +3,7 @@ mpr
 
 Repository for downloading, parsing, and analyzing [ Mandatory Price Reporting](https://mpr.datamart.ams.usda.gov/) from the USDA's [Agricultural Marketing Service](https://www.ams.usda.gov/). 
 
-Setup
------
+### Setup
 This project uses [conda](https://conda.io/en/latest/). Install python packages and activate environment:
 ```bash
 conda env create -f environment.yml
@@ -20,8 +19,7 @@ source ~/miniconda3/etc/profile.d/conda.sh
 conda activate mpr
 ```
 
-Commands
---------
+### Commands
 These all need to be run from the project root. If using direnv and an envrc like above, you can omit the path and run the script directly, eg: `tests`.
 
 ```bash
