@@ -40,3 +40,12 @@ class Observation(Entity[Record], ABC):
     @classmethod
     def dates(cls) -> Iterator[date]:
         return map(date.fromordinal, set(cls.table.cols.date[:]))
+
+    @classmethod
+    def insert(cls, records: Iterator[Record]):
+        dates = cls.dates()
+        rows = list(map(cls.to_row, filter(lambda it: it.date not in dates, records)))
+
+        if len(rows) > 0:
+            cls.table.append(rows)
+            cls.commit()
