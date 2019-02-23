@@ -21,6 +21,9 @@ class TestHg200(TestCase):
     def test_create(self):
         self.assertTrue('/mpr/lm_hg200' in db.connection)
         self.assertTrue('/mpr/lm_hg200/barrows_gilts' in db.connection)
+        self.assertTrue(self.report.table.will_query_use_indexing("""date == observation_date""", {
+            'observation_date': date.toordinal(date(2019, 2, 1))
+        }))
 
     @classmethod
     def tearDownClass(cls):
@@ -91,3 +94,16 @@ class TestHg200(TestCase):
         date_index = self.report.table.colindexes['date']
         self.assertEqual(date_column[date_index[0]], date(2018, 1, 1).toordinal())
         self.assertEqual(date_column[date_index[-1]], date(2018, 1, 2).toordinal())
+
+    def test_merge(self):
+        purchase = parse_attributes({
+            'reported_for_date': '1/1/2018',
+            'purchase_type': 'Negotiated (carcass basis)',
+            'head_count': '11,234',
+            'price_low': '48.00',
+            'price_high': '52.00',
+            'wtd_avg': '50.00'
+        })
+
+        self.report.insert([purchase])
+        self.assertEqual(self.report.table.nrows, 2)

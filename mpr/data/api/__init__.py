@@ -91,12 +91,14 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
     When at the maximum depth (4), yield all collected metadata with each child element's attributes.
 
     Typical layout of a USDA report:
-
      <results exportTime>
         <report label slug>
             <record report_date reported_for_date>
                 <report label>
-                    <record.../>
+                    <record ...attributes/>
+
+    Usually all we care about is the report date (depth=2); the report label (depth=3), for finding sections;
+    and the record attributes (depth=4), which contains the data attributes.
     """
     depth = 0
     metadata: Dict[str, str] = dict()

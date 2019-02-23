@@ -26,30 +26,10 @@ class CutoutEntity(Observation[Cutout], ABC):
         ('belly_price', float32)
     ])
 
-    @classmethod
-    def from_row(cls, row: Row) -> Cutout:
-        return Cutout(
-            date=datetime64(date.fromordinal(row['date']), 'D'),
-            primal_loads=row['primal_loads'],
-            trimming_loads=row['trimming_loads'],
-            carcass_price=row['carcass_price'],
-            loin_price=row['loin_price'],
-            butt_price=row['butt_price'],
-            picnic_price=row['picnic_price'],
-            rib_price=row['rib_price'],
-            ham_price=row['ham_price'],
-            belly_price=row['belly_price'])
+    @staticmethod
+    def from_row(row: Row) -> Cutout:
+        return Cutout(datetime64(date.fromordinal(row[0]), 'D'), *row[1:])
 
     @staticmethod
     def to_row(record: Cutout) -> Tuple:
-        return (
-            record.date.astype(date).toordinal(),
-            record.primal_loads,
-            record.trimming_loads,
-            record.carcass_price,
-            record.loin_price,
-            record.butt_price,
-            record.picnic_price,
-            record.rib_price,
-            record.ham_price,
-            record.belly_price)
+        return (record[0].astype(date).toordinal(), *record[1:])

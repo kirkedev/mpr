@@ -16,6 +16,9 @@ class TestPk603(TestCase):
     def test_create(self):
         self.assertTrue('/mpr/lm_pk603' in db.connection)
         self.assertTrue('/mpr/lm_pk603/cutout' in db.connection)
+        self.assertTrue(self.report.table.will_query_use_indexing("""date == observation_date""", {
+            'observation_date': date.toordinal(date(2019, 2, 1))
+        }))
 
     @classmethod
     def tearDownClass(cls):
