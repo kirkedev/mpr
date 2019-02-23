@@ -8,6 +8,9 @@ from functools import singledispatch
 from numpy import datetime64
 
 from mpr.data.model.purchase import Purchase
+from mpr.data.model.purchase_type import Seller
+from mpr.data.model.purchase_type import Arrangement
+from mpr.data.model.purchase_type import Basis
 
 from . import Attributes
 from . import Report
@@ -16,7 +19,6 @@ from . import opt_float
 from . import date_interval
 from . import fetch
 from . import filter_section
-from .purchase_type import purchase_types
 
 date_format = "%m/%d/%Y"
 
@@ -31,6 +33,30 @@ class Section(Enum):
     # STATES = 'State of Origin'
 
 
+purchase_types = {
+    'Negotiated (carcass basis)':
+        (Seller.ALL, Arrangement.NEGOTIATED, Basis.CARCASS),
+
+    'Negotiated Formula (carcass basis)':
+        (Seller.ALL, Arrangement.NEGOTIATED_FORMULA, Basis.CARCASS),
+
+    'Swine/Pork Market Formula (carcass basis)':
+        (Seller.ALL, Arrangement.MARKET_FORMULA, Basis.CARCASS),
+
+    'Negotiated (live basis)':
+        (Seller.ALL, Arrangement.NEGOTIATED, Basis.LIVE),
+
+    'Negotiated Formula (live basis)':
+        (Seller.ALL, Arrangement.NEGOTIATED_FORMULA, Basis.LIVE),
+
+    'Combined Negotiated/Negotiated Formula (carcass basis)':
+        (Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.CARCASS),
+
+    'Combined Negotiated/Negotiated Formula (live basis)':
+        (Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.LIVE),
+}
+
+
 def parse_attributes(attr: Attributes) -> Purchase:
     report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
     purchase_type = attr['purchase_type']
@@ -38,9 +64,9 @@ def parse_attributes(attr: Attributes) -> Purchase:
 
     return Purchase(
         date=datetime64(report_date, 'D'),
-        seller=seller,
-        arrangement=arrangement,
-        basis=basis,
+        seller=seller.value,
+        arrangement=arrangement.value,
+        basis=basis.value,
         head_count=opt_int(attr, 'head_count'),
         avg_price=opt_float(attr, 'wtd_avg'),
         low_price=opt_float(attr, 'price_low'),
