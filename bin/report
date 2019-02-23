@@ -1,1 +1,3 @@
+#!/usr/bin/env bash
+
 curl -s "https://www.ams.usda.gov/mnreports/${1}.txt" | less

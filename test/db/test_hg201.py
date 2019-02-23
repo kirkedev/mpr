@@ -21,6 +21,9 @@ class TestHg201(TestCase):
     def test_create(self):
         self.assertTrue('/mpr/lm_hg201' in db.connection)
         self.assertTrue('/mpr/lm_hg201/barrows_gilts' in db.connection)
+        self.assertTrue(self.report.table.will_query_use_indexing("""date == observation_date""", {
+            'observation_date': date.toordinal(date(2019, 2, 1))
+        }))
 
     @classmethod
     def tearDownClass(cls):
@@ -56,7 +59,7 @@ class TestHg201(TestCase):
         self.report.table.remove_rows()
 
     def test_query(self):
-        record = self.report.first()
+        record = next(self.report.get())
         self.assertEqual(record.date, date(2019, 2, 1))
         self.assertEqual(record.seller, Seller.PRODUCER)
         self.assertEqual(record.arrangement, Arrangement.NEGOTIATED)

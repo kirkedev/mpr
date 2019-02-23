@@ -26,9 +26,9 @@ class Entity(Generic[Record], ABC):
     def schema() -> dtype:
         raise NotImplementedError
 
-    @classmethod
+    @staticmethod
     @abstractmethod
-    def from_row(cls, row: Row) -> Record:
+    def from_row(row: Row) -> Record:
         raise NotImplementedError
 
     @staticmethod
@@ -45,10 +45,13 @@ class Entity(Generic[Record], ABC):
         return map(cls.from_row, cls.table.where(condition, params))
 
     @classmethod
-    @abstractmethod
     def insert(cls, records: Iterator[Record]):
-        cls.table.append(list(map(cls.to_row, records)))
-        cls.commit()
+        existing = set(map(hash, cls.get()))
+        rows = list(map(cls.to_row, filter(lambda it: hash(it) not in existing, records)))
+
+        if len(rows) > 0:
+            cls.table.append(rows)
+            cls.commit()
 
     @classmethod
     def commit(cls):

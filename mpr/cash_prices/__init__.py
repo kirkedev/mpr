@@ -2,8 +2,8 @@ from typing import Tuple
 from typing import Iterator
 from datetime import date
 from functools import singledispatch
+from operator import itemgetter
 
-import asyncio
 import pandas as pd
 from pandas import DataFrame, Series
 
@@ -26,8 +26,9 @@ def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
 
 def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     table = pd.concat([head_count, carcass_weight, net_price], axis=1).unstack()
-    columns = filter(lambda it: it[1] != Arrangement.NEGOTIATED_FORMULA, table.columns)
-    columns = sorted(columns, key=lambda it: it[1])
+    get_arrangement = itemgetter(1)
+    columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
+    columns = sorted(columns, key=get_arrangement)
     return table[columns]
 
 
@@ -86,13 +87,3 @@ async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
 async def get_cash_prices_days(n: int) -> DataFrame:
     slaughter = await fetch_slaughter(n + 3)
     return cash_index(filter_types(slaughter)).tail(n)
-
-
-if __name__ == '__main__':
-    import argparse
-
-    parser = argparse.ArgumentParser(description='Calculate the CME Lean Hog Index')
-    parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
-
-    days = parser.parse_args().days
-    print(asyncio.run(get_cash_prices(days)))
