@@ -38,15 +38,5 @@ class Observation(Entity[Record], ABC):
         return cls.get_range(date(year, 1, 1), date(year, 12, 31))
 
     @classmethod
-    def first(cls) -> Record:
-        row = cls.table[cls.table.colindexes['date'][0]]
-        return cls.from_row(row)
-
-    @classmethod
-    def last(cls) -> Record:
-        row = cls.table[cls.table.colindexes['date'][-1]]
-        return cls.from_row(row)
-
-    @classmethod
     def dates(cls) -> Iterator[date]:
         return map(date.fromordinal, set(cls.table.cols.date[:]))

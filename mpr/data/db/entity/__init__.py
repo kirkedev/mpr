@@ -26,9 +26,9 @@ class Entity(Generic[Record], ABC):
     def schema() -> dtype:
         raise NotImplementedError
 
-    @classmethod
+    @staticmethod
     @abstractmethod
-    def from_row(cls, row: Row) -> Record:
+    def from_row(row: Row) -> Record:
         raise NotImplementedError
 
     @staticmethod
