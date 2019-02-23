@@ -4,7 +4,6 @@ from datetime import date
 from functools import singledispatch
 from operator import itemgetter
 
-import asyncio
 import pandas as pd
 from pandas import DataFrame, Series
 
@@ -88,13 +87,3 @@ async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
 async def get_cash_prices_days(n: int) -> DataFrame:
     slaughter = await fetch_slaughter(n + 3)
     return cash_index(filter_types(slaughter)).tail(n)
-
-
-if __name__ == '__main__':
-    import argparse
-
-    parser = argparse.ArgumentParser(description='Calculate the CME Lean Hog Index')
-    parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
-
-    days = parser.parse_args().days
-    print(asyncio.run(get_cash_prices(days)))
