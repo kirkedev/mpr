@@ -54,7 +54,7 @@ def opt_int(attr: Attributes, key: str) -> uint32:
 
 def date_interval(days: int) -> DateInterval:
     today = date.today()
-    start = np.busday_offset(today, -days).astype('O')
+    start = np.busday_offset(today, -days, 'backward').astype('O')
     return start, today
 
 
