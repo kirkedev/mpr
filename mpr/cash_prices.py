@@ -2,6 +2,7 @@ from typing import Tuple
 from typing import Iterator
 from datetime import date
 from functools import singledispatch
+from operator import itemgetter
 
 import asyncio
 import pandas as pd
@@ -26,8 +27,9 @@ def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
 
 def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     table = pd.concat([head_count, carcass_weight, net_price], axis=1).unstack()
-    columns = filter(lambda it: it[1] != Arrangement.NEGOTIATED_FORMULA, table.columns)
-    columns = sorted(columns, key=lambda it: it[1])
+    get_arrangement = itemgetter(1)
+    columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
+    columns = sorted(columns, key=get_arrangement)
     return table[columns]
 
 
