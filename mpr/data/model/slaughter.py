@@ -1,5 +1,6 @@
 from typing import NamedTuple
 from typing import Iterator
+from datetime import date
 
 import numpy as np
 from numpy import uint8
@@ -9,11 +10,6 @@ from numpy import recarray
 
 from . import date_type
 from . import Date
-
-
-total_weight = lambda head_count, carcass_weight: head_count * carcass_weight
-total_value = lambda net_price, weight: net_price * weight
-avg_price = lambda value, weight: value / weight
 
 
 class Slaughter(NamedTuple):
@@ -34,17 +30,23 @@ class Slaughter(NamedTuple):
     loineye_area: float32
     lean_percent: float32
 
+    def __hash__(self) -> int:
+        return hash((self.date.astype(date).toordinal(), self.seller, self.arrangement, self.basis))
+
+    def __eq__(self, other) -> bool:
+        return isinstance(other, Slaughter) and hash(self) == hash(other) and np.allclose(self[4:], other[4:])
+
     @property
     def total_weight(self) -> float:
-        return total_weight(self.head_count, self.carcass_weight)
+        return self.head_count * self.carcass_weight
 
     @property
     def total_value(self) -> float:
-        return total_value(self.total_weight, self.net_price)
+        return self.total_weight * self.net_price
 
     @property
     def avg_price(self) -> float:
-        return avg_price(self.total_value, self.total_weight)
+        return self.total_value / self.total_weight
 
 
 def to_array(records: Iterator[Slaughter]) -> recarray:

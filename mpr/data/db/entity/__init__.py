@@ -46,8 +46,12 @@ class Entity(Generic[Record], ABC):
 
     @classmethod
     def insert(cls, records: Iterator[Record]):
-        cls.table.append(list(map(cls.to_row, records)))
-        cls.commit()
+        existing = set(map(hash, cls.get()))
+        rows = list(map(cls.to_row, filter(lambda it: hash(it) not in existing, records)))
+
+        if len(rows) > 0:
+            cls.table.append(rows)
+            cls.commit()
 
     @classmethod
     def commit(cls):
