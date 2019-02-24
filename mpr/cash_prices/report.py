@@ -30,8 +30,8 @@ def create_table(head_count: Series, carcass_weight: Series, net_price: Series) 
 
 
 def pivot_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
-    weight = total_weight(head_count, carcass_weight).round(decimals=2).rename('weight')
-    value = total_value(weight, net_price).round(decimals=2).rename('value')
+    weight = total_weight(head_count, carcass_weight).rename('weight')
+    value = total_value(weight, net_price).rename('value')
     return pd.pivot_table(pd.concat([weight, value], axis=1), index='date')
 
 
