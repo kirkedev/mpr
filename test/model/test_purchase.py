@@ -40,7 +40,7 @@ class TestPurchase(TestCase):
         first = parse_attributes({
             'reported_for_date': '01/02/2018',
             'purchase_type': 'Negotiated (carcass basis)',
-            'head_count': '14141',
+            'head_count': '14,141',
             'price_low': '48.00',
             'price_high': '52.00',
             'wtd_avg': '50.00'
@@ -49,7 +49,7 @@ class TestPurchase(TestCase):
         second = parse_attributes({
             'reported_for_date': '01/02/2018',
             'purchase_type': 'Negotiated (carcass basis)',
-            'head_count': '14141',
+            'head_count': '14,141',
             'price_low': '48.00',
             'price_high': '52.00',
             'wtd_avg': '50.00'
@@ -61,7 +61,7 @@ class TestPurchase(TestCase):
         first = parse_attributes({
             'reported_for_date': '01/02/2018',
             'purchase_type': 'Negotiated (carcass basis)',
-            'head_count': '14141',
+            'head_count': '14,141',
             'price_low': '48.00',
             'price_high': '52.00',
             'wtd_avg': '50.00'
@@ -70,7 +70,7 @@ class TestPurchase(TestCase):
         second = parse_attributes({
             'reported_for_date': '01/02/2018',
             'purchase_type': 'Negotiated (carcass basis)',
-            'head_count': '14141'
+            'head_count': '14,141'
         })
 
         self.assertNotEqual(first, second)

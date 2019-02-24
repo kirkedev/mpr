@@ -5,9 +5,7 @@ from numpy import isclose
 
 from mpr.data.api.slaughter import parse_attributes
 from mpr.data.model.slaughter import to_array
-from mpr.data.model.purchase_type import Seller
-from mpr.data.model.purchase_type import Arrangement
-from mpr.data.model.purchase_type import Basis
+from mpr.data.model.purchase_type import Seller, Arrangement, Basis
 
 from test.api import load_resource
 

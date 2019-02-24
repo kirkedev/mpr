@@ -4,7 +4,7 @@ from mpr.data.model.slaughter import Slaughter
 from mpr.data.model.purchase_type import Arrangement
 
 
-total_weight = lambda head_count, carcass_weight: head_count * carcass_weight
+total_weight = lambda head_count, weight: head_count * weight
 total_value = lambda weight, price: weight * price
 weighted_price = lambda value, weight: value / weight
 

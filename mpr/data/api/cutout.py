@@ -7,7 +7,7 @@ from functools import singledispatch
 from numpy import float32
 from numpy import datetime64
 
-from mpr.data.model.cutout import Cutout
+from ..model.cutout import Cutout
 
 from . import Attributes
 from . import Report
