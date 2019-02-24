@@ -4,6 +4,7 @@ from datetime import date
 from functools import singledispatch
 from operator import itemgetter
 
+import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series
 
@@ -33,13 +34,13 @@ def create_table(head_count: Series, carcass_weight: Series, net_price: Series) 
 
 
 def pivot_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
-    weight = (head_count * carcass_weight).rename('weight')
-    value = (weight * net_price).rename('value')
+    weight = (head_count * carcass_weight).round(decimals=2).rename('weight')
+    value = (weight * net_price).round(decimals=2).rename('value')
     return pd.pivot_table(pd.concat([weight, value], axis=1), index='date')
 
 
 def avg_price(value: Series, weight: Series) -> Tuple[Series, Series]:
-    price = value / weight
+    price = (value / weight).round(decimals=2)
     change = price - price.shift(1)
     return price, change
 
