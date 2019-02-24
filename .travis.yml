@@ -1,7 +1,6 @@
 language: python
-
-python:
-  - "3.7"
+dist: xenial
+python: 3.7
 
 install:
   - sudo apt-get update
@@ -11,7 +10,6 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
-  # Useful for debugging any issues with conda
   - conda create -f environment.yml
   - source activate mpr
   - conda info -a
