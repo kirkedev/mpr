@@ -3,6 +3,8 @@ mpr
 
 Repository for downloading, parsing, and analyzing [ Mandatory Price Reporting](https://mpr.datamart.ams.usda.gov/) from the USDA's [Agricultural Marketing Service](https://www.ams.usda.gov/). 
 
+[![Build Status](https://travis-ci.com/gumballhead/mpr.svg?branch=master)](https://travis-ci.com/gumballhead/mpr)
+
 ### Setup
 This project uses [conda](https://conda.io/en/latest/). Install python packages and activate environment:
 ```bash
