@@ -10,8 +10,8 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
-  - conda create -f environment.yml
-  - source activate mpr
   - conda info -a
+  - conda env create -f environment.yml
+  - source activate mpr
 
 script: bin/tests
