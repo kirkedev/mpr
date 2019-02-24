@@ -1,20 +1,12 @@
-from typing import Tuple
 from typing import Iterator
-from datetime import date
-from functools import singledispatch
-from operator import itemgetter
 
-import numpy as np
-import pandas as pd
-from pandas import DataFrame, Series
-
-from mpr.data.model.slaughter import to_array
 from mpr.data.model.slaughter import Slaughter
 from mpr.data.model.purchase_type import Arrangement
 
-from mpr.data.api.slaughter import fetch_slaughter
 
-pd.options.display.float_format = '{:,.2f}'.format
+total_weight = lambda head_count, carcass_weight: head_count * carcass_weight
+total_value = lambda weight, price: weight * price
+weighted_price = lambda value, weight: value / weight
 
 
 def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
@@ -23,68 +15,3 @@ def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
         Arrangement.MARKET_FORMULA,
         Arrangement.NEGOTIATED_FORMULA
     ), records)
-
-
-def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
-    table = pd.concat([head_count, carcass_weight, net_price], axis=1).unstack()
-    get_arrangement = itemgetter(1)
-    columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
-    columns = sorted(columns, key=get_arrangement)
-    return table[columns]
-
-
-def pivot_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
-    weight = (head_count * carcass_weight).round(decimals=2).rename('weight')
-    value = (weight * net_price).round(decimals=2).rename('value')
-    return pd.pivot_table(pd.concat([weight, value], axis=1), index='date')
-
-
-def avg_price(value: Series, weight: Series) -> Tuple[Series, Series]:
-    price = (value / weight).round(decimals=2)
-    change = price - price.shift(1)
-    return price, change
-
-
-def column_title(column: Tuple[str, int]) -> str:
-    (col, arrangement_id) = column
-    arrangement = Arrangement(arrangement_id).name.replace('_', ' ').title()
-    title = col.replace('_', ' ').title()
-    return f"{arrangement} {title}"
-
-
-def cash_index(records: Iterator[Slaughter]) -> DataFrame:
-    columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
-
-    data = DataFrame(to_array(records), columns=columns).set_index(['date', 'arrangement'])
-    head_count = data.head_count
-    carcass_weight = data.carcass_weight
-    net_price = data.net_price
-
-    table = create_table(head_count, carcass_weight, net_price)
-    table.columns = map(column_title, table.columns)
-
-    totals = pivot_table(head_count, carcass_weight, net_price)
-    daily_price, daily_change = avg_price(totals.value, totals.weight)
-
-    rolling_totals = totals.rolling(2).sum().dropna()
-    cme_index, index_change = avg_price(rolling_totals.value, rolling_totals.weight)
-
-    return pd.concat([
-        table,
-        daily_price.rename('Daily Avg Price'),
-        daily_change.rename('Price Change'),
-        cme_index.rename('CME Index'),
-        index_change.rename('Index Change')
-    ], axis=1)
-
-
-@singledispatch
-async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
-    slaughter = await fetch_slaughter(start, end)
-    return cash_index(filter_types(slaughter))
-
-
-@get_cash_prices.register(int)
-async def get_cash_prices_days(n: int) -> DataFrame:
-    slaughter = await fetch_slaughter(n + 3)
-    return cash_index(filter_types(slaughter)).tail(n)
