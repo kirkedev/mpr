@@ -17,7 +17,7 @@ It's a good idea to use something like [direnv](https://direnv.net/) to activate
 My `.envrc` file looks like this:
 ```bash
 export PATH=$PATH:./bin
-source ~/miniconda3/etc/profile.d/conda.sh
+source $HOME/miniconda3/etc/profile.d/conda.sh
 conda activate mpr
 ```
 
