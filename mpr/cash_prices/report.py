@@ -23,8 +23,8 @@ pd.options.display.float_format = '{:,.2f}'.format
 
 def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     table = pd.concat([head_count, carcass_weight, net_price], axis=1).unstack()
-    get_arrangement = itemgetter(1)
 
+    get_arrangement = itemgetter(1)
     columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
     columns = sorted(columns, key=get_arrangement)
 
@@ -35,18 +35,21 @@ def column_title(column: Tuple[str, int]) -> str:
     (field, arrangement) = column
     field = field.replace('_', ' ').title()
     arrangement = Arrangement(arrangement).name.replace('_', ' ').title()
+
     return f"{arrangement} {field}"
 
 
 def weights_and_values(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     weight = total_weight(head_count=head_count, weight=carcass_weight).rename('weight')
     value = total_value(weight=weight, price=net_price).rename('value')
+
     return pd.pivot_table(pd.concat([weight, value], axis=1), index='date')
 
 
 def with_change(values: Series) -> Tuple[Series, Series]:
     values = values.round(decimals=2)
     change = values - values.shift(1)
+
     return values, change
 
 
