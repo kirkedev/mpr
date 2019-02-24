@@ -1,4 +1,3 @@
-from enum import Enum
 from typing import TypeVar
 from typing import Optional
 from typing import Tuple
@@ -17,9 +16,10 @@ from numpy import uint32
 from numpy import float32
 from numpy import nan
 
-from mpr.data.model import Attributes
+from mpr.data import Report
 
 T = TypeVar('T')
+Attributes = Dict[str, str]
 ParsedElement = Tuple[str, Element]
 DateInterval = Tuple[date, date]
 
@@ -27,15 +27,6 @@ date_format = "%m-%d-%Y"
 
 base_url = 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs/{report}?\
 filter={{"filters":[{{"fieldName":"Report date","operatorType":"BETWEEN","values":["{start_date}", "{end_date}"]}}]}}'
-
-
-class Report(Enum):
-    PURCHASED_SWINE = 'LM_HG200'
-    SLAUGHTERED_SWINE = 'LM_HG201'
-    DIRECT_HOG_MORNING = 'LM_HG202'
-    DIRECT_HOG_AFTERNOON = 'LM_HG203'
-    CUTOUT_MORNING = 'LM_PK602'
-    CUTOUT_AFTERNOON = 'LM_PK603'
 
 
 def get_optional(attr: Attributes, key: str) -> Optional[T]:
@@ -54,7 +45,7 @@ def opt_int(attr: Attributes, key: str) -> uint32:
 
 def date_interval(days: int) -> DateInterval:
     today = date.today()
-    start = np.busday_offset(today, -days).astype('O')
+    start = np.busday_offset(today, -days, 'backward').astype('O')
     return start, today
 
 

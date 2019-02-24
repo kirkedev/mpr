@@ -8,6 +8,9 @@ from functools import singledispatch
 from numpy import datetime64
 
 from mpr.data.model.slaughter import Slaughter
+from mpr.data.model.purchase_type import Seller
+from mpr.data.model.purchase_type import Arrangement
+from mpr.data.model.purchase_type import Basis
 
 from . import Attributes
 from . import Report
@@ -16,7 +19,6 @@ from . import opt_float
 from . import date_interval
 from . import fetch
 from . import filter_section
-from .purchase_type import purchase_types
 
 date_format = "%m/%d/%Y"
 
@@ -30,6 +32,33 @@ class Section(Enum):
     # NEGOTIATED_BARROWS_AND_GILTS = 'Barrows/Gilts Negotiated'
 
 
+purchase_types = {
+    'Prod. Sold Negotiated':
+        (Seller.PRODUCER, Arrangement.NEGOTIATED, Basis.ALL),
+
+    'Prod. Sold Swine or Pork Market Formula':
+        (Seller.PRODUCER, Arrangement.MARKET_FORMULA, Basis.ALL),
+
+    'Prod. Sold Other Market Formula':
+        (Seller.PRODUCER, Arrangement.OTHER_MARKET_FORMULA, Basis.ALL),
+
+    'Prod. Sold Negotiated Formula':
+        (Seller.PRODUCER, Arrangement.NEGOTIATED_FORMULA, Basis.ALL),
+
+    'Prod. Sold Other Purchase Arrangement':
+        (Seller.PRODUCER, Arrangement.OTHER_PURCHASE, Basis.ALL),
+
+    'Prod. Sold (All Purchase Types)':
+        (Seller.PRODUCER, Arrangement.ALL, Basis.ALL),
+
+    'Pack. Sold (All Purchase Types)':
+        (Seller.PACKER, Arrangement.ALL, Basis.ALL),
+
+    'Packer Owned':
+        (Seller.PACKER, Arrangement.PACKER_OWNED, Basis.ALL)
+}
+
+
 def parse_attributes(attr: Attributes) -> Slaughter:
     report_date = datetime.strptime(attr['for_date_begin'], date_format).date()
     purchase_type = attr['purchase_type']
@@ -37,9 +66,9 @@ def parse_attributes(attr: Attributes) -> Slaughter:
 
     return Slaughter(
         date=datetime64(report_date, 'D'),
-        seller=seller,
-        arrangement=arrangement,
-        basis=basis,
+        seller=seller.value,
+        arrangement=arrangement.value,
+        basis=basis.value,
         head_count=opt_int(attr, 'head_count'),
         base_price=opt_float(attr, 'base_price'),
         net_price=opt_float(attr, 'avg_net_price'),
