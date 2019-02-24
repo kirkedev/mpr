@@ -7,8 +7,8 @@ from functools import singledispatch
 
 from numpy import datetime64
 
-from mpr.data.model.slaughter import Slaughter
-from mpr.data.model.purchase_type import Seller, Arrangement, Basis
+from ..model.slaughter import Slaughter
+from ..model.purchase_type import Seller, Arrangement, Basis
 
 from . import Attributes
 from . import Report

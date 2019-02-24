@@ -2,7 +2,7 @@ from typing import Optional
 from tables import Node
 from tables import Group
 
-from mpr.data import db
+from .. import db
 from .entity.cutout import CutoutEntity
 
 
