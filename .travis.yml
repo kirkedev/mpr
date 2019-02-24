@@ -14,4 +14,4 @@ install:
   - conda env create -f environment.yml
   - source activate mpr
 
-script: bin/tests
+script: tests
