@@ -6,7 +6,7 @@ channels:
 dependencies:
   - aiohttp
   - jupyter
-  - matplotib
+  - matplotlib
   - numpy
   - pandas
   - pytables
