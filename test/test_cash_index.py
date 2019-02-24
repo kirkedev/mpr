@@ -16,7 +16,7 @@ negotiated_formula = records.arrangement == Arrangement.NEGOTIATED_FORMULA
 purchase_types = records[negotiated | negotiated_formula | market_formula]
 
 
-class CashIndexTest(TestCase):
+class TestCashIndex(TestCase):
     # Cash prices for Feb 18-19, 2019
     # ftp://ftp.cmegroup.com/cash_settled_commodity_index_prices/daily_data/lean_hogs/LH190219.txt
     @staticmethod
