@@ -21,12 +21,6 @@ from . import filter_types
 pd.options.display.float_format = '{:,.2f}'.format
 
 
-def avg_price(value: Series, weight: Series) -> Tuple[Series, Series]:
-    price = weighted_price(value, weight).round(decimals=2)
-    change = price - price.shift(1)
-    return price, change
-
-
 def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     table = pd.concat([head_count, carcass_weight, net_price], axis=1).unstack()
     get_arrangement = itemgetter(1)
@@ -48,6 +42,12 @@ def column_title(column: Tuple[str, int]) -> str:
     return f"{arrangement} {title}"
 
 
+def with_change(values: Series) -> Tuple[Series, Series]:
+    values = values.round(decimals=2)
+    change = values - values.shift(1)
+    return values, change
+
+
 def cash_prices_report(records: Iterator[Slaughter]) -> DataFrame:
     array = to_array(filter_types(records))
     columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
@@ -61,10 +61,10 @@ def cash_prices_report(records: Iterator[Slaughter]) -> DataFrame:
     table.columns = map(column_title, table.columns)
 
     totals = pivot_table(head_count, carcass_weight, net_price)
-    daily_price, daily_change = avg_price(totals.value, totals.weight)
+    daily_price, daily_change = with_change(weighted_price(totals.value, totals.weight))
 
     rolling_totals = totals.rolling(2).sum().dropna()
-    cme_index, index_change = avg_price(rolling_totals.value, rolling_totals.weight)
+    cme_index, index_change = with_change(weighted_price(rolling_totals.value, rolling_totals.weight))
 
     return pd.concat([
         table,
