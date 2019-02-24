@@ -7,9 +7,7 @@ from numpy import isnan
 from mpr.data import db
 from mpr.data.api.purchase import parse_attributes
 from mpr.data.model.purchase import to_array
-from mpr.data.model.purchase_type import Seller
-from mpr.data.model.purchase_type import Arrangement
-from mpr.data.model.purchase_type import Basis
+from mpr.data.model.purchase_type import Seller, Arrangement, Basis
 
 
 class TestHg202(TestCase):
