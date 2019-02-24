@@ -2,12 +2,11 @@ from unittest import TestCase
 from numpy import allclose
 
 from mpr.data.api.slaughter import parse_attributes
-from mpr.cash_prices import filter_types
 from mpr.cash_prices.report import cash_prices_report
 from . import load_resource
 
 # Given a Daily Slaughtered Swine Report from Feb 20, 2019
-records = filter_types(map(parse_attributes, load_resource('cash_prices.xml')))
+records = map(parse_attributes, load_resource('cash_prices.xml'))
 
 # When I run a cash prices report for the last 10 days
 report = cash_prices_report(records).tail(10)
