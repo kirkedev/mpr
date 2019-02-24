@@ -4,4 +4,6 @@ setup(
   name="mpr",
   author="Andrew Kirkegaard",
   author_email="andrew.kirkegaard@gmail.com",
-  packages=["data"], requires=['tables', 'aiohttp', 'numpy', 'pandas'])
+  packages=["mpr"], 
+  requires=['tables', 'aiohttp', 'numpy', 'pandas']
+)
