@@ -4,7 +4,7 @@ mpr
 Python package for downloading, parsing, and analyzing historical [ Mandatory Price Reporting](https://mpr.datamart.ams.usda.gov/) data from the USDA's [Agricultural Marketing Service](https://www.ams.usda.gov/).
 
 [![Build Status](https://travis-ci.com/gumballhead/mpr.svg?branch=master)](https://travis-ci.com/gumballhead/mpr)
-[![Coverage Status](https://coveralls.io/repos/github/gumballhead/mpr/badge.svg)](https://coveralls.io/github/gumballhead/mpr)
+[![Coverage Status](https://coveralls.io/repos/github/gumballhead/mpr/badge.svg?branch=master)](https://coveralls.io/github/gumballhead/mpr?branch=master)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gumballhead/mpr/master)
 
 ### Setup
