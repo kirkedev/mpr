@@ -5,9 +5,11 @@ channels:
   - defaults
 dependencies:
   - aiohttp
+  - coveralls
   - jupyter
   - matplotlib
   - numpy
   - pandas
   - pytables
   - python=3.7.*
+
