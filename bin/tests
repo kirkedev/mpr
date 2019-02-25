@@ -2,5 +2,5 @@
 
 export DB='test/db/db.h5'
 rm -f $DB
-python3 -m unittest "$@"
+coverage run -m unittest "$@"
 rm -f $DB
