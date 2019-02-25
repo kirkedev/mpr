@@ -1,9 +1,11 @@
 from os import environ
+from typing import Optional
 from importlib import import_module
 from pathlib import Path
 
 import tables
 from .entity import Entity
+
 path = Path(environ.get('DB', 'mpr/data/db/db.h5'))
 
 if path.is_file():
@@ -13,5 +15,6 @@ else:
     connection.create_group('/', 'mpr', 'USDA Mandatory Price Reporting')
 
 
-def get(group: str):
-    return import_module(f".{group}", package='mpr.data.db')
+def get(group: str, table: Optional[str] = None):
+    module = import_module(f".{group}", package='mpr.data.db')
+    return module if table is None else getattr(module, table)
