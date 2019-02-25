@@ -2,6 +2,6 @@
 
 export DB='test/db/db.h5'
 rm -f $DB
-coverage run -m unittest "$@"
+coverage run --omit="test/*" -m unittest "$@"
 rm -f $DB
 
