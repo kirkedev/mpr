@@ -10,8 +10,7 @@ from mpr.data.model.cutout import to_array
 class TestPk602(TestCase):
     @classmethod
     def setUpClass(cls):
-        from mpr.data.db.lm_pk602 import cutout
-        cls.report = cutout
+        cls.report = db.get('lm_pk602').cutout
 
     def test_create(self):
         self.assertTrue('/mpr/lm_pk602' in db.connection)
