@@ -2,3 +2,6 @@
 *.csv
 __pycache__
 db.h5
+htmlcov
+build
+
