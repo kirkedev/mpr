@@ -11,7 +11,6 @@ from xml.etree.ElementTree import Element
 
 import aiohttp
 
-import numpy as np
 from numpy import uint32
 from numpy import float32
 from numpy import nan
@@ -21,7 +20,6 @@ from mpr.data import Report
 T = TypeVar('T')
 Attributes = Dict[str, str]
 ParsedElement = Tuple[str, Element]
-DateInterval = Tuple[date, date]
 
 date_format = "%m-%d-%Y"
 
@@ -41,12 +39,6 @@ def opt_float(attr: Attributes, key: str) -> float32:
 def opt_int(attr: Attributes, key: str) -> uint32:
     value = get_optional(attr, key)
     return uint32(value.replace(',', '')) if value else 0
-
-
-def date_interval(days: int) -> DateInterval:
-    today = date.today()
-    start = np.busday_offset(today, -days, 'backward').astype('O')
-    return start, today
 
 
 def chunk(iterator: Iterator[T], n: int) -> Iterator[Iterator[T]]:
@@ -76,10 +68,10 @@ async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iter
             return parse_elements(elements)
 
 
-def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
+def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) -> Iterator[Attributes]:
     """
     Parses a USDA report by saving metadata from parent elements to a dictionary while traversing down the tree.
-    When at the maximum depth (4), yield all collected metadata with each child element's attributes.
+    When at the maximum depth, yield all collected metadata with each child element's attributes.
 
     Typical layout of a USDA report:
      <results exportTime>
@@ -96,10 +88,10 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
 
     for event, element in elements:
         if event == 'start':
-            if 1 <= depth < 4:
+            if min_depth <= depth < max_depth:
                 # Parsing a parent element: merge its properties into the metadata
                 metadata.update(element.items())
-            elif depth == 4:
+            elif depth == max_depth:
                 # Parsing a child element: combine its properties with the metadata and yield
                 yield dict(metadata.items() | element.items())
 
@@ -108,7 +100,7 @@ def parse_elements(elements: Iterator[ParsedElement]) -> Iterator[Attributes]:
         if event == 'end':
             depth -= 1
 
-            if depth == 2:
+            if depth == min_depth + 1:
                 # Finished parsing one day's data: clear the metadata and element tree
                 element.clear()
                 metadata.clear()

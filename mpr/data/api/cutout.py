@@ -11,7 +11,6 @@ from ..model.cutout import Cutout
 
 from . import Attributes
 from . import Report
-from . import date_interval
 from . import fetch
 from . import filter_sections
 
@@ -64,16 +63,6 @@ async def morning(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
 @singledispatch
 async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
     return await fetch_cutout(Report.CUTOUT_AFTERNOON, start_date, end_date)
-
-
-@morning.register(int)
-async def morning_days(days: int) -> Iterator[Cutout]:
-    return await morning(*date_interval(days))
-
-
-@afternoon.register(int)
-async def afternoon_days(days: int) -> Iterator[Cutout]:
-    return await afternoon(*date_interval(days))
 
 
 lm_pk602 = pk602 = morning

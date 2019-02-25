@@ -1,5 +1,6 @@
-from enum import Enum
+from typing import Dict
 from typing import Iterator
+from enum import Enum
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -8,13 +9,12 @@ from functools import singledispatch
 from numpy import datetime64
 
 from ..model.purchase import Purchase
-from ..model.purchase_type import Seller, Arrangement, Basis
+from ..model.purchase_type import PurchaseType, Seller, Arrangement, Basis
 
 from . import Attributes
 from . import Report
 from . import opt_int
 from . import opt_float
-from . import date_interval
 from . import fetch
 from . import filter_section
 
@@ -31,7 +31,7 @@ class Section(Enum):
     # STATES = 'State of Origin'
 
 
-purchase_types = {
+purchase_types: Dict[str, PurchaseType] = {
     'Negotiated (carcass basis)':
         (Seller.ALL, Arrangement.NEGOTIATED, Basis.CARCASS),
 
@@ -89,21 +89,6 @@ async def morning(start_date: date, end_date=date.today()) -> Iterator[Purchase]
 @singledispatch
 async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     return await fetch_purchase(Report.DIRECT_HOG_AFTERNOON, start_date, end_date)
-
-
-@prior_day.register(int)
-async def prior_days(days: int) -> Iterator[Purchase]:
-    return await prior_day(*date_interval(days))
-
-
-@morning.register(int)
-async def morning_days(days: int) -> Iterator[Purchase]:
-    return await morning(*date_interval(days))
-
-
-@afternoon.register(int)
-async def afternoon_days(days: int) -> Iterator[Purchase]:
-    return await afternoon(*date_interval(days))
 
 
 lm_hg200 = hg200 = prior_day
