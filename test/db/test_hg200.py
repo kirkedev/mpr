@@ -63,7 +63,7 @@ class TestHg200(TestCase):
         self.assertTrue(isclose(negotiated.avg_price, 50.70))
 
     def test_array(self):
-        records = to_array(self.report.get())
+        records = to_array(self.report.get_date(date(2018, 1, 1)))
         self.assertEqual(len(records), 2)
         self.assertTrue(all(records.date == date(2018, 1, 1)))
         self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED), 1)
