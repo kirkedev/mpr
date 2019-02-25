@@ -56,8 +56,8 @@ def with_change(values: Series) -> Tuple[Series, Series]:
 def cash_prices_report(records: Iterator[Slaughter]) -> DataFrame:
     array = to_array(filter_types(records))
     columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
-
     data = DataFrame(array, columns=columns).set_index(['date', 'arrangement'])
+
     head_count = data.head_count
     carcass_weight = data.carcass_weight
     net_price = data.net_price

@@ -13,8 +13,7 @@ from mpr.data.model.purchase_type import Seller, Arrangement, Basis
 class TestHg201(TestCase):
     @classmethod
     def setUpClass(cls):
-        from mpr.data.db.lm_hg201 import barrows_gilts
-        cls.report = barrows_gilts
+        cls.report = db.get('lm_hg201', 'barrows_gilts')
 
     def test_create(self):
         self.assertTrue('/mpr/lm_hg201' in db.connection)
@@ -76,7 +75,7 @@ class TestHg201(TestCase):
         self.assertTrue(isclose(record.loineye_area, 7.83))
 
     def test_array(self):
-        records = to_array(self.report.get())
+        records = to_array(self.report.get_date(date(2019, 2, 1)))
         self.assertEqual(len(records), 2)
         self.assertTrue(all(records.date == date(2019, 2, 1)))
         self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED), 1)
