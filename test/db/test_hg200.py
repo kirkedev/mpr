@@ -13,7 +13,7 @@ from mpr.data.model.purchase_type import Seller, Arrangement, Basis
 class TestHg200(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.report = db.get('lm_hg200').barrows_gilts
+        cls.report = db.get('lm_hg200', 'barrows_gilts')
 
     def test_create(self):
         self.assertTrue('/mpr/lm_hg200' in db.connection)
