@@ -1,11 +1,11 @@
-from typing import Tuple
 from typing import Iterator
 from enum import Enum
 from datetime import date
 
-import numpy as np
-
-DateInterval = Tuple[date, date]
+from .report_calendar import DateInterval
+from .report_calendar import date_diff
+from .report_calendar import report_date_range
+from .report_calendar import report_date_intervals
 
 
 class Report(Enum):
@@ -17,27 +17,5 @@ class Report(Enum):
     CUTOUT_AFTERNOON = 'lm_pk603'
 
 
-def date_range(start: date, end: date) -> Iterator[date]:
-    return map(date.fromordinal, range(start.toordinal(), end.toordinal() + 1))
-
-
-def date_diff(first: Iterator[date], second: Iterator[date]) -> Iterator[date]:
-    return filter(np.is_busday, set(second) - set(first))
-
-
-def date_intervals(dates: Iterator[date]) -> Iterator[DateInterval]:
-    dates = sorted(set(dates))
-
-    if len(dates) == 0:
-        return []
-
-    start = previous_date = dates[0]
-
-    for date in dates[1:]:
-        if date == np.busday_offset(previous_date, 1):
-            previous_date = date
-        else:
-            yield start, previous_date
-            start = previous_date = date
-
-    yield start, previous_date
+def request_periods(start: date, end: date, dates: Iterator[date]) -> Iterator[DateInterval]:
+    return list(report_date_intervals(date_diff(dates, report_date_range(start, end))))
