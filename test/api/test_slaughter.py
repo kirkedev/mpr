@@ -66,6 +66,15 @@ class NegotiatedPurchaseTest(TestCase):
     def test_lean_percent(self):
         self.assertTrue(isclose(negotiated.lean_percent, 55.6))
 
+    def test_total_weight(self):
+        self.assertTrue(isclose(negotiated.total_weight, 2623291.16))
+
+    def test_total_value(self):
+        self.assertTrue(isclose(negotiated.total_value, 139716484.52))
+
+    def test_avg_price(self):
+        self.assertTrue(isclose(negotiated.avg_price, 53.26))
+
 
 class NegotiatedFormulaTest(TestCase):
     def test_date(self):
@@ -109,6 +118,15 @@ class NegotiatedFormulaTest(TestCase):
 
     def test_lean_percent(self):
         self.assertTrue(isnan(negotiated_formula.lean_percent))
+
+    def test_total_weight(self):
+        self.assertTrue(isnan(negotiated_formula.total_weight))
+
+    def test_total_value(self):
+        self.assertTrue(isnan(negotiated_formula.total_value))
+
+    def test_avg_price(self):
+        self.assertTrue(isnan(negotiated_formula.avg_price))
 
 
 class TestRecordArray(TestCase):
