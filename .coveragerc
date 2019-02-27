@@ -1,7 +1,12 @@
 [run]
 branch = True
+source = mpr
 
 [report]
+omit =
+    */__main__.py
+    test/*
+
 exclude_lines =
     pragma: no cover
 
