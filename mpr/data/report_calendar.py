@@ -52,6 +52,10 @@ def report_date_range(start: date, end: date) -> Iterator[date]:
     return map(lambda it: it.date(), pd.date_range(start=start, end=end, freq=report_date))
 
 
+def recent_report_dates(days: int) -> Iterator[date]:
+    return map(lambda it: it.date(), pd.date_range(end=date.today(), periods=days, freq=report_date))
+
+
 def report_date_intervals(dates: Set[date]) -> Iterator[DateInterval]:
     dates = sorted(dates)
 
