@@ -1,4 +1,5 @@
 from typing import Iterator
+from typing import List
 from enum import Enum
 from datetime import date
 
@@ -17,5 +18,5 @@ class Report(Enum):
     CUTOUT_AFTERNOON = 'lm_pk603'
 
 
-def request_periods(start: date, end: date, dates: Iterator[date]) -> Iterator[DateInterval]:
+def request_periods(start: date, end: date, dates: Iterator[date]) -> List[DateInterval]:
     return list(report_date_intervals(date_diff(dates, report_date_range(start, end))))
