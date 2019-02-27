@@ -37,8 +37,8 @@ report_calendar = AbstractHolidayCalendar(rules=[
     USIndependenceDay,
     USLaborDay,
     USThanksgivingDay,
-    ChristmasEve,
-    Christmas
+    # ChristmasEve,
+    # Christmas
 ])
 
 report_date = CustomBusinessDay(normalize=True, calendar=report_calendar, holidays=[
