@@ -5,6 +5,7 @@ from datetime import date
 
 from .report_calendar import DateInterval
 from .report_calendar import date_diff
+from .report_calendar import recent_report_dates
 from .report_calendar import report_date_range
 from .report_calendar import report_date_intervals
 
@@ -18,5 +19,9 @@ class Report(Enum):
     CUTOUT_AFTERNOON = 'lm_pk603'
 
 
-def request_periods(start: date, end: date, dates: Iterator[date]) -> List[DateInterval]:
+def request_range(start: date, end: date, dates: Iterator[date]) -> List[DateInterval]:
     return list(report_date_intervals(date_diff(dates, report_date_range(start, end))))
+
+
+def request_recent_reports(days: int) -> List[DateInterval]:
+    return list(report_date_intervals(date_diff([], recent_report_dates(days))))
