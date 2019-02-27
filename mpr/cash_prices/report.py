@@ -88,7 +88,7 @@ async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
 
 
 @get_cash_prices.register(int)
-async def get_cash_prices_days(n: int) -> DataFrame:
+async def get_recent_cash_prices(n: int) -> DataFrame:
     first, *_, last = recent_report_dates(n + 3)
-    slaughter = await fetch_slaughter(first, last)
-    return cash_prices_report(slaughter).tail(n)
+    report = await get_cash_prices(first, last)
+    return report.tail(n)
