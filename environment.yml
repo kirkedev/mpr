@@ -12,4 +12,3 @@ dependencies:
   - pandas
   - pytables
   - python=3.7.*
-

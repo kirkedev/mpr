@@ -2,13 +2,11 @@ from enum import Enum
 from typing import Iterator
 from datetime import date
 from datetime import datetime
-from functools import singledispatch
 
 from numpy import float32
 from numpy import datetime64
 
 from ..model.cutout import Cutout
-
 from . import Attributes
 from . import Report
 from . import fetch
@@ -55,12 +53,10 @@ async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) 
     return map(parse_attributes, *filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
 
 
-@singledispatch
 async def morning(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
     return await fetch_cutout(Report.CUTOUT_MORNING, start_date, end_date)
 
 
-@singledispatch
 async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
     return await fetch_cutout(Report.CUTOUT_AFTERNOON, start_date, end_date)
 

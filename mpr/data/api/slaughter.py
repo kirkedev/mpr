@@ -4,7 +4,6 @@ from enum import Enum
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from functools import singledispatch
 
 from numpy import datetime64
 
@@ -81,7 +80,6 @@ def parse_attributes(attr: Attributes) -> Slaughter:
         lean_percent=opt_float(attr, 'avg_lean_percent'))
 
 
-@singledispatch
 async def fetch_slaughter(start_date: date, end_date=date.today()) -> Iterator[Slaughter]:
     response = await fetch(Report.SLAUGHTERED_SWINE, start_date + timedelta(days=1), end_date)
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))

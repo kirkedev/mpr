@@ -4,7 +4,6 @@ from enum import Enum
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from functools import singledispatch
 
 from numpy import datetime64
 
@@ -51,7 +50,7 @@ purchase_types: Dict[str, PurchaseType] = {
         (Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.CARCASS),
 
     'Combined Negotiated/Negotiated Formula (live basis)':
-        (Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.LIVE),
+        (Seller.ALL, Arrangement.ALL_NEGOTIATED, Basis.LIVE)
 }
 
 
@@ -76,17 +75,14 @@ async def fetch_purchase(report: Report, start_date: date, end_date=date.today()
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
-@singledispatch
 async def prior_day(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     return await fetch_purchase(Report.PURCHASED_SWINE, start_date + timedelta(days=1), end_date)
 
 
-@singledispatch
 async def morning(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     return await fetch_purchase(Report.DIRECT_HOG_MORNING, start_date, end_date)
 
 
-@singledispatch
 async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
     return await fetch_purchase(Report.DIRECT_HOG_AFTERNOON, start_date, end_date)
 
