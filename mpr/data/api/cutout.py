@@ -33,10 +33,12 @@ class Section(Enum):
 
 
 def parse_attributes(volume: Attributes, cutout: Attributes) -> Cutout:
-    report_date = datetime.strptime(volume['report_date'], date_format).date()
+    report_date_string = volume['report_date']
+    report_date = datetime64(datetime.strptime(report_date_string, date_format).date(), 'D')
 
     return Cutout(
-        date=datetime64(report_date, 'D'),
+        date=report_date,
+        report_date=report_date,
         primal_loads=float32(volume['temp_cuts_total_load']),
         trimming_loads=float32(volume['temp_process_total_load']),
         carcass_price=float32(cutout['pork_carcass']),
