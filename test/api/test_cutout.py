@@ -14,6 +14,7 @@ records = to_array([cutout])
 class CutoutTest(TestCase):
     def test_parse_date(self):
         self.assertEqual(cutout.date, date(2018, 8, 20))
+        self.assertEqual(cutout.report_date, date(2018, 8, 20))
 
     def test_primal_loads(self):
         self.assertTrue(isclose(cutout.primal_loads, 334.74))

@@ -23,3 +23,7 @@ class Observation(Entity[Record], ABC):
             'start': start.toordinal(),
             'end': end.toordinal()
         })
+
+    @classmethod
+    def report_dates(cls) -> Iterator[date]:
+        return map(date.fromordinal, set(cls.table.cols.report_date[:]))

@@ -15,6 +15,7 @@ from .observation import Observation
 class CutoutEntity(Observation[Cutout], ABC):
     schema = dtype([
         ('date', uint32),
+        ('report_date', uint32),
         ('primal_loads', float32),
         ('trimming_loads', float32),
         ('carcass_price', float32),
@@ -28,8 +29,14 @@ class CutoutEntity(Observation[Cutout], ABC):
 
     @staticmethod
     def from_row(row: Row) -> Cutout:
-        return Cutout(datetime64(date.fromordinal(row[0]), 'D'), *row[1:])
+        return Cutout(
+            datetime64(date.fromordinal(row[0]), 'D'),
+            datetime64(date.fromordinal(row[1]), 'D'),
+            *row[2:])
 
     @staticmethod
     def to_row(record: Cutout) -> Tuple:
-        return (record[0].astype(date).toordinal(), *record[1:])
+        return (
+            record[0].astype(date).toordinal(),
+            record[1].astype(date).toordinal(),
+            *record[2:])

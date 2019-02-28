@@ -12,6 +12,7 @@ from . import date_type
 
 class Cutout(NamedTuple):
     date: Date
+    report_date: Date
     primal_loads: float32
     trimming_loads: float32
     carcass_price: float32
@@ -23,15 +24,16 @@ class Cutout(NamedTuple):
     belly_price: float32
 
     def __hash__(self) -> int:
-        return hash(self.date.astype(date).toordinal())
+        return hash((self.date.astype(date).toordinal(), self.report_date.astype(date).toordinal()))
 
     def __eq__(self, other) -> bool:
-        return isinstance(other, Cutout) and hash(self) == hash(other) and np.allclose(self[1:], other[1:])
+        return isinstance(other, Cutout) and hash(self) == hash(other) and np.allclose(self[2:], other[2:])
 
 
 def to_array(records: Iterator[Cutout]) -> recarray:
     return np.rec.array(list(records), dtype=np.dtype([
         ('date', date_type),
+        ('report_date', date_type),
         ('primal_loads', float32),
         ('trimming_loads', float32),
         ('carcass_price', float32),

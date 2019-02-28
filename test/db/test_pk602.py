@@ -64,6 +64,7 @@ class TestPk602(TestCase):
 
         record = records[0]
         self.assertEqual(record.date, date(2018, 8, 20))
+        self.assertEqual(record.report_date, date(2018, 8, 20))
         self.assertTrue(isclose(record.primal_loads, 334.74))
         self.assertTrue(isclose(record.trimming_loads, 39.61))
         self.assertTrue(isclose(record.carcass_price, 67.18))
@@ -83,6 +84,7 @@ class TestPk602(TestCase):
 
         record = result[0]
         self.assertEqual(record.date, date(2018, 8, 21))
+        self.assertEqual(record.report_date, date(2018, 8, 21))
         self.assertTrue(isclose(record.primal_loads, 396.3))
         self.assertTrue(isclose(record.trimming_loads, 52.57))
         self.assertTrue(isclose(record.carcass_price, 66.19))
