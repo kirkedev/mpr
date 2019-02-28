@@ -6,9 +6,9 @@ from mpr.data.api import Attributes
 from mpr.data.api import parse_elements
 from xml.etree import ElementTree
 
-from mpr.data import date_diff
-from mpr.data import request_range
-from mpr.data.report_calendar import report_date_range
+from mpr.reports import date_diff
+from mpr.reports import request_range
+from mpr.reports.report_calendar import report_date_range
 
 
 with open('test/resources/reports/report_dates.xml') as report:
