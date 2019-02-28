@@ -2,7 +2,7 @@ language: generic
 dist: xenial
 
 env:
-  gloal:
+  global:
     - CONDA_HOME=$HOME/miniconda
     - CONDA_PKGS_DIRS=$HOME/.conda_pkgs
 
