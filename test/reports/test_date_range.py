@@ -22,7 +22,7 @@ with open('test/resources/reports/report_dates.xml') as report:
     calendar_dates = report_date_range(date(2001, 8, 6), date(2019, 2, 21))
     report_dates = map(parse_date, report_dates)
 
-    # print('\n'.join(map(date.isoformat, sorted(date_diff(calendar_dates, report_dates)))))
+    print('\n'.join(map(date.isoformat, sorted(date_diff(report_dates, calendar_dates)))))
 
 
 class DateRangeTest(TestCase):
