@@ -8,7 +8,7 @@ from xml.etree import ElementTree
 
 from mpr.reports import date_diff
 from mpr.reports import request_range
-from mpr.reports.report_calendar import report_date_range
+from mpr.reports.calendar import report_date_range
 
 
 with open('test/resources/reports/report_dates.xml') as report:

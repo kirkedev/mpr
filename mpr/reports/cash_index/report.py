@@ -8,7 +8,7 @@ import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from mpr.reports.report_calendar import recent_report_dates
+from mpr.reports.calendar import recent_report_dates
 from mpr.data.api.slaughter import fetch_slaughter
 from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.slaughter import Slaughter
