@@ -6,12 +6,14 @@ class TestSlaughter(TestCase):
     def test_objects_are_the_same(self):
         first = parse_attributes({
             'for_date_begin': '02/01/2019',
+            'report_date': '02/02/2018',
             'purchase_type': 'Prod. Sold Negotiated',
             'head_count': '12,771'
         })
 
         second = parse_attributes({
             'for_date_begin': '02/01/2019',
+            'report_date': '02/02/2018',
             'purchase_type': 'Prod. Sold Negotiated',
             'head_count': '0'
         })
@@ -21,12 +23,14 @@ class TestSlaughter(TestCase):
     def test_objects_are_not_the_same(self):
         first = parse_attributes({
             'for_date_begin': '01/03/2018',
+            'report_date': '01/04/2018',
             'purchase_type': 'Prod. Sold Negotiated Formula',
             'head_count': '0'
         })
 
         second = parse_attributes({
             'for_date_begin': '01/02/2018',
+            'report_date': '01/03/2018',
             'purchase_type': 'Prod. Sold Negotiated Formula',
             'head_count': '0'
         })
@@ -36,6 +40,7 @@ class TestSlaughter(TestCase):
     def test_contents_are_the_same(self):
         first = parse_attributes({
             'for_date_begin': '02/01/2019',
+            'report_date': '02/02/2018',
             'purchase_type': 'Prod. Sold Negotiated',
             'head_count': '12,771',
             'base_price': '51.80',
@@ -53,6 +58,7 @@ class TestSlaughter(TestCase):
 
         second = parse_attributes({
             'for_date_begin': '02/01/2019',
+            'report_date': '02/02/2018',
             'purchase_type': 'Prod. Sold Negotiated',
             'head_count': '12,771',
             'base_price': '51.80',
@@ -73,6 +79,7 @@ class TestSlaughter(TestCase):
     def test_contents_are_not_the_same(self):
         first = parse_attributes({
             'for_date_begin': '02/01/2019',
+            'report_date': '02/02/2018',
             'purchase_type': 'Prod. Sold Negotiated',
             'head_count': '12,771',
             'base_price': '51.80',
@@ -90,6 +97,7 @@ class TestSlaughter(TestCase):
 
         second = parse_attributes({
             'for_date_begin': '02/01/2018',
+            'report_date': '02/02/2018',
             'purchase_type': 'Prod. Sold Negotiated',
             'head_count': '0'
         })

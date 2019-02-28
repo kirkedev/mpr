@@ -12,6 +12,7 @@ from ..model.purchase_type import PurchaseType, Seller, Arrangement, Basis
 
 from . import Attributes
 from . import Report
+from . import get_optional
 from . import opt_int
 from . import opt_float
 from . import fetch
@@ -55,12 +56,18 @@ purchase_types: Dict[str, PurchaseType] = {
 
 
 def parse_attributes(attr: Attributes) -> Purchase:
-    report_date = datetime.strptime(attr['reported_for_date'], date_format).date()
+    report_date_string = attr['report_date']
+    record_date_string = get_optional(attr, 'reported_for_date') or report_date_string
+
+    record_date = datetime.strptime(record_date_string, date_format).date()
+    report_date = datetime.strptime(report_date_string, date_format).date()
+
     purchase_type = attr['purchase_type']
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Purchase(
-        date=datetime64(report_date, 'D'),
+        date=datetime64(record_date, 'D'),
+        report_date=datetime64(report_date, 'D'),
         seller=seller.value,
         arrangement=arrangement.value,
         basis=basis.value,

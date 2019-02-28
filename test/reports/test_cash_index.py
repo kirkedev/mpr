@@ -2,13 +2,16 @@ from unittest import TestCase
 from datetime import date
 import numpy as np
 
+from mpr.data.api import filter_section
+from mpr.data.api.slaughter import Section
 from mpr.data.api.slaughter import parse_attributes
 from mpr.data.model.slaughter import to_array
 from mpr.data.model.purchase_type import Arrangement
 
 from . import load_resource
 
-records = to_array(map(parse_attributes, load_resource('cash_prices.xml')))
+report = filter_section(load_resource('cash_prices.xml'), Section.BARROWS_AND_GILTS.value)
+records = to_array(map(parse_attributes, report))
 
 negotiated = records.arrangement == Arrangement.NEGOTIATED
 market_formula = records.arrangement == Arrangement.MARKET_FORMULA
