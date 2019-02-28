@@ -1,20 +1,31 @@
-language: python
+language: generic
 dist: xenial
-python: 3.7
+
+env:
+  global:
+    - CONDA_HOME=$HOME/miniconda
+    - CONDA_PKGS_DIRS=$HOME/.conda_pkgs
+
+before_cache:
+  - find $HOME/.conda_pkgs/ -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
 
 cache:
   - pip
   - directories:
-    - $HOME/miniconda/pkgs
+    - $CONDA_PKGS_DIRS
 
 install:
   - sudo apt-get update
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-  - bash miniconda.sh -b -f -p $HOME/miniconda
-  - export PATH=":./bin:$HOME/miniconda/bin:$PATH"
+  - bash miniconda.sh -b -p $CONDA_HOME
+  - export PATH=":./bin:$CONDA_HOME/bin:$PATH"
+  - mkdir -p $CONDA_PKGS_DIRS
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
+  - conda config --set auto_update_conda false
+  - conda install nomkl
+  - conda info -a
   - conda env create -f environment.yml
   - source activate mpr
 
