@@ -15,8 +15,8 @@ class Report(Enum):
     SLAUGHTERED_SWINE = 'lm_hg201'
     DIRECT_HOG_MORNING = 'lm_hg202'
     DIRECT_HOG_AFTERNOON = 'lm_hg203'
-    CUTOUT_MORNING = 'lm_pk602'
-    CUTOUT_AFTERNOON = 'lm_pk603'
+    CUTOUT_MORNING = 'lm_pk600'
+    CUTOUT_AFTERNOON = 'lm_pk602'
 
 
 def request_range(start: date, end: date, dates: Iterator[date]) -> List[DateInterval]:

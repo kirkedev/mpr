@@ -63,5 +63,5 @@ async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Cutout]
     return await fetch_cutout(Report.CUTOUT_AFTERNOON, start_date, end_date)
 
 
-lm_pk602 = pk602 = morning
-lm_pk603 = pk603 = afternoon
+lm_pk600 = pk600 = morning
+lm_pk602 = pk602 = afternoon

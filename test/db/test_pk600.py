@@ -7,22 +7,22 @@ from mpr.data.api.cutout import parse_attributes
 from mpr.data.model.cutout import to_array
 
 
-class TestPk603(TestCase):
+class TestPk600(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.report = db.get('lm_pk603').cutout
+        cls.report = db.get('lm_pk600').cutout
 
     def test_create(self):
-        self.assertTrue('/mpr/lm_pk603' in db.connection)
-        self.assertTrue('/mpr/lm_pk603/cutout' in db.connection)
+        self.assertTrue('/mpr/lm_pk600' in db.connection)
+        self.assertTrue('/mpr/lm_pk600/cutout' in db.connection)
         self.assertTrue(self.report.table.will_query_use_indexing("""date == observation_date""", {
             'observation_date': date.toordinal(date(2019, 2, 1))
         }))
 
     @classmethod
     def tearDownClass(cls):
-        db.connection.remove_node('/mpr/lm_pk603/cutout')
-        db.connection.remove_node('/mpr/lm_pk603')
+        db.connection.remove_node('/mpr/lm_pk600/cutout')
+        db.connection.remove_node('/mpr/lm_pk600')
 
     def setUp(self):
         cutout = (parse_attributes({
