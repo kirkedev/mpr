@@ -10,7 +10,7 @@ def create() -> Group:
     group = db.connection.create_group(
         where='/mpr',
         name='lm_pk602',
-        title='National Daily Pork - Negotiated Sales - Morning')
+        title='National Daily Pork - Negotiated Sales - Afternoon')
 
     cutout_table = db.connection.create_table(
         where=group,
