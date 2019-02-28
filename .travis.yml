@@ -1,6 +1,5 @@
-language: python
+language: generic
 dist: xenial
-python: 3.7
 
 before_cache:
   - find $HOME/.conda_pkgs/ -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
