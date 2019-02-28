@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Tuple
+from typing import Iterator
 from datetime import date
 
 from numpy import dtype
@@ -39,3 +40,7 @@ class PurchaseEntity(Observation[Purchase], ABC):
             record[0].astype(date).toordinal(),
             record[1].astype(date).toordinal(),
             *record[2:])
+
+    @classmethod
+    def report_dates(cls) -> Iterator[date]:
+        return map(date.fromordinal, set(cls.table.cols.report_date[:]))
