@@ -23,10 +23,22 @@ def date_diff(first: Iterator[date], second: Iterator[date]) -> Set[date]:
     return set(second) - set(first)
 
 
+USIndependenceDayBefore2009 = Holiday('US Independence Day',
+    month=7,
+    day=4,
+    end_date='2009-07-01',
+    observance=nearest_workday)
+
+USIndependenceDayAfter2009 = Holiday('US Independence Day',
+    month=7,
+    day=4,
+    start_date='2010-07-01',
+    observance=nearest_workday)
+
 NewYearsDay = Holiday('New Years Day', month=1, day=1, observance=nearest_workday)
-USIndependenceDay = Holiday('US Independence Day', month=7, day=4, observance=nearest_workday)
 ChristmasEve = Holiday('Christmas Eve', month=12, day=24)
 Christmas = Holiday('Christmas', month=12, day=25, observance=nearest_workday)
+
 MartinLutherKingDay2013 = date(2013, 1, 21)
 PresidentsDay2013 = date(2013, 2, 18)
 GovernmentShutdown2013 = date_range(date(2013, 10, 1), date(2013, 10, 17))
@@ -34,11 +46,12 @@ GovernmentShutdown2013 = date_range(date(2013, 10, 1), date(2013, 10, 17))
 report_calendar = AbstractHolidayCalendar(rules=[
     NewYearsDay,
     USMemorialDay,
-    USIndependenceDay,
+    USIndependenceDayBefore2009,
+    USIndependenceDayAfter2009,
     USLaborDay,
     USThanksgivingDay,
-    # ChristmasEve,
-    # Christmas
+    ChristmasEve,
+    Christmas
 ])
 
 report_date = CustomBusinessDay(normalize=True, calendar=report_calendar, holidays=[
