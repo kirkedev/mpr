@@ -14,6 +14,7 @@ from . import Date
 
 class Purchase(NamedTuple):
     date: Date
+    report_date: Date
     seller: uint8
     arrangement: uint8
     basis: uint8
@@ -26,12 +27,13 @@ class Purchase(NamedTuple):
         return hash((self.date.astype(date).toordinal(), self.seller, self.arrangement, self.basis))
 
     def __eq__(self, other) -> bool:
-        return isinstance(other, Purchase) and hash(self) == hash(other) and np.allclose(self[4:], other[4:])
+        return isinstance(other, Purchase) and hash(self) == hash(other) and np.allclose(self[5:], other[5:])
 
 
 def to_array(records: Iterator[Purchase]) -> recarray:
     return np.rec.array(list(records), dtype=np.dtype([
         ('date', date_type),
+        ('report_date', date_type),
         ('seller', uint8),
         ('arrangement', uint8),
         ('basis', uint8),

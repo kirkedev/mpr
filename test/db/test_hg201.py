@@ -30,6 +30,7 @@ class TestHg201(TestCase):
     def setUp(self):
         records = (parse_attributes({
             'for_date_begin': '02/01/2019',
+            'report_date': '02/04/2019',
             'purchase_type': 'Prod. Sold Negotiated',
             'head_count': '12,771',
             'base_price': '51.80',
@@ -45,6 +46,7 @@ class TestHg201(TestCase):
             'loineye_area': '7.83'
         }), parse_attributes({
             'for_date_begin': '02/01/2019',
+            'report_date': '02/04/2019',
             'purchase_type': 'Prod. Sold Negotiated Formula',
             'head_count': '683'
         }))
@@ -58,6 +60,7 @@ class TestHg201(TestCase):
     def test_query(self):
         record = next(self.report.get())
         self.assertEqual(record.date, date(2019, 2, 1))
+        self.assertEqual(record.report_date, date(2019, 2, 4))
         self.assertEqual(record.seller, Seller.PRODUCER)
         self.assertEqual(record.arrangement, Arrangement.NEGOTIATED)
         self.assertEqual(record.basis, Basis.ALL)
@@ -78,6 +81,7 @@ class TestHg201(TestCase):
         records = to_array(self.report.get_date(date(2019, 2, 1)))
         self.assertEqual(len(records), 2)
         self.assertTrue(all(records.date == date(2019, 2, 1)))
+        self.assertTrue(all(records.report_date == date(2019, 2, 4)))
         self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED), 1)
         self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED_FORMULA), 1)
 

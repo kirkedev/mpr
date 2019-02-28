@@ -16,6 +16,7 @@ from .observation import Observation
 class SlaughterEntity(Observation[Slaughter], ABC):
     schema = dtype([
         ('date', uint32),
+        ('report_date', uint32),
         ('seller', uint8),
         ('arrangement', uint8),
         ('basis', uint8),
@@ -35,8 +36,14 @@ class SlaughterEntity(Observation[Slaughter], ABC):
 
     @staticmethod
     def from_row(row: Row) -> Slaughter:
-        return Slaughter(datetime64(date.fromordinal(row[0]), 'D'), *row[1:])
+        return Slaughter(
+            datetime64(date.fromordinal(row[0]), 'D'),
+            datetime64(date.fromordinal(row[1]), 'D'),
+            *row[2:])
 
     @staticmethod
     def to_row(record: Slaughter) -> Tuple:
-        return (record[0].astype(date).toordinal(), *record[1:])
+        return (
+            record[0].astype(date).toordinal(),
+            record[1].astype(date).toordinal(),
+            *record[2:])

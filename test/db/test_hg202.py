@@ -29,14 +29,14 @@ class TestHg202(TestCase):
 
     def setUp(self):
         purchases = (parse_attributes({
-            'reported_for_date': '1/1/2018',
+            'report_date': '1/1/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',
             'price_low': '48.00',
             'price_high': '51.75',
             'wtd_avg': '50.70'
         }), parse_attributes({
-            'reported_for_date': '1/1/2018',
+            'report_date': '1/1/2018',
             'purchase_type': 'Negotiated Formula (carcass basis)',
             'head_count': '165'
         }))
@@ -54,6 +54,7 @@ class TestHg202(TestCase):
 
         negotiated = next(result)
         self.assertEqual(negotiated.date, date(2018, 1, 1))
+        self.assertEqual(negotiated.date, date(2018, 1, 1))
         self.assertEqual(negotiated.seller, Seller.ALL)
         self.assertEqual(negotiated.arrangement, Arrangement.NEGOTIATED)
         self.assertEqual(negotiated.basis, Basis.CARCASS)
@@ -65,6 +66,7 @@ class TestHg202(TestCase):
     def test_array(self):
         records = to_array(self.report.get_date(date(2018, 1, 1)))
         self.assertEqual(len(records), 2)
+        self.assertTrue(all(records.date == date(2018, 1, 1)))
         self.assertTrue(all(records.date == date(2018, 1, 1)))
         self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED), 1)
         self.assertTrue(len(records.arrangement == Arrangement.NEGOTIATED_FORMULA), 1)
@@ -78,7 +80,7 @@ class TestHg202(TestCase):
 
     def test_index(self):
         purchase = parse_attributes({
-            'reported_for_date': '1/2/2018',
+            'report_date': '1/2/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '14141',
             'price_low': '48.00',

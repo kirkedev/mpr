@@ -30,6 +30,7 @@ class TestHg200(TestCase):
     def setUp(self):
         purchases = (parse_attributes({
             'reported_for_date': '1/1/2018',
+            'report_date': '1/2/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',
             'price_low': '48.00',
@@ -37,6 +38,7 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         }), parse_attributes({
             'reported_for_date': '1/1/2018',
+            'report_date': '1/2/2018',
             'purchase_type': 'Negotiated Formula (carcass basis)',
             'head_count': '165'
         }))
@@ -79,6 +81,7 @@ class TestHg200(TestCase):
     def test_index(self):
         purchase = parse_attributes({
             'reported_for_date': '1/2/2018',
+            'report_date': '1/3/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '14141',
             'price_low': '48.00',
@@ -95,6 +98,7 @@ class TestHg200(TestCase):
     def test_merge(self):
         purchases = (parse_attributes({
             'reported_for_date': '1/1/2018',
+            'report_date': '1/2/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '11,234',
             'price_low': '48.00',
@@ -102,6 +106,7 @@ class TestHg200(TestCase):
             'wtd_avg': '50.70'
         }), parse_attributes({
             'reported_for_date': '1/2/2018',
+            'report_date': '1/3/2018',
             'purchase_type': 'Negotiated (carcass basis)',
             'head_count': '10,000',
             'price_low': '48.00',

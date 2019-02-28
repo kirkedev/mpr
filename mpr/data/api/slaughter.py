@@ -57,12 +57,15 @@ purchase_types: Dict[str, PurchaseType] = {
 
 
 def parse_attributes(attr: Attributes) -> Slaughter:
-    report_date = datetime.strptime(attr['for_date_begin'], date_format).date()
+    record_date = datetime.strptime(attr['for_date_begin'], date_format).date()
+    report_date = datetime.strptime(attr['report_date'], date_format).date()
+
     purchase_type = attr['purchase_type']
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Slaughter(
-        date=datetime64(report_date, 'D'),
+        date=datetime64(record_date, 'D'),
+        report_date=datetime64(report_date, 'D'),
         seller=seller.value,
         arrangement=arrangement.value,
         basis=basis.value,

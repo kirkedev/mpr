@@ -18,8 +18,11 @@ records = to_array([negotiated, negotiated_formula])
 
 
 class NegotiatedPurchaseTest(TestCase):
-    def test_report_date(self):
+    def test_date(self):
         self.assertEqual(negotiated.date, date(2019, 1, 31))
+
+    def test_report_date(self):
+        self.assertEqual(negotiated.report_date, date(2019, 2, 1))
 
     def test_seller(self):
         self.assertEqual(negotiated.seller, Seller.ALL)
