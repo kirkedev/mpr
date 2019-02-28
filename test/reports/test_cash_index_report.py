@@ -4,7 +4,7 @@ from numpy import allclose
 from mpr.data.api import filter_section
 from mpr.data.api.slaughter import Section
 from mpr.data.api.slaughter import parse_attributes
-from mpr.cash_prices.report import cash_prices_report
+from mpr.reports.cash_index.report import cash_index_report
 
 from . import load_resource
 
@@ -13,7 +13,7 @@ report = filter_section(load_resource('cash_prices.xml'), Section.BARROWS_AND_GI
 records = map(parse_attributes, report)
 
 # When I run a cash prices report for the last 10 days
-report = cash_prices_report(records).tail(10)
+report = cash_index_report(records).tail(10)
 
 
 class TestCashPrices(TestCase):

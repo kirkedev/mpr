@@ -54,7 +54,7 @@ def with_change(values: Series) -> Tuple[Series, Series]:
     return values, change
 
 
-def cash_prices_report(records: Iterator[Slaughter]) -> DataFrame:
+def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
     array = to_array(filter_types(records))
     columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
     data = DataFrame(array, columns=columns).set_index(['date', 'arrangement'])
@@ -84,7 +84,7 @@ def cash_prices_report(records: Iterator[Slaughter]) -> DataFrame:
 @singledispatch
 async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
     slaughter = await fetch_slaughter(start, end)
-    return cash_prices_report(slaughter)
+    return cash_index_report(slaughter)
 
 
 @get_cash_prices.register(int)
