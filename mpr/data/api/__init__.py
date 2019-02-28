@@ -23,8 +23,10 @@ ParsedElement = Tuple[str, Element]
 
 date_format = "%m-%d-%Y"
 
-base_url = 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs/{report}?\
-filter={{"filters":[{{"fieldName":"Report date","operatorType":"BETWEEN","values":["{start_date}", "{end_date}"]}}]}}'
+base_url = 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs'
+report_url = lambda report: f'{base_url}/{report}'
+date_filter = lambda start, end: f'{{"fieldName":"Report date","operatorType":"BETWEEN","values":["{start}","{end}"]}}'
+request_url = lambda report, start, end: f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
 
 
 def get_optional(attr: Attributes, key: str) -> Optional[T]:
@@ -56,10 +58,7 @@ def filter_sections(records: Iterator[Attributes], *args: str) -> Iterator[Itera
 
 
 async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iterator[Attributes]:
-    url = base_url.format(
-        report=report.value,
-        start_date=start_date.strftime(date_format),
-        end_date=end_date.strftime(date_format))
+    url = request_url(report=report.value, start=start_date.strftime(date_format), end=end_date.strftime(date_format))
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
@@ -91,6 +90,7 @@ def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) 
             if min_depth <= depth < max_depth:
                 # Parsing a parent element: merge its properties into the metadata
                 metadata.update(element.items())
+
             elif depth == max_depth:
                 # Parsing a child element: combine its properties with the metadata and yield
                 yield dict(metadata.items() | element.items())
