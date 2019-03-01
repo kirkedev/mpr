@@ -37,11 +37,11 @@ def format_table(head_count: Series, carcass_weight: Series, net_price: Series) 
 
 
 def format_columns(table: DataFrame) -> DataFrame:
-    table.columns = map(column_title, table.columns)
+    table.columns = map(format_column, table.columns)
     return table
 
 
-def column_title(column: Tuple[str, int]) -> str:
+def format_column(column: Tuple[str, int]) -> str:
     (field, arrangement) = column
     field = field.replace('_', ' ').title()
     arrangement = Arrangement(arrangement).name.replace('_', ' ').title()
