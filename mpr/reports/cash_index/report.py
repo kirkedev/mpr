@@ -33,9 +33,11 @@ def format_table(head_count: Series, carcass_weight: Series, net_price: Series) 
     columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
     columns = sorted(columns, key=get_arrangement)
 
-    table = table[columns]
-    table.columns = map(column_title, table.columns)
+    return table[columns]
 
+
+def format_columns(table: DataFrame) -> DataFrame:
+    table.columns = map(column_title, table.columns)
     return table
 
 
@@ -74,4 +76,4 @@ def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
         index_change.rename('Index Change'),
         daily_price.rename('Daily Avg Price'),
         daily_change.rename('Price Change'),
-        format_table(head_count, carcass_weight, net_price))
+        format_columns(format_table(head_count, carcass_weight, net_price)))
