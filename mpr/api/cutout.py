@@ -52,7 +52,9 @@ def parse_attributes(cutout: Attributes, volume: Attributes) -> Cutout:
 
 async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Cutout]:
     response = await fetch(report, start_date, end_date)
-    return map(lambda it: parse_attributes(*it), filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
+
+    return map(lambda it: parse_attributes(*it),
+            filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
 
 
 async def morning(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
