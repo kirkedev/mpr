@@ -12,7 +12,7 @@ from . import load_resource
 report = filter_sections(load_resource('cutout.xml'), Section.CUTOUT.value, Section.VOLUME.value)
 records = map(lambda it: parse_attributes(*it), report)
 
-# When I run a cash prices report for the last 10 days
+# When I run a cutout index report for the last 10 days
 report = cutout_report(records).tail(10)
 
 
