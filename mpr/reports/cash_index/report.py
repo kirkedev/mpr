@@ -11,6 +11,7 @@ from mpr.data.model.slaughter import Slaughter
 from mpr.data.model.slaughter import to_array
 
 from .. import with_change
+from .. import create_table
 
 total_weight = lambda head_count, weight: head_count * weight
 total_value = lambda weight, price: weight * price
@@ -25,14 +26,17 @@ def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
     ), records)
 
 
-def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
-    table = pd.concat([head_count, carcass_weight, net_price], axis=1).unstack()
+def format_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
+    table = create_table(head_count, carcass_weight, net_price).unstack()
 
     get_arrangement = itemgetter(1)
     columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
     columns = sorted(columns, key=get_arrangement)
 
-    return table[columns]
+    table = table[columns]
+    table.columns = map(column_title, table.columns)
+
+    return table
 
 
 def column_title(column: Tuple[str, int]) -> str:
@@ -59,19 +63,15 @@ def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
     carcass_weight = data.carcass_weight
     net_price = data.net_price
 
-    table = create_table(head_count, carcass_weight, net_price)
-    table.columns = map(column_title, table.columns)
-
     totals = weights_and_values(head_count, carcass_weight, net_price)
     daily_price, daily_change = with_change(weighted_price(value=totals.value, weight=totals.weight))
 
     rolling_totals = totals.rolling(2).sum().dropna()
     cme_index, index_change = with_change(weighted_price(value=rolling_totals.value, weight=rolling_totals.weight))
 
-    return pd.concat([
+    return create_table(
         cme_index.rename('CME Index'),
         index_change.rename('Index Change'),
         daily_price.rename('Daily Avg Price'),
         daily_change.rename('Price Change'),
-        table
-    ], axis=1)
+        format_table(head_count, carcass_weight, net_price))
