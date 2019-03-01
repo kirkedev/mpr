@@ -13,7 +13,7 @@ from mpr.reports.calendar import report_date_range
 
 with open('test/resources/reports/report_dates.xml') as report:
     elements = ElementTree.iterparse(report, events=['start', 'end'])
-    report_dates = parse_elements(elements, 1, 2)
+    report_dates = parse_elements(elements, 2)
 
     def parse_date(element: Attributes) -> date:
         report_date = element['report_date']
