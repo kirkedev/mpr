@@ -16,5 +16,5 @@ else:
 
 
 def get(group: str, table: Optional[str] = None):
-    module = import_module(f".{group}", package='mpr.data.db')
+    module = import_module(f".{group}", package='mpr.db')
     return module if table is None else getattr(module, table)

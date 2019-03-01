@@ -4,10 +4,10 @@ from datetime import date
 from numpy import isclose
 from numpy import isnan
 
-from mpr.data import db
-from mpr.data.api.purchase import parse_attributes
-from mpr.data.model.purchase import to_array
-from mpr.data.model.purchase_type import Seller, Arrangement, Basis
+from mpr import db
+from mpr.api.purchase import parse_attributes
+from mpr.model.purchase import to_array
+from mpr.model.purchase_type import Seller, Arrangement, Basis
 
 
 class TestHg203(TestCase):

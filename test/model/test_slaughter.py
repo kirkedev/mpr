@@ -1,5 +1,5 @@
 from unittest import TestCase
-from mpr.data.api.slaughter import parse_attributes
+from mpr.api.slaughter import parse_attributes
 
 
 class TestSlaughter(TestCase):

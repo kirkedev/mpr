@@ -1,5 +1,5 @@
 from unittest import TestCase
-from mpr.data.api.cutout import parse_attributes
+from mpr.api.cutout import parse_attributes
 
 
 class TestCutout(TestCase):

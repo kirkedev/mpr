@@ -8,7 +8,7 @@ from numpy import uint32
 from numpy import float32
 from tables.tableextension import Row
 
-from mpr.data.model.cutout import Cutout
+from mpr.model.cutout import Cutout
 from .observation import Observation
 
 

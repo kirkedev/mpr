@@ -2,11 +2,11 @@ from unittest import TestCase
 from numpy import isnan
 from numpy import isclose
 
-from mpr.data.api import filter_sections
-from mpr.data.api import opt_int
-from mpr.data.api import opt_float
+from mpr.api import filter_sections
+from mpr.api import opt_int
+from mpr.api import opt_float
 
-from test.api import load_resource
+from . import load_resource
 
 elements = load_resource('cutout.xml')
 records = filter_sections(elements, 'Cutout and Primal Values', 'Current Volume')

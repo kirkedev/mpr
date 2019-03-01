@@ -2,7 +2,7 @@ from datetime import date
 from functools import singledispatch
 from pandas import DataFrame
 
-from mpr.data.api.cutout import pk602
+from mpr.api.cutout import pk602
 
 from ..calendar import recent_report_dates
 from .report import cutout_report

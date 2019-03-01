@@ -8,7 +8,7 @@ from datetime import timedelta
 from numpy import datetime64
 
 from ..model.slaughter import Slaughter
-from ..model.purchase_type import Seller, Arrangement, Basis, PurchaseType
+from ..model.purchase_type import PurchaseType, Seller, Arrangement, Basis
 
 from . import Attributes
 from . import Report
