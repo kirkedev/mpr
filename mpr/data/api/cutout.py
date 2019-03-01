@@ -32,8 +32,8 @@ class Section(Enum):
     # ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-def parse_attributes(volume: Attributes, cutout: Attributes) -> Cutout:
-    report_date_string = volume['report_date']
+def parse_attributes(cutout: Attributes, volume: Attributes) -> Cutout:
+    report_date_string = cutout['report_date']
     report_date = datetime64(datetime.strptime(report_date_string, date_format).date(), 'D')
 
     return Cutout(
