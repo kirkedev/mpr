@@ -49,7 +49,7 @@ def column_title(column: Tuple[str, int]) -> str:
     return f"{arrangement} {field}"
 
 
-def weights_and_values(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
+def aggregate_value(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     weight = total_weight(head_count=head_count, weight=carcass_weight).rename('weight')
     value = total_value(weight=weight, price=net_price).rename('value')
 
@@ -65,7 +65,7 @@ def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
     carcass_weight = data.carcass_weight
     net_price = data.net_price
 
-    totals = weights_and_values(head_count, carcass_weight, net_price)
+    totals = aggregate_value(head_count, carcass_weight, net_price)
     daily_price, daily_change = with_change(weighted_price(value=totals.value, weight=totals.weight))
 
     rolling_totals = totals.rolling(2).sum().dropna()
