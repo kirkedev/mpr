@@ -2,9 +2,10 @@ from unittest import TestCase
 from datetime import date
 from numpy import isclose
 
-from . import load_resource
 from mpr.api.cutout import parse_attributes
 from mpr.model.cutout import to_array
+
+from . import load_resource
 
 attributes = load_resource('cutout.xml')
 cutout = parse_attributes(next(attributes), next(attributes))
