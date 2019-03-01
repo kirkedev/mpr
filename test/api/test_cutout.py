@@ -43,6 +43,12 @@ class CutoutTest(TestCase):
     def test_belly_price(self):
         self.assertTrue(isclose(cutout.belly_price, 77.77))
 
+    def test_loads(self):
+        self.assertTrue(isclose(cutout.loads, 374.35))
+
+    def test_value(self):
+        self.assertTrue(isclose(cutout.value, 25148.83))
+
 
 class TestRecordArray(TestCase):
     def test_length(self):
