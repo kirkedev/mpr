@@ -10,7 +10,7 @@ from test.api import load_resource
 
 elements = load_resource('cutout.xml')
 records = filter_sections(elements, 'Cutout and Primal Values', 'Current Volume')
-volume, cutout = next(records)
+cutout, volume = next(records)
 
 
 class ParseReportTest(TestCase):

@@ -27,9 +27,6 @@ class TestPk600(TestCase):
     def setUp(self):
         cutout = (parse_attributes({
             'report_date': '08/20/2018',
-            'temp_cuts_total_load': '334.74',
-            'temp_process_total_load': '39.61'
-        }, {
             'pork_carcass': '67.18',
             'pork_loin': '75.51',
             'pork_butt': '89.55',
@@ -37,11 +34,12 @@ class TestPk600(TestCase):
             'pork_rib': '113.95',
             'pork_ham': '57.52',
             'pork_belly': '77.77'
+        }, {
+            'report_date': '08/20/2018',
+            'temp_cuts_total_load': '334.74',
+            'temp_process_total_load': '39.61'
         }), parse_attributes({
             'report_date': '08/21/2018',
-            'temp_cuts_total_load': '396.3',
-            'temp_process_total_load': '52.57'
-        }, {
             'pork_carcass': '66.19',
             'pork_loin': '74.05',
             'pork_butt': '90.15',
@@ -49,6 +47,10 @@ class TestPk600(TestCase):
             'pork_rib': '115.35',
             'pork_ham': '55.92',
             'pork_belly': '76.45'
+        }, {
+            'report_date': '08/21/2018',
+            'temp_cuts_total_load': '396.3',
+            'temp_process_total_load': '52.57'
         }))
 
         self.report.insert(cutout)
