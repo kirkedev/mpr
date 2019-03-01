@@ -29,6 +29,14 @@ class Cutout(NamedTuple):
     def __eq__(self, other) -> bool:
         return isinstance(other, Cutout) and hash(self) == hash(other) and np.allclose(self[2:], other[2:])
 
+    @property
+    def loads(self):
+        return self.primal_loads + self.trimming_loads
+
+    @property
+    def value(self):
+        return self.loads * self.carcass_price
+
 
 def to_array(records: Iterator[Cutout]) -> recarray:
     return np.rec.array(list(records), dtype=np.dtype([
