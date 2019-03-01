@@ -6,7 +6,9 @@ from pandas import DataFrame
 
 from mpr.data.model.cutout import Cutout
 from mpr.data.model.cutout import to_array
+
 from .. import create_table
+from .. import with_change
 
 
 def cutout_index(loads: Series, carcass_price: Series) -> Series:
@@ -20,12 +22,16 @@ def cutout_index(loads: Series, carcass_price: Series) -> Series:
 def cutout_report(records: Iterator[Cutout]) -> DataFrame:
     array = to_array(records)
     data = DataFrame(array).set_index('date')
+
     loads = data.primal_loads + data.trimming_loads
-    index = cutout_index(loads, data.carcass_price)
+    carcass_price, price_change = with_change(data.carcass_price)
+    index, index_change = with_change(cutout_index(loads, carcass_price))
 
     return create_table(
         index.rename('Cutout Index'),
-        data.carcass_price.rename('Carcass Price'),
+        index_change.rename('Index Change'),
+        carcass_price.rename('Carcass Price'),
+        price_change.rename('Price Change'),
         loads.rename('Total Loads'),
         data.loin_price.rename('Loin Price'),
         data.belly_price.rename('Belly Price'),
