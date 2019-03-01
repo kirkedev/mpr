@@ -1,11 +1,10 @@
 from unittest import TestCase
 from datetime import date
 from datetime import datetime
-
-from mpr.data.api import Attributes
-from mpr.data.api import parse_elements
 from xml.etree import ElementTree
 
+from mpr.api import Attributes
+from mpr.api import parse_elements
 from mpr.reports import date_diff
 from mpr.reports import request_range
 from mpr.reports.calendar import report_date_range

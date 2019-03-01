@@ -1,10 +1,9 @@
 from typing import Iterator
 from typing import TextIO
-from io import StringIO
 from xml.etree import ElementTree
 
-from mpr.data.api import Attributes
-from mpr.data.api import parse_elements
+from mpr.api import Attributes
+from mpr.api import parse_elements
 
 
 def parse_report(report: TextIO) -> Iterator[Attributes]:

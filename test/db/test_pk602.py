@@ -2,9 +2,9 @@ from unittest import TestCase
 from datetime import date
 from numpy import isclose
 
-from mpr.data import db
-from mpr.data.api.cutout import parse_attributes
-from mpr.data.model.cutout import to_array
+from mpr import db
+from mpr.api.cutout import parse_attributes
+from mpr.model.cutout import to_array
 
 
 class TestPk602(TestCase):

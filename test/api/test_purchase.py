@@ -3,11 +3,11 @@ from datetime import date
 from numpy import isnan
 from numpy import isclose
 
-from mpr.data.api.purchase import parse_attributes
-from mpr.data.model.purchase import to_array
-from mpr.data.model.purchase_type import Seller, Arrangement, Basis
+from mpr.api.purchase import parse_attributes
+from mpr.model.purchase import to_array
+from mpr.model.purchase_type import Seller, Arrangement, Basis
 
-from test.api import load_resource
+from . import load_resource
 
 attributes = list(load_resource('purchase.xml'))
 assert len(attributes) == 7

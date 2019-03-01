@@ -1,5 +1,5 @@
 from unittest import TestCase
-from mpr.data.api.purchase import parse_attributes
+from mpr.api.purchase import parse_attributes
 
 
 class TestPurchase(TestCase):

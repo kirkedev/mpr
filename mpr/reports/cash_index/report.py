@@ -6,9 +6,9 @@ import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from mpr.data.model.purchase_type import Arrangement
-from mpr.data.model.slaughter import Slaughter
-from mpr.data.model.slaughter import to_array
+from mpr.model.purchase_type import Arrangement
+from mpr.model.slaughter import Slaughter
+from mpr.model.slaughter import to_array
 
 from .. import with_change
 from .. import create_table

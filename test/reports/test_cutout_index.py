@@ -3,10 +3,10 @@ from datetime import date
 import numpy as np
 import pandas as pd
 
-from mpr.data.api import filter_sections
-from mpr.data.api.cutout import Section
-from mpr.data.api.cutout import parse_attributes
-from mpr.data.model.cutout import to_array
+from mpr.api.cutout import filter_sections
+from mpr.api.cutout import Section
+from mpr.api.cutout import parse_attributes
+from mpr.model.cutout import to_array
 
 from . import load_resource
 

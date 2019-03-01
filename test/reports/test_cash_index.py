@@ -2,11 +2,11 @@ from unittest import TestCase
 from datetime import date
 import numpy as np
 
-from mpr.data.api import filter_section
-from mpr.data.api.slaughter import Section
-from mpr.data.api.slaughter import parse_attributes
-from mpr.data.model.slaughter import to_array
-from mpr.data.model.purchase_type import Arrangement
+from mpr.api.slaughter import filter_section
+from mpr.api.slaughter import Section
+from mpr.api.slaughter import parse_attributes
+from mpr.model.slaughter import to_array
+from mpr.model.purchase_type import Arrangement
 
 from . import load_resource
 
