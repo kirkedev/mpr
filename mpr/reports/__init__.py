@@ -1,3 +1,4 @@
+from typing import Union
 from typing import Tuple
 from typing import Iterator
 from typing import List
@@ -41,5 +42,5 @@ def with_change(values: Series) -> Tuple[Series, Series]:
     return values, change
 
 
-def create_table(*columns: Series) -> DataFrame:
+def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
     return pd.concat(columns, axis=1)
