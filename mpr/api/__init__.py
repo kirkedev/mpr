@@ -29,18 +29,22 @@ date_filter = lambda start, end: f'{{"fieldName":"Report date","operatorType":"B
 request_url = lambda report, start, end: f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
 
 
+def strip_commas(value: str) -> str:
+    return value.replace(',', '')
+
+
 def get_optional(attr: Attributes, key: str) -> Optional[T]:
     return attr[key] if key in attr and attr[key] != 'null' else None
 
 
 def opt_float(attr: Attributes, key: str) -> float32:
     value = get_optional(attr, key)
-    return float32(value.replace(',', '')) if value else nan
+    return float32(strip_commas(value)) if value else nan
 
 
 def opt_int(attr: Attributes, key: str) -> uint32:
     value = get_optional(attr, key)
-    return uint32(value.replace(',', '')) if value else 0
+    return uint32(strip_commas(value)) if value else 0
 
 
 def chunk(iterator: Iterator[T], n: int) -> Iterator[Iterator[T]]:
