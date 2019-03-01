@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+python3 -m mpr.reports.cutout "$@"
+
