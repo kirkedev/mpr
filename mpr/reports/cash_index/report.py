@@ -10,7 +10,8 @@ from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.slaughter import Slaughter
 from mpr.data.model.slaughter import to_array
 
-pd.options.display.float_format = '{:,.2f}'.format
+from .. import with_change
+
 total_weight = lambda head_count, weight: head_count * weight
 total_value = lambda weight, price: weight * price
 weighted_price = lambda value, weight: value / weight
@@ -47,13 +48,6 @@ def weights_and_values(head_count: Series, carcass_weight: Series, net_price: Se
     value = total_value(weight=weight, price=net_price).rename('value')
 
     return pd.pivot_table(pd.concat([weight, value], axis=1), index='date')
-
-
-def with_change(values: Series) -> Tuple[Series, Series]:
-    values = values.round(decimals=2)
-    change = values - values.shift(1)
-
-    return values, change
 
 
 def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:

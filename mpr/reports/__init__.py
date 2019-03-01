@@ -1,13 +1,20 @@
+from typing import Tuple
 from typing import Iterator
 from typing import List
 from enum import Enum
 from datetime import date
+
+import pandas as pd
+from pandas import Series
+from pandas import DataFrame
 
 from .calendar import DateInterval
 from .calendar import date_diff
 from .calendar import recent_report_dates
 from .calendar import report_date_range
 from .calendar import report_date_intervals
+
+pd.options.display.float_format = '{:,.2f}'.format
 
 
 class Report(Enum):
@@ -25,3 +32,14 @@ def request_range(start: date, end: date, dates: Iterator[date]) -> List[DateInt
 
 def request_recent_reports(days: int) -> List[DateInterval]:
     return list(report_date_intervals(date_diff([], recent_report_dates(days))))
+
+
+def with_change(values: Series) -> Tuple[Series, Series]:
+    values = values.round(decimals=2)
+    change = values - values.shift(1)
+
+    return values, change
+
+
+def create_table(*columns: Series) -> DataFrame:
+    return pd.concat(columns, axis=1)
