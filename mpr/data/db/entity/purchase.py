@@ -1,6 +1,5 @@
 from abc import ABC
 from typing import Tuple
-from typing import Iterator
 from datetime import date
 
 from numpy import dtype
