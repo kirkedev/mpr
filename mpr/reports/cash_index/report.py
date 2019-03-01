@@ -69,9 +69,9 @@ def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
     cme_index, index_change = with_change(weighted_price(value=rolling_totals.value, weight=rolling_totals.weight))
 
     return pd.concat([
-        table,
+        cme_index.rename('CME Index'),
+        index_change.rename('Index Change'),
         daily_price.rename('Daily Avg Price'),
         daily_change.rename('Price Change'),
-        cme_index.rename('CME Index'),
-        index_change.rename('Index Change')
+        table
     ], axis=1)
