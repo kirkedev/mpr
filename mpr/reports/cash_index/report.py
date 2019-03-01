@@ -1,25 +1,27 @@
 from typing import Tuple
 from typing import Iterator
-from datetime import date
 from operator import itemgetter
-from functools import singledispatch
 
 import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from mpr.reports.calendar import recent_report_dates
-from mpr.data.api.slaughter import fetch_slaughter
 from mpr.data.model.purchase_type import Arrangement
 from mpr.data.model.slaughter import Slaughter
 from mpr.data.model.slaughter import to_array
 
-from . import total_weight
-from . import total_value
-from . import weighted_price
-from . import filter_types
-
 pd.options.display.float_format = '{:,.2f}'.format
+total_weight = lambda head_count, weight: head_count * weight
+total_value = lambda weight, price: weight * price
+weighted_price = lambda value, weight: value / weight
+
+
+def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
+    return filter(lambda it: it.arrangement in (
+        Arrangement.NEGOTIATED,
+        Arrangement.MARKET_FORMULA,
+        Arrangement.NEGOTIATED_FORMULA
+    ), records)
 
 
 def create_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
@@ -79,16 +81,3 @@ def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
         cme_index.rename('CME Index'),
         index_change.rename('Index Change')
     ], axis=1)
-
-
-@singledispatch
-async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
-    slaughter = await fetch_slaughter(start, end)
-    return cash_index_report(slaughter)
-
-
-@get_cash_prices.register(int)
-async def get_recent_cash_prices(n: int) -> DataFrame:
-    first, *_, last = recent_report_dates(n + 3)
-    report = await get_cash_prices(first, last)
-    return report.tail(n)

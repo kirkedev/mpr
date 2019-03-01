@@ -26,7 +26,7 @@ class TestCutoutIndex(TestCase):
         self.assertTrue(np.isclose(last.belly_price, 97.67))
 
     def test_cutout_index(self):
-        ascending = records[::-1][-5:]
+        ascending = records[::-1]
         loads = ascending.primal_loads + ascending.trimming_loads
         values = loads * ascending.carcass_price
         index = np.sum(values[-5:]) / np.sum(loads[-5:])
