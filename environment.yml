@@ -12,3 +12,6 @@ dependencies:
   - pytables
   - python=3.7.*
   - seaborn
+  - setuptools
+  - statsmodels
+  - wheel
