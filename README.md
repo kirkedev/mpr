@@ -26,14 +26,23 @@ conda activate mpr
 These all need to be run from the project root. If using direnv and an envrc like above, you can omit the path and run the script directly (eg: `tests`).
 
 ```bash
-# View cash index report for last 20 days
+# View CME Lean Hog Index report for last 20 days
 bin/cash --days=20
+
+# View CME Cutout Index report (default last 10 days)
+bin/cutout
 
 # View a USDA report by report slug
 bin/report lm_hg201
 
 # Run all tests
 bin/tests
+
+# Build wheel for deployment
+bin/build
+
+# Remove build artifacts
+bin/clean
 ```
 
 There are also some jupyter notebooks in this repository. Start the notebook server with:
