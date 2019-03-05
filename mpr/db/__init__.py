@@ -6,7 +6,7 @@ from pathlib import Path
 import tables
 from .entity import Entity
 
-path = Path(environ.get('DB', 'mpr/data/db/db.h5'))
+path = Path(environ.get('DB', 'mpr/db/db.h5'))
 
 if path.is_file():
     connection = tables.open_file(str(path), 'a', driver='H5FD_CORE')
