@@ -19,6 +19,7 @@ def create() -> Group:
         title='Barrows and Gilts')
 
     barrows_gilts_table.cols.date.create_csindex()
+    barrows_gilts_table.cols.report_date.create_csindex()
     barrows_gilts_table.cols.arrangement.create_index()
 
     return group

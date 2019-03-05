@@ -19,6 +19,7 @@ def create() -> Group:
         title='Cutout')
 
     cutout_table.cols.date.create_csindex()
+    cutout_table.cols.report_date.create_csindex()
 
     return group
 
