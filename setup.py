@@ -1,9 +1,14 @@
-from distutils.core import setup
+from setuptools import setup
+from setuptools import find_packages
 
 setup(
-  name="mpr",
-  author="Andrew Kirkegaard",
-  author_email="andrew.kirkegaard@gmail.com",
-  packages=["mpr"], 
-  requires=['tables', 'aiohttp', 'numpy', 'pandas']
-)
+  name='mpr',
+  version='0.1',
+  author='Andrew Kirkegaard',
+  author_email='andrew@kirke.dev',
+  url='https://github.com/gumballhead/mpr',
+  packages=find_packages(exclude=['test', 'test.*']),
+  include_package_data=True,
+  python_requires='>=3.7.*',
+  install_requires=['aiohttp', 'numpy', 'pandas', 'statsmodels', 'tables'],
+  extra_requires=['jupyter', 'seaborn'])

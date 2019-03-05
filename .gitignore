@@ -4,4 +4,6 @@ __pycache__
 db.h5
 coverage
 build
-
+dist
+mpr.egg-info/
+MANIFEST
