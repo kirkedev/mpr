@@ -7,7 +7,7 @@ env:
     - CONDA_PKGS_DIRS=$HOME/.conda_pkgs
 
 before_cache:
-  - find $HOME/.conda_pkgs/ -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
+  - find $CONDA_PKGS_DIRS -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
 
 cache:
   - pip
@@ -28,4 +28,6 @@ install:
   - conda env create -f environment.yml
   - source activate mpr
 
-script: tests && coveralls
+script: tests
+
+after_success: coveralls
