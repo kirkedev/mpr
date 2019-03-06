@@ -26,9 +26,9 @@ before_install:
   - conda config --set auto_update_conda false
   - conda info -a
 
-install:
-  - conda env create -f environment.yml
-  - source activate mpr
+install: conda env create -f environment.yml
+
+before_script: source activate mpr
 
 script: tests
 
