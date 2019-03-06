@@ -30,3 +30,5 @@ cache:
     - $CONDA_PKGS_DIRS
 
 after_success: coveralls
+
+before_deploy: build
