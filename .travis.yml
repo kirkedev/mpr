@@ -14,7 +14,7 @@ cache:
   - directories:
     - $CONDA_PKGS_DIRS
 
-install:
+before_install:
   - sudo apt-get update
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   - bash miniconda.sh -b -p $CONDA_HOME
@@ -25,6 +25,8 @@ install:
   - conda update -q conda
   - conda config --set auto_update_conda false
   - conda info -a
+
+install:
   - conda env create -f environment.yml
   - source activate mpr
 
