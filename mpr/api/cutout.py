@@ -1,12 +1,12 @@
 from enum import Enum
 from typing import Iterator
 from datetime import date
-from datetime import datetime
 
 from numpy import float32
-from numpy import datetime64
 
+from ..model.date import from_string
 from ..model.cutout import Cutout
+
 from . import Attributes
 from . import Report
 from . import fetch
@@ -33,8 +33,7 @@ class Section(Enum):
 
 
 def parse_attributes(cutout: Attributes, volume: Attributes) -> Cutout:
-    report_date_string = cutout['report_date']
-    report_date = datetime64(datetime.strptime(report_date_string, date_format).date(), 'D')
+    report_date = from_string(cutout['report_date'], date_format)
 
     return Cutout(
         date=report_date,
@@ -54,7 +53,7 @@ async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) 
     response = await fetch(report, start_date, end_date)
 
     return map(lambda it: parse_attributes(*it),
-            filter_sections(response, Section.VOLUME.value, Section.CUTOUT.value))
+        filter_sections(response, Section.CUTOUT.value, Section.VOLUME.value))
 
 
 async def morning(start_date: date, end_date=date.today()) -> Iterator[Cutout]:

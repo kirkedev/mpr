@@ -1,13 +1,13 @@
 from typing import NamedTuple
 from typing import Iterator
-from datetime import date
 
 import numpy as np
 from numpy import float32
 from numpy import recarray
 
-from . import Date
-from . import date_type
+from .date import Date
+from .date import date_type
+from .date import to_ordinal
 
 
 class Cutout(NamedTuple):
@@ -24,7 +24,7 @@ class Cutout(NamedTuple):
     belly_price: float32
 
     def __hash__(self) -> int:
-        return hash((self.date.astype(date).toordinal(), self.report_date.astype(date).toordinal()))
+        return hash((to_ordinal(self.date), to_ordinal(self.report_date)))
 
     def __eq__(self, other) -> bool:
         return isinstance(other, Cutout) and hash(self) == hash(other) and np.allclose(self[2:], other[2:])

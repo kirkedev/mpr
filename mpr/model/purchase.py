@@ -1,6 +1,5 @@
 from typing import NamedTuple
 from typing import Iterator
-from datetime import date
 
 import numpy as np
 from numpy import uint8
@@ -8,8 +7,9 @@ from numpy import uint32
 from numpy import float32
 from numpy import recarray
 
-from . import date_type
-from . import Date
+from .date import date_type
+from .date import Date
+from .date import to_ordinal
 
 
 class Purchase(NamedTuple):
@@ -25,8 +25,8 @@ class Purchase(NamedTuple):
 
     def __hash__(self) -> int:
         return hash((
-            self.date.astype(date).toordinal(),
-            self.report_date.astype(date).toordinal(),
+            to_ordinal(self.date),
+            to_ordinal(self.report_date),
             self.seller,
             self.arrangement,
             self.basis))
