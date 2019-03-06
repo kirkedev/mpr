@@ -7,14 +7,6 @@ env:
     - CONDA_PKGS_DIRS=$HOME/.conda_pkgs
     - PATH=./bin:$CONDA_HOME/bin:$PATH
 
-before_cache:
-  - find $CONDA_PKGS_DIRS -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
-
-cache:
-  - pip
-  - directories:
-    - $CONDA_PKGS_DIRS
-
 before_install:
   - sudo apt-get update
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
@@ -27,9 +19,14 @@ before_install:
   - conda info -a
 
 install: conda env create -f environment.yml
-
 before_script: source activate mpr
-
 script: tests
+
+before_cache: find $CONDA_PKGS_DIRS -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
+
+cache:
+  - pip
+  - directories:
+    - $CONDA_PKGS_DIRS
 
 after_success: coveralls
