@@ -7,7 +7,7 @@ mpr
 Python package for downloading, parsing, and analyzing historical [ Mandatory Price Reporting](https://mpr.datamart.ams.usda.gov/) data from the USDA's [Agricultural Marketing Service](https://www.ams.usda.gov/).
 
 ### Setup
-This project uses [conda](https://conda.io/en/latest/). Install python packages and activate environment:
+This project uses [conda](https://conda.io/en/latest/miniconda.html). Install python packages and activate environment:
 ```bash
 conda env create -f environment.yml
 conda activate mpr
