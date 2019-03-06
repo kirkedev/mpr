@@ -11,7 +11,6 @@ before_install:
   - sudo apt-get update
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   - bash miniconda.sh -b -p $CONDA_HOME
-  - mkdir -p $CONDA_PKGS_DIRS
   - hash -r
   - conda config --set always_yes yes --set changeps1 no --set auto_update_conda false
   - conda update -q conda
