@@ -13,9 +13,8 @@ before_install:
   - bash miniconda.sh -b -p $CONDA_HOME
   - mkdir -p $CONDA_PKGS_DIRS
   - hash -r
-  - conda config --set always_yes yes --set changeps1 no
+  - conda config --set always_yes yes --set changeps1 no --set auto_update_conda false
   - conda update -q conda
-  - conda config --set auto_update_conda false
   - conda info -a
 
 install: conda env create -f environment.yml
