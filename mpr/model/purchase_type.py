@@ -1,5 +1,5 @@
-from enum import IntEnum
 from typing import Tuple
+from enum import IntEnum
 from numpy import dtype
 from numpy import uint8
 

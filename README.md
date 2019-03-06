@@ -23,7 +23,7 @@ conda activate mpr
 ```
 
 ### Commands
-These all need to be run from the project root. If using direnv and an envrc like above, you can omit the path and run the script directly (eg: `tests`).
+These all need to be run from the project root. If using direnv and an envrc like above, you can omit the path and run the script directly, eg: `tests`.
 
 ```bash
 # View CME Lean Hog Index report for last 20 days

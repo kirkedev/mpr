@@ -1,14 +1,14 @@
 from abc import ABC
 from typing import Tuple
-from datetime import date
 
 from numpy import dtype
-from numpy import datetime64
 from numpy import uint8
 from numpy import uint32
 from numpy import float32
 from tables.tableextension import Row
 
+from mpr.model.date import to_ordinal
+from mpr.model.date import from_ordinal
 from mpr.model.slaughter import Slaughter
 from .observation import Observation
 
@@ -36,14 +36,8 @@ class SlaughterEntity(Observation[Slaughter], ABC):
 
     @staticmethod
     def from_row(row: Row) -> Slaughter:
-        return Slaughter(
-            datetime64(date.fromordinal(row[0]), 'D'),
-            datetime64(date.fromordinal(row[1]), 'D'),
-            *row[2:])
+        return Slaughter(from_ordinal(row[0]), from_ordinal(row[1]), *row[2:])
 
     @staticmethod
     def to_row(record: Slaughter) -> Tuple:
-        return (
-            record[0].astype(date).toordinal(),
-            record[1].astype(date).toordinal(),
-            *record[2:])
+        return (to_ordinal(record[0]), to_ordinal(record[1]), *record[2:])

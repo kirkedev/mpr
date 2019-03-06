@@ -1,12 +1,10 @@
 from typing import Dict
 from typing import Iterator
 from enum import Enum
-from datetime import date
-from datetime import datetime
 from datetime import timedelta
+from datetime import date
 
-from numpy import datetime64
-
+from ..model.date import from_string
 from ..model.purchase import Purchase
 from ..model.purchase_type import PurchaseType, Seller, Arrangement, Basis
 
@@ -59,15 +57,12 @@ def parse_attributes(attr: Attributes) -> Purchase:
     report_date_string = attr['report_date']
     record_date_string = get_optional(attr, 'reported_for_date') or report_date_string
 
-    record_date = datetime.strptime(record_date_string, date_format).date()
-    report_date = datetime.strptime(report_date_string, date_format).date()
-
     purchase_type = attr['purchase_type']
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Purchase(
-        date=datetime64(record_date, 'D'),
-        report_date=datetime64(report_date, 'D'),
+        date=from_string(record_date_string, date_format),
+        report_date=from_string(report_date_string, date_format),
         seller=seller.value,
         arrangement=arrangement.value,
         basis=basis.value,
