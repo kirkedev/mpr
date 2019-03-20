@@ -13,7 +13,7 @@ from .. import with_change
 
 def cutout_index(loads: Series, carcass_price: Series) -> Series:
     values = loads * carcass_price
-    pivot_table = pd.pivot_table(pd.concat([loads.rename('loads'), values.rename('value')], axis=1), index='date')
+    pivot_table = pd.pivot_table(create_table(loads.rename('loads'), values.rename('value')), index='date')
     rolling_totals = pivot_table.rolling(5).sum().dropna()
 
     return rolling_totals.value / rolling_totals.loads
