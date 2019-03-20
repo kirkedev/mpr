@@ -34,7 +34,7 @@ def cutout_report(records: Iterator[Cutout]) -> DataFrame:
         loads.rename('Total Loads'),
         data.loin_price.rename('Loin Price'),
         data.belly_price.rename('Belly Price'),
-        data.belly_price.rename('Butt Price'),
+        data.butt_price.rename('Butt Price'),
         data.ham_price.rename('Ham Price'),
         data.rib_price.rename('Rib Price'),
         data.picnic_price.rename('Picnic Price'))
