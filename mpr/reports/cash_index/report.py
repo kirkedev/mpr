@@ -42,9 +42,9 @@ def format_columns(table: DataFrame) -> DataFrame:
 
 
 def format_column(column: Tuple[str, int]) -> str:
-    (field, arrangement) = column
-    field = field.replace('_', ' ').title()
-    arrangement = Arrangement(arrangement).name.replace('_', ' ').title()
+    (field_id, arrangement_id) = column
+    field = field_id.replace('_', ' ').title()
+    arrangement = Arrangement(arrangement_id).name.replace('_', ' ').title()
 
     return f"{arrangement} {field}"
 
@@ -66,10 +66,10 @@ def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
     net_price = data.net_price
 
     totals = aggregate_value(head_count, carcass_weight, net_price)
-    daily_price, daily_change = with_change(weighted_price(value=totals.value, weight=totals.weight))
+    daily_price, daily_change = with_change(weighted_price(**totals))
 
     rolling_totals = totals.rolling(2).sum().dropna()
-    cme_index, index_change = with_change(weighted_price(value=rolling_totals.value, weight=rolling_totals.weight))
+    cme_index, index_change = with_change(weighted_price(**rolling_totals))
 
     return create_table(
         cme_index.rename('CME Index'),
