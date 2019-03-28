@@ -35,11 +35,13 @@ def request_recent_reports(days: int) -> List[DateInterval]:
     return list(report_date_intervals(date_diff([], recent_report_dates(days))))
 
 
+def compute_change(values: Series) -> Series:
+    return values - values.shift(1)
+
+
 def with_change(values: Series) -> Tuple[Series, Series]:
     values = values.round(decimals=2)
-    change = values - values.shift(1)
-
-    return values, change
+    return values, compute_change(values)
 
 
 def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
