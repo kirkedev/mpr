@@ -2,6 +2,7 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Generic
 from typing import TypeVar
+from typing import Union
 from typing import Tuple
 from typing import Dict
 from typing import Iterator
@@ -10,7 +11,11 @@ from numpy import dtype
 from tables import Table
 from tables.tableextension import Row
 
-Record = TypeVar('Record', bound=Tuple)
+from mpr.model.cutout import Cutout
+from mpr.model.purchase import Purchase
+from mpr.model.slaughter import Slaughter
+
+Record = TypeVar('Record', bound=Union[Cutout, Purchase, Slaughter])
 
 
 class Entity(Generic[Record], ABC):
