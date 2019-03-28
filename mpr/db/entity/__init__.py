@@ -47,7 +47,8 @@ class Entity(Generic[Record], ABC):
     @classmethod
     def insert(cls, records: Iterator[Record]):
         existing = set(map(hash, cls.get()))
-        rows = list(map(cls.to_row, filter(lambda it: hash(it) not in existing, records)))
+        new = filter(lambda it: hash(it) not in existing, records)
+        rows = list(map(cls.to_row, new))
 
         if len(rows) > 0:
             cls.table.append(rows)

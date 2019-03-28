@@ -18,7 +18,7 @@ total_value = lambda weight, price: weight * price
 weighted_price = lambda value, weight: value / weight
 
 
-def filter_types(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
+def filter_arrangement(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
     return filter(lambda it: it.arrangement in (
         Arrangement.NEGOTIATED,
         Arrangement.MARKET_FORMULA,
@@ -53,13 +53,13 @@ def aggregate_value(head_count: Series, carcass_weight: Series, net_price: Serie
     weight = total_weight(head_count=head_count, weight=carcass_weight).rename('weight')
     value = total_value(weight=weight, price=net_price).rename('value')
 
-    return pd.pivot_table(pd.concat([weight, value], axis=1), index='date')
+    return pd.pivot_table(create_table(weight, value), index='date')
 
 
-def cash_index_report(records: Iterator[Slaughter]) -> DataFrame:
-    array = to_array(filter_types(records))
+def cash_index_report(slaughter: Iterator[Slaughter]) -> DataFrame:
+    records = to_array(filter_arrangement(slaughter))
     columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
-    data = DataFrame(array, columns=columns).set_index(['date', 'arrangement'])
+    data = DataFrame(records, columns=columns).set_index(['date', 'arrangement'])
 
     head_count = data.head_count
     carcass_weight = data.carcass_weight

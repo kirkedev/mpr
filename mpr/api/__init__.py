@@ -90,7 +90,7 @@ def parse_elements(elements: Iterator[ParsedElement], max_depth=4) -> Iterator[A
     and the record attributes (depth=4), which contains the data.
     """
     depth = 0
-    metadata: Dict[str, str] = dict()
+    metadata: Attributes = dict()
 
     for event, element in elements:
         if event == 'start':
