@@ -3,7 +3,7 @@ from tables import Node
 from tables import Group
 
 from mpr import db
-from .entity.purchase import PurchaseEntity
+from mpr.purchase.entity import PurchaseEntity
 
 
 def create() -> Group:

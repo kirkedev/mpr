@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Iterator
 from datetime import date
 
-from . import Entity
-from . import Record
+from .entity import Entity
+from .entity import Record
 
 
 class Observation(Entity[Record], ABC):

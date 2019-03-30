@@ -5,9 +5,9 @@ from numpy import isclose
 from numpy import isnan
 
 from mpr import db
-from mpr.api.slaughter import parse_attributes
-from mpr.model.slaughter import to_array
-from mpr.model.purchase_type import Seller, Arrangement, Basis
+from mpr.slaughter.api import parse_attributes
+from mpr.slaughter.model import to_array
+from mpr.purchase_type import Seller, Arrangement, Basis
 
 
 class TestHg201(TestCase):

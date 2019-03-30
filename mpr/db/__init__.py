@@ -4,7 +4,6 @@ from importlib import import_module
 from pathlib import Path
 
 import tables
-from .entity import Entity
 
 path = Path(environ.get('DB', 'mpr/db/db.h5'))
 

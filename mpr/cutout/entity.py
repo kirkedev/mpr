@@ -6,10 +6,10 @@ from numpy import uint32
 from numpy import float32
 from tables.tableextension import Row
 
-from mpr.model.date import to_ordinal
-from mpr.model.date import from_ordinal
-from mpr.model.cutout import Cutout
-from .observation import Observation
+from mpr.date import to_ordinal
+from mpr.date import from_ordinal
+from mpr.cutout.model import Cutout
+from mpr.observation import Observation
 
 
 class CutoutEntity(Observation[Cutout], ABC):

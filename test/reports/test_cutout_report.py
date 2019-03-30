@@ -1,9 +1,9 @@
 from unittest import TestCase
 from numpy import allclose
 
-from mpr.api.cutout import filter_sections
-from mpr.api.cutout import Section
-from mpr.api.cutout import parse_attributes
+from mpr.cutout.api import filter_sections
+from mpr.cutout.api import Section
+from mpr.cutout.api import parse_attributes
 from mpr.reports.cutout.report import cutout_report
 
 from . import load_resource
