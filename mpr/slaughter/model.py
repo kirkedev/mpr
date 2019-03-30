@@ -7,9 +7,9 @@ from numpy import uint32
 from numpy import float32
 from numpy import recarray
 
-from .date import date_type
-from .date import Date
-from .date import to_ordinal
+from mpr.date import date_type
+from mpr.date import Date
+from mpr.date import to_ordinal
 
 
 class Slaughter(NamedTuple):

@@ -3,7 +3,7 @@ from tables import Node
 from tables import Group
 
 from mpr import db
-from .entity.cutout import CutoutEntity
+from mpr.cutout.entity import CutoutEntity
 
 
 def create() -> Group:

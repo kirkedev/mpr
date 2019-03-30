@@ -2,8 +2,8 @@ from unittest import TestCase
 from datetime import date
 from numpy import isclose
 
-from mpr.api.cutout import parse_attributes
-from mpr.model.cutout import to_array
+from mpr.cutout.api import parse_attributes
+from mpr.cutout.model import to_array
 
 from . import load_resource
 

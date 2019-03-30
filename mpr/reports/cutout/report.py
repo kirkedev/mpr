@@ -4,8 +4,8 @@ import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from mpr.model.cutout import Cutout
-from mpr.model.cutout import to_array
+from mpr.cutout.model import Cutout
+from mpr.cutout.model import to_array
 
 from .. import create_table
 from .. import with_change
