@@ -4,13 +4,13 @@ from datetime import date
 
 from numpy import float32
 
-from mpr.date import from_string
-from mpr.cutout.model import Cutout
+from ..api import Attributes
+from ..api import Report
+from ..api import fetch
+from ..api import filter_sections
+from ..date import from_string
 
-from mpr.api import Attributes
-from mpr.api import Report
-from mpr.api import fetch
-from mpr.api import filter_sections
+from .model import Cutout
 
 date_format = "%m/%d/%Y"
 

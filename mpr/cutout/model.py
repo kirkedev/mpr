@@ -5,9 +5,9 @@ import numpy as np
 from numpy import float32
 from numpy import recarray
 
-from mpr.date import Date
-from mpr.date import date_type
-from mpr.date import to_ordinal
+from ..date import Date
+from ..date import date_type
+from ..date import to_ordinal
 
 
 class Cutout(NamedTuple):

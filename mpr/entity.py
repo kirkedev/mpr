@@ -11,9 +11,9 @@ from numpy import dtype
 from tables import Table
 from tables.tableextension import Row
 
-from mpr.cutout.model import Cutout
-from mpr.purchase.model import Purchase
-from mpr.slaughter.model import Slaughter
+from .cutout.model import Cutout
+from .purchase.model import Purchase
+from .slaughter.model import Slaughter
 
 Record = TypeVar('Record', bound=Union[Cutout, Purchase, Slaughter])
 

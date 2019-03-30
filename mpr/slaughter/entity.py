@@ -7,10 +7,11 @@ from numpy import uint32
 from numpy import float32
 from tables.tableextension import Row
 
-from mpr.date import to_ordinal
-from mpr.date import from_ordinal
-from mpr.slaughter.model import Slaughter
-from mpr.observation import Observation
+from ..date import to_ordinal
+from ..date import from_ordinal
+from ..observation import Observation
+
+from .model import Slaughter
 
 
 class SlaughterEntity(Observation[Slaughter], ABC):

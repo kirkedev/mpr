@@ -4,16 +4,16 @@ from enum import Enum
 from datetime import date
 from datetime import timedelta
 
-from mpr.date import from_string
-from mpr.slaughter.model import Slaughter
-from mpr.purchase_type import PurchaseType, Seller, Arrangement, Basis
+from ..api import Attributes
+from ..api import Report
+from ..api import opt_int
+from ..api import opt_float
+from ..api import fetch
+from ..api import filter_section
+from ..date import from_string
+from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 
-from mpr.api import Attributes
-from mpr.api import Report
-from mpr.api import opt_int
-from mpr.api import opt_float
-from mpr.api import fetch
-from mpr.api import filter_section
+from .model import Slaughter
 
 date_format = "%m/%d/%Y"
 

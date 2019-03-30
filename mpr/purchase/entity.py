@@ -7,10 +7,11 @@ from numpy import uint32
 from numpy import float32
 from tables.tableextension import Row
 
-from mpr.date import from_ordinal
-from mpr.date import to_ordinal
-from mpr.purchase.model import Purchase
-from mpr.observation import Observation
+from ..date import from_ordinal
+from ..date import to_ordinal
+from ..observation import Observation
+
+from .model import Purchase
 
 
 class PurchaseEntity(Observation[Purchase], ABC):

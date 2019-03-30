@@ -3,7 +3,7 @@ from tables import Node
 from tables import Group
 
 from mpr import db
-from mpr.slaughter.entity import SlaughterEntity
+from ..slaughter.entity import SlaughterEntity
 
 
 def create() -> Group:
