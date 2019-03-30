@@ -1,9 +1,9 @@
 from unittest import TestCase
 from numpy import allclose
 
-from mpr.api.slaughter import filter_section
-from mpr.api.slaughter import Section
-from mpr.api.slaughter import parse_attributes
+from mpr.slaughter.api import filter_section
+from mpr.slaughter.api import Section
+from mpr.slaughter.api import parse_attributes
 from mpr.reports.cash_index.report import cash_index_report
 
 from . import load_resource

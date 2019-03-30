@@ -3,9 +3,9 @@ from datetime import date
 from numpy import isnan
 from numpy import isclose
 
-from mpr.api.purchase import parse_attributes
-from mpr.model.purchase import to_array
-from mpr.model.purchase_type import Seller, Arrangement, Basis
+from mpr.purchase.api import parse_attributes
+from mpr.purchase.model import to_array
+from mpr.purchase_type import Seller, Arrangement, Basis
 
 from . import load_resource
 

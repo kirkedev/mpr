@@ -3,8 +3,8 @@ from datetime import date
 from numpy import isclose
 
 from mpr import db
-from mpr.api.cutout import parse_attributes
-from mpr.model.cutout import to_array
+from mpr.cutout.api import parse_attributes
+from mpr.cutout.model import to_array
 
 
 class TestPk600(TestCase):

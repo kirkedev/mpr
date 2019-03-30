@@ -6,9 +6,9 @@ import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from mpr.model.purchase_type import Arrangement
-from mpr.model.slaughter import Slaughter
-from mpr.model.slaughter import to_array
+from mpr.purchase_type import Arrangement
+from mpr.slaughter.model import Slaughter
+from mpr.slaughter.model import to_array
 
 from .. import with_change
 from .. import create_table
@@ -42,11 +42,8 @@ def format_columns(table: DataFrame) -> DataFrame:
 
 
 def format_column(column: Tuple[str, int]) -> str:
-    (field_id, arrangement_id) = column
-    field = field_id.replace('_', ' ').title()
-    arrangement = Arrangement(arrangement_id).name.replace('_', ' ').title()
-
-    return f"{arrangement} {field}"
+    (field, arrangement) = column
+    return f"{Arrangement(arrangement).name} {field}".replace('_', '').title()
 
 
 def aggregate_value(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:

@@ -15,7 +15,7 @@ from numpy import uint32
 from numpy import float32
 from numpy import nan
 
-from ..reports import Report
+from mpr.reports import Report
 
 T = TypeVar('T')
 Attributes = Dict[str, str]
