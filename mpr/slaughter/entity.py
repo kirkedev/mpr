@@ -37,8 +37,8 @@ class SlaughterEntity(Observation[Slaughter], ABC):
 
     @staticmethod
     def from_row(row: Row) -> Slaughter:
-        return Slaughter(from_ordinal(row[0]), from_ordinal(row[1]), *row[2:])
+        return Slaughter(*map(from_ordinal, row[:2]), *row[2:])
 
     @staticmethod
     def to_row(record: Slaughter) -> Tuple:
-        return (to_ordinal(record[0]), to_ordinal(record[1]), *record[2:])
+        return (*map(to_ordinal, record[:2]), *record[2:])

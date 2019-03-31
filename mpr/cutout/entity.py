@@ -30,8 +30,8 @@ class CutoutEntity(Observation[Cutout], ABC):
 
     @staticmethod
     def from_row(row: Row) -> Cutout:
-        return Cutout(from_ordinal(row[0]), from_ordinal(row[1]), *row[2:])
+        return Cutout(*map(from_ordinal, row[:2]), *row[2:])
 
     @staticmethod
     def to_row(record: Cutout) -> Tuple:
-        return (to_ordinal(record[0]), to_ordinal(record[1]), *record[2:])
+        return (*map(to_ordinal, record[:2]), *record[2:])

@@ -32,12 +32,7 @@ class Slaughter(NamedTuple):
     lean_percent: float32
 
     def __hash__(self) -> int:
-        return hash((
-            to_ordinal(self.date),
-            to_ordinal(self.report_date),
-            self.seller,
-            self.arrangement,
-            self.basis))
+        return hash((*map(to_ordinal, self[:2]), self[2:5]))
 
     def __eq__(self, other) -> bool:
         return isinstance(other, Slaughter) and hash(self) == hash(other) and np.allclose(self[5:], other[5:])
