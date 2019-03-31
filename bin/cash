@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-python3 -m mpr.reports.cash_index "$@"
+python3 -m mpr.cash_index "$@"

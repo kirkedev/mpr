@@ -4,7 +4,7 @@ from numpy import allclose
 from mpr.cutout.api import filter_sections
 from mpr.cutout.api import Section
 from mpr.cutout.api import parse_attributes
-from mpr.reports.cutout.report import cutout_report
+from mpr.cutout_index.report import cutout_report
 
 from . import load_resource
 

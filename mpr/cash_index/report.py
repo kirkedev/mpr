@@ -6,12 +6,11 @@ import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from mpr.purchase_type import Arrangement
-from mpr.slaughter.model import Slaughter
-from mpr.slaughter.model import to_array
-
-from .. import with_change
-from .. import create_table
+from ..purchase_type import Arrangement
+from ..slaughter.model import Slaughter
+from ..slaughter.model import to_array
+from ..reports import with_change
+from ..reports import create_table
 
 total_weight = lambda head_count, weight: head_count * weight
 total_value = lambda weight, price: weight * price

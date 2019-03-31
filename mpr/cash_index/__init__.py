@@ -2,8 +2,9 @@ from datetime import date
 from functools import singledispatch
 from pandas import DataFrame
 
-from mpr.slaughter.api import fetch_slaughter
 from ..calendar import recent_report_dates
+from ..slaughter.api import fetch_slaughter
+
 from .report import cash_index_report
 
 

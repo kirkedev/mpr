@@ -4,7 +4,7 @@ from numpy import allclose
 from mpr.slaughter.api import filter_section
 from mpr.slaughter.api import Section
 from mpr.slaughter.api import parse_attributes
-from mpr.reports.cash_index.report import cash_index_report
+from mpr.cash_index.report import cash_index_report
 
 from . import load_resource
 

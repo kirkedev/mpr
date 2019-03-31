@@ -4,11 +4,10 @@ import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from mpr.cutout.model import Cutout
-from mpr.cutout.model import to_array
-
-from .. import create_table
-from .. import with_change
+from ..cutout.model import Cutout
+from ..cutout.model import to_array
+from ..reports import create_table
+from ..reports import with_change
 
 
 def cutout_index(loads: Series, carcass_price: Series) -> Series:
