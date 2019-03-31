@@ -72,21 +72,21 @@ def parse_attributes(attr: Attributes) -> Purchase:
         high_price=opt_float(attr, 'price_high'))
 
 
-async def fetch_purchase(report: Report, start_date: date, end_date=date.today()) -> Iterator[Purchase]:
-    response = await fetch(report, start_date, end_date)
+async def fetch_purchase(report: Report, start: date, end=date.today()) -> Iterator[Purchase]:
+    response = await fetch(report, start, end)
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
-async def prior_day(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(Report.PURCHASED_SWINE, start_date + timedelta(days=1), end_date)
+async def prior_day(start: date, end=date.today()) -> Iterator[Purchase]:
+    return await fetch_purchase(Report.PURCHASED_SWINE, start + timedelta(days=1), end)
 
 
-async def morning(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(Report.DIRECT_HOG_MORNING, start_date, end_date)
+async def morning(start: date, end=date.today()) -> Iterator[Purchase]:
+    return await fetch_purchase(Report.DIRECT_HOG_MORNING, start, end)
 
 
-async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(Report.DIRECT_HOG_AFTERNOON, start_date, end_date)
+async def afternoon(start: date, end=date.today()) -> Iterator[Purchase]:
+    return await fetch_purchase(Report.DIRECT_HOG_AFTERNOON, start, end)
 
 
 lm_hg200 = hg200 = prior_day

@@ -78,8 +78,8 @@ def parse_attributes(attr: Attributes) -> Slaughter:
         lean_percent=opt_float(attr, 'avg_lean_percent'))
 
 
-async def fetch_slaughter(start_date: date, end_date=date.today()) -> Iterator[Slaughter]:
-    response = await fetch(Report.SLAUGHTERED_SWINE, start_date + timedelta(days=1), end_date)
+async def fetch_slaughter(start: date, end=date.today()) -> Iterator[Slaughter]:
+    response = await fetch(Report.SLAUGHTERED_SWINE, start + timedelta(days=1), end)
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 

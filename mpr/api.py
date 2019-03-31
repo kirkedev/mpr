@@ -61,11 +61,11 @@ def filter_sections(records: Iterator[Attributes], *args: str) -> Iterator[Itera
     return chunk(attrs, len(args))
 
 
-async def fetch(report: Report, start_date: date, end_date=date.today()) -> Iterator[Attributes]:
+async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
     url = request_url(
         report=report.value,
-        start=start_date.strftime(date_format),
-        end=end_date.strftime(date_format))
+        start=start.strftime(date_format),
+        end=end.strftime(date_format))
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:

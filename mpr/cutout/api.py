@@ -49,19 +49,19 @@ def parse_attributes(cutout: Attributes, volume: Attributes) -> Cutout:
         belly_price=float32(cutout['pork_belly']))
 
 
-async def fetch_cutout(report: Report, start_date: date, end_date=date.today()) -> Iterator[Cutout]:
-    response = await fetch(report, start_date, end_date)
+async def fetch_cutout(report: Report, start: date, end=date.today()) -> Iterator[Cutout]:
+    response = await fetch(report, start, end)
 
     return map(lambda it: parse_attributes(*it),
         filter_sections(response, Section.CUTOUT.value, Section.VOLUME.value))
 
 
-async def morning(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
-    return await fetch_cutout(Report.CUTOUT_MORNING, start_date, end_date)
+async def morning(start: date, end=date.today()) -> Iterator[Cutout]:
+    return await fetch_cutout(Report.CUTOUT_MORNING, start, end)
 
 
-async def afternoon(start_date: date, end_date=date.today()) -> Iterator[Cutout]:
-    return await fetch_cutout(Report.CUTOUT_AFTERNOON, start_date, end_date)
+async def afternoon(start: date, end=date.today()) -> Iterator[Cutout]:
+    return await fetch_cutout(Report.CUTOUT_AFTERNOON, start, end)
 
 
 lm_pk600 = pk600 = morning
