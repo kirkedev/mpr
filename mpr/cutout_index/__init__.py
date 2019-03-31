@@ -9,13 +9,13 @@ from .report import cutout_report
 
 
 @singledispatch
-async def get_cutout(start: date, end=date.today()) -> DataFrame:
+async def get_cutout_index(start: date, end=date.today()) -> DataFrame:
     cutout = await pk602(start, end)
     return cutout_report(cutout)
 
 
-@get_cutout.register(int)
+@get_cutout_index.register(int)
 async def get_recent_cash_prices(n: int) -> DataFrame:
     first, *_, last = recent_report_dates(n + 8)
-    cutout = await get_cutout(first, last)
+    cutout = await get_cutout_index(first, last)
     return cutout.tail(n)
