@@ -42,7 +42,7 @@ def format_columns(table: DataFrame) -> DataFrame:
 
 def format_column(column: Tuple[str, int]) -> str:
     (field, arrangement) = column
-    return f"{Arrangement(arrangement).name} {field}".replace('_', '').title()
+    return f"{Arrangement(arrangement).name} {field}".replace('_', ' ').title()
 
 
 def aggregate_value(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
