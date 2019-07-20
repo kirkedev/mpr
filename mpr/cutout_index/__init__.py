@@ -15,7 +15,7 @@ async def get_cutout_index(start: date, end=date.today()) -> DataFrame:
 
 
 @get_cutout_index.register(int)
-async def get_recent_cash_prices(n: int) -> DataFrame:
+async def get_recent_cutout_index(n: int) -> DataFrame:
     today = date.today()
     cutout = await get_cutout_index(today - timedelta(days=n + 12), today)
     return cutout.tail(n)
