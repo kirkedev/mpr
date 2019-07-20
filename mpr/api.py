@@ -74,7 +74,7 @@ async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attri
             return parse_elements(elements)
 
 
-def parse_elements(elements: Iterator[ParsedElement], max_depth=4) -> Iterator[Attributes]:
+def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) -> Iterator[Attributes]:
     """
     Parses a USDA report by saving metadata from parent elements to a dictionary while traversing down the tree.
     When at the maximum depth, yield all collected metadata with each child element's attributes.
@@ -86,20 +86,20 @@ def parse_elements(elements: Iterator[ParsedElement], max_depth=4) -> Iterator[A
                 <report label>
                     <record ...attributes/>
 
-    Usually all we care about is the report date (depth=2); the report label (depth=3), for finding sections;
-    and the record attributes (depth=4), which contains the data.
+    Usually all we care about is the report date (depth=2); the report section label (depth=3);
+    and the record data attributes (depth=4).
     """
     depth = 0
     metadata: Attributes = dict()
 
     for event, element in elements:
         if event == 'start':
-            if 1 <= depth < max_depth:
+            if min_depth <= depth < max_depth:
                 # Parsing a parent element: merge its properties into the metadata
                 metadata.update(element.items())
 
             elif depth == max_depth:
-                # Parsing a child element: combine its properties with the metadata and yield
+                # Parsing a child element: generate a dict combining metadata and child attributes
                 yield dict(metadata.items() | element.items())
 
             depth += 1
@@ -107,7 +107,7 @@ def parse_elements(elements: Iterator[ParsedElement], max_depth=4) -> Iterator[A
         if event == 'end':
             depth -= 1
 
-            if depth == 2:
-                # Finished parsing one day's data: clear the metadata and element tree
+            if depth == min_depth:
+                # clear the metadata and element tree after each report section
                 element.clear()
                 metadata.clear()

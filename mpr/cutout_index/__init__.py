@@ -1,8 +1,8 @@
 from datetime import date
+from datetime import timedelta
 from functools import singledispatch
 from pandas import DataFrame
 
-from ..calendar import recent_report_dates
 from ..cutout.api import pk602
 
 from .report import cutout_report
@@ -16,6 +16,6 @@ async def get_cutout_index(start: date, end=date.today()) -> DataFrame:
 
 @get_cutout_index.register(int)
 async def get_recent_cash_prices(n: int) -> DataFrame:
-    first, *_, last = recent_report_dates(n + 8)
-    cutout = await get_cutout_index(first, last)
+    today = date.today()
+    cutout = await get_cutout_index(today - timedelta(days=n + 12), today)
     return cutout.tail(n)

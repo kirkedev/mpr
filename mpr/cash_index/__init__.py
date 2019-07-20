@@ -1,10 +1,9 @@
 from datetime import date
+from datetime import timedelta
 from functools import singledispatch
 from pandas import DataFrame
 
-from ..calendar import recent_report_dates
 from ..slaughter.api import fetch_slaughter
-
 from .report import cash_index_report
 
 
@@ -16,6 +15,6 @@ async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
 
 @get_cash_prices.register(int)
 async def get_recent_cash_prices(n: int) -> DataFrame:
-    first, *_, last = recent_report_dates(n + 3)
-    cash_prices = await get_cash_prices(first, last)
+    today = date.today()
+    cash_prices = await get_cash_prices(today - timedelta(days=n + 10), today)
     return cash_prices.tail(n)
