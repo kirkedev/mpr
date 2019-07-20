@@ -5,10 +5,10 @@ from datetime import date
 from numpy import float32
 
 from ..api import Attributes
-from ..api import Report
 from ..api import fetch
 from ..api import filter_sections
 from ..date import from_string
+from ..reports import CutoutReport
 
 from .model import Cutout
 
@@ -49,7 +49,7 @@ def parse_attributes(cutout: Attributes, volume: Attributes) -> Cutout:
         belly_price=float32(cutout['pork_belly']))
 
 
-async def fetch_cutout(report: Report, start: date, end=date.today()) -> Iterator[Cutout]:
+async def fetch_cutout(report: CutoutReport, start: date, end=date.today()) -> Iterator[Cutout]:
     response = await fetch(report, start, end)
 
     return map(lambda it: parse_attributes(*it),
@@ -57,11 +57,11 @@ async def fetch_cutout(report: Report, start: date, end=date.today()) -> Iterato
 
 
 async def morning(start: date, end=date.today()) -> Iterator[Cutout]:
-    return await fetch_cutout(Report.CUTOUT_MORNING, start, end)
+    return await fetch_cutout(CutoutReport.CUTOUT_MORNING, start, end)
 
 
 async def afternoon(start: date, end=date.today()) -> Iterator[Cutout]:
-    return await fetch_cutout(Report.CUTOUT_AFTERNOON, start, end)
+    return await fetch_cutout(CutoutReport.CUTOUT_AFTERNOON, start, end)
 
 
 lm_pk600 = pk600 = morning

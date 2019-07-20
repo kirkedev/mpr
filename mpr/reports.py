@@ -1,3 +1,4 @@
+from typing import TypeVar
 from typing import Union
 from typing import Tuple
 from enum import Enum
@@ -9,13 +10,22 @@ from pandas import DataFrame
 pd.options.display.float_format = '{:,.2f}'.format
 
 
-class Report(Enum):
+class PurchaseReport(Enum):
     PURCHASED_SWINE = 'lm_hg200'
-    SLAUGHTERED_SWINE = 'lm_hg201'
     DIRECT_HOG_MORNING = 'lm_hg202'
     DIRECT_HOG_AFTERNOON = 'lm_hg203'
+
+
+class SlaughterReport(Enum):
+    SLAUGHTERED_SWINE = 'lm_hg201'
+
+
+class CutoutReport(Enum):
     CUTOUT_MORNING = 'lm_pk600'
     CUTOUT_AFTERNOON = 'lm_pk602'
+
+
+Report = TypeVar('Report', bound=Union[PurchaseReport, SlaughterReport, CutoutReport])
 
 
 def compute_change(values: Series) -> Series:

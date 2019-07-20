@@ -5,7 +5,6 @@ from datetime import timedelta
 from datetime import date
 
 from ..api import Attributes
-from ..api import Report
 from ..api import get_optional
 from ..api import opt_int
 from ..api import opt_float
@@ -13,6 +12,7 @@ from ..api import fetch
 from ..api import filter_section
 from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
+from ..reports import PurchaseReport
 
 from .model import Purchase
 
@@ -72,21 +72,21 @@ def parse_attributes(attr: Attributes) -> Purchase:
         high_price=opt_float(attr, 'price_high'))
 
 
-async def fetch_purchase(report: Report, start: date, end=date.today()) -> Iterator[Purchase]:
+async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
     response = await fetch(report, start, end)
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
 async def prior_day(start: date, end=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(Report.PURCHASED_SWINE, start + timedelta(days=1), end)
+    return await fetch_purchase(PurchaseReport.PURCHASED_SWINE, start + timedelta(days=1), end)
 
 
 async def morning(start: date, end=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(Report.DIRECT_HOG_MORNING, start, end)
+    return await fetch_purchase(PurchaseReport.DIRECT_HOG_MORNING, start, end)
 
 
 async def afternoon(start: date, end=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(Report.DIRECT_HOG_AFTERNOON, start, end)
+    return await fetch_purchase(PurchaseReport.DIRECT_HOG_AFTERNOON, start, end)
 
 
 lm_hg200 = hg200 = prior_day

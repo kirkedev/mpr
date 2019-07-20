@@ -5,13 +5,13 @@ from datetime import date
 from datetime import timedelta
 
 from ..api import Attributes
-from ..api import Report
 from ..api import opt_int
 from ..api import opt_float
 from ..api import fetch
 from ..api import filter_section
 from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
+from ..reports import SlaughterReport
 
 from .model import Slaughter
 
@@ -79,7 +79,7 @@ def parse_attributes(attr: Attributes) -> Slaughter:
 
 
 async def fetch_slaughter(start: date, end=date.today()) -> Iterator[Slaughter]:
-    response = await fetch(Report.SLAUGHTERED_SWINE, start + timedelta(days=1), end)
+    response = await fetch(SlaughterReport.SLAUGHTERED_SWINE, start + timedelta(days=1), end)
     return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
 
 
