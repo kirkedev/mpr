@@ -3,19 +3,18 @@ from datetime import timedelta
 from functools import singledispatch
 from pandas import DataFrame
 
-from ..cutout.api import pk602
-
+from mpr import cutout
 from .report import cutout_report
 
 
 @singledispatch
 async def get_cutout_index(start: date, end=date.today()) -> DataFrame:
-    cutout = await pk602(start, end)
-    return cutout_report(cutout)
+    records = await cutout.afternoon(start, end)
+    return cutout_report(records)
 
 
 @get_cutout_index.register(int)
 async def get_recent_cutout_index(n: int) -> DataFrame:
     today = date.today()
-    cutout = await get_cutout_index(today - timedelta(days=n + 12), today)
-    return cutout.tail(n)
+    cutout_index = await get_cutout_index(today - timedelta(days=n + 12), today)
+    return cutout_index.tail(n)

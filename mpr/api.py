@@ -16,6 +16,7 @@ from numpy import float32
 from numpy import nan
 
 from .reports import Report
+from .reports import Section
 
 T = TypeVar('T')
 Attributes = Dict[str, str]
@@ -33,7 +34,7 @@ def strip_commas(value: str) -> str:
     return value.replace(',', '')
 
 
-def get_optional(attr: Attributes, key: str) -> Optional[T]:
+def get_optional(attr: Attributes, key: str) -> Optional[str]:
     return attr[key] if key in attr and attr[key] != 'null' else None
 
 
@@ -52,18 +53,19 @@ def chunk(iterator: Iterator[T], n: int) -> Iterator[Iterator[T]]:
     return zip_longest(*args, fillvalue=None)
 
 
-def filter_section(records: Iterator[Attributes], section: str) -> Iterator[Attributes]:
-    return filter(lambda it: it['label'] == section, records)
+def filter_section(records: Iterator[Attributes], section: Section) -> Iterator[Attributes]:
+    return filter(lambda it: it['label'] == section.value, records)
 
 
-def filter_sections(records: Iterator[Attributes], *args: str) -> Iterator[Iterator[Attributes]]:
-    attrs = filter(lambda it: it['label'] in args, records)
+def filter_sections(records: Iterator[Attributes], *args: Section) -> Iterator[Iterator[Attributes]]:
+    sections = list(map(lambda it: it.value, args))
+    attrs = filter(lambda it: it['label'] in sections, records)
     return chunk(attrs, len(args))
 
 
 async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
     url = request_url(
-        report=report.value,
+        report=report.name,
         start=start.strftime(date_format),
         end=end.strftime(date_format))
 

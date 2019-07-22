@@ -1,22 +1,22 @@
-from typing import Optional
-from tables import Node
 from tables import Group
 
 from mpr import db
 from ..slaughter.entity import SlaughterEntity
+from ..reports import SlaughterReport
+from ..reports import SlaughterSection
 
 
 def create() -> Group:
     group = db.connection.create_group(
-        where='/mpr',
-        name='lm_hg201',
-        title='Daily Direct Hog Prior Day - Slaughtered Swine')
+        where=db.mpr,
+        name=SlaughterReport.LM_HG201.name,
+        title=SlaughterReport.LM_HG201.value)
 
     barrows_gilts_table = db.connection.create_table(
         where=group,
-        name='barrows_gilts',
+        name=SlaughterSection.BARROWS_AND_GILTS.name,
         description=SlaughterEntity.schema,
-        title='Barrows and Gilts')
+        title=SlaughterSection.BARROWS_AND_GILTS.value)
 
     barrows_gilts_table.cols.date.create_csindex()
     barrows_gilts_table.cols.report_date.create_csindex()
@@ -25,10 +25,4 @@ def create() -> Group:
     return group
 
 
-def get(table: Optional[str] = None) -> Node:
-    group = db.connection.get_node('/mpr', 'lm_hg201') if '/mpr/lm_hg201' in db.connection else create()
-    return group if table is None else group[table]
-
-
-class barrows_gilts(SlaughterEntity):
-    table = get('barrows_gilts')
+barrows_gilts = SlaughterEntity(SlaughterReport.LM_HG201, SlaughterSection.BARROWS_AND_GILTS)

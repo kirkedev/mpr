@@ -1,7 +1,5 @@
 from typing import Dict
 from typing import Iterator
-from enum import Enum
-from datetime import timedelta
 from datetime import date
 
 from ..api import Attributes
@@ -13,20 +11,11 @@ from ..api import filter_section
 from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..reports import PurchaseReport
+from ..reports import PurchaseSection
 
 from .model import Purchase
 
 date_format = "%m/%d/%Y"
-
-
-class Section(Enum):
-    # VOLUME = 'Current Volume by Purchase Type'
-    BARROWS_AND_GILTS = 'Barrows/Gilts (producer/packer sold)'
-    # CARCASS_MEASUREMENTS = 'Matrix, 185 lb Carcass Basis'
-    # CARCASS_WEIGHT_DIFF = 'Carcass Weight Differentials'
-    # AVERAGE_MARKET_HOG = '5-Day Rolling Average Market Hog based on Slaughter Data Submitted'
-    # SOWS = 'Sows'
-    # STATES = 'State of Origin'
 
 
 purchase_types: Dict[str, PurchaseType] = {
@@ -74,21 +63,4 @@ def parse_attributes(attr: Attributes) -> Purchase:
 
 async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
     response = await fetch(report, start, end)
-    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
-
-
-async def prior_day(start: date, end=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(PurchaseReport.PURCHASED_SWINE, start + timedelta(days=1), end)
-
-
-async def morning(start: date, end=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(PurchaseReport.DIRECT_HOG_MORNING, start, end)
-
-
-async def afternoon(start: date, end=date.today()) -> Iterator[Purchase]:
-    return await fetch_purchase(PurchaseReport.DIRECT_HOG_AFTERNOON, start, end)
-
-
-lm_hg200 = hg200 = prior_day
-lm_hg202 = hg202 = morning
-lm_hg203 = hg203 = afternoon
+    return map(parse_attributes, filter_section(response, report.section.BARROWS_AND_GILTS))

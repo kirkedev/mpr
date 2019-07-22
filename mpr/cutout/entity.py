@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import Tuple
 
 from numpy import dtype
@@ -13,7 +12,7 @@ from ..observation import Observation
 from .model import Cutout
 
 
-class CutoutEntity(Observation[Cutout], ABC):
+class CutoutEntity(Observation[Cutout]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -28,10 +27,8 @@ class CutoutEntity(Observation[Cutout], ABC):
         ('belly_price', float32)
     ])
 
-    @staticmethod
-    def from_row(row: Row) -> Cutout:
+    def from_row(self, row: Row) -> Cutout:
         return Cutout(*map(from_ordinal, row[:2]), *row[2:])
 
-    @staticmethod
-    def to_row(record: Cutout) -> Tuple:
+    def to_row(self, record: Cutout) -> Tuple:
         return (*map(to_ordinal, record[:2]), *record[2:])

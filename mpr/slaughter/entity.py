@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import Tuple
 
 from numpy import dtype
@@ -14,7 +13,7 @@ from ..observation import Observation
 from .model import Slaughter
 
 
-class SlaughterEntity(Observation[Slaughter], ABC):
+class SlaughterEntity(Observation[Slaughter]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -35,10 +34,8 @@ class SlaughterEntity(Observation[Slaughter], ABC):
         ('lean_percent', float32)
     ])
 
-    @staticmethod
-    def from_row(row: Row) -> Slaughter:
+    def from_row(self, row: Row) -> Slaughter:
         return Slaughter(*map(from_ordinal, row[:2]), *row[2:])
 
-    @staticmethod
-    def to_row(record: Slaughter) -> Tuple:
+    def to_row(self, record: Slaughter) -> Tuple:
         return (*map(to_ordinal, record[:2]), *record[2:])

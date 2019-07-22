@@ -2,14 +2,14 @@ from unittest import TestCase
 from numpy import allclose
 
 from mpr.slaughter.api import filter_section
-from mpr.slaughter.api import Section
 from mpr.slaughter.api import parse_attributes
 from mpr.cash_index.report import cash_index_report
+from mpr.reports import SlaughterSection
 
 from . import load_resource
 
 # Given a Daily Slaughtered Swine Report from Feb 20, 2019
-report = filter_section(load_resource('cash_prices.xml'), Section.BARROWS_AND_GILTS.value)
+report = filter_section(load_resource('cash_prices.xml'), SlaughterSection.BARROWS_AND_GILTS)
 records = map(parse_attributes, report)
 
 # When I run a cash prices report for the last 10 days

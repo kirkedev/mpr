@@ -5,6 +5,7 @@ from numpy import isclose
 from numpy import isnan
 
 from mpr import db
+from mpr.db import lm_hg202
 from mpr.purchase.api import parse_attributes
 from mpr.purchase.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
@@ -13,18 +14,19 @@ from mpr.purchase_type import Seller, Arrangement, Basis
 class TestHg202(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.report = db.get('lm_hg202', 'barrows_gilts')
+        lm_hg202.create()
+        cls.report = lm_hg202.barrows_gilts
 
     def test_create(self):
         self.assertTrue('/mpr/lm_hg202' in db.connection)
-        self.assertTrue('/mpr/lm_hg202/barrows_gilts' in db.connection)
+        self.assertTrue('/mpr/lm_hg202/barrows_and_gilts' in db.connection)
         self.assertTrue(self.report.table.will_query_use_indexing("""date == observation_date""", {
             'observation_date': date.toordinal(date(2019, 2, 1))
         }))
 
     @classmethod
     def tearDownClass(cls):
-        db.connection.remove_node('/mpr/lm_hg202/barrows_gilts')
+        db.connection.remove_node('/mpr/lm_hg202/barrows_and_gilts')
         db.connection.remove_node('/mpr/lm_hg202')
 
     def setUp(self):

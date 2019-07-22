@@ -1,6 +1,5 @@
 from typing import Dict
 from typing import Iterator
-from enum import Enum
 from datetime import date
 from datetime import timedelta
 
@@ -12,19 +11,11 @@ from ..api import filter_section
 from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..reports import SlaughterReport
+from ..reports import SlaughterSection
 
 from .model import Slaughter
 
 date_format = "%m/%d/%Y"
-
-
-class Section(Enum):
-    # SUMMARY = 'Summary'
-    BARROWS_AND_GILTS = 'Barrows/Gilts'
-    # CARCASS_MEASUREMENTS = 'Carcass Measurements'
-    # SOWS_AND_BOARS = 'Sows/Boars'
-    # SCHEDULED_SWINE = '14-Day Scheduled Swine'
-    # NEGOTIATED_BARROWS_AND_GILTS = 'Barrows/Gilts Negotiated'
 
 
 purchase_types: Dict[str, PurchaseType] = {
@@ -79,8 +70,8 @@ def parse_attributes(attr: Attributes) -> Slaughter:
 
 
 async def fetch_slaughter(start: date, end=date.today()) -> Iterator[Slaughter]:
-    response = await fetch(SlaughterReport.SLAUGHTERED_SWINE, start + timedelta(days=1), end)
-    return map(parse_attributes, filter_section(response, Section.BARROWS_AND_GILTS.value))
+    response = await fetch(SlaughterReport.LM_HG201, start + timedelta(days=1), end)
+    return map(parse_attributes, filter_section(response, SlaughterSection.BARROWS_AND_GILTS))
 
 
 lm_hg201 = hg201 = fetch_slaughter

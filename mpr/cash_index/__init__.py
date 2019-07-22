@@ -3,13 +3,13 @@ from datetime import timedelta
 from functools import singledispatch
 from pandas import DataFrame
 
-from ..slaughter.api import fetch_slaughter
+from ..slaughter import get_slaughter
 from .report import cash_index_report
 
 
 @singledispatch
 async def get_cash_prices(start: date, end=date.today()) -> DataFrame:
-    slaughter = await fetch_slaughter(start, end)
+    slaughter = await get_slaughter(start, end)
     return cash_index_report(slaughter)
 
 

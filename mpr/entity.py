@@ -2,7 +2,6 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Generic
 from typing import TypeVar
-from typing import Union
 from typing import Tuple
 from typing import Dict
 from typing import Iterator
@@ -11,54 +10,51 @@ from numpy import dtype
 from tables import Table
 from tables.tableextension import Row
 
-from .cutout.model import Cutout
-from .purchase.model import Purchase
-from .slaughter.model import Slaughter
+from mpr import db
+from mpr.reports import Report, Section
 
-Record = TypeVar('Record', bound=Union[Cutout, Purchase, Slaughter])
+Record = TypeVar('Record')
 
 
 class Entity(Generic[Record], ABC):
-    @staticmethod
+    report: Report
+    section: Section
+
+    def __init__(self, report: Report, section: Section):
+        self.report = report
+        self.section = section
+
+    @property
+    def table(self) -> Table:
+        return db.get(self.report, self.section)
+
     @property
     @abstractmethod
-    def table() -> Table:
+    def schema(self) -> dtype:
         raise NotImplementedError
 
-    @staticmethod
-    @property
     @abstractmethod
-    def schema() -> dtype:
+    def from_row(self, row: Row) -> Record:
         raise NotImplementedError
 
-    @staticmethod
     @abstractmethod
-    def from_row(row: Row) -> Record:
+    def to_row(self, record: Record) -> Tuple:
         raise NotImplementedError
 
-    @staticmethod
-    @abstractmethod
-    def to_row(record: Record) -> Tuple:
-        raise NotImplementedError
+    def get(self) -> Iterator[Record]:
+        return map(self.from_row, self.table.iterrows())
 
-    @classmethod
-    def get(cls) -> Iterator[Record]:
-        return map(cls.from_row, cls.table.iterrows())
+    def query(self, condition: str, params: Dict) -> Iterator[Record]:
+        return map(self.from_row, self.table.where(condition, params))
 
-    @classmethod
-    def query(cls, condition: str, params: Dict) -> Iterator[Record]:
-        return map(cls.from_row, cls.table.where(condition, params))
-
-    @classmethod
-    def insert(cls, records: Iterator[Record]):
-        existing = set(map(hash, cls.get()))
+    def insert(self, records: Iterator[Record]):
+        existing = set(map(hash, self.get()))
         new = filter(lambda it: hash(it) not in existing, records)
-        rows = list(map(cls.to_row, new))
+        rows = list(map(self.to_row, new))
 
         if len(rows) > 0:
-            cls.table.append(rows)
-            cls.commit()
+            self.table.append(rows)
+            self.commit()
 
-    @classmethod
-    def commit(cls):
-        cls.table.flush()
+    def commit(self):
+        self.table.flush()

@@ -4,13 +4,13 @@ import numpy as np
 import pandas as pd
 
 from mpr.cutout.api import filter_sections
-from mpr.cutout.api import Section
 from mpr.cutout.api import parse_attributes
 from mpr.cutout.model import to_array
+from mpr.reports import CutoutSection
 
 from . import load_resource
 
-report = filter_sections(load_resource('cutout.xml'), Section.VOLUME.value, Section.CUTOUT.value)
+report = filter_sections(load_resource('cutout.xml'), CutoutSection.VOLUME, CutoutSection.CUTOUT)
 records = to_array(map(lambda it: parse_attributes(*it), report))
 
 

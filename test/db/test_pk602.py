@@ -3,6 +3,7 @@ from datetime import date
 from numpy import isclose
 
 from mpr import db
+from mpr.db import lm_pk602
 from mpr.cutout.api import parse_attributes
 from mpr.cutout.model import to_array
 
@@ -10,7 +11,8 @@ from mpr.cutout.model import to_array
 class TestPk602(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.report = db.get('lm_pk602').cutout
+        lm_pk602.create()
+        cls.report = lm_pk602.cutout
 
     def test_create(self):
         self.assertTrue('/mpr/lm_pk602' in db.connection)

@@ -1,22 +1,22 @@
-from typing import Optional
-from tables import Node
 from tables import Group
 
 from mpr import db
+from ..reports import CutoutReport
+from ..reports import CutoutSection
 from ..cutout.entity import CutoutEntity
 
 
 def create() -> Group:
     group = db.connection.create_group(
-        where='/mpr',
-        name='lm_pk600',
-        title='National Daily Pork - Negotiated Sales - Morning')
+        where=db.mpr,
+        name=CutoutReport.LM_PK600.name,
+        title=CutoutReport.LM_PK600.value)
 
     cutout_table = db.connection.create_table(
         where=group,
-        name='cutout',
+        name=CutoutSection.CUTOUT.name,
         description=CutoutEntity.schema,
-        title='Cutout')
+        title=CutoutSection.CUTOUT.value)
 
     cutout_table.cols.date.create_csindex()
     cutout_table.cols.report_date.create_csindex()
@@ -24,10 +24,4 @@ def create() -> Group:
     return group
 
 
-def get(table: Optional[str] = None) -> Node:
-    group = db.connection.get_node('/mpr', 'lm_pk600') if '/mpr/lm_pk600' in db.connection else create()
-    return group if table is None else group[table]
-
-
-class cutout(CutoutEntity):
-    table = get('cutout')
+cutout = CutoutEntity(CutoutReport.LM_PK600, CutoutSection.CUTOUT)

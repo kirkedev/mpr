@@ -5,11 +5,12 @@ from numpy import isclose
 from mpr.api import filter_sections
 from mpr.api import opt_int
 from mpr.api import opt_float
+from mpr.reports import CutoutSection
 
 from . import load_resource
 
 elements = load_resource('cutout.xml')
-records = filter_sections(elements, 'Cutout and Primal Values', 'Current Volume')
+records = filter_sections(elements, CutoutSection.CUTOUT, CutoutSection.VOLUME)
 cutout, volume = next(records)
 
 

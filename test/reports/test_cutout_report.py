@@ -2,14 +2,14 @@ from unittest import TestCase
 from numpy import allclose
 
 from mpr.cutout.api import filter_sections
-from mpr.cutout.api import Section
 from mpr.cutout.api import parse_attributes
 from mpr.cutout_index.report import cutout_report
+from mpr.reports  import CutoutSection
 
 from . import load_resource
 
 # Given an Afternoon Cutout Report from Feb 27, 2019
-report = filter_sections(load_resource('cutout.xml'), Section.CUTOUT.value, Section.VOLUME.value)
+report = filter_sections(load_resource('cutout.xml'), CutoutSection.CUTOUT, CutoutSection.VOLUME)
 records = map(lambda it: parse_attributes(*it), report)
 
 # When I run a cutout index report for the last 10 days
@@ -32,11 +32,9 @@ class TestCutoutReport(TestCase):
     # And I should see the change from the previous day
     def skip_test_price_change(self):
         index_change = report['Index Change']
-        print(index_change)
         self.assertTrue(allclose(index_change, (-0.48, -0.35, -0.70, -1.34, -0.75, -0.27, -0.69, -0.13, 0.27, -0.12)))
 
     # And I should see the change from the previous day
     def skip_test_cme_change(self):
         index_change = report['Index Change']
-        print(index_change)
         self.assertTrue(allclose(index_change, (-0.36, -0.39, -0.23, -0.36, -0.31, -0.22, -0.28, -0.31, -0.30, -0.07)))

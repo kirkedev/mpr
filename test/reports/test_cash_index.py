@@ -3,14 +3,14 @@ from datetime import date
 import numpy as np
 
 from mpr.slaughter.api import filter_section
-from mpr.slaughter.api import Section
 from mpr.slaughter.api import parse_attributes
 from mpr.slaughter.model import to_array
 from mpr.purchase_type import Arrangement
+from mpr.reports import SlaughterSection
 
 from . import load_resource
 
-report = filter_section(load_resource('cash_prices.xml'), Section.BARROWS_AND_GILTS.value)
+report = filter_section(load_resource('cash_prices.xml'), SlaughterSection.BARROWS_AND_GILTS)
 records = to_array(map(parse_attributes, report))
 
 negotiated = records.arrangement == Arrangement.NEGOTIATED

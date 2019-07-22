@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import Tuple
 
 from numpy import dtype
@@ -14,7 +13,7 @@ from ..observation import Observation
 from .model import Purchase
 
 
-class PurchaseEntity(Observation[Purchase], ABC):
+class PurchaseEntity(Observation[Purchase]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -27,10 +26,8 @@ class PurchaseEntity(Observation[Purchase], ABC):
         ('high_price', float32)
     ])
 
-    @staticmethod
-    def from_row(row: Row) -> Purchase:
+    def from_row(self, row: Row) -> Purchase:
         return Purchase(*map(from_ordinal, row[:2]), *row[2:])
 
-    @staticmethod
-    def to_row(record: Purchase) -> Tuple:
+    def to_row(self, record: Purchase) -> Tuple:
         return (*map(to_ordinal, record[:2]), *record[2:])

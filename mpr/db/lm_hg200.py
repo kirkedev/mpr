@@ -1,22 +1,22 @@
-from typing import Optional
-from tables import Node
 from tables import Group
 
 from mpr import db
 from ..purchase.entity import PurchaseEntity
+from ..reports import PurchaseReport
+from ..reports import PurchaseSection
 
 
 def create() -> Group:
     group = db.connection.create_group(
-        where='/mpr',
-        name='lm_hg200',
-        title='Daily Direct Hog Prior Day - Purchased Swine')
+        where=db.mpr,
+        name=PurchaseReport.LM_HG200.name,
+        title=PurchaseReport.LM_HG200.value)
 
     barrows_gilts_table = db.connection.create_table(
         where=group,
-        name='barrows_gilts',
         description=PurchaseEntity.schema,
-        title='Barrows and Gilts')
+        name=PurchaseSection.BARROWS_AND_GILTS.name,
+        title=PurchaseSection.BARROWS_AND_GILTS.value)
 
     barrows_gilts_table.cols.date.create_csindex()
     barrows_gilts_table.cols.report_date.create_csindex()
@@ -25,10 +25,4 @@ def create() -> Group:
     return group
 
 
-def get(table: Optional[str] = None) -> Node:
-    group = db.connection.get_node('/mpr', 'lm_hg200') if '/mpr/lm_hg200' in db.connection else create()
-    return group if table is None else group[table]
-
-
-class barrows_gilts(PurchaseEntity):
-    table = get('barrows_gilts')
+barrows_gilts = PurchaseEntity(PurchaseReport.LM_HG200, PurchaseSection.BARROWS_AND_GILTS)
