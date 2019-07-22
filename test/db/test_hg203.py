@@ -14,7 +14,6 @@ from mpr.purchase_type import Seller, Arrangement, Basis
 class TestHg203(TestCase):
     @classmethod
     def setUpClass(cls):
-        lm_hg203.create()
         cls.report = lm_hg203.barrows_gilts
 
     def test_create(self):

@@ -11,5 +11,5 @@ setup(
   include_package_data=True,
   python_requires='>=3.7.*',
   test_suite="test",
-  install_requires=['aiohttp', 'numpy', 'pandas', 'statsmodels', 'tables'],
+  install_requires=['aiohttp', 'numpy', 'pandas', 'statsmodels', 'tables', 'behave'],
   extra_requires=['jupyter', 'seaborn'])

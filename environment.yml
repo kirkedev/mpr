@@ -15,3 +15,6 @@ dependencies:
   - setuptools
   - statsmodels
   - wheel
+  - pip
+  - pip:
+    - behave

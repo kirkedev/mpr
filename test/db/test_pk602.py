@@ -11,7 +11,6 @@ from mpr.cutout.model import to_array
 class TestPk602(TestCase):
     @classmethod
     def setUpClass(cls):
-        lm_pk602.create()
         cls.report = lm_pk602.cutout
 
     def test_create(self):
