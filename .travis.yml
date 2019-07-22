@@ -1,5 +1,5 @@
-language: generic
-dist: xenial
+language: minimal
+dist: bionic
 
 env:
   global:
