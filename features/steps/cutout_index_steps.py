@@ -1,5 +1,4 @@
 import asyncio
-from numpy import isclose
 from behave import when, then
 from mpr.cutout_index import get_cutout_index
 
@@ -13,14 +12,14 @@ def request_cash_prices(context):
 def verify_report_values(context):
     for expected, (index, row) in zip(context.table, context.report.iterrows()):
         assert index.strftime('%Y-%m-%d') == expected['date']
-        assert isclose(round(row[0], 2), float(expected['Cutout Index']))
-        assert isclose(round(row[1], 2), float(expected['Index Change']))
-        assert isclose(round(row[2], 2), float(expected['Carcass Price']))
-        assert isclose(round(row[3], 2), float(expected['Price Change']))
-        assert isclose(round(row[4], 2), float(expected['Total Loads']))
-        assert isclose(round(row[5], 2), float(expected['Loin Price']))
-        assert isclose(round(row[6], 2), float(expected['Belly Price']))
-        assert isclose(round(row[7], 2), float(expected['Butt Price']))
-        assert isclose(round(row[8], 2), float(expected['Ham Price']))
-        assert isclose(round(row[9], 2), float(expected['Rib Price']))
-        assert isclose(round(row[10], 2), float(expected['Picnic Price']))
+        assert '{0:.{1}f}'.format(row[0], 2) == expected['Cutout Index']
+        assert '{0:.{1}f}'.format(row[1], 2) == expected['Index Change']
+        assert '{0:.{1}f}'.format(row[2], 2) == expected['Carcass Price']
+        assert '{0:.{1}f}'.format(row[3], 2) == expected['Price Change']
+        assert '{0:.{1}f}'.format(row[4], 2) == expected['Total Loads']
+        assert '{0:.{1}f}'.format(row[5], 2) == expected['Loin Price']
+        assert '{0:.{1}f}'.format(row[6], 2) == expected['Belly Price']
+        assert '{0:.{1}f}'.format(row[7], 2) == expected['Butt Price']
+        assert '{0:.{1}f}'.format(row[8], 2) == expected['Ham Price']
+        assert '{0:.{1}f}'.format(row[9], 2) == expected['Rib Price']
+        assert '{0:.{1}f}'.format(row[10], 2) == expected['Picnic Price']

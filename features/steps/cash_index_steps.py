@@ -1,6 +1,5 @@
 import asyncio
 from datetime import date
-from numpy import isclose
 from behave import given, when, then
 from mpr.cash_index import get_cash_prices
 
@@ -20,15 +19,15 @@ def request_cash_prices(context):
 def verify_report_values(context):
     for expected, (index, row) in zip(context.table, context.report.iterrows()):
         assert index.strftime('%Y-%m-%d') == expected['date']
-        assert isclose(round(row[0], 2), float(expected['CME Index']))
-        assert isclose(round(row[1], 2), float(expected['Index Change']))
-        assert isclose(round(row[2], 2), float(expected['Daily Avg Price']))
-        assert isclose(round(row[3], 2), float(expected['Price Change']))
+        assert '{0:.{1}f}'.format(row[0], 2) == expected['CME Index']
+        assert '{0:.{1}f}'.format(row[1], 2) == expected['Index Change']
+        assert '{0:.{1}f}'.format(row[2], 2) == expected['Daily Avg Price']
+        assert '{0:.{1}f}'.format(row[3], 2) == expected['Price Change']
 
         assert row[4] == int(expected['Negotiated Head Count'])
-        assert isclose(round(row[5], 2), float(expected['Negotiated Carcass Weight']))
-        assert isclose(round(row[6], 2), float(expected['Negotiated Net Price']))
+        assert '{0:.{1}f}'.format(row[5], 2) == expected['Negotiated Carcass Weight']
+        assert '{0:.{1}f}'.format(row[6], 2) == expected['Negotiated Net Price']
 
         assert row[7] == int(expected['Market Formula Head Count'])
-        assert isclose(round(row[8], 2), float(expected['Market Formula Carcass Weight']))
-        assert isclose(round(row[9], 2), float(expected['Market Formula Net Price']))
+        assert '{0:.{1}f}'.format(row[8], 2) == expected['Market Formula Carcass Weight']
+        assert '{0:.{1}f}'.format(row[9], 2) == expected['Market Formula Net Price']
