@@ -5,7 +5,7 @@ export DB='test/db/db.h5'
 rm -f $DB
 coverage run --parallel-mode -m unittest "$@"
 rm -f $DB
-coverage run --source=mpr --parallel-mode -m behave -m
+coverage run --source=mpr --parallel-mode -m behave -m --tags="-pending"
 echo
 coverage combine
 coverage report

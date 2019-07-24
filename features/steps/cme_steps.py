@@ -1,16 +1,9 @@
 import asyncio
-from datetime import date
-from behave import given, when, then
+from behave import when, then
 
 from mpr.cash_index import get_cash_prices
 from mpr.cutout_index import get_cutout_index
 from features.steps.lib import format_decimal, format_number
-
-
-@given('a date range from June 1st to June 30th, 2019')
-def set_date_range(context):
-    context.start = date(2019, 6, 1)
-    context.end = date(2019, 6, 30)
 
 
 @when('I request the CME lean hog index')

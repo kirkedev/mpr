@@ -63,4 +63,4 @@ def parse_attributes(attr: Attributes) -> Purchase:
 
 async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
     response = await fetch(report, start, end)
-    return map(parse_attributes, filter_section(response, report.section.BARROWS_AND_GILTS))
+    return map(parse_attributes, filter_section(response, PurchaseSection.BARROWS_AND_GILTS))

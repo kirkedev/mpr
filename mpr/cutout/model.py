@@ -27,7 +27,8 @@ class Cutout(NamedTuple):
         return hash((to_ordinal(self.date), to_ordinal(self.report_date)))
 
     def __eq__(self, other) -> bool:
-        return isinstance(other, Cutout) and hash(self) == hash(other) and np.allclose(self[2:], other[2:])
+        return isinstance(other, Cutout) and hash(self) == hash(other) and \
+            np.allclose(self[2:], other[2:], equal_nan=True)
 
     @property
     def loads(self):
