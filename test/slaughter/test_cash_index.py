@@ -8,9 +8,9 @@ from mpr.slaughter.model import to_array
 from mpr.purchase_type import Arrangement
 from mpr.reports import SlaughterSection
 
-from . import load_resource
+from test import load_resource
 
-report = filter_section(load_resource('cash_prices.xml'), SlaughterSection.BARROWS_AND_GILTS)
+report = filter_section(load_resource('reports/cash_prices.xml'), SlaughterSection.BARROWS_AND_GILTS)
 records = to_array(map(parse_attributes, report))
 
 negotiated = records.arrangement == Arrangement.NEGOTIATED
@@ -22,6 +22,7 @@ purchase_types = records[negotiated | negotiated_formula | market_formula]
 class TestCashIndex(TestCase):
     # Cash prices for Feb 18-19, 2019
     # ftp://ftp.cmegroup.com/cash_settled_commodity_index_prices/daily_data/lean_hogs/LH190219.txt
+
     @staticmethod
     def weighted_avg_price(data: np.recarray) -> float:
         total_weights = data.head_count * data.carcass_weight

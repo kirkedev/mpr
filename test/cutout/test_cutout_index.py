@@ -8,9 +8,9 @@ from mpr.cutout.api import parse_attributes
 from mpr.cutout.model import to_array
 from mpr.reports import CutoutSection
 
-from . import load_resource
+from test import load_resource
 
-report = filter_sections(load_resource('cutout.xml'), CutoutSection.VOLUME, CutoutSection.CUTOUT)
+report = filter_sections(load_resource('reports/cutout.xml'), CutoutSection.VOLUME, CutoutSection.CUTOUT)
 records = to_array(map(lambda it: parse_attributes(*it), report))
 
 

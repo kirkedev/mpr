@@ -5,9 +5,9 @@ from numpy import isclose
 from mpr.cutout.api import parse_attributes
 from mpr.cutout.model import to_array
 
-from . import load_resource
+from test import load_resource
 
-attributes = load_resource('cutout.xml')
+attributes = load_resource('api/cutout.xml')
 cutout = parse_attributes(next(attributes), next(attributes))
 records = to_array([cutout])
 

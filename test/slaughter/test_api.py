@@ -7,9 +7,9 @@ from mpr.slaughter.api import parse_attributes
 from mpr.slaughter.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
 
-from . import load_resource
+from test import load_resource
 
-attributes = list(load_resource('slaughter.xml'))
+attributes = list(load_resource('api/slaughter.xml'))
 assert len(attributes) == 8
 
 negotiated = parse_attributes(attributes[0])

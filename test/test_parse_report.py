@@ -7,9 +7,9 @@ from mpr.api import opt_int
 from mpr.api import opt_float
 from mpr.reports import CutoutSection
 
-from . import load_resource
+from test import load_resource
 
-elements = load_resource('cutout.xml')
+elements = load_resource('api/cutout.xml')
 records = filter_sections(elements, CutoutSection.CUTOUT, CutoutSection.VOLUME)
 cutout, volume = next(records)
 
