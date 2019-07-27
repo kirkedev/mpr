@@ -7,7 +7,7 @@ from numpy import uint32
 from numpy import float32
 from numpy import recarray
 
-from ..date import date_type
+from ..date import date64
 from ..date import Date
 from ..date import to_ordinal
 
@@ -33,8 +33,8 @@ class Purchase(NamedTuple):
 
 def to_array(records: Iterator[Purchase]) -> recarray:
     return np.rec.array(list(records), dtype=np.dtype([
-        ('date', date_type),
-        ('report_date', date_type),
+        ('date', date64),
+        ('report_date', date64),
         ('seller', uint8),
         ('arrangement', uint8),
         ('basis', uint8),

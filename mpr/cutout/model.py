@@ -6,7 +6,7 @@ from numpy import float32
 from numpy import recarray
 
 from ..date import Date
-from ..date import date_type
+from ..date import date64
 from ..date import to_ordinal
 
 
@@ -41,8 +41,8 @@ class Cutout(NamedTuple):
 
 def to_array(records: Iterator[Cutout]) -> recarray:
     return np.rec.array(list(records), dtype=np.dtype([
-        ('date', date_type),
-        ('report_date', date_type),
+        ('date', date64),
+        ('report_date', date64),
         ('primal_loads', float32),
         ('trimming_loads', float32),
         ('carcass_price', float32),
