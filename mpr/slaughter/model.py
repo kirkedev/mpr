@@ -35,8 +35,8 @@ class Slaughter(NamedTuple):
         return hash((*map(to_ordinal, self[:2]), self[2:5]))
 
     def __eq__(self, other) -> bool:
-        return isinstance(other, Slaughter) and hash(self) == hash(other) and \
-            np.allclose(self[5:], other[5:], equal_nan=True)
+        return (isinstance(other, Slaughter) and hash(self) == hash(other) and
+            np.allclose(self[5:], other[5:], equal_nan=True))
 
     @property
     def total_weight(self) -> float:
