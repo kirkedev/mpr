@@ -36,7 +36,7 @@ class ReportRangeTest(TestCase):
         self.assertEqual(last.dates, (date(year, month, 1), today))
 
     def test_report_diff(self):
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             report_diff(ReportMonth(2019, 1), ReportMonth(2019, 2))
 
         self.assertIsNone(report_diff(ReportMonth(2019, 1), ReportMonth(2019, 1)))

@@ -54,7 +54,8 @@ def report_months(start: date, end: date) -> Iterator[ReportMonth]:
 
 
 def report_diff(requested: ReportMonth, fetched: ReportMonth) -> Union[DateInterval, None]:
-    assert requested.month == fetched.month, "Reports must be the same month"
+    if requested.month != fetched.month:
+        raise ValueError("Reports must be the same month")
 
     if requested == fetched:
         return None
