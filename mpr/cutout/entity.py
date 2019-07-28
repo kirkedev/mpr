@@ -7,12 +7,11 @@ from tables.tableextension import Row
 
 from ..date import to_ordinal
 from ..date import from_ordinal
-from ..observation import Observation
-
+from ..report_entity import ReportEntity
 from .model import Cutout
 
 
-class CutoutEntity(Observation[Cutout]):
+class CutoutEntity(ReportEntity[Cutout]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -27,8 +26,10 @@ class CutoutEntity(Observation[Cutout]):
         ('belly_price', float32)
     ])
 
-    def from_row(self, row: Row) -> Cutout:
+    @staticmethod
+    def from_row(row: Row) -> Cutout:
         return Cutout(*map(from_ordinal, row[:2]), *row[2:])
 
-    def to_row(self, record: Cutout) -> Tuple:
+    @staticmethod
+    def to_row(record: Cutout) -> Tuple:
         return (*map(to_ordinal, record[:2]), *record[2:])

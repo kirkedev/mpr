@@ -8,12 +8,12 @@ from tables.tableextension import Row
 
 from ..date import from_ordinal
 from ..date import to_ordinal
-from ..observation import Observation
+from ..report_entity import ReportEntity
 
 from .model import Purchase
 
 
-class PurchaseEntity(Observation[Purchase]):
+class PurchaseEntity(ReportEntity[Purchase]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -26,8 +26,10 @@ class PurchaseEntity(Observation[Purchase]):
         ('high_price', float32)
     ])
 
-    def from_row(self, row: Row) -> Purchase:
+    @staticmethod
+    def from_row(row: Row) -> Purchase:
         return Purchase(*map(from_ordinal, row[:2]), *row[2:])
 
-    def to_row(self, record: Purchase) -> Tuple:
+    @staticmethod
+    def to_row(record: Purchase) -> Tuple:
         return (*map(to_ordinal, record[:2]), *record[2:])

@@ -1,6 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 from typing import Generic
+from typing import NamedTuple
 from typing import TypeVar
 from typing import Tuple
 from typing import Dict
@@ -10,35 +11,28 @@ from numpy import dtype
 from tables import Table
 from tables.tableextension import Row
 
-from mpr import db
-from mpr.reports import Report, Section
-
-Record = TypeVar('Record')
+Record = TypeVar('Record', bound=NamedTuple)
 
 
 class Entity(Generic[Record], ABC):
-    report: Report
-    section: Section
-
-    def __init__(self, report: Report, section: Section):
-        self.report = report
-        self.section = section
-
     @property
+    @abstractmethod
     def table(self) -> Table:
-        return db.get(self.report, self.section)
+        raise NotImplementedError
 
     @property
     @abstractmethod
     def schema(self) -> dtype:
         raise NotImplementedError
 
+    @staticmethod
     @abstractmethod
-    def from_row(self, row: Row) -> Record:
+    def from_row(row: Row) -> Record:
         raise NotImplementedError
 
+    @staticmethod
     @abstractmethod
-    def to_row(self, record: Record) -> Tuple:
+    def to_row(record: Record) -> Tuple:
         raise NotImplementedError
 
     def get(self) -> Iterator[Record]:

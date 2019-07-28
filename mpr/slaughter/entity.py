@@ -8,12 +8,12 @@ from tables.tableextension import Row
 
 from ..date import to_ordinal
 from ..date import from_ordinal
-from ..observation import Observation
+from ..report_entity import ReportEntity
 
 from .model import Slaughter
 
 
-class SlaughterEntity(Observation[Slaughter]):
+class SlaughterEntity(ReportEntity[Slaughter]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -34,8 +34,10 @@ class SlaughterEntity(Observation[Slaughter]):
         ('lean_percent', float32)
     ])
 
-    def from_row(self, row: Row) -> Slaughter:
+    @staticmethod
+    def from_row(row: Row) -> Slaughter:
         return Slaughter(*map(from_ordinal, row[:2]), *row[2:])
 
-    def to_row(self, record: Slaughter) -> Tuple:
+    @staticmethod
+    def to_row(record: Slaughter) -> Tuple:
         return (*map(to_ordinal, record[:2]), *record[2:])
