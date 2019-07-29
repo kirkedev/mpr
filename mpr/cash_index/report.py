@@ -45,13 +45,6 @@ def format_column(column: Tuple[str, int]) -> str:
     return f"{Arrangement(arrangement).name} {field}".replace('_', ' ').title()
 
 
-def aggregate_value(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
-    weight = total_weight(head_count=head_count, weight=carcass_weight).rename('weight')
-    value = total_value(weight=weight, price=net_price).rename('value')
-
-    return pd.pivot_table(create_table(weight, value), index='date')
-
-
 def cash_index_report(slaughter: Iterator[Slaughter]) -> DataFrame:
     records = to_array(filter_arrangement(slaughter))
     columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
@@ -61,10 +54,13 @@ def cash_index_report(slaughter: Iterator[Slaughter]) -> DataFrame:
     carcass_weight = data.carcass_weight
     net_price = data.net_price
 
-    totals = aggregate_value(head_count, carcass_weight, net_price)
-    daily_price, daily_change = with_change(weighted_price(**totals))
+    weight = total_weight(head_count=head_count, weight=carcass_weight).rename('weight')
+    value = total_value(weight=weight, price=net_price).rename('value')
 
-    rolling_totals = totals.rolling(2).sum().dropna()
+    total_values = pd.pivot_table(create_table(weight, value), index='date')
+    daily_price, daily_change = with_change(weighted_price(**total_values))
+
+    rolling_totals = total_values.rolling(2).sum().dropna()
     cme_index, index_change = with_change(weighted_price(**rolling_totals))
 
     return create_table(
