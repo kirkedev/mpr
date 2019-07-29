@@ -1,8 +1,10 @@
+import json
 from typing import TypeVar
 from typing import Optional
 from typing import Tuple
 from typing import Dict
 from typing import Iterator
+from os import environ
 from datetime import date
 from itertools import zip_longest
 from io import BytesIO
@@ -24,10 +26,25 @@ ParsedElement = Tuple[str, Element]
 
 date_format = "%m-%d-%Y"
 
-base_url = 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs'
-report_url = lambda report: f'{base_url}/{report}'
-date_filter = lambda start, end: f'{{"fieldName":"Report date","operatorType":"BETWEEN","values":["{start}","{end}"]}}'
-request_url = lambda report, start, end: f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
+
+def report_url(report: Report) -> str:
+    base_url = environ.get('BASE_URL', 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs')
+    return f'{base_url}/{report}'
+
+
+def date_filter(start: date, end: date) -> str:
+    return json.loads({
+        'fieldName': 'Report date',
+        'operatorType': 'BETWEEN',
+        'values': [
+            start.strftime(date_format),
+            end.strftime(date_format)
+        ]
+    })
+
+
+def request_url(report: Report, start: date, end: date) -> str:
+    return f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
 
 
 def strip_commas(value: str) -> str:
@@ -64,10 +81,7 @@ def filter_sections(records: Iterator[Attributes], *args: Section) -> Iterator[I
 
 
 async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
-    url = request_url(
-        report=report.name,
-        start=start.strftime(date_format),
-        end=end.strftime(date_format))
+    url = request_url(report=report.name, start=start, end=end)
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
