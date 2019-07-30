@@ -12,6 +12,7 @@ from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 import aiohttp
+from aiohttp import TCPConnector
 
 from numpy import uint32
 from numpy import float32
@@ -33,7 +34,7 @@ def report_url(report: Report) -> str:
 
 
 def date_filter(start: date, end: date) -> str:
-    return json.loads({
+    return json.dumps({
         'fieldName': 'Report date',
         'operatorType': 'BETWEEN',
         'values': [
@@ -83,7 +84,7 @@ def filter_sections(records: Iterator[Attributes], *args: Section) -> Iterator[I
 async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
     url = request_url(report=report.name, start=start, end=end)
 
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(connector=TCPConnector(limit=4)) as session:
         async with session.get(url) as response:
             data = BytesIO(await response.read())
             elements = ElementTree.iterparse(data, events=['start', 'end'])
