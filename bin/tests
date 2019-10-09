@@ -4,7 +4,6 @@ set -e
 export DB='test/db/db.h5'
 rm -f $DB
 coverage run -m unittest "$@"
-rm -f $DB
 echo
 coverage report
 echo

@@ -8,7 +8,7 @@ import tables
 from ..reports import Report
 from ..reports import Section
 
-path = Path(environ.get('DB', 'mpr/db/db.h5'))
+path = Path(environ.get('DB', 'test/db/db.h5'))
 
 if path.is_file():
     connection = tables.open_file(str(path), 'a', driver='H5FD_CORE')
