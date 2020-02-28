@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-export DB='mpr/db/db.h5'
 python3 -m mpr.cash_index "$@"
