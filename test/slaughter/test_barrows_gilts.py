@@ -8,15 +8,15 @@ from mpr.purchase_type import Seller, Arrangement, Basis
 
 from test import load_resource
 
-attributes = list(load_resource('api/slaughter.xml'))
-assert len(attributes) == 8
+barrows_gilts = list(load_resource('api/slaughter.xml'))
+assert len(barrows_gilts) == 8
 
-negotiated = parse_attributes(attributes[0])
-other_market_formula = parse_attributes(attributes[1])
-swine_pork_market_formula = parse_attributes(attributes[2])
-other_purchase_agreement = parse_attributes(attributes[3])
-negotiated_formula = parse_attributes(attributes[4])
-packer_owned = parse_attributes(attributes[7])
+negotiated = parse_attributes(barrows_gilts[0])
+other_market_formula = parse_attributes(barrows_gilts[1])
+market_formula = parse_attributes(barrows_gilts[2])
+other_purchase = parse_attributes(barrows_gilts[3])
+negotiated_formula = parse_attributes(barrows_gilts[4])
+packer_owned = parse_attributes(barrows_gilts[7])
 
 
 def test_negotiated():
@@ -66,49 +66,49 @@ def test_other_market_formula():
 
 
 def test_swine_pork_market_formula():
-    assert swine_pork_market_formula.date == date(2019, 2, 1)
-    assert swine_pork_market_formula.report_date == date(2019, 2, 4)
-    assert swine_pork_market_formula.seller == Seller.PRODUCER
-    assert swine_pork_market_formula.arrangement == Arrangement.MARKET_FORMULA
-    assert swine_pork_market_formula.basis == Basis.ALL
-    assert swine_pork_market_formula.head_count == 256_439
-    assert isclose(swine_pork_market_formula.base_price, 55.53)
-    assert isclose(swine_pork_market_formula.net_price, 57.65)
-    assert isclose(swine_pork_market_formula.low_price, 37.89)
-    assert isclose(swine_pork_market_formula.high_price, 67.65)
-    assert isclose(swine_pork_market_formula.live_weight, 286.91)
-    assert isclose(swine_pork_market_formula.carcass_weight, 216.06)
-    assert isclose(swine_pork_market_formula.sort_loss, -1.85)
-    assert isclose(swine_pork_market_formula.backfat, 0.64)
-    assert isclose(swine_pork_market_formula.loin_depth, 2.65)
-    assert isclose(swine_pork_market_formula.loineye_area, 7.97)
-    assert isclose(swine_pork_market_formula.lean_percent, 56.00)
-    assert isclose(swine_pork_market_formula.total_weight, 55_406_210.34)
-    assert isclose(swine_pork_market_formula.total_value, 3_194_168_026.10)
-    assert isclose(swine_pork_market_formula.avg_price, 57.65)
+    assert market_formula.date == date(2019, 2, 1)
+    assert market_formula.report_date == date(2019, 2, 4)
+    assert market_formula.seller == Seller.PRODUCER
+    assert market_formula.arrangement == Arrangement.MARKET_FORMULA
+    assert market_formula.basis == Basis.ALL
+    assert market_formula.head_count == 256_439
+    assert isclose(market_formula.base_price, 55.53)
+    assert isclose(market_formula.net_price, 57.65)
+    assert isclose(market_formula.low_price, 37.89)
+    assert isclose(market_formula.high_price, 67.65)
+    assert isclose(market_formula.live_weight, 286.91)
+    assert isclose(market_formula.carcass_weight, 216.06)
+    assert isclose(market_formula.sort_loss, -1.85)
+    assert isclose(market_formula.backfat, 0.64)
+    assert isclose(market_formula.loin_depth, 2.65)
+    assert isclose(market_formula.loineye_area, 7.97)
+    assert isclose(market_formula.lean_percent, 56.00)
+    assert isclose(market_formula.total_weight, 55_406_210.34)
+    assert isclose(market_formula.total_value, 3_194_168_026.10)
+    assert isclose(market_formula.avg_price, 57.65)
 
 
 def test_other_purchase_agreement():
-    assert other_purchase_agreement.date == date(2019, 2, 1)
-    assert other_purchase_agreement.report_date == date(2019, 2, 4)
-    assert other_purchase_agreement.seller == Seller.PRODUCER
-    assert other_purchase_agreement.arrangement == Arrangement.OTHER_PURCHASE
-    assert other_purchase_agreement.basis == Basis.ALL
-    assert other_purchase_agreement.head_count == 134_335
-    assert isclose(other_purchase_agreement.base_price, 63.31)
-    assert isclose(other_purchase_agreement.net_price, 64.15)
-    assert isclose(other_purchase_agreement.low_price, 47.39)
-    assert isclose(other_purchase_agreement.high_price, 77.44)
-    assert isclose(other_purchase_agreement.live_weight, 284.97)
-    assert isclose(other_purchase_agreement.carcass_weight, 213.73)
-    assert isclose(other_purchase_agreement.sort_loss, -1.51)
-    assert isclose(other_purchase_agreement.backfat, 0.71)
-    assert isclose(other_purchase_agreement.loin_depth, 2.49)
-    assert isclose(other_purchase_agreement.loineye_area, 7.48)
-    assert isclose(other_purchase_agreement.lean_percent, 55.18)
-    assert isclose(other_purchase_agreement.total_weight, 28_711_419.55)
-    assert isclose(other_purchase_agreement.total_value, 1_841_837_564.13)
-    assert isclose(other_purchase_agreement.avg_price, 64.15)
+    assert other_purchase.date == date(2019, 2, 1)
+    assert other_purchase.report_date == date(2019, 2, 4)
+    assert other_purchase.seller == Seller.PRODUCER
+    assert other_purchase.arrangement == Arrangement.OTHER_PURCHASE
+    assert other_purchase.basis == Basis.ALL
+    assert other_purchase.head_count == 134_335
+    assert isclose(other_purchase.base_price, 63.31)
+    assert isclose(other_purchase.net_price, 64.15)
+    assert isclose(other_purchase.low_price, 47.39)
+    assert isclose(other_purchase.high_price, 77.44)
+    assert isclose(other_purchase.live_weight, 284.97)
+    assert isclose(other_purchase.carcass_weight, 213.73)
+    assert isclose(other_purchase.sort_loss, -1.51)
+    assert isclose(other_purchase.backfat, 0.71)
+    assert isclose(other_purchase.loin_depth, 2.49)
+    assert isclose(other_purchase.loineye_area, 7.48)
+    assert isclose(other_purchase.lean_percent, 55.18)
+    assert isclose(other_purchase.total_weight, 28_711_419.55)
+    assert isclose(other_purchase.total_value, 1_841_837_564.13)
+    assert isclose(other_purchase.avg_price, 64.15)
 
 
 def test_negotiated_formula():
@@ -159,7 +159,7 @@ def test_record_array():
     records = to_array([
         negotiated,
         other_market_formula,
-        swine_pork_market_formula,
+        market_formula,
         negotiated_formula,
         packer_owned
     ])
