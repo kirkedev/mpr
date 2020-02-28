@@ -17,7 +17,7 @@ before_install:
 
 install: conda env create -f environment.yml
 before_script: source activate mpr
-script: all_tests
+script: lint && all_tests
 
 before_cache: find $CONDA_PKGS_DIRS -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
 

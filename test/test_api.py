@@ -23,7 +23,7 @@ def test_parse_float():
 
 
 def test_opt_int():
-    assert opt_int({}, 'volume') ==  0
+    assert opt_int({}, 'volume') == 0
     assert opt_int({'volume': 'null'}, 'volume') == 0
 
 
