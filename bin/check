@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -e
-
-export DB='test/db/db.h5'
-rm -f $DB
-coverage run --parallel-mode -m unittest "$@"
+coverage run --parallel-mode -m pytest
 coverage run --parallel-mode -m behave -m --tags="-pending"
 echo
 coverage combine

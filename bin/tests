@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-export DB='test/db/db.h5'
-rm -f $DB
+lint
 coverage run -m pytest
 echo
 coverage report
