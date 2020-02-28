@@ -10,7 +10,8 @@ dependencies:
   - jupyter
   - numpy
   - pandas
-  - python=3.7.*
+  - python=3.8.*
+  - pytest
   - seaborn
   - setuptools
   - statsmodels

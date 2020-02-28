@@ -3,7 +3,7 @@ set -e
 
 export DB='test/db/db.h5'
 rm -f $DB
-coverage run -m unittest "$@"
+coverage run -m pytest
 echo
 coverage report
 echo
