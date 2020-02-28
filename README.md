@@ -47,9 +47,3 @@ bin/build
 # Remove build artifacts
 bin/clean
 ```
-
-There are also some jupyter notebooks in this repository. Start the notebook server with:
-
-```bash
-jupyter notebook
-```

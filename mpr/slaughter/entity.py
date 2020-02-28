@@ -4,16 +4,15 @@ from numpy import dtype
 from numpy import uint8
 from numpy import uint32
 from numpy import float32
-from tables.tableextension import Row
 
 from ..date import to_ordinal
 from ..date import from_ordinal
-from ..report_entity import ReportEntity
+from ..entity import Entity
 
 from .model import Slaughter
 
 
-class SlaughterEntity(ReportEntity[Slaughter]):
+class SlaughterEntity(Entity[Slaughter]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -35,7 +34,7 @@ class SlaughterEntity(ReportEntity[Slaughter]):
     ])
 
     @staticmethod
-    def from_row(row: Row) -> Slaughter:
+    def from_row(row: Tuple) -> Slaughter:
         return Slaughter(*map(from_ordinal, row[:2]), *row[2:])
 
     @staticmethod

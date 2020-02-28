@@ -1,19 +1,19 @@
+from abc import ABC
 from typing import Tuple
 
 from numpy import dtype
 from numpy import uint8
 from numpy import uint32
 from numpy import float32
-from tables.tableextension import Row
 
 from ..date import from_ordinal
 from ..date import to_ordinal
-from ..report_entity import ReportEntity
+from ..entity import Entity
 
 from .model import Purchase
 
 
-class PurchaseEntity(ReportEntity[Purchase]):
+class PurchaseEntity(Entity[Purchase], ABC):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -27,7 +27,7 @@ class PurchaseEntity(ReportEntity[Purchase]):
     ])
 
     @staticmethod
-    def from_row(row: Row) -> Purchase:
+    def from_row(row: Tuple) -> Purchase:
         return Purchase(*map(from_ordinal, row[:2]), *row[2:])
 
     @staticmethod

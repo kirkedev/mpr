@@ -3,15 +3,14 @@ from typing import Tuple
 from numpy import dtype
 from numpy import uint32
 from numpy import float32
-from tables.tableextension import Row
 
 from ..date import to_ordinal
 from ..date import from_ordinal
-from ..report_entity import ReportEntity
+from ..entity import Entity
 from .model import Cutout
 
 
-class CutoutEntity(ReportEntity[Cutout]):
+class CutoutEntity(Entity[Cutout]):
     schema = dtype([
         ('date', uint32),
         ('report_date', uint32),
@@ -27,7 +26,7 @@ class CutoutEntity(ReportEntity[Cutout]):
     ])
 
     @staticmethod
-    def from_row(row: Row) -> Cutout:
+    def from_row(row: Tuple) -> Cutout:
         return Cutout(*map(from_ordinal, row[:2]), *row[2:])
 
     @staticmethod
