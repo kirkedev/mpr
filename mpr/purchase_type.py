@@ -1,7 +1,5 @@
 from typing import Tuple
 from enum import IntEnum
-from numpy import dtype
-from numpy import uint8
 
 
 class Seller(IntEnum):
@@ -28,9 +26,3 @@ class Basis(IntEnum):
 
 
 PurchaseType = Tuple[Seller, Arrangement, Basis]
-
-purchase_type = dtype([
-    ('seller', uint8),
-    ('arrangement', uint8),
-    ('basis', uint8)
-])
