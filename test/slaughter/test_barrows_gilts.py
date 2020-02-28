@@ -25,7 +25,7 @@ def test_negotiated():
     assert negotiated.seller == Seller.PRODUCER
     assert negotiated.arrangement == Arrangement.NEGOTIATED
     assert negotiated.basis == Basis.ALL
-    assert isclose(negotiated.head_count, 12771)
+    assert isclose(negotiated.head_count, 12_771)
     assert isclose(negotiated.base_price, 51.8)
     assert isclose(negotiated.net_price, 53.26)
     assert isclose(negotiated.low_price, 43.57)
