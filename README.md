@@ -35,11 +35,11 @@ bin/cutout
 # View a USDA report by report slug
 bin/report lm_hg201
 
-# Run unit tests
+# Lint and run unit tests
 bin/tests
 
-# Run unit and acceptance tests
-bin/all_tests
+# Lint and run unit and acceptance tests
+bin/check
 
 # Build wheel for deployment
 bin/build
