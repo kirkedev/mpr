@@ -11,7 +11,6 @@ from ..api import filter_section
 from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..reports import PurchaseReport
-from ..reports import PurchaseSection
 
 from .model import Purchase
 
@@ -63,4 +62,4 @@ def parse_attributes(attr: Attributes) -> Purchase:
 
 async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
     response = await fetch(report, start, end)
-    return map(parse_attributes, filter_section(response, PurchaseSection.BARROWS_AND_GILTS))
+    return map(parse_attributes, filter_section(response, report.Section.BARROWS_AND_GILTS))

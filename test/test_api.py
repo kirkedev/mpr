@@ -4,12 +4,12 @@ from numpy import isclose
 from mpr.api import filter_sections
 from mpr.api import opt_int
 from mpr.api import opt_float
-from mpr.reports import CutoutSection
+from mpr.reports import CutoutReport
 
 from test import load_resource
 
 elements = load_resource('api/cutout.xml')
-records = filter_sections(elements, CutoutSection.CUTOUT, CutoutSection.VOLUME)
+records = filter_sections(elements, CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
 
 
 def test_parse_int():

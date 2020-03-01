@@ -8,7 +8,6 @@ from ..api import fetch
 from ..api import filter_sections
 from ..date import from_string
 from ..reports import CutoutReport
-from ..reports import CutoutSection
 
 from .model import Cutout
 
@@ -36,4 +35,4 @@ async def fetch_cutout(report: CutoutReport, start: date, end=date.today()) -> I
     response = await fetch(report, start, end)
 
     return map(lambda it: parse_attributes(*it),
-        filter_sections(response, CutoutSection.CUTOUT, CutoutSection.VOLUME))
+        filter_sections(response, report.Section.CUTOUT, report.Section.VOLUME))

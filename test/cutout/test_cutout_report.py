@@ -3,11 +3,11 @@ from numpy import allclose
 from mpr.cutout.api import filter_sections
 from mpr.cutout.api import parse_attributes
 from mpr.cutout_index.report import cutout_report
-from mpr.reports import CutoutSection
+from mpr.reports import CutoutReport
 
 from test import load_resource
 
-report = filter_sections(load_resource('reports/cutout.xml'), CutoutSection.CUTOUT, CutoutSection.VOLUME)
+report = filter_sections(load_resource('reports/cutout.xml'), CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
 records = map(lambda it: parse_attributes(*it), report)
 report = cutout_report(records).tail(10)
 

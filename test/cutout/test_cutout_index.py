@@ -10,11 +10,11 @@ from pandas import concat
 from mpr.cutout.api import filter_sections
 from mpr.cutout.api import parse_attributes
 from mpr.cutout.model import to_array
-from mpr.reports import CutoutSection
+from mpr.reports import CutoutReport
 
 from test import load_resource
 
-report = filter_sections(load_resource('reports/cutout.xml'), CutoutSection.VOLUME, CutoutSection.CUTOUT)
+report = filter_sections(load_resource('reports/cutout.xml'), CutoutReport.Section.VOLUME, CutoutReport.Section.CUTOUT)
 records = to_array(map(lambda it: parse_attributes(*it), report))
 
 

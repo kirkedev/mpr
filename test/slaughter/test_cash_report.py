@@ -3,11 +3,11 @@ from numpy import allclose
 from mpr.slaughter.api import filter_section
 from mpr.slaughter.api import parse_attributes
 from mpr.cash_index.report import cash_index_report
-from mpr.reports import SlaughterSection
+from mpr.reports import SlaughterReport
 
 from test import load_resource
 
-report = filter_section(load_resource('reports/cash_prices.xml'), SlaughterSection.BARROWS_AND_GILTS)
+report = filter_section(load_resource('reports/cash_prices.xml'), SlaughterReport.Section.BARROWS_AND_GILTS)
 records = map(parse_attributes, report)
 report = cash_index_report(records).tail(10)
 
