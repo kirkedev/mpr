@@ -3,7 +3,7 @@ from numpy import allclose
 from mpr.cutout.api import filter_sections
 from mpr.cutout.api import parse_attributes
 from mpr.cutout_index.report import cutout_report
-from mpr.reports import CutoutReport
+from mpr.report import CutoutReport
 
 from test import load_resource
 

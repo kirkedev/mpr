@@ -10,7 +10,7 @@ from pandas import concat
 from mpr.cutout.api import filter_sections
 from mpr.cutout.api import parse_attributes
 from mpr.cutout.model import to_array
-from mpr.reports import CutoutReport
+from mpr.report import CutoutReport
 
 from test import load_resource
 

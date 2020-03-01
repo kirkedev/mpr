@@ -9,8 +9,8 @@ from pandas import DataFrame
 from ..purchase_type import Arrangement
 from ..slaughter.model import Slaughter
 from ..slaughter.model import to_array
-from ..reports import with_change
-from ..reports import create_table
+from ..report import with_change
+from ..report import create_table
 
 total_weight = lambda head_count, weight: head_count * weight
 total_value = lambda weight, price: weight * price

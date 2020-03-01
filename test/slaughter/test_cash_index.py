@@ -5,7 +5,7 @@ from mpr.slaughter.api import filter_section
 from mpr.slaughter.api import parse_attributes
 from mpr.slaughter.model import to_array
 from mpr.purchase_type import Arrangement
-from mpr.reports import SlaughterReport
+from mpr.report import SlaughterReport
 
 from test import load_resource
 

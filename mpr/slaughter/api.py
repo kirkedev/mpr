@@ -10,7 +10,7 @@ from ..api import fetch
 from ..api import filter_section
 from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
-from ..reports import SlaughterReport
+from ..report import SlaughterReport
 
 from .model import Slaughter
 

@@ -4,7 +4,7 @@ from numpy import isclose
 from mpr.api import filter_sections
 from mpr.api import opt_int
 from mpr.api import opt_float
-from mpr.reports import CutoutReport
+from mpr.report import CutoutReport
 
 from test import load_resource
 

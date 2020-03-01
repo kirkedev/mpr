@@ -3,7 +3,7 @@ from numpy import allclose
 from mpr.slaughter.api import filter_section
 from mpr.slaughter.api import parse_attributes
 from mpr.cash_index.report import cash_index_report
-from mpr.reports import SlaughterReport
+from mpr.report import SlaughterReport
 
 from test import load_resource
 

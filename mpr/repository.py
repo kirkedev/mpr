@@ -5,7 +5,7 @@ from typing import Generic
 from typing import TypeVar
 from typing import NamedTuple
 
-from mpr.reports import Report
+from mpr.report import Report
 
 Record = TypeVar('Record', bound=NamedTuple)
 

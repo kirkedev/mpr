@@ -21,12 +21,15 @@ class Report(Enum):
         raise AttributeError
 
 
+Section = Report
+
+
 class PurchaseReport(Report):
     LM_HG200 = 'Daily Direct Hog Prior Day - Purchased Swine'
     LM_HG202 = 'Daily Direct Hog - Morning'
     LM_HG203 = 'Daily Direct Hog - Afternoon'
 
-    class Section(Report):
+    class Section(Section):
         # VOLUME = 'Current Volume by Purchase Type'
         BARROWS_AND_GILTS = 'Barrows/Gilts (producer/packer sold)'
         # CARCASS_MEASUREMENTS = 'Matrix, 185 lb Carcass Basis'
@@ -39,7 +42,7 @@ class PurchaseReport(Report):
 class SlaughterReport(Report):
     LM_HG201 = 'Daily Direct Hog Prior Day - Slaughtered Swine'
 
-    class Section(Report):
+    class Section(Section):
         # SUMMARY = 'Summary'
         BARROWS_AND_GILTS = 'Barrows/Gilts'
         # CARCASS_MEASUREMENTS = 'Carcass Measurements'
@@ -52,7 +55,7 @@ class CutoutReport(Report):
     LM_PK600 = 'National Daily Pork - Negotiated Sales - Morning'
     LM_PK602 = 'National Daily Pork - Negotiated Sales - Afternoon'
 
-    class Section(Report):
+    class Section(Section):
         CUTOUT = 'Cutout and Primal Values'
         # DAILY_CHANGE = 'Change From Prior Day'
         # FIVE_DAY_AVERAGE = '5-Day Average Cutout and Primal Values'

@@ -18,7 +18,8 @@ from numpy import uint32
 from numpy import float32
 from numpy import nan
 
-from .reports import Report
+from .report import Report
+from .report import Section
 
 T = TypeVar('T')
 Attributes = Dict[str, str]
@@ -70,11 +71,11 @@ def chunk(iterator: Iterator[T], n: int) -> Iterator[Iterator[T]]:
     return zip_longest(*args, fillvalue=None)
 
 
-def filter_section(records: Iterator[Attributes], section: Report) -> Iterator[Attributes]:
+def filter_section(records: Iterator[Attributes], section: Section) -> Iterator[Attributes]:
     return filter(lambda it: it['label'] == section, records)
 
 
-def filter_sections(records: Iterator[Attributes], *args: Report) -> Iterator[Iterator[Attributes]]:
+def filter_sections(records: Iterator[Attributes], *args: Section) -> Iterator[Iterator[Attributes]]:
     attrs = filter(lambda it: it['label'] in args, records)
     return chunk(attrs, len(args))
 

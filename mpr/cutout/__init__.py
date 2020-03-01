@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Iterator
 
-from ..reports import CutoutReport
+from ..report import CutoutReport
 from .api import fetch_cutout
 from .model import Cutout
 

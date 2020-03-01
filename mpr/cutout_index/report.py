@@ -6,8 +6,8 @@ from pandas import DataFrame
 
 from ..cutout.model import Cutout
 from ..cutout.model import to_array
-from ..reports import create_table
-from ..reports import with_change
+from ..report import create_table
+from ..report import with_change
 
 
 def cutout_index(loads: Series, carcass_price: Series) -> Series:

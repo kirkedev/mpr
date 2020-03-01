@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Iterator
 
-from ..reports import PurchaseReport
+from ..report import PurchaseReport
 from .api import fetch_purchase
 from .model import Purchase
 
