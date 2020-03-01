@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+lint
 coverage run --parallel-mode -m pytest
 coverage run --parallel-mode -m behave -m --tags="-pending"
 echo
