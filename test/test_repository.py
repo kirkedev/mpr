@@ -15,7 +15,7 @@ def repository(tmp_path: Path):
     repository = Repository(CutoutReport.LM_PK602, tmp_path)
 
     repository.save(week, {
-        'Cutout and Primal Values': [{
+        CutoutReport.Section.CUTOUT: [{
             'report_date': '08/20/2018',
             'pork_carcass': '67.18',
             'pork_loin': '75.51',
@@ -25,7 +25,7 @@ def repository(tmp_path: Path):
             'pork_ham': '57.52',
             'pork_belly': '77.77'
         }],
-        'Current Volume': [{
+        CutoutReport.Section.VOLUME: [{
             'report_date': '08/20/2018',
             'temp_cuts_total_load': '334.74',
             'temp_process_total_load': '39.61'

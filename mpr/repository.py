@@ -1,25 +1,24 @@
 import json
-from datetime import date
 from pathlib import Path
 from typing import Dict
-from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import Tuple
+from zipfile import ZipFile
+from zipfile import ZIP_DEFLATED
 
 from isoweek import Week
 
 from mpr.api import Attributes
-from mpr.date import weeks
 from mpr.report import Report
 from mpr.report import Section
 
-Data = Dict[str, List[Attributes]]
+Data = Dict[Section, List[Attributes]]
 Result = Tuple[Week, Optional[Data]]
 
 
 def filepath(location: Path, week: Week) -> Path:
-    return location / f"{str(week)}.json.gz"
+    return location / f"{week}.zip"
 
 
 class Repository:
@@ -38,14 +37,18 @@ class Repository:
         if self.has(week) is False:
             return None
 
-        with open(str(filepath(self.location, week))) as data:
-            result = json.load(data)
-            return result if len(sections) == 0 else dict(filter(lambda it: it[0] in sections, result.items()))
+        result = dict()
+
+        with ZipFile(filepath(self.location, week)) as archive:
+            if len(sections) == 0:
+                sections = map(lambda name: Path(name).stem, archive.namelist())
+
+            for section in sections:
+                result[section] = json.loads(archive.read(f"{section}.json"))
+
+        return result
 
     def save(self, week: Week, data: Data):
-        with open(str(filepath(self.location, week)), 'x') as location:
-            json.dump(data, location)
-
-    def query(self, start: date, end: date) -> Iterator[Result]:
-        for week in weeks(start, end):
-            yield week, self.get(week)
+        with ZipFile(filepath(self.location, week), 'w', ZIP_DEFLATED) as archive:
+            for section, values in data.items():
+                archive.writestr(f"{section}.json", json.dumps(values))
