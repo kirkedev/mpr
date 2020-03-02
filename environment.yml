@@ -12,6 +12,7 @@ dependencies:
   - pandas
   - python=3.8.*
   - pytest
+  - pytest-asyncio
   - seaborn
   - setuptools
   - statsmodels

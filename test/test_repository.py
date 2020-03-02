@@ -3,6 +3,7 @@ from pathlib import Path
 
 from isoweek import Week
 from pytest import fixture
+from pytest import mark
 
 from mpr.report import CutoutReport
 from mpr.repository import Repository
@@ -35,6 +36,7 @@ def repository(tmp_path: Path):
     return repository
 
 
+@mark.asyncio
 async def test_get_full_report(repository: Repository):
     report = await repository.get(week)
 
@@ -45,6 +47,7 @@ async def test_get_full_report(repository: Repository):
     assert len(volume) == 1
 
 
+@mark.asyncio
 async def test_get_report_section(repository: Repository):
     cutout = await repository.get(week, CutoutReport.Section.CUTOUT)
     assert len(cutout) == 1

@@ -52,15 +52,16 @@ class Repository(PathLike):
     def __init__(self, root: Path, report: Report):
         self.root = root
         self.report = report
+        path = Path(self)
+
+        if not path.exists():
+            path.mkdir()
 
     def __fspath__(self) -> str:
         return str(self.root / self.report.name)
 
     async def get(self, week: Week, *sections: Section) -> Data:
-        if not (path := Path(self)).exists():
-            path.mkdir()
-
-        archive = Archive(path, week)
+        archive = Archive(Path(self), week)
 
         if not Path(archive).exists():
             attributes = await fetch(self.report, week.monday(), week.sunday())
@@ -70,7 +71,4 @@ class Repository(PathLike):
         return archive.get(*sections)
 
     def save(self, week: Week, data: Data):
-        if not (path := Path(self)).exists():
-            path.mkdir()
-
-        return Archive(path, week).save(data)
+        return Archive(Path(self), week).save(data)
