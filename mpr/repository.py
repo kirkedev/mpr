@@ -1,4 +1,6 @@
 import json
+from itertools import groupby
+from operator import attrgetter
 from os import PathLike
 from pathlib import Path
 from typing import Dict
@@ -11,6 +13,7 @@ from zipfile import ZIP_DEFLATED
 from isoweek import Week
 
 from mpr.api import Attributes
+from mpr.api import fetch
 from mpr.report import Report
 from mpr.report import Section
 
@@ -53,14 +56,21 @@ class Repository(PathLike):
     def __fspath__(self) -> str:
         return str(self.root / self.report.name)
 
-    def get(self, week: Week, *sections: Section) -> Optional[Data]:
-        archive = Archive(Path(self), week)
-        return None if not Path(archive).exists() else archive.get(*sections)
+    async def get(self, week: Week, *sections: Section) -> Data:
+        if not (path := Path(self)).exists():
+            path.mkdir()
+
+        archive = Archive(path, week)
+
+        if not Path(archive).exists():
+            attributes = await fetch(self.report, week.monday(), week.sunday())
+            data = {section: list(values) for section, values in groupby(attributes, key=attrgetter('label'))}
+            archive.save(data)
+
+        return archive.get(*sections)
 
     def save(self, week: Week, data: Data):
-        path = Path(self)
-
-        if not path.exists():
+        if not (path := Path(self)).exists():
             path.mkdir()
 
         return Archive(path, week).save(data)

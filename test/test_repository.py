@@ -35,8 +35,8 @@ def repository(tmp_path: Path):
     return repository
 
 
-def test_get_full_report(repository: Repository):
-    report = repository.get(week)
+async def test_get_full_report(repository: Repository):
+    report = await repository.get(week)
 
     cutout = report[CutoutReport.Section.CUTOUT]
     assert len(cutout) == 1
@@ -45,6 +45,6 @@ def test_get_full_report(repository: Repository):
     assert len(volume) == 1
 
 
-def test_get_report_section(repository: Repository):
-    cutout = repository.get(week, CutoutReport.Section.CUTOUT)
+async def test_get_report_section(repository: Repository):
+    cutout = await repository.get(week, CutoutReport.Section.CUTOUT)
     assert len(cutout) == 1
