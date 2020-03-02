@@ -37,16 +37,11 @@ class Repository:
         if self.has(week) is False:
             return None
 
-        result = dict()
-
         with ZipFile(filepath(self.location, week)) as archive:
             if len(sections) == 0:
                 sections = map(lambda name: Path(name).stem, archive.namelist())
 
-            for section in sections:
-                result[section] = json.loads(archive.read(f"{section}.json"))
-
-        return result
+            return {section: json.loads(archive.read(f"{section}.json")) for section in sections}
 
     def save(self, week: Week, data: Data):
         with ZipFile(filepath(self.location, week), 'w', ZIP_DEFLATED) as archive:
