@@ -12,7 +12,7 @@ week = Week.withdate(date(2019, 8, 20))
 
 @fixture
 def repository(tmp_path: Path):
-    repository = Repository(CutoutReport.LM_PK602, tmp_path)
+    repository = Repository(tmp_path, CutoutReport.LM_PK602)
 
     repository.save(week, {
         CutoutReport.Section.CUTOUT: [{
@@ -32,7 +32,6 @@ def repository(tmp_path: Path):
         }]
     })
 
-    assert repository.has(week)
     return repository
 
 
