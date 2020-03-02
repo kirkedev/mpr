@@ -60,7 +60,7 @@ class Repository(PathLike):
     def __fspath__(self) -> str:
         return str(self.root / self.report.name)
 
-    async def get(self, week: Week, *sections: Section) -> Data:
+    async def get(self, week: Week) -> Archive:
         archive = Archive(Path(self), week)
 
         if not Path(archive).exists():
@@ -68,7 +68,7 @@ class Repository(PathLike):
             data = {section: list(values) for section, values in groupby(attributes, key=attrgetter('label'))}
             archive.save(data)
 
-        return archive.get(*sections)
+        return archive
 
     def save(self, week: Week, data: Data):
         return Archive(Path(self), week).save(data)

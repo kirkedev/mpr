@@ -8,14 +8,12 @@ from pytest import mark
 from mpr.report import CutoutReport
 from mpr.repository import Repository
 
-week = Week.withdate(date(2019, 8, 20))
-
 
 @fixture
 def repository(tmp_path: Path):
     repository = Repository(tmp_path, CutoutReport.LM_PK602)
 
-    repository.save(week, {
+    repository.save(Week.withdate(date(2019, 8, 20)), {
         CutoutReport.Section.CUTOUT: [{
             'report_date': '08/20/2018',
             'pork_carcass': '67.18',
@@ -38,16 +36,13 @@ def repository(tmp_path: Path):
 
 @mark.asyncio
 async def test_get_full_report(repository: Repository):
-    report = await repository.get(week)
-
-    cutout = report[CutoutReport.Section.CUTOUT]
-    assert len(cutout) == 1
-
-    volume = report[CutoutReport.Section.VOLUME]
-    assert len(volume) == 1
+    archive = await repository.get(Week.withdate(date(2019, 8, 20)))
+    cutout = archive.get()
+    assert len(cutout[CutoutReport.Section.CUTOUT]) == 1
+    assert len(cutout[CutoutReport.Section.VOLUME]) == 1
 
 
 @mark.asyncio
 async def test_get_report_section(repository: Repository):
-    cutout = await repository.get(week, CutoutReport.Section.CUTOUT)
-    assert len(cutout) == 1
+    cutout = await repository.get(Week.withdate(date(2019, 8, 20)))
+    assert len(cutout.get(CutoutReport.Section.CUTOUT)) == 1
