@@ -35,7 +35,7 @@ class Archive(PathLike):
     def get(self, *sections: Section) -> Data:
         with ZipFile(self) as archive:
             if len(sections) == 0:
-                sections = map(lambda name: Path(name).stem, archive.namelist())
+                sections = (Path(name).stem for name in archive.namelist())
 
             return {section: json.loads(archive.read(f"{section}.json")) for section in sections}
 
