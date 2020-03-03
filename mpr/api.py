@@ -29,7 +29,7 @@ date_format = "%m-%d-%Y"
 
 
 def report_url(report: Report) -> str:
-    host = environ.get('HOST', 'http://localhost:8080')
+    host = environ.get('HOST', 'https://mpr.datamart.ams.usda.gov')
     return f'{host}/ws/report/v1/hogs/{report}'
 
 

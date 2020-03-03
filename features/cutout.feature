@@ -1,4 +1,4 @@
-Feature: Cash Index
+Feature: Cutout Index
   Scenario: June Cutout Index
     Given a date range from June 1st to June 30th, 2019
     When I request the CME cutout index

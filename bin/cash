@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-export HOST=https://mpr.datamart.ams.usda.gov
 python3 -m mpr.cash_index "$@"
