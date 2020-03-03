@@ -45,7 +45,13 @@ async def repository(tmp_path: Path):
 
 
 @mark.asyncio
-async def test_get_full_report(repository: Repository):
+async def test_get_report_section(repository: Repository):
+    archive = await repository.get(Week.withdate(date(2019, 8, 20)))
+    assert len(archive.get(CutoutReport.Section.CUTOUT)) == 1
+
+
+@mark.asyncio
+async def test_get_multiple_sections(repository: Repository):
     archive = await repository.get(Week.withdate(date(2019, 8, 20)))
     report = archive.get(CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
     assert len(report[CutoutReport.Section.CUTOUT]) == 1
@@ -53,15 +59,11 @@ async def test_get_full_report(repository: Repository):
 
 
 @mark.asyncio
-async def test_get_report_section(repository: Repository):
-    archive = await repository.get(Week.withdate(date(2019, 8, 20)))
-    report = archive.get()
-    assert len(report[CutoutReport.Section.CUTOUT]) == 1
-
-
-@mark.asyncio
 async def test_get_report_from_api(repository: Repository, mpr_server):
     async with mpr_server:
         archive = await repository.get(Week.withdate(date(2019, 6, 6)))
 
-    assert len(archive.get(CutoutReport.Section.CUTOUT)) == 5
+    report = archive.get()
+    assert len(report) == 14
+    assert len(report[CutoutReport.Section.CUTOUT]) == 5
+    assert len(report[CutoutReport.Section.VOLUME]) == 5
