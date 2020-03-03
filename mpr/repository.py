@@ -1,6 +1,6 @@
 import json
 from itertools import groupby
-from operator import attrgetter
+from operator import itemgetter
 from os import PathLike
 from pathlib import Path
 from typing import Dict
@@ -33,9 +33,14 @@ class Archive(PathLike):
         return str(self.root / str(self.week))
 
     def get(self, *sections: Section) -> Data:
+        n = len(sections)
+
         with ZipFile(self) as archive:
-            if len(sections) == 0:
+            if n == 0:
                 sections = (Path(name).stem for name in archive.namelist())
+
+            if n == 1:
+                return json.loads(archive.read(f"{sections[0]}.json"))
 
             return {section: json.loads(archive.read(f"{section}.json")) for section in sections}
 
@@ -65,8 +70,8 @@ class Repository(PathLike):
 
         if not Path(archive).exists():
             attributes = await fetch(self.report, week.monday(), week.sunday())
-            data = {section: list(values) for section, values in groupby(attributes, key=attrgetter('label'))}
-            archive.save(data)
+            data = sorted(attributes, key=itemgetter('label', 'report_date'))
+            archive.save({section: list(values) for section, values in groupby(data, key=itemgetter('label'))})
 
         return archive
 

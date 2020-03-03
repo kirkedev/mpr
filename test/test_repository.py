@@ -1,16 +1,26 @@
 from datetime import date
 from pathlib import Path
 
+from aiohttp.test_utils import TestServer
+from aiohttp.web_app import Application
 from isoweek import Week
 from pytest import fixture
 from pytest import mark
 
 from mpr.report import CutoutReport
 from mpr.repository import Repository
+from test import routes
 
 
 @fixture
-def repository(tmp_path: Path):
+async def mpr_server() -> TestServer:
+    server = Application()
+    server.add_routes(routes)
+    return TestServer(server, port=8080)
+
+
+@fixture
+async def repository(tmp_path: Path):
     repository = Repository(tmp_path, CutoutReport.LM_PK602)
 
     repository.save(Week.withdate(date(2019, 8, 20)), {
@@ -37,12 +47,21 @@ def repository(tmp_path: Path):
 @mark.asyncio
 async def test_get_full_report(repository: Repository):
     archive = await repository.get(Week.withdate(date(2019, 8, 20)))
-    cutout = archive.get()
-    assert len(cutout[CutoutReport.Section.CUTOUT]) == 1
-    assert len(cutout[CutoutReport.Section.VOLUME]) == 1
+    report = archive.get(CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
+    assert len(report[CutoutReport.Section.CUTOUT]) == 1
+    assert len(report[CutoutReport.Section.VOLUME]) == 1
 
 
 @mark.asyncio
 async def test_get_report_section(repository: Repository):
-    cutout = await repository.get(Week.withdate(date(2019, 8, 20)))
-    assert len(cutout.get(CutoutReport.Section.CUTOUT)) == 1
+    archive = await repository.get(Week.withdate(date(2019, 8, 20)))
+    report = archive.get()
+    assert len(report[CutoutReport.Section.CUTOUT]) == 1
+
+
+@mark.asyncio
+async def test_get_report_from_api(repository: Repository, mpr_server):
+    async with mpr_server:
+        archive = await repository.get(Week.withdate(date(2019, 6, 6)))
+
+    assert len(archive.get(CutoutReport.Section.CUTOUT)) == 5

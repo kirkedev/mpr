@@ -21,3 +21,4 @@ dependencies:
   - pip:
     - behave
     - isoweek
+    - pytest-aiohttp

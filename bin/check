@@ -2,6 +2,7 @@
 set -e
 lint
 coverage run --parallel-mode -m pytest
+export HOST=https://mpr.datamart.ams.usda.gov
 coverage run --parallel-mode -m behave -m --tags="-pending"
 echo
 coverage combine

@@ -29,8 +29,8 @@ date_format = "%m-%d-%Y"
 
 
 def report_url(report: Report) -> str:
-    base_url = environ.get('BASE_URL', 'https://mpr.datamart.ams.usda.gov/ws/report/v1/hogs')
-    return f'{base_url}/{report}'
+    host = environ.get('HOST', 'http://localhost:8080')
+    return f'{host}/ws/report/v1/hogs/{report}'
 
 
 def date_filter(start: date, end: date) -> str:
