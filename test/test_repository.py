@@ -1,22 +1,12 @@
 from datetime import date
 from pathlib import Path
 
-from aiohttp.test_utils import TestServer
-from aiohttp.web_app import Application
 from isoweek import Week
 from pytest import fixture
 from pytest import mark
 
 from mpr.report import CutoutReport
 from mpr.repository import Repository
-from test import routes
-
-
-@fixture
-async def mpr_server() -> TestServer:
-    server = Application()
-    server.add_routes(routes)
-    return TestServer(server, port=8080)
 
 
 @fixture
