@@ -3,8 +3,8 @@ from behave import when
 from behave import then
 
 from mpr.cash_index import get_cash_prices
-from features.steps.lib import format_decimal
-from features.steps.lib import format_number
+from test.features.steps.lib import format_decimal
+from test.features.steps.lib import format_number
 
 
 @when('I request the CME lean hog index')
