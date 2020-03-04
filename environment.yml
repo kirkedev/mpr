@@ -7,15 +7,14 @@ dependencies:
   - aiohttp
   - coveralls
   - flake8
-  - jupyter
   - numpy
   - pandas
   - python=3.8.*
   - pytest
-  - seaborn
+  - pytest-asyncio
   - setuptools
-  - statsmodels
   - wheel
   - pip
   - pip:
     - behave
+    - isoweek

@@ -1,25 +1,79 @@
-from abc import ABC
-from datetime import date
+import json
+from itertools import groupby
+from operator import itemgetter
+from os import PathLike
 from pathlib import Path
-from typing import Generic
-from typing import TypeVar
-from typing import NamedTuple
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from zipfile import ZipFile
+from zipfile import ZIP_DEFLATED
 
+from isoweek import Week
+
+from mpr.api import Attributes
+from mpr.api import fetch
 from mpr.report import Report
+from mpr.report import Section
 
-Record = TypeVar('Record', bound=NamedTuple)
+Data = Dict[Section, List[Attributes]]
+Result = Tuple[Week, Optional[Data]]
 
 
-class Repository(Generic[Record], ABC):
-    location: Path
+class Archive(PathLike):
+    root: Path
+    week: Week
+
+    def __init__(self, root: Path, week: Week):
+        self.root = root
+        self.week = week
+
+    def __fspath__(self) -> str:
+        return str(self.root / str(self.week))
+
+    def get(self, *sections: Section) -> Data:
+        n = len(sections)
+
+        with ZipFile(self) as archive:
+            if n == 0:
+                sections = (Path(name).stem for name in archive.namelist())
+
+            if n == 1:
+                return json.loads(archive.read(f"{sections[0]}.json"))
+
+            return {section: json.loads(archive.read(f"{section}.json")) for section in sections}
+
+    def save(self, data: Data):
+        with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
+            for section, values in data.items():
+                archive.writestr(f"{section}.json", json.dumps(values))
+
+
+class Repository(PathLike):
+    root: Path
     report: Report
 
-    def __init__(self, location: Path, report: Report):
-        self.location = location
+    def __init__(self, root: Path, report: Report):
+        self.root = root
         self.report = report
+        path = Path(self)
 
-    def query(self, start: date, end: date):
-        raise NotImplementedError
+        if not path.exists():
+            path.mkdir()
 
-    def ingest(self, month: int, year: int):
-        raise NotImplementedError
+    def __fspath__(self) -> str:
+        return str(self.root / self.report.name)
+
+    async def get(self, week: Week) -> Archive:
+        archive = Archive(Path(self), week)
+
+        if not Path(archive).exists():
+            attributes = await fetch(self.report, week.monday(), week.sunday())
+            data = sorted(attributes, key=itemgetter('label', 'report_date'))
+            archive.save({section: list(values) for section, values in groupby(data, key=itemgetter('label'))})
+
+        return archive
+
+    def save(self, week: Week, data: Data):
+        return Archive(Path(self), week).save(data)

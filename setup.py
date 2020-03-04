@@ -12,4 +12,4 @@ setup(
     include_package_data=True,
     python_requires='>=3.7.*',
     test_suite="test",
-    install_requires=['aiohttp', 'numpy', 'pandas', 'statsmodels', 'tables', 'behave'])
+    install_requires=['aiohttp', 'numpy', 'pandas', 'behave', 'isoweek', 'pytest'])

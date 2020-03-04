@@ -1,7 +1,9 @@
+from typing import Iterator
 from typing import Tuple
 from datetime import date
 from datetime import datetime
 
+from isoweek import Week
 from numpy import dtype
 from numpy import uint32
 from numpy import datetime64
@@ -21,3 +23,8 @@ def to_ordinal(it: date64) -> uint32:
 
 def from_ordinal(ordinal: uint32) -> date64:
     return datetime64(date.fromordinal(ordinal), 'D')
+
+
+def weeks(start: date, end: date) -> Iterator[Week]:
+    for week in range(Week.withdate(start).toordinal(), Week.withdate(end).toordinal()):
+        yield Week.fromordinal(week)

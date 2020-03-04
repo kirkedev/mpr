@@ -8,14 +8,14 @@ from mpr.purchase_type import Seller, Arrangement, Basis
 
 from test import load_resource
 
-attributes = list(load_resource('api/purchase.xml'))
-assert len(attributes) == 7
+barrows_gilts = list(load_resource('api/purchase.xml'))
+assert len(barrows_gilts) == 7
 
-negotiated = parse_attributes(attributes[0])
-negotiated_formula = parse_attributes(attributes[1])
-market_formula = parse_attributes(attributes[3])
-negotiated_live = parse_attributes(attributes[4])
-negotiated_formula_live = parse_attributes(attributes[5])
+negotiated = parse_attributes(barrows_gilts[0])
+negotiated_formula = parse_attributes(barrows_gilts[1])
+market_formula = parse_attributes(barrows_gilts[3])
+negotiated_live = parse_attributes(barrows_gilts[4])
+negotiated_formula_live = parse_attributes(barrows_gilts[5])
 
 
 def test_negotiated_purchase():
