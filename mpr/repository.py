@@ -4,9 +4,11 @@ from operator import itemgetter
 from os import PathLike
 from pathlib import Path
 from typing import Dict
+from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 from zipfile import ZipFile
 from zipfile import ZIP_DEFLATED
 
@@ -32,17 +34,18 @@ class Archive(PathLike):
     def __fspath__(self) -> str:
         return str(self.root / str(self.week))
 
-    def get(self, *sections: Section) -> Data:
-        n = len(sections)
-
+    def get(self, *sections: Section) -> Union[Data, Attributes, Iterator[Attributes]]:
         with ZipFile(self) as archive:
+            n = len(sections)
+
             if n == 0:
                 sections = (Path(name).stem for name in archive.namelist())
+                return {section: json.loads(archive.read(f"{section}.json")) for section in sections}
 
             if n == 1:
                 return json.loads(archive.read(f"{sections[0]}.json"))
 
-            return {section: json.loads(archive.read(f"{section}.json")) for section in sections}
+            return tuple(json.loads(archive.read(f"{section}.json")) for section in sections)
 
     def save(self, data: Data):
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:

@@ -43,9 +43,9 @@ async def test_get_report_section(repository: Repository):
 @mark.asyncio
 async def test_get_multiple_sections(repository: Repository):
     archive = await repository.get(Week.withdate(date(2019, 8, 20)))
-    report = archive.get(CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
-    assert len(report[CutoutReport.Section.CUTOUT]) == 1
-    assert len(report[CutoutReport.Section.VOLUME]) == 1
+    cutout, volume = archive.get(CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
+    assert len(cutout) == 1
+    assert len(volume) == 1
 
 
 @mark.asyncio
@@ -55,5 +55,15 @@ async def test_get_report_from_api(repository: Repository, mpr_server):
 
     report = archive.get()
     assert len(report) == 14
-    assert len(report[CutoutReport.Section.CUTOUT]) == 5
-    assert len(report[CutoutReport.Section.VOLUME]) == 5
+
+    cutout = report[CutoutReport.Section.CUTOUT]
+    assert len(cutout) == 5
+    assert cutout[0]['report_date'] == '06/03/2019'
+    assert cutout[1]['report_date'] == '06/04/2019'
+    assert cutout[4]['report_date'] == '06/07/2019'
+
+    volume = report[CutoutReport.Section.VOLUME]
+    assert len(volume) == 5
+    assert volume[0]['report_date'] == '06/03/2019'
+    assert volume[1]['report_date'] == '06/04/2019'
+    assert volume[4]['report_date'] == '06/07/2019'
