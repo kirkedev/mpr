@@ -1,7 +1,7 @@
 .*
-*.npy
-*.npz
+*.csv
 __pycache__
+db.h5
 coverage
 build
 dist
