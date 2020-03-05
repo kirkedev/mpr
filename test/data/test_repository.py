@@ -6,11 +6,12 @@ from pytest import mark
 
 from mpr.report import CutoutReport
 from mpr.data.repository import Repository
+from mpr.report import lm_pk602
 
 
 @fixture
 async def repository(tmp_path: Path):
-    return Repository(CutoutReport.LM_PK602, tmp_path)
+    return Repository(lm_pk602, tmp_path)
 
 
 @mark.asyncio

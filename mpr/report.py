@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import Union
 from typing import Tuple
 from enum import Enum
@@ -9,26 +10,48 @@ from pandas import DataFrame
 pd.options.display.float_format = '{:,.2f}'.format
 
 
-class Report(Enum):
-    @property
-    def name(self):
-        return self._name_.lower()
-
-    def __getattr__(self, item):
-        if item != '_value_':
-            return getattr(self.value, item).value
-
-        raise AttributeError
+def compute_change(values: Series) -> Series:
+    return values - values.shift(1)
 
 
-Section = Report
+def with_change(values: Series) -> Tuple[Series, Series]:
+    values = values.round(decimals=2)
+    return values, compute_change(values)
+
+
+def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
+    return pd.concat(columns, axis=1)
+
+
+class Report(ABC):
+    slug: str
+    description: str
+
+    def __init__(self, slug: str, description: str):
+        self.slug = slug
+        self.description = description
+
+    def __str__(self):
+        return self.slug
+
+
+class Section(Enum):
+    def __str__(self):
+        return self.value
+
+    def __hash__(self):
+        return hash(self.value)
+
+    def __eq__(self, other):
+        if isinstance(other, Enum):
+            return self.value == other.value
+        elif isinstance(other, str):
+            return self.value == other
+        else:
+            return False
 
 
 class PurchaseReport(Report):
-    LM_HG200 = 'Daily Direct Hog Prior Day - Purchased Swine'
-    LM_HG202 = 'Daily Direct Hog - Morning'
-    LM_HG203 = 'Daily Direct Hog - Afternoon'
-
     class Section(Section):
         VOLUME = 'Current Volume by Purchase Type'
         BARROWS_AND_GILTS = 'Barrows/Gilts (producer/packer sold)'
@@ -40,8 +63,6 @@ class PurchaseReport(Report):
 
 
 class SlaughterReport(Report):
-    LM_HG201 = 'Daily Direct Hog Prior Day - Slaughtered Swine'
-
     class Section(Section):
         SUMMARY = 'Summary'
         BARROWS_AND_GILTS = 'Barrows/Gilts'
@@ -52,9 +73,6 @@ class SlaughterReport(Report):
 
 
 class CutoutReport(Report):
-    LM_PK600 = 'National Daily Pork - Negotiated Sales - Morning'
-    LM_PK602 = 'National Daily Pork - Negotiated Sales - Afternoon'
-
     class Section(Section):
         CUTOUT = 'Cutout and Primal Values'
         DAILY_CHANGE = 'Change From Prior Day'
@@ -72,14 +90,9 @@ class CutoutReport(Report):
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-def compute_change(values: Series) -> Series:
-    return values - values.shift(1)
-
-
-def with_change(values: Series) -> Tuple[Series, Series]:
-    values = values.round(decimals=2)
-    return values, compute_change(values)
-
-
-def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
-    return pd.concat(columns, axis=1)
+lm_hg200 = PurchaseReport('lm_hg201', 'Daily Direct Hog Prior Day - Purchased Swine')
+lm_hg201 = SlaughterReport('lm_hg201', 'Daily Direct Hog Prior Day - Slaughtered Swine')
+lm_hg202 = PurchaseReport('lm_hg202', 'Daily Direct Hog - Morning')
+lm_hg203 = PurchaseReport('lm_hg203', 'Daily Direct Hog - Afternoon')
+lm_pk600 = CutoutReport('lm_pk600', 'National Daily Pork - Negotiated Sales - Morning')
+lm_pk602 = CutoutReport('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon')

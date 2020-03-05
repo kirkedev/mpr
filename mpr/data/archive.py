@@ -10,8 +10,8 @@ from zipfile import ZipFile
 
 from isoweek import Week
 
-from ..report import Section
 from .api import Attributes
+from ..report import Section
 
 Data = List[Attributes]
 Result = Union[Data, Tuple[Data], Dict[str, Data]]

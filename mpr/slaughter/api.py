@@ -4,7 +4,6 @@ from datetime import date
 from datetime import timedelta
 
 from ..date import from_string
-from ..report import SlaughterReport
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..data import opt_int
 from ..data import opt_float
@@ -13,6 +12,7 @@ from ..data.api import fetch
 from ..data.api import filter_section
 
 from .model import Slaughter
+from ..report import lm_hg201
 
 date_format = "%m/%d/%Y"
 
@@ -69,9 +69,5 @@ def parse_attributes(attr: Attributes) -> Slaughter:
 
 
 async def fetch_slaughter(start: date, end=date.today()) -> Iterator[Slaughter]:
-    report = SlaughterReport.LM_HG201
-    response = await fetch(report, start + timedelta(days=1), end)
-    return map(parse_attributes, filter_section(response, report.Section.BARROWS_AND_GILTS))
-
-
-lm_hg201 = hg201 = fetch_slaughter
+    response = await fetch(lm_hg201, start + timedelta(days=1), end)
+    return map(parse_attributes, filter_section(response, lm_hg201.Section.BARROWS_AND_GILTS))

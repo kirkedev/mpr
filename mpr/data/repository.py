@@ -14,13 +14,13 @@ from isoweek import Week
 
 from ..date import weeks
 from ..report import Report
-from ..report import Section
 
 from .api import fetch
 from .api import Attributes
 from .archive import Archive
 from .archive import Data
 from .archive import Result
+from ..report import Section
 
 date_format = "%m/%d/%Y"
 
@@ -70,7 +70,7 @@ class Repository(PathLike):
             path.mkdir()
 
     def __fspath__(self) -> str:
-        return str(self.root / self.report.name)
+        return str(self.root / self.report.slug)
 
     async def get(self, week: Week) -> Archive:
         archive = Archive(Path(self), week)

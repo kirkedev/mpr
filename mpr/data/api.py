@@ -13,8 +13,8 @@ from aiohttp import ClientSession
 from aiohttp import TCPConnector
 
 from ..report import Report
-from ..report import Section
 from . import Attributes
+from ..report import Section
 
 T = TypeVar('T')
 ParsedElement = Tuple[str, Element]
@@ -51,13 +51,13 @@ def filter_section(records: Iterator[Attributes], section: Section) -> Iterator[
     return filter(lambda it: it['label'] == section, records)
 
 
-def filter_sections(records: Iterator[Attributes], *args: Section) -> Iterator[Iterator[Attributes]]:
-    attrs = filter(lambda it: it['label'] in args, records)
-    return chunk(attrs, len(args))
+def filter_sections(records: Iterator[Attributes], *sections: Section) -> Iterator[Iterator[Attributes]]:
+    attrs = filter(lambda it: it['label'] in sections, records)
+    return chunk(attrs, len(sections))
 
 
 async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
-    url = request_url(report=report.name, start=start, end=end)
+    url = request_url(report=report, start=start, end=end)
 
     async with ClientSession(connector=TCPConnector(limit=4)) as session:
         async with session.get(url) as response:
