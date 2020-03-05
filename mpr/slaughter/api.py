@@ -7,7 +7,7 @@ from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..report import lm_hg201
 from ..data import opt_int
 from ..data import opt_float
-from ..data.api import Attributes
+from ..data.api import Record
 from ..data.repository import Repository
 
 from .model import Slaughter
@@ -42,28 +42,28 @@ purchase_types: Dict[str, PurchaseType] = {
 }
 
 
-def parse_attributes(attr: Attributes) -> Slaughter:
-    purchase_type = attr['purchase_type']
+def parse_attributes(record: Record) -> Slaughter:
+    purchase_type = record['purchase_type']
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Slaughter(
-        date=from_string(attr['for_date_begin'], date_format),
-        report_date=from_string(attr['report_date'], date_format),
+        date=from_string(record['for_date_begin'], date_format),
+        report_date=from_string(record['report_date'], date_format),
         seller=seller.value,
         arrangement=arrangement.value,
         basis=basis.value,
-        head_count=opt_int(attr, 'head_count'),
-        base_price=opt_float(attr, 'base_price'),
-        net_price=opt_float(attr, 'avg_net_price'),
-        low_price=opt_float(attr, 'lowest_net_price'),
-        high_price=opt_float(attr, 'highest_net_price'),
-        live_weight=opt_float(attr, 'avg_live_weight'),
-        carcass_weight=opt_float(attr, 'avg_carcass_weight'),
-        sort_loss=opt_float(attr, 'avg_sort_loss'),
-        backfat=opt_float(attr, 'avg_backfat'),
-        loin_depth=opt_float(attr, 'avg_loin_depth'),
-        loineye_area=opt_float(attr, 'loineye_area'),
-        lean_percent=opt_float(attr, 'avg_lean_percent'))
+        head_count=opt_int(record, 'head_count'),
+        base_price=opt_float(record, 'base_price'),
+        net_price=opt_float(record, 'avg_net_price'),
+        low_price=opt_float(record, 'lowest_net_price'),
+        high_price=opt_float(record, 'highest_net_price'),
+        live_weight=opt_float(record, 'avg_live_weight'),
+        carcass_weight=opt_float(record, 'avg_carcass_weight'),
+        sort_loss=opt_float(record, 'avg_sort_loss'),
+        backfat=opt_float(record, 'avg_backfat'),
+        loin_depth=opt_float(record, 'avg_loin_depth'),
+        loineye_area=opt_float(record, 'loineye_area'),
+        lean_percent=opt_float(record, 'avg_lean_percent'))
 
 
 async def fetch_slaughter(start: date, end=date.today()) -> Iterator[Slaughter]:

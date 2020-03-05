@@ -19,7 +19,7 @@ from ..report import Report
 from ..report import Section
 
 from .api import fetch
-from .api import Attributes
+from .api import Record
 from .archive import Archive
 from .archive import Data
 from .archive import Result
@@ -31,15 +31,15 @@ def parse_date(date_string: str) -> date:
     return datetime.strptime(date_string, date_format).date()
 
 
-def filter_before(records: Iterator[Attributes], end: date) -> Iterator[Attributes]:
+def filter_before(records: Iterator[Record], end: date) -> Iterator[Record]:
     return takewhile(lambda record: parse_date(record['report_date']) <= end, records)
 
 
-def filter_after(records: Iterator[Attributes], start: date) -> Iterator[Attributes]:
+def filter_after(records: Iterator[Record], start: date) -> Iterator[Record]:
     return dropwhile(lambda record: parse_date(record['report_date']) < start, records)
 
 
-def slice_dates(reports: Iterator[List[Attributes]], start: date, end: date) -> Data:
+def slice_dates(reports: Iterator[List[Record]], start: date, end: date) -> Data:
     first, *middle, last = reports
     return list(chain(filter_after(first, start), *middle, filter_before(last, end)))
 

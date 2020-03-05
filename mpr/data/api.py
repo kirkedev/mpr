@@ -12,7 +12,7 @@ from aiohttp import ClientSession
 from aiohttp import TCPConnector
 
 from ..report import Report
-from . import Attributes
+from . import Record
 
 T = TypeVar('T')
 ParsedElement = Tuple[str, Element]
@@ -40,7 +40,7 @@ def request_url(report: Report, start: date, end: date) -> str:
     return f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
 
 
-async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
+async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Record]:
     url = request_url(report, start, end)
 
     async with ClientSession(connector=TCPConnector(limit=4)) as session:
@@ -50,7 +50,7 @@ async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attri
             return parse_elements(elements)
 
 
-def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) -> Iterator[Attributes]:
+def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) -> Iterator[Record]:
     """
     Parses a USDA report by saving metadata from parent elements to a dictionary while traversing down the tree.
     When at the maximum depth, yield all collected metadata with each child element's attributes.
@@ -66,7 +66,7 @@ def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) 
     and the record data attributes (depth=4).
     """
     depth = 0
-    metadata: Attributes = dict()
+    metadata: Record = dict()
 
     for event, element in elements:
         if event == 'start':

@@ -6,7 +6,7 @@ from numpy import float32
 
 from ..date import from_string
 from ..report import CutoutReport
-from ..data.api import Attributes
+from ..data.api import Record
 from ..data.repository import Repository
 
 from .model import Cutout
@@ -14,7 +14,7 @@ from .model import Cutout
 date_format = "%m/%d/%Y"
 
 
-def parse_attributes(cutout: Attributes, volume: Attributes) -> Cutout:
+def parse_attributes(cutout: Record, volume: Record) -> Cutout:
     report_date = from_string(cutout['report_date'], date_format)
 
     return Cutout(
