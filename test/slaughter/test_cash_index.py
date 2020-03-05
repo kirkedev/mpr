@@ -1,16 +1,14 @@
+import json
 from datetime import date
 import numpy as np
 
-from mpr.slaughter.api import filter_section
 from mpr.slaughter.api import parse_attributes
 from mpr.slaughter.model import to_array
 from mpr.purchase_type import Arrangement
-from mpr.report import SlaughterReport
 
-from test import load_resource
-
-report = filter_section(load_resource('reports/cash_prices.xml'), SlaughterReport.Section.BARROWS_AND_GILTS)
-records = to_array(map(parse_attributes, report))
+with open('test/resources/cash_prices.json') as resource:
+    report = json.load(resource)
+    records = to_array(map(parse_attributes, report))
 
 negotiated = records.arrangement == Arrangement.NEGOTIATED
 market_formula = records.arrangement == Arrangement.MARKET_FORMULA

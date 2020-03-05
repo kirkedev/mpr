@@ -1,0 +1,47 @@
+[{
+    "report_date": "02/01/2019",
+    "reported_for_date": "01/31/2019",
+    "purchase_type": "Negotiated (carcass basis)",
+    "head_count": "11,325",
+    "price_low": "48.00",
+    "price_high": "51.75",
+    "wtd_avg": "50.70",
+    "rolling_avg": "51.26"
+}, {
+    "report_date": "02/01/2019",
+    "reported_for_date": "01/31/2019",
+    "purchase_type": "Negotiated Formula (carcass basis)",
+    "head_count": "165"
+}, {
+    "report_date": "02/01/2019",
+    "reported_for_date": "01/31/2019",
+    "purchase_type": "Combined Negotiated/Negotiated Formula (carcass basis)",
+    "head_count": "11,490"
+}, {
+    "report_date": "02/01/2019",
+    "reported_for_date": "01/31/2019",
+    "purchase_type": "Swine/Pork Market Formula (carcass basis)",
+    "head_count": "139,569",
+    "price_low": "48.88",
+    "price_high": "63.83",
+    "wtd_avg": "55.40"
+}, {
+    "report_date": "02/01/2019",
+    "reported_for_date": "01/31/2019",
+    "purchase_type": "Negotiated (live basis)",
+    "head_count": "703",
+    "price_low": "34.00",
+    "price_high": "41.75",
+    "wtd_avg": "39.92",
+    "rolling_avg": "40.14"
+}, {
+    "report_date": "02/01/2019",
+    "reported_for_date": "01/31/2019",
+    "purchase_type": "Negotiated Formula (live basis)",
+    "head_count": "0"
+}, {
+    "report_date": "02/01/2019",
+    "reported_for_date": "01/31/2019",
+    "purchase_type": "Combined Negotiated/Negotiated Formula (live basis)",
+    "head_count": "703"
+}]

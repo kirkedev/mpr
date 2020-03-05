@@ -78,7 +78,7 @@ class CutoutReport(Report):
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-lm_hg200 = PurchaseReport('lm_hg201', 'Daily Direct Hog Prior Day - Purchased Swine')
+lm_hg200 = PurchaseReport('lm_hg200', 'Daily Direct Hog Prior Day - Purchased Swine')
 lm_hg201 = SlaughterReport('lm_hg201', 'Daily Direct Hog Prior Day - Slaughtered Swine')
 lm_hg202 = PurchaseReport('lm_hg202', 'Daily Direct Hog - Morning')
 lm_hg203 = PurchaseReport('lm_hg203', 'Daily Direct Hog - Afternoon')

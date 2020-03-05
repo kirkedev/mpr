@@ -1,4 +1,7 @@
+import json
 from datetime import date
+from itertools import starmap
+
 from numpy import isclose
 from numpy import allclose
 from numpy import sum
@@ -7,15 +10,12 @@ from pandas import DataFrame
 from pandas import pivot_table
 from pandas import concat
 
-from mpr.cutout.api import filter_sections
 from mpr.cutout.api import parse_attributes
 from mpr.cutout.model import to_array
-from mpr.report import CutoutReport
 
-from test import load_resource
-
-report = filter_sections(load_resource('reports/cutout.xml'), CutoutReport.Section.VOLUME, CutoutReport.Section.CUTOUT)
-records = to_array(map(lambda it: parse_attributes(*it), report))
+with open('test/resources/cutout.json') as resource:
+    reports = json.load(resource)
+    records = to_array(list(starmap(parse_attributes, zip(*reports))))
 
 
 def test_daily_prices():
@@ -30,9 +30,8 @@ def test_daily_prices():
 
 
 def test_cutout_index():
-    ascending = records[::-1]
-    loads = ascending.primal_loads + ascending.trimming_loads
-    values = loads * ascending.carcass_price
+    loads = records.primal_loads + records.trimming_loads
+    values = loads * records.carcass_price
     index = sum(values[-5:]) / sum(loads[-5:])
     assert isclose(index.round(decimals=2), 60.34)
 

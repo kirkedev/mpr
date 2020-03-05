@@ -4,7 +4,6 @@ from typing import Tuple
 from typing import Iterator
 from os import environ
 from datetime import date
-from itertools import zip_longest
 from io import BytesIO
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
@@ -14,7 +13,6 @@ from aiohttp import TCPConnector
 
 from ..report import Report
 from . import Attributes
-from ..report import Section
 
 T = TypeVar('T')
 ParsedElement = Tuple[str, Element]
@@ -42,22 +40,8 @@ def request_url(report: Report, start: date, end: date) -> str:
     return f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
 
 
-def chunk(iterator: Iterator[T], n: int) -> Iterator[Iterator[T]]:
-    args = [iterator] * n
-    return zip_longest(*args, fillvalue=None)
-
-
-def filter_section(records: Iterator[Attributes], section: Section) -> Iterator[Attributes]:
-    return filter(lambda it: it['label'] == section, records)
-
-
-def filter_sections(records: Iterator[Attributes], *sections: Section) -> Iterator[Iterator[Attributes]]:
-    attrs = filter(lambda it: it['label'] in sections, records)
-    return chunk(attrs, len(sections))
-
-
 async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
-    url = request_url(report=report, start=start, end=end)
+    url = request_url(report, start, end)
 
     async with ClientSession(connector=TCPConnector(limit=4)) as session:
         async with session.get(url) as response:

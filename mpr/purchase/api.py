@@ -9,8 +9,7 @@ from ..data import get_optional
 from ..data import opt_int
 from ..data import opt_float
 from ..data.api import Attributes
-from ..data.api import fetch
-from ..data.api import filter_section
+from ..data.repository import Repository
 
 from .model import Purchase
 
@@ -61,5 +60,5 @@ def parse_attributes(attr: Attributes) -> Purchase:
 
 
 async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
-    response = await fetch(report, start, end)
-    return map(parse_attributes, filter_section(response, report.Section.BARROWS_AND_GILTS))
+    purchases = await Repository(report).query(start, end, report.Section.BARROWS_AND_GILTS)
+    return map(parse_attributes, purchases)

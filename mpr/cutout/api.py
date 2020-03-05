@@ -1,3 +1,4 @@
+from itertools import starmap
 from typing import Iterator
 from datetime import date
 
@@ -6,8 +7,7 @@ from numpy import float32
 from ..date import from_string
 from ..report import CutoutReport
 from ..data.api import Attributes
-from ..data.api import fetch
-from ..data.api import filter_sections
+from ..data.repository import Repository
 
 from .model import Cutout
 
@@ -32,7 +32,5 @@ def parse_attributes(cutout: Attributes, volume: Attributes) -> Cutout:
 
 
 async def fetch_cutout(report: CutoutReport, start: date, end=date.today()) -> Iterator[Cutout]:
-    response = await fetch(report, start, end)
-
-    return map(lambda it: parse_attributes(*it),
-        filter_sections(response, report.Section.CUTOUT, report.Section.VOLUME))
+    cutout, volume = await Repository(report).query(start, end, report.Section.CUTOUT, report.Section.VOLUME)
+    return starmap(parse_attributes, zip(cutout, volume))
