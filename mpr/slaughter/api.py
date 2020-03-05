@@ -42,7 +42,7 @@ purchase_types: Dict[str, PurchaseType] = {
 }
 
 
-def parse_attributes(record: Record) -> Slaughter:
+def parse_record(record: Record) -> Slaughter:
     purchase_type = record['purchase_type']
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
@@ -68,4 +68,4 @@ def parse_attributes(record: Record) -> Slaughter:
 
 async def fetch_slaughter(start: date, end=date.today()) -> Iterator[Slaughter]:
     slaughter = await Repository(lm_hg201).query(start, end, lm_hg201.Section.BARROWS_AND_GILTS)
-    return map(parse_attributes, slaughter)
+    return map(parse_record, slaughter)

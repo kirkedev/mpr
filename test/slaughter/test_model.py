@@ -1,15 +1,15 @@
-from mpr.slaughter.api import parse_attributes
+from mpr.slaughter.api import parse_record
 
 
 def test_objects_are_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'for_date_begin': '02/01/2019',
         'report_date': '02/02/2018',
         'purchase_type': 'Prod. Sold Negotiated',
         'head_count': '12,771'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'for_date_begin': '02/01/2019',
         'report_date': '02/02/2018',
         'purchase_type': 'Prod. Sold Negotiated',
@@ -20,14 +20,14 @@ def test_objects_are_the_same():
 
 
 def test_objects_are_not_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'for_date_begin': '01/03/2018',
         'report_date': '01/04/2018',
         'purchase_type': 'Prod. Sold Negotiated Formula',
         'head_count': '0'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'for_date_begin': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Prod. Sold Negotiated Formula',
@@ -38,7 +38,7 @@ def test_objects_are_not_the_same():
 
 
 def test_contents_are_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'for_date_begin': '02/01/2019',
         'report_date': '02/02/2018',
         'purchase_type': 'Prod. Sold Negotiated',
@@ -56,7 +56,7 @@ def test_contents_are_the_same():
         'loineye_area': '7.83'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'for_date_begin': '02/01/2019',
         'report_date': '02/02/2018',
         'purchase_type': 'Prod. Sold Negotiated',
@@ -78,7 +78,7 @@ def test_contents_are_the_same():
 
 
 def test_contents_are_not_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'for_date_begin': '02/01/2019',
         'report_date': '02/02/2018',
         'purchase_type': 'Prod. Sold Negotiated',
@@ -96,7 +96,7 @@ def test_contents_are_not_the_same():
         'loineye_area': '7.83'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'for_date_begin': '02/01/2018',
         'report_date': '02/02/2018',
         'purchase_type': 'Prod. Sold Negotiated',

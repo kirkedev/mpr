@@ -1,8 +1,8 @@
-from mpr.cutout.api import parse_attributes
+from mpr.cutout.api import parse_record
 
 
 def test_objects_are_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'report_date': '08/20/2018',
         'pork_carcass': '67.18',
         'pork_loin': '75.51',
@@ -17,7 +17,7 @@ def test_objects_are_the_same():
         'temp_process_total_load': '39.61'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'report_date': '08/20/2018',
         'pork_carcass': '0.0',
         'pork_loin': '0.0',
@@ -36,7 +36,7 @@ def test_objects_are_the_same():
 
 
 def test_objects_are_not_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'report_date': '08/20/2018',
         'pork_carcass': '67.18',
         'pork_loin': '75.51',
@@ -51,7 +51,7 @@ def test_objects_are_not_the_same():
         'temp_process_total_load': '39.61'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'report_date': '08/21/2018',
         'pork_carcass': '67.18',
         'pork_loin': '75.51',
@@ -70,7 +70,7 @@ def test_objects_are_not_the_same():
 
 
 def test_contents_are_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'report_date': '08/20/2018',
         'pork_carcass': '67.18',
         'pork_loin': '75.51',
@@ -85,7 +85,7 @@ def test_contents_are_the_same():
         'temp_process_total_load': '39.61'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'report_date': '08/20/2018',
         'pork_carcass': '67.18',
         'pork_loin': '75.51',
@@ -104,7 +104,7 @@ def test_contents_are_the_same():
 
 
 def test_contents_are_not_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'report_date': '08/20/2018',
         'pork_carcass': '67.18',
         'pork_loin': '75.51',
@@ -119,7 +119,7 @@ def test_contents_are_not_the_same():
         'temp_process_total_load': '39.61'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'report_date': '08/20/2018',
         'pork_carcass': '0.0',
         'pork_loin': '0.0',

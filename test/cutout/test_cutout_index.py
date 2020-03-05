@@ -10,12 +10,12 @@ from pandas import DataFrame
 from pandas import pivot_table
 from pandas import concat
 
-from mpr.cutout.api import parse_attributes
+from mpr.cutout.api import parse_record
 from mpr.cutout.model import to_array
 
 with open('test/resources/cutout.json') as resource:
     reports = json.load(resource)
-    records = to_array(list(starmap(parse_attributes, zip(*reports))))
+    records = to_array(list(starmap(parse_record, zip(*reports))))
 
 
 def test_daily_prices():

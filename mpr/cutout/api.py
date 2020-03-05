@@ -14,7 +14,7 @@ from .model import Cutout
 date_format = "%m/%d/%Y"
 
 
-def parse_attributes(cutout: Record, volume: Record) -> Cutout:
+def parse_record(cutout: Record, volume: Record) -> Cutout:
     report_date = from_string(cutout['report_date'], date_format)
 
     return Cutout(
@@ -33,4 +33,4 @@ def parse_attributes(cutout: Record, volume: Record) -> Cutout:
 
 async def fetch_cutout(report: CutoutReport, start: date, end=date.today()) -> Iterator[Cutout]:
     cutout, volume = await Repository(report).query(start, end, report.Section.CUTOUT, report.Section.VOLUME)
-    return starmap(parse_attributes, zip(cutout, volume))
+    return starmap(parse_record, zip(cutout, volume))

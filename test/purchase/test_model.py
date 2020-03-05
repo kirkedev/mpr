@@ -1,8 +1,8 @@
-from mpr.purchase.api import parse_attributes
+from mpr.purchase.api import parse_record
 
 
 def test_objects_are_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -12,7 +12,7 @@ def test_objects_are_the_same():
         'wtd_avg': '50.00'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -23,14 +23,14 @@ def test_objects_are_the_same():
 
 
 def test_objects_are_not_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated Formula (carcass basis)',
         'head_count': '0'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated Formula (live basis)',
@@ -41,7 +41,7 @@ def test_objects_are_not_the_same():
 
 
 def test_contents_are_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -51,7 +51,7 @@ def test_contents_are_the_same():
         'wtd_avg': '50.00'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -65,7 +65,7 @@ def test_contents_are_the_same():
 
 
 def test_contents_are_not_the_same():
-    first = parse_attributes({
+    first = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -75,7 +75,7 @@ def test_contents_are_not_the_same():
         'wtd_avg': '50.00'
     })
 
-    second = parse_attributes({
+    second = parse_record({
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',

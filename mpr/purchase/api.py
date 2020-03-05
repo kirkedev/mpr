@@ -40,7 +40,7 @@ purchase_types: Dict[str, PurchaseType] = {
 }
 
 
-def parse_attributes(record: Record) -> Purchase:
+def parse_record(record: Record) -> Purchase:
     report_date_string = record['report_date']
     record_date_string = get_optional(record, 'reported_for_date') or report_date_string
 
@@ -61,4 +61,4 @@ def parse_attributes(record: Record) -> Purchase:
 
 async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
     purchases = await Repository(report).query(start, end, report.Section.BARROWS_AND_GILTS)
-    return map(parse_attributes, purchases)
+    return map(parse_record, purchases)
