@@ -1,5 +1,5 @@
 .*
-data/**/*.zip
+mpr/data/**/*.zip
 __pycache__
 coverage
 build
