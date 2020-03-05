@@ -11,9 +11,9 @@ from zipfile import ZipFile
 from isoweek import Week
 
 from ..report import Section
-from .api import Attributes
+from .api import Record
 
-Data = List[Attributes]
+Data = List[Record]
 Result = Union[Data, Tuple[Data], Dict[str, Data]]
 
 

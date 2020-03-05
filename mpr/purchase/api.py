@@ -8,7 +8,7 @@ from ..report import PurchaseReport
 from ..data import get_optional
 from ..data import opt_int
 from ..data import opt_float
-from ..data.api import Attributes
+from ..data.api import Record
 from ..data.repository import Repository
 
 from .model import Purchase
@@ -40,11 +40,11 @@ purchase_types: Dict[str, PurchaseType] = {
 }
 
 
-def parse_attributes(attr: Attributes) -> Purchase:
-    report_date_string = attr['report_date']
-    record_date_string = get_optional(attr, 'reported_for_date') or report_date_string
+def parse_attributes(record: Record) -> Purchase:
+    report_date_string = record['report_date']
+    record_date_string = get_optional(record, 'reported_for_date') or report_date_string
 
-    purchase_type = attr['purchase_type']
+    purchase_type = record['purchase_type']
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Purchase(
@@ -53,10 +53,10 @@ def parse_attributes(attr: Attributes) -> Purchase:
         seller=seller.value,
         arrangement=arrangement.value,
         basis=basis.value,
-        head_count=opt_int(attr, 'head_count'),
-        avg_price=opt_float(attr, 'wtd_avg'),
-        low_price=opt_float(attr, 'price_low'),
-        high_price=opt_float(attr, 'price_high'))
+        head_count=opt_int(record, 'head_count'),
+        avg_price=opt_float(record, 'wtd_avg'),
+        low_price=opt_float(record, 'price_low'),
+        high_price=opt_float(record, 'price_high'))
 
 
 async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
