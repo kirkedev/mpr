@@ -16,13 +16,13 @@ from isoweek import Week
 
 from ..date import weeks
 from ..report import Report
+from ..report import Section
 
 from .api import fetch
 from .api import Attributes
 from .archive import Archive
 from .archive import Data
 from .archive import Result
-from ..report import Section
 
 date_format = "%m/%d/%Y"
 
@@ -62,7 +62,7 @@ class Repository(PathLike):
     root: Path
     report: Report
 
-    def __init__(self, report: Report, root=Path("data")):
+    def __init__(self, report: Report, root=Path("mpr/data")):
         self.report = report
         self.root = root
 

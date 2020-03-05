@@ -1,3 +1,4 @@
+import json
 from datetime import date
 from numpy import isnan
 from numpy import isclose
@@ -6,10 +7,9 @@ from mpr.slaughter.api import parse_attributes
 from mpr.slaughter.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
 
-from test import load_resource
-
-barrows_gilts = list(load_resource('api/slaughter.xml'))
-assert len(barrows_gilts) == 8
+with open('test/resources/slaughter.json') as resource:
+    barrows_gilts = json.load(resource)
+    assert len(barrows_gilts) == 8
 
 negotiated = parse_attributes(barrows_gilts[0])
 other_market_formula = parse_attributes(barrows_gilts[1])

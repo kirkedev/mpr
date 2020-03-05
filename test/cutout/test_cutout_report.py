@@ -1,15 +1,14 @@
+import json
+from itertools import starmap
+
 from numpy import allclose
 
-from mpr.cutout.api import filter_sections
 from mpr.cutout.api import parse_attributes
 from mpr.cutout_index.report import cutout_report
-from mpr.report import CutoutReport
 
-from test import load_resource
-
-report = filter_sections(load_resource('reports/cutout.xml'), CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
-records = map(lambda it: parse_attributes(*it), report)
-report = cutout_report(records).tail(10)
+with open('test/resources/cutout.json') as resource:
+    reports = json.load(resource)
+    report = cutout_report(starmap(parse_attributes, zip(*reports))).tail(10)
 
 
 def test_carcass_price():
