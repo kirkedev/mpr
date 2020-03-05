@@ -2,7 +2,9 @@ from asyncio import gather
 from datetime import date
 from datetime import datetime
 from itertools import chain
+from itertools import dropwhile
 from itertools import groupby
+from itertools import takewhile
 from operator import itemgetter
 from os import PathLike
 from pathlib import Path
@@ -30,11 +32,11 @@ def parse_date(date_string: str) -> date:
 
 
 def filter_before(records: Iterator[Attributes], end: date) -> Iterator[Attributes]:
-    return (record for record in records if parse_date(record['report_date']) <= end)
+    return takewhile(lambda record: parse_date(record['report_date']) <= end, records)
 
 
 def filter_after(records: Iterator[Attributes], start: date) -> Iterator[Attributes]:
-    return (record for record in records if parse_date(record['report_date']) >= start)
+    return dropwhile(lambda record: parse_date(record['report_date']) < start, records)
 
 
 def slice_dates(reports: Iterator[List[Attributes]], start: date, end: date) -> Data:
