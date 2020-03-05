@@ -71,7 +71,6 @@ async def test_query_reports(repository: Repository, mpr_server):
         assert len(report) == 14
 
     cutout = report[CutoutReport.Section.CUTOUT]
-    print(cutout)
     assert len(cutout) == 6
     assert cutout[0]['report_date'] == '06/03/2019'
     assert cutout[1]['report_date'] == '06/04/2019'
