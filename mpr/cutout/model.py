@@ -1,9 +1,11 @@
 from typing import NamedTuple
 from typing import Iterator
 
-import numpy as np
 from numpy import float32
 from numpy import recarray
+from numpy import allclose
+from numpy import dtype
+from numpy import rec
 
 from ..date import Date
 from ..date import date64
@@ -28,19 +30,19 @@ class Cutout(NamedTuple):
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Cutout) and hash(self) == hash(other) and
-            np.allclose(self[2:], other[2:], equal_nan=True))
+            allclose(self[2:], other[2:], equal_nan=True))
 
     @property
-    def loads(self):
+    def loads(self) -> int:
         return self.primal_loads + self.trimming_loads
 
     @property
-    def value(self):
+    def value(self) -> float:
         return self.loads * self.carcass_price
 
 
 def to_array(records: Iterator[Cutout]) -> recarray:
-    return np.rec.array(list(records), dtype=np.dtype([
+    return rec.array(list(records), dtype=dtype([
         ('date', date64),
         ('report_date', date64),
         ('primal_loads', float32),

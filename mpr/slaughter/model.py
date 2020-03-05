@@ -1,11 +1,13 @@
 from typing import NamedTuple
 from typing import Iterator
 
-import numpy as np
 from numpy import uint8
 from numpy import uint32
 from numpy import float32
 from numpy import recarray
+from numpy import allclose
+from numpy import dtype
+from numpy import rec
 
 from ..date import date64
 from ..date import Date
@@ -36,7 +38,7 @@ class Slaughter(NamedTuple):
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Slaughter) and hash(self) == hash(other) and
-            np.allclose(self[5:], other[5:], equal_nan=True))
+            allclose(self[5:], other[5:], equal_nan=True))
 
     @property
     def total_weight(self) -> float:
@@ -52,7 +54,7 @@ class Slaughter(NamedTuple):
 
 
 def to_array(records: Iterator[Slaughter]) -> recarray:
-    return np.rec.array(list(records), dtype=np.dtype([
+    return rec.array(list(records), dtype=dtype([
         ('date', date64),
         ('report_date', date64),
         ('seller', uint8),
