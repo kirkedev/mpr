@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import Union
 from typing import Tuple
 from enum import Enum
@@ -23,7 +22,7 @@ def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
     return pd.concat(columns, axis=1)
 
 
-class Report(ABC):
+class Report:
     slug: str
     description: str
 
@@ -35,20 +34,9 @@ class Report(ABC):
         return self.slug
 
 
-class Section(Enum):
+class Section(str, Enum):
     def __str__(self):
         return self.value
-
-    def __hash__(self):
-        return hash(self.value)
-
-    def __eq__(self, other):
-        if isinstance(other, Enum):
-            return self.value == other.value
-        elif isinstance(other, str):
-            return self.value == other
-        else:
-            return False
 
 
 class PurchaseReport(Report):
