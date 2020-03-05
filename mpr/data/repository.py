@@ -26,14 +26,17 @@ def parse_date(date_string: str) -> date:
     return datetime.strptime(date_string, date_format).date()
 
 
+def filter_before(records: Iterator[Attributes], start: date) -> Iterator[Attributes]:
+    return (record for record in records if parse_date(record['report_date']) <= start)
+
+
+def filter_after(records: Iterator[Attributes], end: date) -> Iterator[Attributes]:
+    return (record for record in records if parse_date(record['report_date']) >= end)
+
+
 def slice_dates(reports: Iterator[List[Attributes]], start: date, end: date) -> List[Attributes]:
     first, *middle, last = reports
-
-    return list(chain(
-        (record for record in first if parse_date(record['report_date']) >= start),
-        *middle,
-        (record for record in last if parse_date(record['report_date']) <= end)
-    ))
+    return list(chain(filter_after(first, start), *middle, filter_before(last, end)))
 
 
 class Repository(PathLike):
@@ -68,7 +71,18 @@ class Repository(PathLike):
         reports = (report.get(*sections) for report in archives)
 
         if n == 0:
-            return {section: slice_dates(report, start, end) for section, report in reports}
+            first, *reports, last = reports
+            result = {section: list(filter_after(values, start)) for section, values in first.items()}
+
+            for report in reports:
+                for key in report:
+                    result[key] += report[key]
+
+            for key in last:
+                result[key] += filter_before(last[key], end)
+
+            return result
+
         elif n == 1:
             return slice_dates(reports, start, end)
         else:
