@@ -13,19 +13,19 @@ from isoweek import Week
 from ..report import Section
 from .api import Attributes
 
-Data = Dict[Section, List[Attributes]]
-Result = Union[Data, List[Attributes], Tuple[List[Attributes]]]
+Data = List[Attributes]
+Result = Union[Data, Tuple[Data], Dict[str, Data]]
 
 
-def get_section(archive: ZipFile, section: Section) -> List[Attributes]:
+def get_section(archive: ZipFile, section: Section) -> Data:
     return json.loads(archive.read(f"{section}.json"))
 
 
-def get_sections(archive: ZipFile, *sections: Section) -> Tuple[List[Attributes], ...]:
+def get_sections(archive: ZipFile, *sections: Section) -> Tuple[Data, ...]:
     return tuple(json.loads(archive.read(f"{section}.json")) for section in sections)
 
 
-def get_report(archive: ZipFile) -> Data:
+def get_report(archive: ZipFile) -> Dict[str, Data]:
     sections = (Path(name).stem for name in archive.namelist())
     return {section: json.loads(archive.read(f"{section}.json")) for section in sections}
 
@@ -52,7 +52,7 @@ class Archive(PathLike):
             else:
                 return get_sections(archive, *sections)
 
-    def save(self, data: Data):
+    def save(self, data: Dict[str, Data]):
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
             for section, values in data.items():
                 archive.writestr(f"{section}.json", json.dumps(values, separators=(',', ':')))

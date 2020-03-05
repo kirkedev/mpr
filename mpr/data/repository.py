@@ -6,6 +6,7 @@ from itertools import groupby
 from operator import itemgetter
 from os import PathLike
 from pathlib import Path
+from typing import Dict
 from typing import List
 from typing import Iterator
 
@@ -18,6 +19,8 @@ from ..report import Section
 from .api import fetch
 from .api import Attributes
 from .archive import Archive
+from .archive import Data
+from .archive import Result
 
 date_format = "%m/%d/%Y"
 
@@ -26,17 +29,31 @@ def parse_date(date_string: str) -> date:
     return datetime.strptime(date_string, date_format).date()
 
 
-def filter_before(records: Iterator[Attributes], start: date) -> Iterator[Attributes]:
-    return (record for record in records if parse_date(record['report_date']) <= start)
+def filter_before(records: Iterator[Attributes], end: date) -> Iterator[Attributes]:
+    return (record for record in records if parse_date(record['report_date']) <= end)
 
 
-def filter_after(records: Iterator[Attributes], end: date) -> Iterator[Attributes]:
-    return (record for record in records if parse_date(record['report_date']) >= end)
+def filter_after(records: Iterator[Attributes], start: date) -> Iterator[Attributes]:
+    return (record for record in records if parse_date(record['report_date']) >= start)
 
 
-def slice_dates(reports: Iterator[List[Attributes]], start: date, end: date) -> List[Attributes]:
+def slice_dates(reports: Iterator[List[Attributes]], start: date, end: date) -> Data:
     first, *middle, last = reports
     return list(chain(filter_after(first, start), *middle, filter_before(last, end)))
+
+
+def slice_reports(reports: Iterator[Dict[str, Result]], start: date, end: date) -> Dict[str, Data]:
+    first, *middle, last = reports
+    result = {section: list(filter_after(values, start)) for section, values in first.items()}
+
+    for report in middle:
+        for section, values in report.items():
+            result[section] += values
+
+    for section, values in last.items():
+        result[section] += filter_before(values, end)
+
+    return result
 
 
 class Repository(PathLike):
@@ -65,24 +82,13 @@ class Repository(PathLike):
 
         return archive
 
-    async def query(self, start: date, end: date, *sections: Section):
-        n = len(sections)
+    async def query(self, start: date, end: date, *sections: Section) -> Result:
         archives = await gather(*(self.get(week) for week in weeks(start, end)))
         reports = (report.get(*sections) for report in archives)
+        n = len(sections)
 
         if n == 0:
-            first, *reports, last = reports
-            result = {section: list(filter_after(values, start)) for section, values in first.items()}
-
-            for report in reports:
-                for key in report:
-                    result[key] += report[key]
-
-            for key in last:
-                result[key] += filter_before(last[key], end)
-
-            return result
-
+            return slice_reports(reports, start, end)
         elif n == 1:
             return slice_dates(reports, start, end)
         else:

@@ -2,15 +2,15 @@ from typing import Dict
 from typing import Iterator
 from datetime import date
 
-from ..data.api import Attributes
-from ..data import get_optional
-from ..data import opt_int
-from ..data import opt_float
-from ..data.api import fetch
-from ..data.api import filter_section
 from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..report import PurchaseReport
+from ..data import get_optional
+from ..data import opt_int
+from ..data import opt_float
+from ..data.api import Attributes
+from ..data.api import fetch
+from ..data.api import filter_section
 
 from .model import Purchase
 
