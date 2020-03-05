@@ -39,7 +39,7 @@ class Archive(PathLike):
         self.week = week
 
     def __fspath__(self) -> str:
-        return str(self.root / str(self.week))
+        return str(self.root / f"{self.week}.zip")
 
     def get(self, *sections: Section) -> Result:
         n = len(sections)
