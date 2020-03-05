@@ -62,11 +62,13 @@ class Repository(PathLike):
     root: Path
     report: Report
 
-    def __init__(self, report: Report, root=Path("mpr/data")):
+    def __init__(self, report: Report, root=Path("data")):
         self.report = report
         self.root = root
-
         path = Path(self)
+
+        if not root.exists():
+            root.mkdir()
 
         if not path.exists():
             path.mkdir()
