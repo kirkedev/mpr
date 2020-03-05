@@ -3,12 +3,12 @@ from itertools import starmap
 
 from numpy import allclose
 
-from mpr.cutout.api import parse_attributes
+from mpr.cutout.api import parse_record
 from mpr.cutout_index.report import cutout_report
 
 with open('test/resources/cutout.json') as resource:
     reports = json.load(resource)
-    report = cutout_report(starmap(parse_attributes, zip(*reports))).tail(10)
+    report = cutout_report(starmap(parse_record, zip(*reports))).tail(10)
 
 
 def test_carcass_price():

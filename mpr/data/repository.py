@@ -80,8 +80,8 @@ class Repository(PathLike):
         archive = Archive(Path(self), week)
 
         if not Path(archive).exists():
-            attributes = await fetch(self.report, week.monday(), week.sunday())
-            data = sorted(attributes, key=itemgetter('label', 'report_date'))
+            records = await fetch(self.report, week.monday(), week.sunday())
+            data = sorted(records, key=itemgetter('label', 'report_date'))
             archive.save({section: list(values) for section, values in groupby(data, key=itemgetter('label'))})
 
         return archive

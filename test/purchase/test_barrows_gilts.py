@@ -3,7 +3,7 @@ from datetime import date
 from numpy import isnan
 from numpy import isclose
 
-from mpr.purchase.api import parse_attributes
+from mpr.purchase.api import parse_record
 from mpr.purchase.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
 
@@ -11,11 +11,11 @@ with open('test/resources/purchase.json') as resource:
     barrows_gilts = json.load(resource)
     assert len(barrows_gilts) == 7
 
-negotiated = parse_attributes(barrows_gilts[0])
-negotiated_formula = parse_attributes(barrows_gilts[1])
-market_formula = parse_attributes(barrows_gilts[3])
-negotiated_live = parse_attributes(barrows_gilts[4])
-negotiated_formula_live = parse_attributes(barrows_gilts[5])
+negotiated = parse_record(barrows_gilts[0])
+negotiated_formula = parse_record(barrows_gilts[1])
+market_formula = parse_record(barrows_gilts[3])
+negotiated_live = parse_record(barrows_gilts[4])
+negotiated_formula_live = parse_record(barrows_gilts[5])
 
 
 def test_negotiated_purchase():

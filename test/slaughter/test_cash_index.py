@@ -2,13 +2,13 @@ import json
 from datetime import date
 import numpy as np
 
-from mpr.slaughter.api import parse_attributes
+from mpr.slaughter.api import parse_record
 from mpr.slaughter.model import to_array
 from mpr.purchase_type import Arrangement
 
 with open('test/resources/cash_prices.json') as resource:
     report = json.load(resource)
-    records = to_array(map(parse_attributes, report))
+    records = to_array(map(parse_record, report))
 
 negotiated = records.arrangement == Arrangement.NEGOTIATED
 market_formula = records.arrangement == Arrangement.MARKET_FORMULA

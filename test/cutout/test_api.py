@@ -4,12 +4,12 @@ from itertools import starmap
 
 from numpy import isclose
 
-from mpr.cutout.api import parse_attributes
+from mpr.cutout.api import parse_record
 from mpr.cutout.model import to_array
 
 with open('test/resources/cutout.json') as resource:
     reports = json.load(resource)
-    cutout = next(starmap(parse_attributes, zip(*reports)))
+    cutout = next(starmap(parse_record, zip(*reports)))
 
 
 def test_parse_report():

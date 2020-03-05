@@ -3,7 +3,7 @@ from datetime import date
 from numpy import isnan
 from numpy import isclose
 
-from mpr.slaughter.api import parse_attributes
+from mpr.slaughter.api import parse_record
 from mpr.slaughter.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
 
@@ -11,12 +11,12 @@ with open('test/resources/slaughter.json') as resource:
     barrows_gilts = json.load(resource)
     assert len(barrows_gilts) == 8
 
-negotiated = parse_attributes(barrows_gilts[0])
-other_market_formula = parse_attributes(barrows_gilts[1])
-market_formula = parse_attributes(barrows_gilts[2])
-other_purchase = parse_attributes(barrows_gilts[3])
-negotiated_formula = parse_attributes(barrows_gilts[4])
-packer_owned = parse_attributes(barrows_gilts[7])
+negotiated = parse_record(barrows_gilts[0])
+other_market_formula = parse_record(barrows_gilts[1])
+market_formula = parse_record(barrows_gilts[2])
+other_purchase = parse_record(barrows_gilts[3])
+negotiated_formula = parse_record(barrows_gilts[4])
+packer_owned = parse_record(barrows_gilts[7])
 
 
 def test_negotiated():

@@ -2,11 +2,11 @@ import json
 
 from numpy import allclose
 
-from mpr.slaughter.api import parse_attributes
+from mpr.slaughter.api import parse_record
 from mpr.cash_index.report import cash_index_report
 
 with open('test/resources/cash_prices.json') as resource:
-    records = map(parse_attributes, json.load(resource))
+    records = map(parse_record, json.load(resource))
     barrows_gilts = cash_index_report(records).tail(10)
 
 
