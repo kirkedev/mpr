@@ -1,9 +1,12 @@
 from aiohttp.test_utils import TestServer
+from aiohttp.web import Application
 from pytest import fixture
 
-from .server import server
+from .routes import routes
 
 
 @fixture
-async def mpr_server() -> TestServer:
+def mpr_server() -> TestServer:
+    server = Application()
+    server.add_routes(routes)
     return TestServer(server, port=8080)

@@ -1,18 +1,17 @@
-from aiohttp.test_utils import TestServer
 from behave import when
 from behave import then
 from behave.api.async_step import async_run_until_complete
 
 from mpr.cash_index import get_cash_prices
-from test.server import server
 from test.features.steps import format_decimal
 from test.features.steps import format_number
+from test.features.steps import server
 
 
 @when('I request the CME lean hog index')
 @async_run_until_complete
 async def request_cash_prices(context):
-    async with TestServer(server, port=8080):
+    async with server():
         context.report = await get_cash_prices(context.start, context.end)
 
 

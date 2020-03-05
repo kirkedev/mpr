@@ -1,6 +1,9 @@
 from datetime import date
-
+from aiohttp.test_utils import TestServer
+from aiohttp.web import Application
 from behave import given
+
+from test.routes import routes
 
 
 def format_decimal(number: float) -> str:
@@ -15,3 +18,9 @@ def format_number(number: int) -> str:
 def set_date_range(context):
     context.start = date(2019, 6, 1)
     context.end = date(2019, 6, 30)
+
+
+def server():
+    app = Application()
+    app.add_routes(routes)
+    return TestServer(app, port=8080)

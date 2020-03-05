@@ -1,8 +1,6 @@
 import json
 from typing import TypeVar
-from typing import Optional
 from typing import Tuple
-from typing import Dict
 from typing import Iterator
 from os import environ
 from datetime import date
@@ -11,18 +9,14 @@ from io import BytesIO
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
-import aiohttp
+from aiohttp import ClientSession
 from aiohttp import TCPConnector
 
-from numpy import uint32
-from numpy import float32
-from numpy import nan
-
-from .report import Report
-from .report import Section
+from ..report import Report
+from ..report import Section
+from . import Attributes
 
 T = TypeVar('T')
-Attributes = Dict[str, str]
 ParsedElement = Tuple[str, Element]
 
 date_format = "%m-%d-%Y"
@@ -48,24 +42,6 @@ def request_url(report: Report, start: date, end: date) -> str:
     return f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
 
 
-def strip_commas(value: str) -> str:
-    return value.replace(',', '')
-
-
-def get_optional(attr: Attributes, key: str) -> Optional[str]:
-    return attr[key] if key in attr and attr[key] != 'null' else None
-
-
-def opt_float(attr: Attributes, key: str) -> float32:
-    value = get_optional(attr, key)
-    return float32(strip_commas(value)) if value else nan
-
-
-def opt_int(attr: Attributes, key: str) -> uint32:
-    value = get_optional(attr, key)
-    return uint32(strip_commas(value)) if value else 0
-
-
 def chunk(iterator: Iterator[T], n: int) -> Iterator[Iterator[T]]:
     args = [iterator] * n
     return zip_longest(*args, fillvalue=None)
@@ -83,7 +59,7 @@ def filter_sections(records: Iterator[Attributes], *args: Section) -> Iterator[I
 async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Attributes]:
     url = request_url(report=report.name, start=start, end=end)
 
-    async with aiohttp.ClientSession(connector=TCPConnector(limit=4)) as session:
+    async with ClientSession(connector=TCPConnector(limit=4)) as session:
         async with session.get(url) as response:
             data = BytesIO(await response.read())
             elements = ElementTree.iterparse(data, events=['start', 'end'])

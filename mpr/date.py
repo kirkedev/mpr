@@ -26,5 +26,5 @@ def from_ordinal(ordinal: uint32) -> date64:
 
 
 def weeks(start: date, end: date) -> Iterator[Week]:
-    for week in range(Week.withdate(start).toordinal(), Week.withdate(end).toordinal()):
+    for week in range(Week.withdate(start).toordinal(), Week.withdate(end).toordinal() + 1):
         yield Week.fromordinal(week)
