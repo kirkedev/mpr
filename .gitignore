@@ -1,6 +1,5 @@
 .*
-*.npy
-*.npz
+data/**/*.zip
 __pycache__
 coverage
 build

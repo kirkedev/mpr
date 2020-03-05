@@ -4,8 +4,8 @@ from behave import then
 from behave.api.async_step import async_run_until_complete
 
 from mpr.cutout_index import get_cutout_index
-from test.server import server
-from test.features.steps import format_decimal
+from . import format_decimal
+from . import server
 
 
 @when('I request the CME cutout index')

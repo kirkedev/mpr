@@ -6,14 +6,15 @@ from pytest import fixture
 from pytest import mark
 
 from mpr.report import CutoutReport
-from mpr.repository import Repository
+from mpr.data.archive import Archive
+from mpr.data.repository import Repository
 
 
 @fixture
 async def repository(tmp_path: Path):
     repository = Repository(CutoutReport.LM_PK602, tmp_path)
 
-    repository.save(Week.withdate(date(2019, 8, 20)), {
+    Archive(Path(repository), Week.withdate(date(2019, 8, 20))).save({
         CutoutReport.Section.CUTOUT: [{
             'report_date': '08/20/2018',
             'pork_carcass': '67.18',
@@ -35,20 +36,6 @@ async def repository(tmp_path: Path):
 
 
 @mark.asyncio
-async def test_get_report_section(repository: Repository):
-    archive = await repository.get(Week.withdate(date(2019, 8, 20)))
-    assert len(archive.get(CutoutReport.Section.CUTOUT)) == 1
-
-
-@mark.asyncio
-async def test_get_multiple_sections(repository: Repository):
-    archive = await repository.get(Week.withdate(date(2019, 8, 20)))
-    cutout, volume = archive.get(CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
-    assert len(cutout) == 1
-    assert len(volume) == 1
-
-
-@mark.asyncio
 async def test_get_report_from_api(repository: Repository, mpr_server):
     async with mpr_server:
         archive = await repository.get(Week.withdate(date(2019, 6, 6)))
@@ -67,3 +54,13 @@ async def test_get_report_from_api(repository: Repository, mpr_server):
     assert volume[0]['report_date'] == '06/03/2019'
     assert volume[1]['report_date'] == '06/04/2019'
     assert volume[-1]['report_date'] == '06/07/2019'
+
+
+@mark.asyncio
+async def test_query_sections(repository: Repository, mpr_server):
+    async with mpr_server:
+        cutout, volume = await repository.query(date(2019, 6, 1), date(2019, 6, 10),
+            CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
+
+    assert len(cutout) == 6
+    assert len(volume) == 6

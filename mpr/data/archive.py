@@ -1,25 +1,20 @@
 import json
-from itertools import groupby
-from operator import itemgetter
 from os import PathLike
 from pathlib import Path
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Tuple
 from typing import Union
-from zipfile import ZipFile
 from zipfile import ZIP_DEFLATED
+from zipfile import ZipFile
 
 from isoweek import Week
 
-from mpr.api import Attributes
-from mpr.api import fetch
-from mpr.report import Report
-from mpr.report import Section
+from ..report import Section
+from .api import Attributes
 
 Data = Dict[Section, List[Attributes]]
-Result = Tuple[Week, Optional[Data]]
+Result = Union[Data, List[Attributes], Tuple[List[Attributes]]]
 
 
 def get_section(archive: ZipFile, section: Section) -> List[Attributes]:
@@ -46,7 +41,7 @@ class Archive(PathLike):
     def __fspath__(self) -> str:
         return str(self.root / str(self.week))
 
-    def get(self, *sections: Section) -> Union[Data, List[Attributes], Tuple[List[Attributes]]]:
+    def get(self, *sections: Section) -> Result:
         n = len(sections)
 
         with ZipFile(self) as archive:
@@ -60,33 +55,4 @@ class Archive(PathLike):
     def save(self, data: Data):
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
             for section, values in data.items():
-                archive.writestr(f"{section}.json", json.dumps(values))
-
-
-class Repository(PathLike):
-    root: Path
-    report: Report
-
-    def __init__(self, report: Report, root=Path("data")):
-        self.root = root
-        self.report = report
-        path = Path(self)
-
-        if not path.exists():
-            path.mkdir()
-
-    def __fspath__(self) -> str:
-        return str(self.root / self.report.name)
-
-    async def get(self, week: Week) -> Archive:
-        archive = Archive(Path(self), week)
-
-        if not Path(archive).exists():
-            attributes = await fetch(self.report, week.monday(), week.sunday())
-            data = sorted(attributes, key=itemgetter('label', 'report_date'))
-            archive.save({section: list(values) for section, values in groupby(data, key=itemgetter('label'))})
-
-        return archive
-
-    def save(self, week: Week, data: Data):
-        return Archive(Path(self), week).save(data)
+                archive.writestr(f"{section}.json", json.dumps(values, separators=(',', ':')))
