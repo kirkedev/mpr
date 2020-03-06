@@ -91,10 +91,10 @@ class Repository(PathLike):
 
         day = archive.day
 
-        if day == 5 or day == end.weekday():
+        if day == 6 or day == end.isoweekday():
             return archive
 
-        records = list(await fetch(self.report, week.day(day + 1), end))
+        records = list(await fetch(self.report, week.day(day), end))
 
         if len(records) > 0:
             archive.update(end, records)

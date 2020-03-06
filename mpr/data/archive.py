@@ -79,7 +79,7 @@ class Archive(PathLike):
 
     def save(self, records: Iterator[Record], end: date):
         records = sort_records(records)
-        self.day = record_date(records[-1]).weekday() if end.weekday() < 5 else 5
+        self.day = record_date(records[-1]).isoweekday() if end.isoweekday() < 6 else 6
 
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
             for section, values in to_dict(records).items():

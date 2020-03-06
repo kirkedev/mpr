@@ -34,7 +34,7 @@ async def archive(tmp_path: Path):
 
 
 def test_path(archive: Archive):
-    assert Path(archive).name == "2018W34D00.zip"
+    assert Path(archive).name == "2018W34D01.zip"
 
 
 def test_get_report_section(archive: Archive):
