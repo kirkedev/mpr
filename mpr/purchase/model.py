@@ -15,6 +15,7 @@ from ..date import to_ordinal
 
 
 class Purchase(NamedTuple):
+    report: str
     date: Date
     report_date: Date
     seller: uint8
@@ -26,15 +27,16 @@ class Purchase(NamedTuple):
     high_price: float32
 
     def __hash__(self) -> int:
-        return hash((*map(to_ordinal, self[:2]), *self[2:5]))
+        return hash((self.report, *map(to_ordinal, self[1:3]), *self[3:6]))
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Purchase) and hash(self) == hash(other) and
-            allclose(self[5:], other[5:], equal_nan=True))
+            allclose(self[6:], other[6:], equal_nan=True))
 
 
 def to_array(records: Iterator[Purchase]) -> recarray:
     return rec.array(list(records), dtype=dtype([
+        ('report', dtype('S6')),
         ('date', date64),
         ('report_date', date64),
         ('seller', uint8),

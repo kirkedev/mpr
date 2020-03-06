@@ -1,4 +1,5 @@
 [{
+    "slug": "LM_HG200",
     "report_date": "02/01/2019",
     "reported_for_date": "01/31/2019",
     "purchase_type": "Negotiated (carcass basis)",
@@ -8,16 +9,19 @@
     "wtd_avg": "50.70",
     "rolling_avg": "51.26"
 }, {
+    "slug": "LM_HG200",
     "report_date": "02/01/2019",
     "reported_for_date": "01/31/2019",
     "purchase_type": "Negotiated Formula (carcass basis)",
     "head_count": "165"
 }, {
+    "slug": "LM_HG200",
     "report_date": "02/01/2019",
     "reported_for_date": "01/31/2019",
     "purchase_type": "Combined Negotiated/Negotiated Formula (carcass basis)",
     "head_count": "11,490"
 }, {
+    "slug": "LM_HG200",
     "report_date": "02/01/2019",
     "reported_for_date": "01/31/2019",
     "purchase_type": "Swine/Pork Market Formula (carcass basis)",
@@ -26,6 +30,7 @@
     "price_high": "63.83",
     "wtd_avg": "55.40"
 }, {
+    "slug": "LM_HG200",
     "report_date": "02/01/2019",
     "reported_for_date": "01/31/2019",
     "purchase_type": "Negotiated (live basis)",
@@ -35,11 +40,13 @@
     "wtd_avg": "39.92",
     "rolling_avg": "40.14"
 }, {
+    "slug": "LM_HG200",
     "report_date": "02/01/2019",
     "reported_for_date": "01/31/2019",
     "purchase_type": "Negotiated Formula (live basis)",
     "head_count": "0"
 }, {
+    "slug": "LM_HG200",
     "report_date": "02/01/2019",
     "reported_for_date": "01/31/2019",
     "purchase_type": "Combined Negotiated/Negotiated Formula (live basis)",

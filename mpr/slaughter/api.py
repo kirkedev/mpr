@@ -47,6 +47,7 @@ def parse_record(record: Record) -> Slaughter:
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Slaughter(
+        report=record['slug'].lower(),
         date=from_string(record['for_date_begin'], date_format),
         report_date=from_string(record['report_date'], date_format),
         seller=seller.value,

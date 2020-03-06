@@ -13,6 +13,7 @@ from ..date import to_ordinal
 
 
 class Cutout(NamedTuple):
+    report: str
     date: Date
     report_date: Date
     primal_loads: float32
@@ -26,11 +27,11 @@ class Cutout(NamedTuple):
     belly_price: float32
 
     def __hash__(self) -> int:
-        return hash((to_ordinal(self.date), to_ordinal(self.report_date)))
+        return hash((self.report, to_ordinal(self.date), to_ordinal(self.report_date)))
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Cutout) and hash(self) == hash(other) and
-            allclose(self[2:], other[2:], equal_nan=True))
+            allclose(self[3:], other[3:], equal_nan=True))
 
     @property
     def loads(self) -> int:
@@ -43,6 +44,7 @@ class Cutout(NamedTuple):
 
 def to_array(records: Iterator[Cutout]) -> recarray:
     return rec.array(list(records), dtype=dtype([
+        ('report', dtype('S6')),
         ('date', date64),
         ('report_date', date64),
         ('primal_loads', float32),

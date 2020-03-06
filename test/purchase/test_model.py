@@ -3,6 +3,7 @@ from mpr.purchase.api import parse_record
 
 def test_objects_are_the_same():
     first = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -13,6 +14,7 @@ def test_objects_are_the_same():
     })
 
     second = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -24,6 +26,7 @@ def test_objects_are_the_same():
 
 def test_objects_are_not_the_same():
     first = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated Formula (carcass basis)',
@@ -31,6 +34,7 @@ def test_objects_are_not_the_same():
     })
 
     second = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated Formula (live basis)',
@@ -42,6 +46,7 @@ def test_objects_are_not_the_same():
 
 def test_contents_are_the_same():
     first = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -52,6 +57,7 @@ def test_contents_are_the_same():
     })
 
     second = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -66,6 +72,7 @@ def test_contents_are_the_same():
 
 def test_contents_are_not_the_same():
     first = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',
@@ -76,6 +83,7 @@ def test_contents_are_not_the_same():
     })
 
     second = parse_record({
+        'slug': 'LM_HG200',
         'reported_for_date': '01/02/2018',
         'report_date': '01/03/2018',
         'purchase_type': 'Negotiated (carcass basis)',

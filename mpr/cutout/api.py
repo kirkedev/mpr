@@ -18,6 +18,7 @@ def parse_record(cutout: Record, volume: Record) -> Cutout:
     report_date = from_string(cutout['report_date'], date_format)
 
     return Cutout(
+        report=cutout['slug'].lower(),
         date=report_date,
         report_date=report_date,
         primal_loads=float32(volume['temp_cuts_total_load']),
