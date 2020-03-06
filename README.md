@@ -40,6 +40,9 @@ bin/tests
 # Lint and run unit and acceptance tests
 bin/check
 
+# Wipe reports cache
+bin/wipe
+
 # Build wheel for deployment
 bin/build
 

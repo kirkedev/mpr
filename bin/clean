@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-
 rm -rf build dist mpr.egg-info MANIFEST .coverage coverage ./**/__pycache__
