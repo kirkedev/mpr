@@ -9,19 +9,6 @@ from pandas import DataFrame
 pd.options.display.float_format = '{:,.2f}'.format
 
 
-def compute_change(values: Series) -> Series:
-    return values - values.shift(1)
-
-
-def with_change(values: Series) -> Tuple[Series, Series]:
-    values = values.round(decimals=2)
-    return values, compute_change(values)
-
-
-def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
-    return pd.concat(columns, axis=1)
-
-
 class Report:
     slug: str
     description: str
@@ -76,6 +63,27 @@ class CutoutReport(Report):
         TRIM = 'Trim Cuts'
         VARIETY = 'Variety Cuts'
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
+
+
+def normalize_section(section: Union[Section, str]) -> str:
+    return section.replace('/', '_')
+
+
+def denormalize_section(section: Union[Section, str]) -> str:
+    return section.replace('_', '/')
+
+
+def compute_change(values: Series) -> Series:
+    return values - values.shift(1)
+
+
+def with_change(values: Series) -> Tuple[Series, Series]:
+    values = values.round(decimals=2)
+    return values, compute_change(values)
+
+
+def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
+    return pd.concat(columns, axis=1)
 
 
 lm_hg200 = PurchaseReport('lm_hg200', 'Daily Direct Hog Prior Day - Purchased Swine')

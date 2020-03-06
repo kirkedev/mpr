@@ -11,7 +11,9 @@ from mpr.report import lm_pk602
 
 @fixture
 async def repository(tmp_path: Path):
-    return Repository(lm_pk602, tmp_path)
+    repository = Repository(lm_pk602, tmp_path)
+    assert Path(repository).name == "lm_pk602"
+    return repository
 
 
 @mark.asyncio
@@ -60,3 +62,19 @@ async def test_query_report(repository: Repository, mpr_server):
     assert volume[0]['report_date'] == '06/03/2019'
     assert volume[1]['report_date'] == '06/04/2019'
     assert volume[-1]['report_date'] == '06/10/2019'
+
+
+@mark.asyncio
+async def test_incremental_update(repository: Repository, mpr_server):
+    async with mpr_server:
+        await repository.query(date(2019, 6, 1), date(2019, 6, 10),
+            CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
+
+        cutout = await repository.query(date(2019, 6, 1), date(2019, 6, 13), CutoutReport.Section.CUTOUT)
+
+    assert len(cutout) == 9
+    assert cutout[0]['report_date'] == '06/03/2019'
+    assert cutout[-4]['report_date'] == '06/10/2019'
+    assert cutout[-3]['report_date'] == '06/11/2019'
+    assert cutout[-2]['report_date'] == '06/12/2019'
+    assert cutout[-1]['report_date'] == '06/13/2019'

@@ -1,3 +1,5 @@
+from datetime import date
+from datetime import datetime
 from typing import Dict
 from typing import Optional
 
@@ -5,7 +7,9 @@ from numpy import float32
 from numpy import nan
 from numpy import uint32
 
+
 Record = Dict[str, str]
+date_format = "%m/%d/%Y"
 
 
 def strip_commas(value: str) -> str:
@@ -24,3 +28,7 @@ def opt_float(record: Record, key: str) -> float32:
 def opt_int(record: Record, key: str) -> uint32:
     value = get_optional(record, key)
     return uint32(strip_commas(value)) if value else 0
+
+
+def record_date(record: Record) -> date:
+    return datetime.strptime(record['report_date'], date_format).date()
