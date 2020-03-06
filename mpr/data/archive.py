@@ -1,5 +1,6 @@
 import json
 from datetime import date
+from itertools import chain
 from itertools import groupby
 from operator import itemgetter
 from os import PathLike
@@ -53,13 +54,11 @@ class Archive(PathLike):
 
     @classmethod
     def create(cls, root: Path, week: Week, end: date, records: Iterator[Record]) -> 'Archive':
-        data = sort_records(records)
-        day = record_date(data[-1]).weekday() if end.weekday() < 5 else 5
-        archive = cls(root, week, day)
-        archive.save(to_dict(data))
+        archive = cls(root, week)
+        archive.save(records, end)
         return archive
 
-    def __init__(self, root: Path, week: Week, day: int):
+    def __init__(self, root: Path, week: Week, day=0):
         self.root = root
         self.week = week
         self.day = day
@@ -78,23 +77,15 @@ class Archive(PathLike):
             else:
                 return get_sections(archive, *sections)
 
-    def save(self, data: Dict[str, Records]):
+    def save(self, records: Iterator[Record], end: date):
+        records = sort_records(records)
+        self.day = record_date(records[-1]).weekday() if end.weekday() < 5 else 5
+
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
-            for section, values in data.items():
+            for section, values in to_dict(records).items():
                 archive.writestr(f"{normalize_section(section)}.json", json.dumps(values, separators=(',', ':')))
 
     def update(self, end: date, records: Iterator[Record]):
-        records = sort_records(records)
-        day = record_date(records[-1]).weekday() if end.weekday() < 5 else 5
-        data = self.get()
-        report = to_dict(records)
-
-        for section, values in report.items():
-            if section in data:
-                data[section] += values
-            else:
-                data[section] = values
-
-        self.save(data)
-        Path(self).rename(Path(self.root) / f"{self.week}D0{day}.zip")
-        self.day = day
+        data = chain(*self.get().values(), records)
+        Path(self).unlink()
+        self.save(data, end)
