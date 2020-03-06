@@ -12,8 +12,7 @@ from mpr.report import CutoutReport
 async def archive(tmp_path: Path):
     report_date = date(2018, 8, 20)
 
-    return Archive.create(tmp_path, Week.withdate(report_date), report_date,
-    [{
+    return Archive.create(tmp_path, Week.withdate(report_date), report_date, [{
         'slug': 'LM_PK602',
         'label': 'Cutout and Primal Values',
         'report_date': '08/20/2018',
@@ -77,3 +76,13 @@ def test_update_archive(archive: Archive):
         'temp_cuts_total_load': '396.30',
         'temp_process_total_load': '52.57'
     }])
+
+    cutout, volume = archive.get(CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
+
+    assert len(cutout) == 2
+    assert cutout[0]['report_date'] == '08/20/2018'
+    assert cutout[1]['report_date'] == '08/21/2018'
+
+    assert len(volume) == 2
+    assert volume[0]['report_date'] == '08/20/2018'
+    assert volume[1]['report_date'] == '08/21/2018'
