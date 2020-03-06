@@ -8,18 +8,13 @@ from mpr.slaughter.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
 
 with open('test/resources/slaughter.json') as resource:
-    barrows_gilts = json.load(resource)
+    barrows_gilts = list(map(parse_record, json.load(resource)))
     assert len(barrows_gilts) == 8
-
-negotiated = parse_record(barrows_gilts[0])
-other_market_formula = parse_record(barrows_gilts[1])
-market_formula = parse_record(barrows_gilts[2])
-other_purchase = parse_record(barrows_gilts[3])
-negotiated_formula = parse_record(barrows_gilts[4])
-packer_owned = parse_record(barrows_gilts[7])
 
 
 def test_negotiated():
+    negotiated = barrows_gilts[0]
+    assert negotiated.report == 'lm_hg201'
     assert negotiated.date == date(2019, 2, 1)
     assert negotiated.report_date == date(2019, 2, 4)
     assert negotiated.seller == Seller.PRODUCER
@@ -43,6 +38,8 @@ def test_negotiated():
 
 
 def test_other_market_formula():
+    other_market_formula = barrows_gilts[1]
+    assert other_market_formula.report == 'lm_hg201'
     assert other_market_formula.date == date(2019, 2, 1)
     assert other_market_formula.report_date == date(2019, 2, 4)
     assert other_market_formula.seller == Seller.PRODUCER
@@ -66,6 +63,8 @@ def test_other_market_formula():
 
 
 def test_swine_pork_market_formula():
+    market_formula = barrows_gilts[2]
+    assert market_formula.report == 'lm_hg201'
     assert market_formula.date == date(2019, 2, 1)
     assert market_formula.report_date == date(2019, 2, 4)
     assert market_formula.seller == Seller.PRODUCER
@@ -89,6 +88,8 @@ def test_swine_pork_market_formula():
 
 
 def test_other_purchase_agreement():
+    other_purchase = barrows_gilts[3]
+    assert other_purchase.report == 'lm_hg201'
     assert other_purchase.date == date(2019, 2, 1)
     assert other_purchase.report_date == date(2019, 2, 4)
     assert other_purchase.seller == Seller.PRODUCER
@@ -112,6 +113,8 @@ def test_other_purchase_agreement():
 
 
 def test_negotiated_formula():
+    negotiated_formula = barrows_gilts[4]
+    assert negotiated_formula.report == 'lm_hg201'
     assert negotiated_formula.date == date(2019, 2, 1)
     assert negotiated_formula.report_date == date(2019, 2, 4)
     assert negotiated_formula.arrangement == Arrangement.NEGOTIATED_FORMULA
@@ -134,6 +137,8 @@ def test_negotiated_formula():
 
 
 def test_packer_owned():
+    packer_owned = barrows_gilts[7]
+    assert packer_owned.report == 'lm_hg201'
     assert packer_owned.date == date(2019, 2, 1)
     assert packer_owned.report_date == date(2019, 2, 4)
     assert packer_owned.arrangement == Arrangement.PACKER_OWNED
@@ -156,13 +161,7 @@ def test_packer_owned():
 
 
 def test_record_array():
-    records = to_array([
-        negotiated,
-        other_market_formula,
-        market_formula,
-        negotiated_formula,
-        packer_owned
-    ])
-
-    assert len(records) == 5
+    records = to_array(barrows_gilts)
+    assert len(records) == 8
     assert all(records.date == date(2019, 2, 1))
+    assert all(records.report == 'lm_hg201')

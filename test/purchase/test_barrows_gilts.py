@@ -8,17 +8,13 @@ from mpr.purchase.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
 
 with open('test/resources/purchase.json') as resource:
-    barrows_gilts = json.load(resource)
+    barrows_gilts = list(map(parse_record, json.load(resource)))
     assert len(barrows_gilts) == 7
-
-negotiated = parse_record(barrows_gilts[0])
-negotiated_formula = parse_record(barrows_gilts[1])
-market_formula = parse_record(barrows_gilts[3])
-negotiated_live = parse_record(barrows_gilts[4])
-negotiated_formula_live = parse_record(barrows_gilts[5])
 
 
 def test_negotiated_purchase():
+    negotiated = barrows_gilts[0]
+    assert negotiated.report == 'lm_hg200'
     assert negotiated.date == date(2019, 1, 31)
     assert negotiated.report_date == date(2019, 2, 1)
     assert negotiated.seller == Seller.ALL
@@ -31,6 +27,8 @@ def test_negotiated_purchase():
 
 
 def test_negotiated_formula():
+    negotiated_formula = barrows_gilts[1]
+    assert negotiated_formula.report == 'lm_hg200'
     assert negotiated_formula.date == date(2019, 1, 31)
     assert negotiated_formula.report_date == date(2019, 2, 1)
     assert negotiated_formula.seller == Seller.ALL
@@ -43,6 +41,8 @@ def test_negotiated_formula():
 
 
 def test_market_formula():
+    market_formula = barrows_gilts[3]
+    assert market_formula.report == 'lm_hg200'
     assert market_formula.date == date(2019, 1, 31)
     assert market_formula.report_date == date(2019, 2, 1)
     assert market_formula.seller == Seller.ALL
@@ -55,6 +55,8 @@ def test_market_formula():
 
 
 def test_negotiated_live():
+    negotiated_live = barrows_gilts[4]
+    assert negotiated_live.report == 'lm_hg200'
     assert negotiated_live.date == date(2019, 1, 31)
     assert negotiated_live.report_date == date(2019, 2, 1)
     assert negotiated_live.seller == Seller.ALL
@@ -67,6 +69,8 @@ def test_negotiated_live():
 
 
 def test_negotiated_formula_live():
+    negotiated_formula_live = barrows_gilts[5]
+    assert negotiated_formula_live.report == 'lm_hg200'
     assert negotiated_formula_live.date == date(2019, 1, 31)
     assert negotiated_formula_live.report_date == date(2019, 2, 1)
     assert negotiated_formula_live.seller == Seller.ALL
@@ -79,6 +83,7 @@ def test_negotiated_formula_live():
 
 
 def test_record_array():
-    records = to_array([negotiated, negotiated_formula, market_formula, negotiated_live, negotiated_formula_live])
-    assert len(records) == 5
+    records = to_array(barrows_gilts)
+    assert len(records) == 7
     assert all(records.date == date(2019, 1, 31))
+    assert all(records.report == 'lm_hg200')

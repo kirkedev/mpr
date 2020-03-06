@@ -13,6 +13,7 @@ with open('test/resources/cutout.json') as resource:
 
 
 def test_parse_report():
+    assert cutout.report == 'lm_pk602'
     assert cutout.date == date(2019, 2, 1)
     assert cutout.report_date == date(2019, 2, 1)
     assert isclose(cutout.primal_loads, 234.33)
@@ -32,3 +33,4 @@ def test_record_array():
     records = to_array([cutout])
     assert len(records) == 1
     assert all(records.date == date(2019, 2, 1))
+    assert all(records.report == 'lm_pk602')

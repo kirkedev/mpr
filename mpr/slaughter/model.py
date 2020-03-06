@@ -56,7 +56,7 @@ class Slaughter(NamedTuple):
 
 def to_array(records: Iterator[Slaughter]) -> recarray:
     return rec.array(list(records), dtype=dtype([
-        ('report', dtype('S6')),
+        ('report', dtype('U8')),
         ('date', date64),
         ('report_date', date64),
         ('seller', uint8),

@@ -44,7 +44,7 @@ class Cutout(NamedTuple):
 
 def to_array(records: Iterator[Cutout]) -> recarray:
     return rec.array(list(records), dtype=dtype([
-        ('report', dtype('S6')),
+        ('report', dtype('U8')),
         ('date', date64),
         ('report_date', date64),
         ('primal_loads', float32),
