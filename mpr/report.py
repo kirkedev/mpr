@@ -1,8 +1,12 @@
+from datetime import date
+from datetime import datetime
+from datetime import time
 from typing import Union
 from typing import Tuple
 from enum import Enum
 
 import pandas as pd
+from pytz import timezone
 from pandas import Series
 from pandas import DataFrame
 
@@ -12,13 +16,19 @@ pd.options.display.float_format = '{:,.2f}'.format
 class Report:
     slug: str
     description: str
+    hour: int
 
-    def __init__(self, slug: str, description: str):
+    def __init__(self, slug: str, description: str, hour: int):
         self.slug = slug
         self.description = description
+        self.hour = hour
 
     def __str__(self):
         return self.slug
+
+    def released(self, end: date) -> bool:
+        release = datetime.combine(end, time(self.hour, tzinfo=timezone('America/Chicago')))
+        return release < datetime.now(tz=timezone('America/Chicago'))
 
 
 class Section(str, Enum):
@@ -86,9 +96,9 @@ def create_table(*columns: Union[Series, DataFrame]) -> DataFrame:
     return pd.concat(columns, axis=1)
 
 
-lm_hg200 = PurchaseReport('lm_hg200', 'Daily Direct Hog Prior Day - Purchased Swine')
-lm_hg201 = SlaughterReport('lm_hg201', 'Daily Direct Hog Prior Day - Slaughtered Swine')
-lm_hg202 = PurchaseReport('lm_hg202', 'Daily Direct Hog - Morning')
-lm_hg203 = PurchaseReport('lm_hg203', 'Daily Direct Hog - Afternoon')
-lm_pk600 = CutoutReport('lm_pk600', 'National Daily Pork - Negotiated Sales - Morning')
-lm_pk602 = CutoutReport('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon')
+lm_hg200 = PurchaseReport('lm_hg200', 'Daily Direct Hog Prior Day - Purchased Swine', 8)
+lm_hg201 = SlaughterReport('lm_hg201', 'Daily Direct Hog Prior Day - Slaughtered Swine', 10)
+lm_hg202 = PurchaseReport('lm_hg202', 'Daily Direct Hog - Morning', 11)
+lm_hg203 = PurchaseReport('lm_hg203', 'Daily Direct Hog - Afternoon', 15)
+lm_pk600 = CutoutReport('lm_pk600', 'National Daily Pork - Negotiated Sales - Morning', 11)
+lm_pk602 = CutoutReport('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon', 15)
