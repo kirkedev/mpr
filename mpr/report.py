@@ -75,14 +75,6 @@ class CutoutReport(Report):
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-def normalize_section(section: Union[Section, str]) -> str:
-    return section.replace('/', '_')
-
-
-def denormalize_section(section: Union[Section, str]) -> str:
-    return section.replace('_', '/')
-
-
 def compute_change(values: Series) -> Series:
     return values - values.shift(1)
 

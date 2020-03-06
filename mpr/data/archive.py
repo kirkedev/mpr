@@ -16,8 +16,6 @@ from zipfile import ZipFile
 from isoweek import Week
 
 from ..report import Section
-from ..report import normalize_section
-from ..report import denormalize_section
 
 from .api import Record
 from . import record_date
@@ -26,17 +24,25 @@ Records = List[Record]
 Result = Union[Records, Tuple[Records], Dict[str, Records]]
 
 
+def normalize_path(section: str) -> str:
+    return section.replace('/', '_')
+
+
+def denormalize_path(section: str) -> str:
+    return section.replace('_', '/')
+
+
 def get_section(archive: ZipFile, section: Section) -> Records:
-    return json.loads(archive.read(f"{normalize_section(section)}.json"))
+    return json.loads(archive.read(f"{normalize_path(section)}.json"))
 
 
 def get_sections(archive: ZipFile, *sections: Section) -> Tuple[Records, ...]:
-    return tuple(json.loads(archive.read(f"{normalize_section(section)}.json")) for section in sections)
+    return tuple(json.loads(archive.read(f"{normalize_path(section)}.json")) for section in sections)
 
 
 def get_report(archive: ZipFile) -> Dict[str, Records]:
     sections = list(Path(name).stem for name in archive.namelist())
-    return {denormalize_section(section): json.loads(archive.read(f"{section}.json")) for section in sections}
+    return {denormalize_path(section): json.loads(archive.read(f"{section}.json")) for section in sections}
 
 
 def sort_records(records: Iterator[Record]) -> Records:
@@ -83,7 +89,7 @@ class Archive(PathLike):
 
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
             for section, values in to_dict(records).items():
-                archive.writestr(f"{normalize_section(section)}.json", json.dumps(values, separators=(',', ':')))
+                archive.writestr(f"{normalize_path(section)}.json", json.dumps(values, separators=(',', ':')))
 
     def update(self, end: date, records: Iterator[Record]):
         data = chain(*self.get().values(), records)
