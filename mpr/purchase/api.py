@@ -48,6 +48,7 @@ def parse_record(record: Record) -> Purchase:
     (seller, arrangement, basis) = purchase_types[purchase_type]
 
     return Purchase(
+        report=record['slug'].lower(),
         date=from_string(record_date_string, date_format),
         report_date=from_string(report_date_string, date_format),
         seller=seller.value,

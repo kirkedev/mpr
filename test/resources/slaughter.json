@@ -1,4 +1,5 @@
 [{
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Prod. Sold Negotiated",
@@ -15,6 +16,7 @@
     "loineye_area": "7.83",
     "avg_lean_percent": "55.60"
 }, {
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Prod. Sold Other Market Formula",
@@ -31,6 +33,7 @@
     "loineye_area": "8.23",
     "avg_lean_percent": "56.29"
 }, {
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Prod. Sold Swine or Pork Market Formula",
@@ -47,6 +50,7 @@
     "loineye_area": "7.97",
     "avg_lean_percent": "56.00"
 }, {
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
@@ -63,11 +67,13 @@
     "loineye_area": "7.48",
     "avg_lean_percent": "55.18"
 }, {
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Prod. Sold Negotiated Formula",
     "head_count": "683"
 }, {
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Prod. Sold (All Purchase Types)",
@@ -84,6 +90,7 @@
     "loineye_area": "7.91",
     "avg_lean_percent": "55.87"
 }, {
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Pack. Sold (All Purchase Types)",
@@ -100,6 +107,7 @@
     "loineye_area": "7.94",
     "avg_lean_percent": "55.92"
 }, {
+    "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "purchase_type": "Packer Owned",
