@@ -5,6 +5,12 @@ mpr
 
 Python package for downloading, parsing, and analyzing historical [ Mandatory Price Reporting](https://mpr.datamart.ams.usda.gov/) data from the USDA's [Agricultural Marketing Service](https://www.ams.usda.gov/).
 
+- Ergonomic client for interacting with MPR DataMart
+- Parses XML data into json
+- Parses report data from strings into numpy dtypes and record arrays
+- Builds a dynamic timeseries filesystem cache of requested data
+- Aggregates data into common reports as pandas DataFrames 
+
 ### Setup
 This project uses [conda](https://conda.io/en/latest/miniconda.html). Install python packages and activate environment:
 ```bash
