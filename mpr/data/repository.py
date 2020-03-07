@@ -26,7 +26,7 @@ from .archive import Result
 
 
 def find_archive(path: Path, week: Week) -> Optional[Archive]:
-    matches = list(path.glob(f"{week}D0[0-9].zip"))
+    matches = list(path.glob(f"{week}D0[0-6].zip"))
 
     if len(matches) == 0:
         return None
