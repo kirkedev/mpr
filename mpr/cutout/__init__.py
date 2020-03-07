@@ -10,14 +10,14 @@ from .model import Cutout
 
 
 async def morning(start: date, end=date.today()) -> Iterator[Cutout]:
-    if not lm_pk600.released(end):
+    if not lm_pk600.has(end):
         end -= timedelta(days=1)
 
     return await fetch_cutout(lm_pk600, start, end)
 
 
 async def afternoon(start: date, end=date.today()) -> Iterator[Cutout]:
-    if not lm_pk602.released(end):
+    if not lm_pk602.has(end):
         end -= timedelta(days=1)
 
     return await fetch_cutout(lm_pk602, start, end)

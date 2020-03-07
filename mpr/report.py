@@ -26,7 +26,7 @@ class Report:
     def __str__(self):
         return self.slug
 
-    def released(self, end: date) -> bool:
+    def has(self, end: date) -> bool:
         release = datetime.combine(end, time(self.hour, tzinfo=timezone('America/Chicago')))
         return release < datetime.now(tz=timezone('America/Chicago'))
 

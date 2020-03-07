@@ -20,5 +20,5 @@ def test_section():
 
 
 def test_release():
-    assert lm_hg201.released(date(2019, 1, 1)) is True
-    assert lm_hg201.released(date.today() + timedelta(days=1)) is False
+    assert lm_hg201.has(date(2019, 1, 1)) is True
+    assert lm_hg201.has(date.today() + timedelta(days=1)) is False
