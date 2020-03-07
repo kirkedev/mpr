@@ -5,11 +5,9 @@ from itertools import dropwhile
 from itertools import takewhile
 from os import PathLike
 from pathlib import Path
-from re import search
 from typing import Dict
 from typing import List
 from typing import Iterator
-from typing import Optional
 
 from isoweek import Week
 from . import record_date
@@ -23,16 +21,6 @@ from .api import Record
 from .archive import Archive
 from .archive import Records
 from .archive import Result
-
-
-def find_archive(path: Path, week: Week) -> Optional[Archive]:
-    matches = list(path.glob(f"{week}D0[0-6].zip"))
-
-    if len(matches) == 0:
-        return None
-
-    week, day = search(r'(\d{4}W\d{2})D0(\d)', matches[0].stem).groups()
-    return Archive(path, Week.fromstring(week), int(day))
 
 
 def filter_before(records: Iterator[Record], end: date) -> Iterator[Record]:
@@ -83,11 +71,11 @@ class Repository(PathLike):
     async def get(self, week: Week, end: date) -> Archive:
         today = date.today()
         end = min(week.saturday(), today, end)
-        archive = find_archive(Path(self), week)
+        archive = Archive(Path(self), week)
 
-        if archive is None:
+        if not Path(archive).exists():
             records = await fetch(self.report, week.monday(), end)
-            return Archive.create(Path(self), week, end, records)
+            return Archive.create(Path(self), end, records)
 
         day = archive.day
 
