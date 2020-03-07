@@ -11,6 +11,8 @@ Python package for downloading, parsing, and analyzing historical [Mandatory Pri
 - Builds a dynamic timeseries filesystem cache of requested data
 - Aggregates data into common reports as pandas DataFrames 
 
+See examples in the [examples notebook](examples.ipynb)
+
 ### Setup
 This project uses [conda](https://conda.io/en/latest/miniconda.html). Install python packages and activate environment:
 ```bash
