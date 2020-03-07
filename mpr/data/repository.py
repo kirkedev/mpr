@@ -10,7 +10,6 @@ from typing import List
 from typing import Iterator
 
 from isoweek import Week
-from . import record_date
 
 from ..date import weeks
 from ..report import Report
@@ -21,6 +20,7 @@ from .api import Record
 from .archive import Archive
 from .archive import Records
 from .archive import Result
+from . import record_date
 
 
 def filter_before(records: Iterator[Record], end: date) -> Iterator[Record]:
@@ -68,29 +68,21 @@ class Repository(PathLike):
     def __fspath__(self) -> str:
         return str(self.root / self.report.slug)
 
-    async def get(self, week: Week, end: date) -> Archive:
-        today = date.today()
-        end = min(week.saturday(), today, end)
+    async def get(self, end: date) -> Archive:
+        end = min(date.today(), end)
+        week = Week.withdate(end)
         archive = Archive(Path(self), week)
-
-        if not Path(archive).exists():
-            records = await fetch(self.report, week.monday(), end)
-            return Archive.create(Path(self), end, records)
-
         day = archive.day
 
         if day == 6 or day == end.isoweekday():
             return archive
 
-        records = list(await fetch(self.report, week.day(day), end))
-
-        if len(records) > 0:
-            archive.update(end, records)
-
+        records = await fetch(self.report, week.day(day), end)
+        archive.save(records, end)
         return archive
 
     async def query(self, start: date, end: date, *sections: Section) -> Result:
-        archives = await gather(*(self.get(week, end) for week in weeks(start, end)))
+        archives = await gather(*(self.get(min(week.saturday(), end)) for week in weeks(start, end)))
         reports = (report.get(*sections) for report in archives)
         n = len(sections)
 

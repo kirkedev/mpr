@@ -1,6 +1,7 @@
 from datetime import date
 from pathlib import Path
 
+from isoweek import Week
 from pytest import fixture
 
 from mpr.data.archive import Archive
@@ -11,7 +12,9 @@ from mpr.report import CutoutReport
 async def archive(tmp_path: Path):
     report_date = date(2018, 8, 20)
 
-    archive = Archive.create(tmp_path, report_date, [{
+    archive = Archive(tmp_path, Week.withdate(report_date))
+
+    archive.save([{
         'slug': 'LM_PK602',
         'label': 'Cutout and Primal Values',
         'report_date': '08/20/2018',
@@ -28,7 +31,7 @@ async def archive(tmp_path: Path):
         'report_date': '08/20/2018',
         'temp_cuts_total_load': '334.74',
         'temp_process_total_load': '39.61'
-    }])
+    }], report_date)
 
     assert Path(archive).name == "2018W34D01.zip"
     return archive
@@ -58,7 +61,7 @@ def test_get_full_report(archive: Archive):
 def test_update_archive(archive: Archive):
     path = Path(archive)
 
-    archive.update(date(2018, 8, 21), [{
+    archive.save([{
         'slug': 'LM_PK602',
         'label': 'Cutout and Primal Values',
         'report_date': '08/21/2018',
@@ -75,7 +78,7 @@ def test_update_archive(archive: Archive):
         'report_date': '08/21/2018',
         'temp_cuts_total_load': '396.30',
         'temp_process_total_load': '52.57'
-    }])
+    }], date(2018, 8, 21))
 
     assert path.exists() is False
     assert Path(archive).exists() is True
