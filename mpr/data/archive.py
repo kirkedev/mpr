@@ -32,17 +32,17 @@ def denormalize_path(section: str) -> str:
     return section.replace('_', '/')
 
 
-def get_section(archive: ZipFile, section: Section) -> Records:
+def get_section(archive: ZipFile, section: str) -> Records:
     return json.loads(archive.read(f"{normalize_path(section)}.json"))
 
 
-def get_sections(archive: ZipFile, *sections: Section) -> Tuple[Records, ...]:
-    return tuple(json.loads(archive.read(f"{normalize_path(section)}.json")) for section in sections)
+def get_sections(archive: ZipFile, *sections: str) -> Tuple[Records, ...]:
+    return tuple(get_section(archive, section) for section in sections)
 
 
 def get_report(archive: ZipFile) -> Dict[str, Records]:
     sections = list(Path(name).stem for name in archive.namelist())
-    return {denormalize_path(section): json.loads(archive.read(f"{section}.json")) for section in sections}
+    return {denormalize_path(section): get_section(archive, section) for section in sections}
 
 
 def sort_records(records: Iterator[Record]) -> Records:
