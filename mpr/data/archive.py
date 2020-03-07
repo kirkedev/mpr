@@ -16,7 +16,6 @@ from zipfile import ZipFile
 from isoweek import Week
 
 from ..report import Section
-
 from .api import Record
 from . import record_date
 
@@ -58,22 +57,12 @@ class Archive(PathLike):
     week: Week
     day: int
 
-    @classmethod
-    def create(cls, root: Path, end: date, records: Iterator[Record]) -> 'Archive':
-        archive = cls(root, Week.withdate(end))
-        archive.save(records, end)
-        return archive
-
     def __init__(self, root: Path, week: Week):
         self.root = root
         self.week = week
 
         matches = list(root.glob(f"{week}D0[0-6].zip"))
-
-        if len(matches) == 0:
-            self.day = 0
-        else:
-            self.day = int(matches[0].stem[-1])
+        self.day = 0 if len(matches) == 0 else int(matches[0].stem[-1])
 
     def __fspath__(self) -> str:
         return str(self.root / f"{self.week}D0{self.day}.zip")
@@ -90,6 +79,17 @@ class Archive(PathLike):
                 return get_sections(archive, *sections)
 
     def save(self, records: Iterator[Record], end: date):
+        records = list(records)
+
+        if len(records) == 0:
+            return
+
+        path = Path(self)
+
+        if path.exists():
+            records = chain(*self.get().values(), records)
+            path.unlink()
+
         records = sort_records(records)
         last = record_date(records[-1]).isoweekday()
         self.day = last if last < 5 and end.isoweekday() < 6 else 6
@@ -97,8 +97,3 @@ class Archive(PathLike):
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
             for section, values in to_dict(records).items():
                 archive.writestr(f"{normalize_path(section)}.json", json.dumps(values, separators=(',', ':')))
-
-    def update(self, end: date, records: Iterator[Record]):
-        data = chain(*self.get().values(), records)
-        Path(self).unlink()
-        self.save(data, end)
