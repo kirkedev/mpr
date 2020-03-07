@@ -59,15 +59,21 @@ class Archive(PathLike):
     day: int
 
     @classmethod
-    def create(cls, root: Path, week: Week, end: date, records: Iterator[Record]) -> 'Archive':
-        archive = cls(root, week)
+    def create(cls, root: Path, end: date, records: Iterator[Record]) -> 'Archive':
+        archive = cls(root, Week.withdate(end))
         archive.save(records, end)
         return archive
 
-    def __init__(self, root: Path, week: Week, day=0):
+    def __init__(self, root: Path, week: Week):
         self.root = root
         self.week = week
-        self.day = day
+
+        matches = list(root.glob(f"{week}D0[0-6].zip"))
+
+        if len(matches) == 0:
+            self.day = 0
+        else:
+            self.day = int(matches[0].stem[-1])
 
     def __fspath__(self) -> str:
         return str(self.root / f"{self.week}D0{self.day}.zip")

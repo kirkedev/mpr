@@ -1,7 +1,6 @@
 from datetime import date
 from pathlib import Path
 
-from isoweek import Week
 from pytest import fixture
 
 from mpr.data.archive import Archive
@@ -12,7 +11,7 @@ from mpr.report import CutoutReport
 async def archive(tmp_path: Path):
     report_date = date(2018, 8, 20)
 
-    archive = Archive.create(tmp_path, Week.withdate(report_date), report_date, [{
+    archive = Archive.create(tmp_path, report_date, [{
         'slug': 'LM_PK602',
         'label': 'Cutout and Primal Values',
         'report_date': '08/20/2018',
