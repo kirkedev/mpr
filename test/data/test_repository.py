@@ -12,7 +12,7 @@ from mpr.report import lm_pk602
 @fixture
 async def repository(tmp_path: Path):
     repository = Repository(lm_pk602, tmp_path)
-    assert Path(repository).name == "lm_pk602"
+    assert Path(repository).name == 'lm_pk602'
     return repository
 
 

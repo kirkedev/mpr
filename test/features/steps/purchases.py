@@ -8,14 +8,14 @@ from test.features.steps import format_number
 from test.features.steps import server
 
 
-@when("I request the purchases report")
+@when('I request the purchases report')
 @async_run_until_complete
 async def request_purchases(context):
     async with server():
         context.report = await purchase_index.get(context. start, context.end)
 
 
-@then("I will receive a report of lean hog purchase prices from June 2019")
+@then('I will receive a report of lean hog purchase prices from June 2019')
 def verify_purchases(context):
     print(context.report)
     for expected, (index, row) in zip(context.table, context.report.iterrows()):

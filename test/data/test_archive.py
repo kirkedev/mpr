@@ -33,7 +33,7 @@ async def archive(tmp_path: Path):
         'temp_process_total_load': '39.61'
     }], report_date)
 
-    assert Path(archive).name == "2018W34D01.zip"
+    assert Path(archive).name == '2018W34D01.zip'
     return archive
 
 
@@ -82,7 +82,7 @@ def test_update_archive(archive: Archive):
 
     assert path.exists() is False
     assert Path(archive).exists() is True
-    assert Path(archive).name == "2018W34D02.zip"
+    assert Path(archive).name == '2018W34D02.zip'
 
     cutout, volume = archive.get(CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
 

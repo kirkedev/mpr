@@ -54,7 +54,7 @@ class Repository(PathLike):
     root: Path
     report: Report
 
-    def __init__(self, report: Report, root=Path.home() / ".mpr"):
+    def __init__(self, report: Report, root=Path.home() / '.mpr'):
         self.report = report
         self.root = root
         path = Path(self)
