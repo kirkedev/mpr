@@ -1,9 +1,12 @@
 from setuptools import find_packages
 from setuptools import setup
 
+import os
+tag = os.popen('git describe').read()
+
 setup(
     name='mpr',
-    version='0.1.1',
+    version=tag[1:],
     author='Andrew Kirkegaard',
     author_email='andrew.kirkegaard@gmail.com',
     url='https://github.com/gumballhead/mpr',
