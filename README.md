@@ -1,6 +1,6 @@
 mpr
 ===
-[![build](https://github.com/gumballhead/mpr/workflows/build/badge.svg)](https://github.com/gumballhead/mpr/actions?query=workflow%3A%22Run+all+tests%22)
+[![Build Status](https://github.com/gumballhead/mpr/workflows/build/badge.svg)](https://github.com/gumballhead/mpr/actions?query=workflow%3Abuild)
 [![Coverage Status](https://coveralls.io/repos/github/gumballhead/mpr/badge.svg?branch=master)](https://coveralls.io/github/gumballhead/mpr?branch=master)
 
 Python package for downloading, parsing, and analyzing historical [Mandatory Price Reporting](https://mpr.datamart.ams.usda.gov/) data from the USDA's [Agricultural Marketing Service](https://www.ams.usda.gov/).

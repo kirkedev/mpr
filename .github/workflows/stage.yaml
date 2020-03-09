@@ -1,4 +1,4 @@
-name: Deploy package to PyPI Testing
+name: deploy
 
 on:
   create:
