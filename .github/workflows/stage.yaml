@@ -1,4 +1,4 @@
-name: deploy
+name: Build and stage package on PyPI Testing
 
 on:
   create:
@@ -29,8 +29,16 @@ jobs:
         pip install pipenv
         pipenv install --dev
 
+    - name: Run tests
+      run: tox
+
     - name: Build package
       run: bin/build
 
     - name: Upload to PyPI test repository
       run: pipenv run twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
+
+    - name: Upload coverage report
+      run: pipenv run coveralls
+      env:
+        COVERALLS_REPO_TOKEN:  ${{ secrets.COVERALLS_REPO_TOKEN }}
