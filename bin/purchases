@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python3 -m mpr.purchases "$@"
+python3 -m mpr.purchase_index "$@"
