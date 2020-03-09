@@ -1,0 +1,68 @@
+name: release
+
+on:
+  create:
+    tags:
+    - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip pipenv tox twine setuptools
+        pipenv install --dev
+
+    - name: Run tests
+      run: tox
+
+    - name: Build package
+      run: bin/build
+
+    - name: Get tag
+      id: get_tag
+      run: echo ::set-output name=tag::${GITHUB_REF:10}
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_tag.outputs.tag }}
+        release_name: Release ${{ steps.get_tag.outputs.tag }}
+        draft: false
+        prerelease: true
+
+    - name: Upload tarball to release
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/mpr-${{ steps.get_tag.outputs.tag }}.tar.gz
+        asset_name: mpr-${{ steps.get_tag.outputs.tag }}.tar.gz
+        asset_content_type: application/gzip
+
+    - name: Upload wheel to release
+      uses: actions/upload-release-asset@v1.0.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/mpr-${{ steps.get_tag.outputs.tag }}-py3-none-any.whl
+        asset_name: mpr-${{ steps.get_tag.outputs.tag }}-py3-none-any.whl
+        asset_content_type: application/octet-stream
+
+    - name: Upload package to PyPI test repository
+      run: twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
