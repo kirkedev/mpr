@@ -1,0 +1,30 @@
+name: deploy
+
+on:
+  create:
+    tags:
+    - '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install setuptools twine
+
+    - name: Build package
+      run: bin/build
+
+    - name: Upload to PyPI test repository
+      run: twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
