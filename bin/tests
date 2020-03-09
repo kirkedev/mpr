@@ -2,7 +2,7 @@
 export MPR_SERVER='http://localhost:8080'
 
 set -e
-lint
+pipenv run flake8 mpr
 pipenv run coverage erase
 pipenv run coverage run -m pytest
 echo
