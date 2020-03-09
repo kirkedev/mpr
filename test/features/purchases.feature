@@ -1,10 +1,9 @@
 Feature: Cash Purchases
-  @pending
   Scenario: June Purchases
     Given a date range from June 1st to June 30th, 2019
     When I request the purchases report
-    Then I will receive a report of prior day lean hog purchases from June 2019
-    | Date | Daily Avg Price | Price Change | 5 Day Avg Price | Price Change | Negotiated Head Count | Negotiated Price | Negotiated Price Low | Negotiated Price High | Market Formula Head Count  | Market Formula Price | Market Formula Price Low | Market Formula Price High |
+    Then I will receive a report of lean hog purchase prices from June 2019
+    | Date | Daily Avg Price | Price Change | 5 Day Avg Price | Price Change | Negotiated Head Count | Negotiated Price | Negotiated Low | Negotiated High | Market Formula Head Count  | Market Formula Price | Market Formula Low | Market Formula High |
     | 6/3/2019 | 78.55 | -0.14 | 79.26 | -0.35 | 9502 | 76.11 | 68.00 | 78.00 | 118892 | 78.74 | 71.39 | 83.42 |
     | 6/4/2019 | 78.53 | -0.02 | 78.94 | -0.32 | 8477 | 76.03 | 68.00 | 77.00 | 116967 | 78.71 | 73.90 | 84.53 |
     | 6/5/2019 | 78.04 | -0.48 | 78.63 | -0.30 | 17459 | 76.36 | 68.00 | 79.00 | 125024 | 78.28 | 71.99 | 84.15 |
