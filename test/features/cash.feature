@@ -3,7 +3,7 @@ Feature: Cash Index
     Given a date range from June 1st to June 30th, 2019
     When I request the CME lean hog index
     Then I will receive a report of cash index prices from June 2019
-    | date | CME Index | Index Change | Daily Avg Price | Price Change | Negotiated Head Count | Negotiated Carcass Weight | Negotiated Net Price | Market Formula Head Count | Market Formula Carcass Weight | Market Formula Net Price |
+    | Date | CME Index | Index Change | Daily Avg Price | Price Change | Negotiated Head Count | Negotiated Carcass Weight | Negotiated Net Price | Market Formula Head Count | Market Formula Carcass Weight | Market Formula Net Price |
     | 2019-06-03 | 80.90 | -0.38 | 80.65 | -0.40 |  5483 | 204.96 | 78.99 | 106282 | 216.21 | 80.73 |
     | 2019-06-04 | 80.67 | -0.23 | 80.69 |  0.04 |  5796 | 200.97 | 78.84 | 116010 | 215.20 | 80.78 |
     | 2019-06-05 | 80.56 | -0.11 | 80.42 | -0.27 |  7086 | 201.98 | 78.31 | 115755 | 215.54 | 80.54 |
