@@ -39,6 +39,9 @@ bin/cash --days=20
 # View CME Cutout Index report (default last 10 days)
 bin/cutout
 
+# View Lean Hog Purchases report
+bin/purchases
+
 # View a USDA report by report slug
 bin/report lm_hg201
 
