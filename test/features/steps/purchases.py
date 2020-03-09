@@ -17,7 +17,9 @@ async def request_purchases(context):
 
 @then("I will receive a report of lean hog purchase prices from June 2019")
 def verify_purchases(context):
+    print(context.report)
     for expected, (index, row) in zip(context.table, context.report.iterrows()):
+        print(index)
         assert index.strftime('%Y-%m-%d') == expected['Date']
         assert format_decimal(row[0]) == expected['Purchase Index']
         assert format_decimal(row[1]) == expected['Index Change']
