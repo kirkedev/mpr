@@ -20,4 +20,5 @@ setup(
     keywords=['usda', 'agriculture', 'livestock', 'commodities', 'trading'],
     include_package_data=True,
     python_requires='>=3.7.*',
-    install_requires=['aiohttp', 'numpy', 'pandas', 'isoweek', 'pytz'])
+    install_requires=['aiohttp', 'numpy', 'pandas', 'isoweek', 'pytz'],
+    setup_requires=['wheel'])

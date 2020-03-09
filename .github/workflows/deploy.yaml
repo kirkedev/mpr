@@ -28,4 +28,4 @@ jobs:
       run: bin/build
 
     - name: Upload to PyPI test repository
-      run: twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
+      run: pipenv run twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
