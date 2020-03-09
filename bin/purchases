@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python3 -m mpr.purchase_index "$@"
+pipenv run python3 -m mpr.purchase_index "$@"

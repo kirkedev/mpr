@@ -19,26 +19,17 @@ See examples in the [examples notebook](examples.ipynb)
 - Builds a dynamic timeseries filesystem cache of requested data
 - Aggregates data into common reports as pandas DataFrames 
 
-See examples in the [examples notebook](examples.ipynb)
+See example usage in the [examples notebook](examples.ipynb)
 
 ### Setup
-This project uses [conda](https://conda.io/en/latest/miniconda.html). Install python packages and activate environment:
+This project uses [pipenv](https://pipenv-fork.readthedocs.io/en/latest/install.html#installing-pipenv). Install dependencies:
 ```bash
-conda env create -f environment.yml
-conda activate mpr
-```
-
-It's a good idea to use something like [direnv](https://direnv.net/) to activate the conda environment and add the scripts in `bin` to your path. 
-
-My `.envrc` file looks like this:
-```bash
-export PATH=$PATH:./bin
-source $HOME/miniconda3/etc/profile.d/conda.sh
-conda activate mpr
+pip install --user pipenv
+pipenv install
 ```
 
 ### Commands
-These all need to be run from the project root. If using direnv and an envrc like above, you can omit the path and run the script directly, eg: `tests`.
+These all need to be run from the project root.
 
 ```bash
 # View CME Lean Hog Index report for last 20 days
