@@ -31,8 +31,3 @@ jobs:
 
     - name: Upload to PyPI test repository
       run: twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
-
-    - name: Upload coverage report
-      run: pipenv run coveralls
-      env:
-        COVERALLS_REPO_TOKEN:  ${{ secrets.COVERALLS_REPO_TOKEN }}
