@@ -27,7 +27,7 @@ class Cutout(NamedTuple):
     belly_price: float32
 
     def __hash__(self) -> int:
-        return hash((self.report, to_ordinal(self.date), to_ordinal(self.report_date)))
+        return hash((self[0], *map(to_ordinal, self[1:3])))
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Cutout) and hash(self) == hash(other) and

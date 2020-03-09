@@ -27,7 +27,7 @@ class Purchase(NamedTuple):
     high_price: float32
 
     def __hash__(self) -> int:
-        return hash((self.report, *map(to_ordinal, self[1:3]), *self[3:6]))
+        return hash((self[0], *map(to_ordinal, self[1:3]), *self[3:6]))
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Purchase) and hash(self) == hash(other) and
