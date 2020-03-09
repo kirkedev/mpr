@@ -1,31 +1,19 @@
-language: minimal
-dist: bionic
+language: python
+
+python:
+  - "3.7"
+  - "3.8"
 
 env:
   global:
-    - CONDA_HOME=$HOME/miniconda
-    - CONDA_PKGS_DIRS=$HOME/.conda_pkgs
-    - PATH=./bin:$CONDA_HOME/bin:$PATH
+    - PATH=./bin:$PATH
 
-before_install:
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-  - bash miniconda.sh -b -p $CONDA_HOME
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no --set auto_update_conda false
-  - conda update -q conda
-  - conda info -a
-
-install: conda env create -f environment.yml
-before_script: source activate mpr
+before_install: pip install pipenv
+install: pipenv install --dev
 script: tox
-
-before_cache: find $CONDA_PKGS_DIRS -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
 
 cache:
   - pip
-  - directories:
-    - $CONDA_PKGS_DIRS
 
-after_success: coveralls
-
+after_success: pipenv run coveralls
 before_deploy: build

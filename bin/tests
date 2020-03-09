@@ -3,7 +3,8 @@ export MPR_SERVER='http://localhost:8080'
 
 set -e
 lint
-coverage run -m pytest
+pipenv run coverage erase
+pipenv run coverage run -m pytest
 echo
-coverage report
+pipenv run coverage report
 echo

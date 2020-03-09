@@ -1,3 +1,4 @@
+from setuptools import find_packages
 from setuptools import setup
 
 setup(
@@ -6,7 +7,7 @@ setup(
     author='Andrew Kirkegaard',
     author_email='andrew.kirkegaard@gmail.com',
     url='https://github.com/gumballhead/mpr',
-    packages=['mpr'],
+    packages = find_packages(exclude=["test.*", "test"]),
     scripts=['bin/cash', 'bin/cutout', 'bin/purchases', 'bin/report'],
     keywords=['usda', 'agriculture', 'livestock', 'commodities', 'trading'],
     include_package_data=True,

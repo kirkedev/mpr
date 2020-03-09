@@ -2,10 +2,11 @@
 export MPR_SERVER='http://localhost:8080'
 
 set -e
-lint
-coverage run --parallel-mode --source=mpr -m pytest
-coverage run --parallel-mode --source=mpr -m behave -m --tags="-pending"
+pipenv run flake8
+pipenv run coverage erase
+pipenv run coverage run --parallel-mode -m pytest
+pipenv run coverage run --parallel-mode -m behave -m --tags="-pending"
 echo
-coverage combine
-coverage report
+pipenv run coverage combine
+pipenv run coverage report
 echo
