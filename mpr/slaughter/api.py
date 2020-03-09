@@ -2,11 +2,11 @@ from typing import Dict
 from typing import Iterator
 from datetime import date
 
-from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..report import lm_hg201
 from ..data import opt_int
 from ..data import opt_float
+from ..data import parse_date
 from ..data.api import Record
 from ..data.repository import Repository
 
@@ -48,8 +48,8 @@ def parse_record(record: Record) -> Slaughter:
 
     return Slaughter(
         report=record['slug'].lower(),
-        date=from_string(record['for_date_begin'], date_format),
-        report_date=from_string(record['report_date'], date_format),
+        date=parse_date(record['for_date_begin'], date_format),
+        report_date=parse_date(record['report_date'], date_format),
         seller=seller.value,
         arrangement=arrangement.value,
         basis=basis.value,

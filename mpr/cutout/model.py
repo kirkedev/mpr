@@ -7,9 +7,9 @@ from numpy import allclose
 from numpy import dtype
 from numpy import rec
 
-from ..date import Date
-from ..date import date64
-from ..date import to_ordinal
+from ..data import Date
+from ..data import date64
+from ..data import date_ordinal
 
 
 class Cutout(NamedTuple):
@@ -27,7 +27,7 @@ class Cutout(NamedTuple):
     belly_price: float32
 
     def __hash__(self) -> int:
-        return hash((self[0], *map(to_ordinal, self[1:3])))
+        return hash((self[0], *map(date_ordinal, self[1:3])))
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Cutout) and hash(self) == hash(other) and

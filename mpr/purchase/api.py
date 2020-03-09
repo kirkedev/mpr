@@ -2,13 +2,13 @@ from typing import Dict
 from typing import Iterator
 from datetime import date
 
-from ..date import from_string
 from ..purchase_type import PurchaseType, Seller, Arrangement, Basis
 from ..report import PurchaseReport
+from ..data import parse_date
 from ..data import get_optional
 from ..data import opt_int
 from ..data import opt_float
-from ..data.api import Record
+from ..data import Record
 from ..data.repository import Repository
 
 from .model import Purchase
@@ -49,8 +49,8 @@ def parse_record(record: Record) -> Purchase:
 
     return Purchase(
         report=record['slug'].lower(),
-        date=from_string(record_date_string, date_format),
-        report_date=from_string(report_date_string, date_format),
+        date=parse_date(record_date_string, date_format),
+        report_date=parse_date(report_date_string, date_format),
         seller=seller.value,
         arrangement=arrangement.value,
         basis=basis.value,

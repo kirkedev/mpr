@@ -11,7 +11,7 @@ from typing import Iterator
 
 from isoweek import Week
 
-from ..date import weeks
+from ..data import weeks
 from ..report import Report
 from ..report import Section
 
@@ -82,8 +82,8 @@ class Repository(PathLike):
         return archive
 
     async def query(self, start: date, end: date, *sections: Section) -> Result:
-        archives = await gather(*(self.get(min(week.saturday(), end)) for week in weeks(start, end)))
-        reports = (report.get(*sections) for report in archives)
+        archives = (self.get(min(week.saturday(), end)) for week in weeks(start, end))
+        reports = (report.get(*sections) for report in await gather(*archives))
         n = len(sections)
 
         if n == 0:

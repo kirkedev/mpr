@@ -4,9 +4,9 @@ from datetime import date
 
 from numpy import float32
 
-from ..date import from_string
 from ..report import CutoutReport
-from ..data.api import Record
+from ..data import parse_date
+from ..data import Record
 from ..data.repository import Repository
 
 from .model import Cutout
@@ -15,7 +15,7 @@ date_format = "%m/%d/%Y"
 
 
 def parse_record(cutout: Record, volume: Record) -> Cutout:
-    report_date = from_string(cutout['report_date'], date_format)
+    report_date = parse_date(cutout['report_date'], date_format)
 
     return Cutout(
         report=cutout['slug'].lower(),
