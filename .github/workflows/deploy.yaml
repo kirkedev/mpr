@@ -21,7 +21,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip
-        pip install setuptools twine
+        pip install pipenv
+        pipenv install --dev
 
     - name: Build package
       run: bin/build

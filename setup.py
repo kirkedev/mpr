@@ -8,7 +8,7 @@ setup(
     author='Andrew Kirkegaard',
     author_email='andrew.kirkegaard@gmail.com',
     url='https://github.com/gumballhead/mpr',
-    packages=find_packages(exclude=["test.*", "test"]),
+    packages=find_packages(exclude=['test.*', 'test']),
     scripts=['bin/report'],
     entry_points={
         'console_scripts': [
