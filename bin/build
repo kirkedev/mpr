@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 ./bin/clean
-python3 setup.py sdist bdist_wheel
+pipenv run python3 setup.py sdist bdist_wheel

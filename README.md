@@ -1,6 +1,6 @@
 mpr
 ===
-[![Build Status](https://travis-ci.com/gumballhead/mpr.svg?branch=master)](https://travis-ci.com/gumballhead/mpr)
+[![build](https://github.com/gumballhead/mpr/workflows/build/badge.svg)](https://github.com/gumballhead/mpr/actions?query=workflow%3Abuild)
 [![Coverage Status](https://coveralls.io/repos/github/gumballhead/mpr/badge.svg?branch=master)](https://coveralls.io/github/gumballhead/mpr?branch=master)
 
 Python package for downloading, parsing, and analyzing historical [Mandatory Price Reporting](https://mpr.datamart.ams.usda.gov/) data from the USDA's [Agricultural Marketing Service](https://www.ams.usda.gov/).
@@ -19,26 +19,18 @@ See examples in the [examples notebook](examples.ipynb)
 - Builds a dynamic timeseries filesystem cache of requested data
 - Aggregates data into common reports as pandas DataFrames 
 
-See examples in the [examples notebook](examples.ipynb)
+See example usage in the [examples notebook](examples.ipynb)
 
 ### Setup
-This project uses [conda](https://conda.io/en/latest/miniconda.html). Install python packages and activate environment:
-```bash
-conda env create -f environment.yml
-conda activate mpr
-```
+You'll need to [install pipenv](https://github.com/pypa/pipenv#installation) to run the code.
 
-It's a good idea to use something like [direnv](https://direnv.net/) to activate the conda environment and add the scripts in `bin` to your path. 
-
-My `.envrc` file looks like this:
-```bash
-export PATH=$PATH:./bin
-source $HOME/miniconda3/etc/profile.d/conda.sh
-conda activate mpr
+To activate the git hooks:
+```bash 
+git config core.hooksPath .githooks
 ```
 
 ### Commands
-These all need to be run from the project root. If using direnv and an envrc like above, you can omit the path and run the script directly, eg: `tests`.
+These all need to be run from the project root.
 
 ```bash
 # View CME Lean Hog Index report for last 20 days
