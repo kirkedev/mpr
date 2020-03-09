@@ -5,7 +5,7 @@ from behave.api.async_step import async_run_until_complete
 from mpr.cash_index import get
 from test.features.steps import format_decimal
 from test.features.steps import format_number
-from test.features.steps import server
+from test.server import server
 
 
 @when('I request the CME lean hog index')

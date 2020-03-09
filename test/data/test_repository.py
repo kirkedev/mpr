@@ -7,6 +7,7 @@ from pytest import mark
 from mpr.report import CutoutReport
 from mpr.data.repository import Repository
 from mpr.report import lm_pk602
+from test.server import server
 
 
 @fixture
@@ -17,8 +18,8 @@ async def repository(tmp_path: Path):
 
 
 @mark.asyncio
-async def test_query_section(repository: Repository, mpr_server):
-    async with mpr_server:
+async def test_query_section(repository: Repository):
+    async with server():
         cutout = await repository.query(date(2019, 5, 26), date(2019, 6, 6), CutoutReport.Section.CUTOUT)
 
     assert len(cutout) == 8
@@ -28,8 +29,8 @@ async def test_query_section(repository: Repository, mpr_server):
 
 
 @mark.asyncio
-async def test_query_sections(repository: Repository, mpr_server):
-    async with mpr_server:
+async def test_query_sections(repository: Repository):
+    async with server():
         cutout, volume = await repository.query(date(2019, 6, 1), date(2019, 6, 10),
             CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
 
@@ -45,8 +46,8 @@ async def test_query_sections(repository: Repository, mpr_server):
 
 
 @mark.asyncio
-async def test_query_report(repository: Repository, mpr_server):
-    async with mpr_server:
+async def test_query_report(repository: Repository):
+    async with server():
         report = await repository.query(date(2019, 6, 1), date(2019, 6, 10))
 
     assert len(report) == 14
@@ -65,8 +66,8 @@ async def test_query_report(repository: Repository, mpr_server):
 
 
 @mark.asyncio
-async def test_incremental_update(repository: Repository, mpr_server):
-    async with mpr_server:
+async def test_incremental_update(repository: Repository):
+    async with server():
         await repository.query(date(2019, 6, 1), date(2019, 6, 10),
             CutoutReport.Section.CUTOUT, CutoutReport.Section.VOLUME)
 

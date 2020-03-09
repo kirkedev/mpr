@@ -1,8 +1,11 @@
 import json
 
+from aiohttp.test_utils import TestServer
+
 from aiohttp.web import Request
 from aiohttp.web import FileResponse
 from aiohttp.web import get
+from aiohttp.web_app import Application
 
 from mpr.report import Report
 from mpr.report import lm_hg200
@@ -24,3 +27,9 @@ routes = [
     route(lm_hg201),
     route(lm_pk602)
 ]
+
+
+def server() -> TestServer:
+    app = Application()
+    app.add_routes(routes)
+    return TestServer(app, port=8080)
