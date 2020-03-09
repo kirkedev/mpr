@@ -13,14 +13,6 @@ Python package for downloading, parsing, and analyzing historical [Mandatory Pri
 
 See examples in the [examples notebook](examples.ipynb)
 
-- Ergonomic client for interacting with MPR DataMart
-- Parses XML data into json
-- Parses report data from strings into numpy dtypes and record arrays
-- Builds a dynamic timeseries filesystem cache of requested data
-- Aggregates data into common reports as pandas DataFrames 
-
-See example usage in the [examples notebook](examples.ipynb)
-
 ### Setup
 You'll need to [install pipenv](https://github.com/pypa/pipenv#installation) to run the code.
 
