@@ -14,8 +14,10 @@ dependencies:
   - pytest-asyncio
   - pytz
   - setuptools
+  - twine
   - wheel
   - pip
   - pip:
     - behave
     - isoweek
+    - tox

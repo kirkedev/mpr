@@ -3,8 +3,8 @@ export MPR_SERVER='http://localhost:8080'
 
 set -e
 lint
-coverage run --parallel-mode -m pytest
-coverage run --parallel-mode -m behave -m --tags="-pending"
+coverage run --parallel-mode --source=mpr -m pytest
+coverage run --parallel-mode --source=mpr -m behave -m --tags="-pending"
 echo
 coverage combine
 coverage report
