@@ -1,0 +1,38 @@
+name: deploy
+
+on:
+  create:
+    tags:
+    - '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip pipenv tox twine setuptools
+        pipenv install --dev
+
+    - name: Run tests
+      run: tox
+
+    - name: Build package
+      run: bin/build
+
+    - name: Upload to PyPI test repository
+      run: twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
+
+    - name: Upload coverage report
+      run: pipenv run coveralls
+      env:
+        COVERALLS_REPO_TOKEN:  ${{ secrets.COVERALLS_REPO_TOKEN }}

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pipenv run flake8
+pipenv run flake8 mpr

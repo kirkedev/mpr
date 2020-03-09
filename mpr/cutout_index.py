@@ -23,9 +23,13 @@ async def get_recent_cutout_index(n: int) -> DataFrame:
     cutout_index = await get(today - timedelta(days=n + 10), today)
     return cutout_index.tail(n)
 
-if __name__ == '__main__':
+
+def main():
     parser = ArgumentParser(description='Calculate the CME Cutout Index', usage='cash [--days=10]')
     parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
     days = parser.parse_args().days
-
     print(run(get(days)))
+
+
+if __name__ == '__main__':
+    main()

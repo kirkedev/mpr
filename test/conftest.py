@@ -2,7 +2,7 @@ from aiohttp.test_utils import TestServer
 from aiohttp.web import Application
 from pytest import fixture
 
-from .routes import routes
+from test.routes import routes
 
 
 @fixture

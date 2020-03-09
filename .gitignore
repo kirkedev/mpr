@@ -1,5 +1,8 @@
 .*
-data
+data/**/*.zip
+!.githooks
+!.github
+!.env
 __pycache__
 coverage
 build
