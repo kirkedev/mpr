@@ -5,12 +5,14 @@ from behave.api.async_step import async_run_until_complete
 from mpr import purchases
 from test.features.steps import format_decimal
 from test.features.steps import format_number
+from test.features.steps import server
 
 
 @when("I request the purchases report")
 @async_run_until_complete
 async def request_purchases(context):
-    context.report = await purchases.get(context. start, context.end)
+    async with server():
+        context.report = await purchases.get(context. start, context.end)
 
 
 @then("I will receive a report of lean hog purchase prices from June 2019")
