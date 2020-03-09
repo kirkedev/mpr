@@ -23,9 +23,13 @@ async def get_recent(n: int) -> DataFrame:
     purchases = await get(today - timedelta(days=n + 10), today)
     return purchases.tail(n)
 
-if __name__ == '__main__':
+
+def main():
     parser = ArgumentParser(description='Calculate Average Lean Hog Purchase Prices', usage='cash [--days=10]')
     parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
     days = parser.parse_args().days
-
     print(run(get(days)))
+
+
+if __name__ == '__main__':
+    main()

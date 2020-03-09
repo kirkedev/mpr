@@ -23,9 +23,12 @@ async def get_recent_cash_prices(n: int) -> DataFrame:
     return cash_prices.tail(n)
 
 
-if __name__ == '__main__':
+def main():
     parser = ArgumentParser(description='Calculate the CME Lean Hog Index', usage='cash [--days=10]')
     parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
     days = parser.parse_args().days
-
     print(run(get(days)))
+
+
+if __name__ == '__main__':
+    main()
