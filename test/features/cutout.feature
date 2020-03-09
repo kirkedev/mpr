@@ -3,7 +3,7 @@ Feature: Cutout Index
     Given a date range from June 1st to June 30th, 2019
     When I request the CME cutout index
     Then I will receive a report of cutout prices from June 2019
-    | date | Cutout Index | Index Change | Carcass Price | Price Change | Total Loads | Loin Price | Belly Price | Butt Price | Ham Price | Rib Price | Picnic Price |
+    | Date | Cutout Index | Index Change | Carcass Price | Price Change | Total Loads | Loin Price | Belly Price | Butt Price | Ham Price | Rib Price | Picnic Price |
     | 2019-06-03 | 83.84 |  0.31 | 84.91 |  2.23 | 285.03 | 84.62 | 115.21 | 100.42 | 80.20 | 124.38 | 59.43 |
     | 2019-06-04 | 83.48 | -0.36 | 83.65 | -1.26 | 431.25 | 82.76 | 108.88 |  96.96 | 81.43 | 125.44 | 61.38 |
     | 2019-06-05 | 83.19 | -0.29 | 83.07 | -0.58 | 296.26 | 82.90 | 106.00 |  96.16 | 81.24 | 122.15 | 62.12 |

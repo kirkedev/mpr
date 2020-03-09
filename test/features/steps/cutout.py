@@ -17,7 +17,7 @@ async def request_cutout(context):
 @then('I will receive a report of cutout prices from June 2019')
 def verify_cutout_values(context):
     for expected, (index, row) in zip(context.table, context.report.iterrows()):
-        assert index.strftime('%Y-%m-%d') == expected['date']
+        assert index.strftime('%Y-%m-%d') == expected['Date']
         assert format_decimal(row[0]) == expected['Cutout Index']
         assert format_decimal(row[1]) == expected['Index Change']
         assert format_decimal(row[2]) == expected['Carcass Price']

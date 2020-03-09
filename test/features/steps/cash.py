@@ -18,7 +18,7 @@ async def request_cash_prices(context):
 @then('I will receive a report of cash index prices from June 2019')
 def verify_cash_values(context):
     for expected, (index, row) in zip(context.table, context.report.iterrows()):
-        assert index.strftime('%Y-%m-%d') == expected['date']
+        assert index.strftime('%Y-%m-%d') == expected['Date']
         assert format_decimal(row[0]) == expected['CME Index']
         assert format_decimal(row[1]) == expected['Index Change']
         assert format_decimal(row[2]) == expected['Daily Avg Price']
