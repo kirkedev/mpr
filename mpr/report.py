@@ -1,6 +1,5 @@
 from datetime import date
 from datetime import datetime
-from datetime import time
 from typing import Union
 from typing import Tuple
 from enum import Enum
@@ -27,8 +26,9 @@ class Report:
         return self.slug
 
     def has(self, end: date) -> bool:
-        release = datetime.combine(end, time(self.hour, tzinfo=timezone('America/Chicago')))
-        return release < datetime.now(tz=timezone('America/Chicago'))
+        now = datetime.now(tz=timezone('America/Chicago'))
+        release = now.replace(end.year, end.month, end.day, self.hour, 0, 0, 0)
+        return now > release
 
 
 class Section(str, Enum):
