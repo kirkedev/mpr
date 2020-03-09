@@ -1,4 +1,4 @@
-name: Build and stage package on PyPI Testing
+name: Deploy package to PyPI Testing
 
 on:
   create:
@@ -17,11 +17,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
-
-    - uses: actions/cache@v1
-      with:
-        path: .venv
-        key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
 
     - name: Install dependencies
       run: |
