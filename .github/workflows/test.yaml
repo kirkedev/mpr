@@ -28,12 +28,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --upgrade pip
-        pip install pipenv tox
+        pip install --upgrade pip pipenv
         pipenv install --dev
 
     - name: Run tests
-      run: tox
+      run: bin/check
 
     - name: Upload coverage report
       run: pipenv run coveralls

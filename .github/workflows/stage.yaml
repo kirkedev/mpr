@@ -1,4 +1,4 @@
-name: deploy
+name: stage
 
 on:
   create:
@@ -6,7 +6,7 @@ on:
     - '*'
 
 jobs:
-  deploy:
+  stage:
     runs-on: ubuntu-latest
 
     steps:
