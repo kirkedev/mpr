@@ -25,8 +25,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --upgrade pip
-        pip install pipenv
+        pip install --upgrade pip pipenv tox twine setuptools
         pipenv install --dev
 
     - name: Run tests
@@ -36,7 +35,7 @@ jobs:
       run: bin/build
 
     - name: Upload to PyPI test repository
-      run: pipenv run twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
+      run: twine upload dist/* --repository-url https://test.pypi.org/legacy/ -u __token__ -p ${{ secrets.PYPI_TEST_TOKEN }}
 
     - name: Upload coverage report
       run: pipenv run coveralls
