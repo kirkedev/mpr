@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='mpr',
-    version=os.popen('git describe').read(),
+    version=os.popen('git describe').read()[1:],
     author='Andrew Kirkegaard',
     author_email='andrew.kirkegaard@gmail.com',
     url='https://github.com/gumballhead/mpr',

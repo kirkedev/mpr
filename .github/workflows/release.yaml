@@ -3,7 +3,7 @@ name: release
 on:
   create:
     tags:
-    - '*'
+    - 'v*'
 
 jobs:
   release:
@@ -31,7 +31,7 @@ jobs:
 
     - name: Get tag
       id: get_tag
-      run: echo ::set-output name=tag::${GITHUB_REF:10}
+      run: echo ::set-output name=tag::${GITHUB_REF:11}
 
     - name: Create Release
       id: create_release
@@ -39,8 +39,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.get_tag.outputs.tag }}
-        release_name: Release ${{ steps.get_tag.outputs.tag }}
+        tag_name: v${{ steps.get_tag.outputs.tag }}
+        release_name: mpr v${{ steps.get_tag.outputs.tag }}
         draft: false
         prerelease: true
 
