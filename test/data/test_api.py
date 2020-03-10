@@ -48,3 +48,13 @@ def test_parse_record():
     assert volume['label'] == 'Current Volume'
     assert volume['temp_cuts_total_load'] == '312.00'
     assert volume['temp_process_total_load'] == '41.31'
+
+    bacon = next(records)
+    assert bacon['slug'] == 'LM_PK602'
+    assert bacon['report_date'] == '02/27/2019'
+    assert bacon['label'] == 'Belly Cuts'
+    assert bacon['Item_Description'] == 'Derind Belly 13-17#'
+    assert bacon['total_pounds'] == '320,000'
+    assert bacon['price_range_low'] == '112.94'
+    assert bacon['price_range_high'] == '130.63'
+    assert bacon['weighted_average'] == '119.57'
