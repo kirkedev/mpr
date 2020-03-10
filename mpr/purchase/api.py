@@ -60,6 +60,6 @@ def parse_record(record: Record) -> Purchase:
         high_price=opt_float(record, 'price_high'))
 
 
-async def fetch_purchase(report: PurchaseReport, start: date, end=date.today()) -> Iterator[Purchase]:
+async def fetch_purchase(report: PurchaseReport, start: date, end: date = date.today()) -> Iterator[Purchase]:
     purchases = await Repository(report).query(start, end, report.Section.BARROWS_AND_GILTS)
     return map(parse_record, purchases)

@@ -6,8 +6,10 @@ from itertools import takewhile
 from os import PathLike
 from pathlib import Path
 from typing import Dict
+from typing import Iterable
 from typing import List
 from typing import Iterator
+from typing import overload
 
 from isoweek import Week
 
@@ -23,20 +25,20 @@ from .archive import Result
 from . import record_date
 
 
-def filter_before(records: Iterator[Record], end: date) -> Iterator[Record]:
+def filter_before(records: Iterable[Record], end: date) -> Iterator[Record]:
     return takewhile(lambda record: record_date(record) <= end, records)
 
 
-def filter_after(records: Iterator[Record], start: date) -> Iterator[Record]:
+def filter_after(records: Iterable[Record], start: date) -> Iterator[Record]:
     return dropwhile(lambda record: record_date(record) < start, records)
 
 
-def slice_dates(reports: Iterator[List[Record]], start: date, end: date) -> Records:
+def slice_dates(reports: Iterable[List[Record]], start: date, end: date) -> Records:
     first, *middle, last = reports
     return list(chain(filter_after(first, start), *middle, filter_before(last, end)))
 
 
-def slice_reports(reports: Iterator[Dict[str, Result]], start: date, end: date) -> Dict[str, Records]:
+def slice_reports(reports: Iterable[Dict[str, Records]], start: date, end: date) -> Dict[str, Records]:
     first, *middle, last = reports
     result = {section: list(filter_after(values, start)) for section, values in first.items()}
 
@@ -80,6 +82,15 @@ class Repository(PathLike):
         records = await fetch(self.report, week.day(day), end)
         archive.save(records, end)
         return archive
+
+    @overload
+    async def query(self, start: date, end: date) -> Dict[str, Records]: ...
+
+    @overload
+    async def query(self, start: date, end: date, __section: Section) -> Records: ...
+
+    @overload
+    async def query(self, start: date, end: date, *sections: Section) -> Result: ...
 
     async def query(self, start: date, end: date, *sections: Section) -> Result:
         archives = (self.get(min(week.saturday(), end)) for week in weeks(start, end))
