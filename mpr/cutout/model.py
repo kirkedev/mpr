@@ -10,6 +10,7 @@ from numpy import rec
 from ..data import Date
 from ..data import date64
 from ..data import date_ordinal
+from ..data import unicode
 
 
 class Cutout(NamedTuple):
@@ -44,7 +45,7 @@ class Cutout(NamedTuple):
 
 def to_array(records: Iterator[Cutout]) -> recarray:
     return rec.array(list(records), dtype=dtype([
-        ('report', dtype('U8')),
+        ('report', unicode(8)),
         ('date', date64),
         ('report_date', date64),
         ('primal_loads', float32),

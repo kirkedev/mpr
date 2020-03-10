@@ -4,7 +4,6 @@ from typing import Optional
 from numpy import float32
 from numpy import nan
 from typing import Iterator
-from typing import Tuple
 from datetime import date
 from datetime import datetime
 
@@ -15,10 +14,11 @@ from numpy import datetime64
 
 date64 = dtype('datetime64[D]')
 Date = type(date64)
-DateInterval = Tuple[date, date]
-
-
 Record = Dict[str, str]
+
+
+def unicode(length: int) -> dtype:
+    return dtype(f"U{length}")
 
 
 def strip_commas(value: str) -> str:
