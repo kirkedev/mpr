@@ -2,14 +2,17 @@ import json
 from datetime import date
 from itertools import chain
 from itertools import groupby
+from itertools import tee
 from operator import itemgetter
 from os import PathLike
 from pathlib import Path
 from typing import Dict
+from typing import Iterable
 from typing import Iterator
 from typing import List
 from typing import Tuple
 from typing import Union
+from typing import overload
 from zipfile import ZIP_DEFLATED
 from zipfile import ZipFile
 
@@ -20,7 +23,7 @@ from .api import Record
 from . import record_date
 
 Records = List[Record]
-Result = Union[Records, Tuple[Records], Dict[str, Records]]
+Result = Union[Records, Tuple[Records, ...], Dict[str, Records]]
 
 
 def normalize_path(section: str) -> str:
@@ -44,7 +47,7 @@ def get_report(archive: ZipFile) -> Dict[str, Records]:
     return {denormalize_path(section): get_section(archive, section) for section in sections}
 
 
-def sort_records(records: Iterator[Record]) -> Records:
+def sort_records(records: Iterable[Record]) -> Records:
     return sorted(records, key=itemgetter('label', 'report_date'))
 
 
@@ -67,6 +70,15 @@ class Archive(PathLike):
     def __fspath__(self) -> str:
         return str(self.root / f"{self.week}D0{self.day}.zip")
 
+    @overload
+    def get(self) -> Dict[str, Records]: ...
+
+    @overload
+    def get(self, __section: Section) -> Records: ...
+
+    @overload
+    def get(self, *sections: Section) -> Result: ...
+
     def get(self, *sections: Section) -> Result:
         n = len(sections)
 
@@ -79,9 +91,10 @@ class Archive(PathLike):
                 return get_sections(archive, *sections)
 
     def save(self, records: Iterator[Record], end: date):
-        records = list(records)
+        peek, records = tee(records)
+        first = next(peek, None)
 
-        if len(records) == 0:
+        if first is None:
             return
 
         path = Path(self)
@@ -90,10 +103,10 @@ class Archive(PathLike):
             records = chain(*self.get().values(), records)
             path.unlink()
 
-        records = sort_records(records)
-        last = record_date(records[-1]).isoweekday()
+        data = sort_records(records)
+        last = record_date(data[-1]).isoweekday()
         self.day = last if last < 5 and end.isoweekday() < 6 else 6
 
         with ZipFile(self, 'w', ZIP_DEFLATED) as archive:
-            for section, values in to_dict(records).items():
+            for section, values in to_dict(data).items():
                 archive.writestr(f"{normalize_path(section)}.json", json.dumps(values, separators=(',', ':')))

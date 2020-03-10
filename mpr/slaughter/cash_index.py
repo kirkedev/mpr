@@ -30,9 +30,7 @@ def format_table(head_count: Series, carcass_weight: Series, net_price: Series) 
 
     get_arrangement = itemgetter(1)
     columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
-    columns = sorted(columns, key=get_arrangement)
-
-    return table[columns]
+    return table[sorted(columns, key=get_arrangement)]
 
 
 def format_columns(table: DataFrame) -> DataFrame:
