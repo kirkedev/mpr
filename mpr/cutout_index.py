@@ -24,7 +24,7 @@ async def get_recent_cutout_index(n: int) -> DataFrame:
     return cutout_index.tail(n)
 
 
-def main():
+def main():  # pragma: no cover
     parser = ArgumentParser(description='Calculate the CME Cutout Index', usage='cash [--days=10]')
     parser.add_argument('--days', help='How many days to show', dest='days', type=int, default=10)
     days = parser.parse_args().days
