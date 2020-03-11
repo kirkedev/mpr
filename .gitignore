@@ -2,7 +2,6 @@
 !.githooks
 !.github
 !.env
-!.coveragerc
 __pycache__
 coverage
 build
