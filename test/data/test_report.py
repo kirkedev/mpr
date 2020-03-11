@@ -1,7 +1,7 @@
 from datetime import date
 from datetime import timedelta
 
-from mpr.report import lm_hg201
+from mpr import lm_hg201
 
 
 def test_report():

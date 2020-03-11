@@ -1,16 +1,15 @@
+from datetime import date
+from datetime import datetime
 from typing import Dict
+from typing import Iterator
 from typing import Optional
 
 from numpy import float32
 from numpy import nan
-from typing import Iterator
-from datetime import date
-from datetime import datetime
-
-from isoweek import Week
 from numpy import dtype
 from numpy import uint32
 from numpy import datetime64
+from isoweek import Week
 
 date64 = dtype('datetime64[D]')
 Date = type(date64)

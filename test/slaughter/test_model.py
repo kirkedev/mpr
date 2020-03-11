@@ -1,4 +1,4 @@
-from mpr.slaughter.api import parse_record
+from mpr.slaughter.model import parse_record
 
 
 def test_objects_are_the_same():

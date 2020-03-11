@@ -3,9 +3,9 @@ from datetime import date
 from numpy import isnan
 from numpy import isclose
 
-from mpr.slaughter.api import parse_record
-from mpr.slaughter.model import to_array
 from mpr.purchase_type import Seller, Arrangement, Basis
+from mpr.slaughter.model import parse_record
+from mpr.slaughter.model import to_array
 
 with open('test/resources/slaughter.json') as resource:
     barrows_gilts = list(map(parse_record, json.load(resource)))

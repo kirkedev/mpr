@@ -2,9 +2,9 @@ import json
 from datetime import date
 import numpy as np
 
-from mpr.slaughter.api import parse_record
-from mpr.slaughter.model import to_array
 from mpr.purchase_type import Arrangement
+from mpr.slaughter.model import parse_record
+from mpr.slaughter.model import to_array
 
 with open('test/resources/cash_prices.json') as resource:
     report = json.load(resource)

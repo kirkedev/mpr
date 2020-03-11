@@ -2,8 +2,8 @@ import json
 
 from numpy import allclose
 
-from mpr.slaughter.api import parse_record
 from mpr.slaughter.cash_index import cash_index_report
+from mpr.slaughter.model import parse_record
 
 with open('test/resources/cash_prices.json') as resource:
     records = map(parse_record, json.load(resource))

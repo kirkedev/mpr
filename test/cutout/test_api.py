@@ -4,7 +4,7 @@ from itertools import starmap
 
 from numpy import isclose
 
-from mpr.cutout.api import parse_record
+from mpr.cutout.model import parse_record
 from mpr.cutout.model import to_array
 
 with open('test/resources/cutout.json') as resource:
