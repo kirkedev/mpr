@@ -3,11 +3,11 @@ from datetime import date
 from itertools import chain
 from itertools import dropwhile
 from itertools import takewhile
+from operator import methodcaller
 from os import PathLike
 from pathlib import Path
 from typing import Dict
 from typing import Iterable
-from typing import List
 from typing import Iterator
 from typing import overload
 
@@ -33,21 +33,39 @@ def filter_after(records: Iterable[Record], start: date) -> Iterator[Record]:
     return dropwhile(lambda record: record_date(record) < start, records)
 
 
-def slice_dates(reports: Iterable[List[Record]], start: date, end: date) -> Records:
-    first, *middle, last = reports
-    return list(chain(filter_after(first, start), *middle, filter_before(last, end)))
+def slice_dates(reports: Iterable[Record], start: date, end: date) -> Iterator[Record]:
+    return filter_after(filter_before(reports, end), start)
 
 
-def slice_reports(reports: Iterable[Dict[str, Records]], start: date, end: date) -> Dict[str, Records]:
-    first, *middle, last = reports
+def merge(reports: Iterable[Iterable[Record]], start: date, end: date) -> Records:
+    return list(slice_dates(chain.from_iterable(reports), start, end))
+
+
+def update_section(result: Dict[str, Iterable[Record]], section: str, values: Iterable[Record]):
+    if section not in result:
+        result[section] = list(values)
+    else:
+        result[section] += values
+
+
+def merge_reports(reports: Iterable[Dict[str, Records]], start: date, end: date) -> Dict[str, Records]:
+    first, *others = reports
+
+    if len(others) == 0:
+        return {section: list(slice_dates(values, start, end)) for section, values in first.items()}
+
     result = {section: list(filter_after(values, start)) for section, values in first.items()}
 
-    for report in middle:
-        for section, values in report.items():
-            result[section] += values
+    if len(others) == 1:
+        last = others[0]
+    else:
+        *middle, last = others
+
+        for section, values in chain.from_iterable(map(methodcaller('items'), middle)):
+            update_section(result, section, values)
 
     for section, values in last.items():
-        result[section] += filter_before(values, end)
+        update_section(result, section, filter_before(values, end))
 
     return result
 
@@ -98,8 +116,8 @@ class Repository(PathLike):
         n = len(sections)
 
         if n == 0:
-            return slice_reports(reports, start, end)
+            return merge_reports(reports, start, end)
         elif n == 1:
-            return slice_dates(reports, start, end)
+            return merge(reports, start, end)
         else:
-            return tuple(slice_dates(report, start, end) for report in zip(*reports))
+            return tuple(merge(report, start, end) for report in zip(*reports))

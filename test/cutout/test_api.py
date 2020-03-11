@@ -3,9 +3,14 @@ from datetime import date
 from itertools import starmap
 
 from numpy import isclose
+from pytest import mark
 
+from mpr.cutout import fetch_cutout
 from mpr.cutout.api import parse_record
 from mpr.cutout.model import to_array
+from mpr.data.repository import Repository
+from mpr.report import lm_pk602
+from test.server import server
 
 with open('test/resources/cutout.json') as resource:
     reports = json.load(resource)
@@ -34,3 +39,11 @@ def test_record_array():
     assert len(records) == 1
     assert all(records.date == date(2019, 2, 1))
     assert all(records.report == 'lm_pk602')
+
+
+@mark.asyncio
+async def test_query():
+    async with server():
+        records = list(await fetch_cutout(lm_pk602, date(2019, 6, 1), date(2019, 6, 10)))
+
+    assert len(records) == 6
