@@ -10,7 +10,6 @@ from ..data import parse_date
 from ..data import Record
 from ..data.repository import Repository
 from ..report import CutoutReport
-from ..report import Section
 
 date_format = "%m/%d/%Y"
 
@@ -32,13 +31,15 @@ def parse_record(record: Record) -> Cut:
     report = record['slug'].lower()
     report_date = parse_date(record['report_date'], date_format)
     section = record['label']
+    cut_type = cut_types[section].value
+    description = record['Item_Description']
 
     return Cut(
         report=report,
         date=report_date,
         report_date=report_date,
-        type=cut_types[section],
-        description=record['Item_Description'],
+        type=cut_type,
+        description=description,
         weight=opt_int(record, 'total_pounds'),
         avg_price=opt_float(record, 'weighted_average'),
         low_price=opt_float(record, 'price_range_low'),
@@ -46,5 +47,6 @@ def parse_record(record: Record) -> Cut:
 
 
 async def fetch_cuts(report: CutoutReport, cut: CutType, start: date, end=date.today()) -> Iterator[Cut]:
-    cuts = await Repository(report).query(start, end, Section(cut.name))
+    section = next(CutoutReport.Section(key) for key, value in cut_types.items() if value == cut)
+    cuts = await Repository(report).query(start, end, section)
     return map(parse_record, cuts)

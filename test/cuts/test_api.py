@@ -3,7 +3,6 @@ from datetime import date
 
 from numpy import isclose
 from numpy import isnan
-
 from mpr.cuts.api import CutType
 from mpr.cuts.api import parse_record
 
@@ -57,3 +56,11 @@ def test_fourth():
     assert isclose(record.avg_price, 142.71)
     assert isclose(record.low_price, 140.50)
     assert isclose(record.high_price, 152.00)
+
+
+# @mark.asyncio
+# async def test_query():
+#     async with server():
+#         records = await fetch_cuts(lm_pk602, CutType.BELLY, date(2019, 6, 1), date(2019, 6, 10))
+#
+#     assert len(list(records)) == 24
