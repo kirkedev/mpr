@@ -10,7 +10,7 @@ from pandas import DataFrame
 from pandas import pivot_table
 from pandas import concat
 
-from mpr.cutout.api import parse_record
+from mpr.cutout.model import parse_record
 from mpr.cutout.model import to_array
 
 with open('test/resources/cutout.json') as resource:

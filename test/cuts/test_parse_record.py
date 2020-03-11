@@ -3,8 +3,9 @@ from datetime import date
 
 from numpy import isclose
 from numpy import isnan
-from mpr.cuts.api import CutType
-from mpr.cuts.api import parse_record
+
+from mpr.cuts.cut_type import CutType
+from mpr.cuts.model import parse_record
 
 with open('test/resources/cuts.json') as resource:
     bacon = map(parse_record, json.load(resource))

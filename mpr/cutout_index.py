@@ -1,24 +1,23 @@
+from argparse import ArgumentParser
+from asyncio import run
 from datetime import date
 from datetime import timedelta
 from functools import singledispatch
+
 from pandas import DataFrame
 
-from mpr import cutout
+from . import lm_pk602
 from .cutout.cutout_index import cutout_report
-
-
-from argparse import ArgumentParser
-from asyncio import run
 
 
 @singledispatch
 async def get(start: date, end=date.today()) -> DataFrame:
-    records = await cutout.afternoon(start - timedelta(10), end)
+    records = await lm_pk602.fetch(start - timedelta(10), end)
     return cutout_report(records)[start:]
 
 
 @get.register(int)
-async def get_recent_cutout_index(n: int) -> DataFrame:
+async def get_recent(n: int) -> DataFrame:
     today = date.today()
     cutout_index = await get(today - timedelta(days=n + 10), today)
     return cutout_index.tail(n)

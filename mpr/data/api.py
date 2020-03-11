@@ -1,18 +1,18 @@
 import json
+from datetime import date
+from io import BytesIO
+from os import environ
 from typing import TypeVar
 from typing import Tuple
 from typing import Iterator
-from os import environ
-from datetime import date
-from io import BytesIO
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
 from aiohttp import ClientSession
 from aiohttp import TCPConnector
 
-from ..report import Report
 from . import Record
+from .report import Report
 
 T = TypeVar('T')
 ParsedElement = Tuple[str, Element]

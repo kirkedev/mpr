@@ -4,8 +4,8 @@ from pathlib import Path
 from isoweek import Week
 from pytest import fixture
 
+from mpr import CutoutReport
 from mpr.data.archive import Archive
-from mpr.report import CutoutReport
 
 
 @fixture

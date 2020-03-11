@@ -18,9 +18,9 @@ from zipfile import ZipFile
 
 from isoweek import Week
 
-from ..report import Section
-from .api import Record
 from . import record_date
+from .api import Record
+from ..data.report import Section
 
 Records = List[Record]
 Result = Union[Records, Tuple[Records, ...], Dict[str, Records]]

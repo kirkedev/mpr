@@ -13,16 +13,15 @@ from typing import overload
 
 from isoweek import Week
 
-from ..data import weeks
-from ..report import Report
-from ..report import Section
-
+from . import record_date
+from . import weeks
 from .api import fetch
 from .api import Record
 from .archive import Archive
 from .archive import Records
 from .archive import Result
-from . import record_date
+from .report import Section
+from .report import Report
 
 
 def filter_before(records: Iterable[Record], end: date) -> Iterator[Record]:

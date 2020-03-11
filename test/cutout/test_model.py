@@ -1,4 +1,4 @@
-from mpr.cutout.api import parse_record
+from mpr.cutout.model import parse_record
 
 
 def test_objects_are_the_same():

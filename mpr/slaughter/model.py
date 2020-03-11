@@ -9,10 +9,17 @@ from numpy import allclose
 from numpy import dtype
 from numpy import rec
 
+from .purchase_type import purchase_types
+from ..data import Record
+from ..data import opt_float
+from ..data import opt_int
+from ..data import parse_date
 from ..data import date64
 from ..data import Date
 from ..data import date_ordinal
 from ..data import unicode
+
+date_format = "%m/%d/%Y"
 
 
 class Slaughter(NamedTuple):
@@ -76,3 +83,28 @@ def to_array(records: Iterator[Slaughter]) -> recarray:
         ('loineye_area', float32),
         ('lean_percent', float32)
     ]))
+
+
+def parse_record(record: Record) -> Slaughter:
+    purchase_type = record['purchase_type']
+    (seller, arrangement, basis) = purchase_types[purchase_type]
+
+    return Slaughter(
+        report=record['slug'].lower(),
+        date=parse_date(record['for_date_begin'], date_format),
+        report_date=parse_date(record['report_date'], date_format),
+        seller=seller.value,
+        arrangement=arrangement.value,
+        basis=basis.value,
+        head_count=opt_int(record, 'head_count'),
+        base_price=opt_float(record, 'base_price'),
+        net_price=opt_float(record, 'avg_net_price'),
+        low_price=opt_float(record, 'lowest_net_price'),
+        high_price=opt_float(record, 'highest_net_price'),
+        live_weight=opt_float(record, 'avg_live_weight'),
+        carcass_weight=opt_float(record, 'avg_carcass_weight'),
+        sort_loss=opt_float(record, 'avg_sort_loss'),
+        backfat=opt_float(record, 'avg_backfat'),
+        loin_depth=opt_float(record, 'avg_loin_depth'),
+        loineye_area=opt_float(record, 'loineye_area'),
+        lean_percent=opt_float(record, 'avg_lean_percent'))

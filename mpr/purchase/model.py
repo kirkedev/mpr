@@ -9,10 +9,18 @@ from numpy import allclose
 from numpy import dtype
 from numpy import rec
 
+from .purchase_type import purchase_types
+from ..data import Record
 from ..data import date64
 from ..data import Date
 from ..data import date_ordinal
+from ..data import get_optional
+from ..data import opt_float
+from ..data import opt_int
+from ..data import parse_date
 from ..data import unicode
+
+date_format = "%m/%d/%Y"
 
 
 class Purchase(NamedTuple):
@@ -48,3 +56,23 @@ def to_array(records: Iterator[Purchase]) -> recarray:
         ('low_price', float32),
         ('high_price', float32)
     ]))
+
+
+def parse_record(record: Record) -> Purchase:
+    report_date_string = record['report_date']
+    record_date_string = get_optional(record, 'reported_for_date') or report_date_string
+
+    purchase_type = record['purchase_type']
+    (seller, arrangement, basis) = purchase_types[purchase_type]
+
+    return Purchase(
+        report=record['slug'].lower(),
+        date=parse_date(record_date_string, date_format),
+        report_date=parse_date(report_date_string, date_format),
+        seller=seller.value,
+        arrangement=arrangement.value,
+        basis=basis.value,
+        head_count=opt_int(record, 'head_count'),
+        avg_price=opt_float(record, 'wtd_avg'),
+        low_price=opt_float(record, 'price_low'),
+        high_price=opt_float(record, 'price_high'))

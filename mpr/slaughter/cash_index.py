@@ -6,11 +6,11 @@ import pandas as pd
 from pandas import Series
 from pandas import DataFrame
 
-from ..purchase_type import Arrangement
-from ..report import with_change
-from ..report import create_table
 from .model import Slaughter
 from .model import to_array
+from .. import create_table
+from .. import with_change
+from ..purchase_type import Arrangement
 
 total_weight = lambda head_count, weight: head_count * weight
 total_value = lambda weight, price: weight * price

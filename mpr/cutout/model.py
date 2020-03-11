@@ -8,9 +8,13 @@ from numpy import dtype
 from numpy import rec
 
 from ..data import Date
+from ..data import Record
 from ..data import date64
 from ..data import date_ordinal
+from ..data import parse_date
 from ..data import unicode
+
+date_format = "%m/%d/%Y"
 
 
 class Cutout(NamedTuple):
@@ -41,6 +45,24 @@ class Cutout(NamedTuple):
     @property
     def value(self) -> float:
         return self.loads * self.carcass_price
+
+
+def parse_record(cutout: Record, volume: Record) -> Cutout:
+    report_date = parse_date(cutout['report_date'], date_format)
+
+    return Cutout(
+        report=cutout['slug'].lower(),
+        date=report_date,
+        report_date=report_date,
+        primal_loads=float32(volume['temp_cuts_total_load']),
+        trimming_loads=float32(volume['temp_process_total_load']),
+        carcass_price=float32(cutout['pork_carcass']),
+        loin_price=float32(cutout['pork_loin']),
+        butt_price=float32(cutout['pork_butt']),
+        picnic_price=float32(cutout['pork_picnic']),
+        rib_price=float32(cutout['pork_rib']),
+        ham_price=float32(cutout['pork_ham']),
+        belly_price=float32(cutout['pork_belly']))
 
 
 def to_array(records: Iterator[Cutout]) -> recarray:
