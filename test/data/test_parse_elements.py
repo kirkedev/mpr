@@ -27,7 +27,7 @@ def test_opt_float():
     assert isnan(opt_float({'weight': 'null'}, 'volume'))
 
 
-def test_parse_record():
+def test_parse_elements():
     records = load_resource('cutout.xml')
 
     cutout = next(records)
