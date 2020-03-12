@@ -13,6 +13,6 @@ class PurchaseReport(DailyReport):
         STATES = 'State of Origin'
 
 
-lm_hg200 = PurchaseReport('lm_hg200', 'Daily Direct Hog Prior Day - Purchased Swine', 8)
-lm_hg202 = PurchaseReport('lm_hg202', 'Daily Direct Hog - Morning', 11)
-lm_hg203 = PurchaseReport('lm_hg203', 'Daily Direct Hog - Afternoon', 15)
+lm_hg200 = PurchaseReport('lm_hg200', 'Daily Direct Hog Prior Day - Purchased Swine', hour=8)
+lm_hg202 = PurchaseReport('lm_hg202', 'Daily Direct Hog - Morning', hour=11)
+lm_hg203 = PurchaseReport('lm_hg203', 'Daily Direct Hog - Afternoon', hour=15)

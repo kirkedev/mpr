@@ -1,16 +1,82 @@
-from mpr.slaughter.report import lm_hg201
+from datetime import datetime
+
+from dateutil import utils
+from dateutil.tz import tz
+
+from mpr.cuts.report import lm_pk602
+from mpr.cuts.report import lm_pk620
 
 
 def test_report():
-    assert str(lm_hg201) == 'lm_hg201'
+    assert str(lm_pk602) == 'lm_pk602'
 
 
 def test_section():
-    assert str(lm_hg201.Section.BARROWS_AND_GILTS) == 'Barrows/Gilts'
-    assert lm_hg201.Section.BARROWS_AND_GILTS == 'Barrows/Gilts'
+    assert str(lm_pk602.Section.BELLY) == 'Belly Cuts'
+    assert lm_pk602.Section.BELLY == 'Belly Cuts'
 
-    sections = {'Barrows/Gilts': 123}
-    assert sections[lm_hg201.Section.BARROWS_AND_GILTS] == 123
+    sections = {'Belly Cuts': 123}
+    assert sections[lm_pk602.Section.BELLY] == 123
 
-    sections[lm_hg201.Section.BARROWS_AND_GILTS] = 456
-    assert sections['Barrows/Gilts'] == 456
+    sections[lm_pk602.Section.BELLY] = 456
+    assert sections['Belly Cuts'] == 456
+
+
+def test_daily_yesterday(monkeypatch):
+    def today(timezone: tz = None) -> datetime:
+        return datetime(2019, 6, 20, 14, 55, tzinfo=timezone)
+
+    monkeypatch.setattr(utils, 'today', today)
+
+    latest = lm_pk602.latest
+    assert latest.year == 2019
+    assert latest.month == 6
+    assert latest.day == 19
+
+
+def test_daily_today(monkeypatch):
+    def today(timezone: tz = None) -> datetime:
+        return datetime(2019, 6, 20, 15, 5, tzinfo=timezone)
+
+    monkeypatch.setattr(utils, 'today', today)
+
+    latest = lm_pk602.latest
+    assert latest.year == 2019
+    assert latest.month == 6
+    assert latest.day == 20
+
+
+def test_daily_weekend(monkeypatch):
+    def today(timezone: tz = None) -> datetime:
+        return datetime(2019, 6, 16, 11, tzinfo=timezone)
+
+    monkeypatch.setattr(utils, 'today', today)
+
+    latest = lm_pk602.latest
+    assert latest.year == 2019
+    assert latest.month == 6
+    assert latest.day == 14
+
+
+def test_weekly_before_release(monkeypatch):
+    def today(timezone: tz = None) -> datetime:
+        return datetime(2019, 6, 17, 9, 55, tzinfo=timezone)
+
+    monkeypatch.setattr(utils, 'today', today)
+
+    latest = lm_pk620.latest
+    assert latest.year == 2019
+    assert latest.month == 6
+    assert latest.day == 10
+
+
+def test_weekly_after_release(monkeypatch):
+    def today(timezone: tz = None) -> datetime:
+        return datetime(2019, 6, 17, 10, 5, tzinfo=timezone)
+
+    monkeypatch.setattr(utils, 'today', today)
+
+    latest = lm_pk620.latest
+    assert latest.year == 2019
+    assert latest.month == 6
+    assert latest.day == 17

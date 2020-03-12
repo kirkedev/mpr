@@ -1,8 +1,9 @@
 from ..data.report import Section
 from ..data.report import DailyReport
+from .. data.report import WeeklyReport
 
 
-class DailyCutsReport(DailyReport):
+class CutsReport:
     class Section(Section):
         LOIN = 'Loin Cuts'
         BUTT = 'Butt Cuts'
@@ -16,4 +17,13 @@ class DailyCutsReport(DailyReport):
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-lm_pk602 = DailyCutsReport('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon', 15)
+class DailyCutsReport(DailyReport, CutsReport):
+    pass
+
+
+class WeeklyCutsReport(WeeklyReport, CutsReport):
+    pass
+
+
+lm_pk602 = DailyCutsReport('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon', hour=15)
+lm_pk620 = WeeklyCutsReport('lm_pk620', 'National Weekly Pork Report - Formula Sales', weekday=0, hour=10)

@@ -3,8 +3,8 @@ from typing import Iterator
 
 from .cut_type import CutType
 from .cut_type import cut_types
-from .model import parse_record
 from .model import Cut
+from .model import parse_record
 from .report import lm_pk602
 from ..data.repository import Repository
 
