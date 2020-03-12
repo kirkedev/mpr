@@ -11,7 +11,7 @@ from .purchase.purchase_index import purchase_report
 
 @singledispatch
 async def get(start: date, end=date.today()) -> DataFrame:
-    records = await lm_hg200.fetch(start - timedelta(10), end)
+    records = await lm_hg200.get(start - timedelta(10), end)
     return purchase_report(records)[start:]
 
 

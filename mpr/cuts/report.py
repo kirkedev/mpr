@@ -30,7 +30,7 @@ class CutsReport(DailyReport[Cut]):
         super().__init__('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon', 15)
         self.cuts = cuts
 
-    async def fetch(self, start: date, end: date) -> Iterator[Cut]:
+    async def get(self, start: date, end: date) -> Iterator[Cut]:
         cuts = self.cuts
         end = min(self.latest, end)
         sections = (self.Section(key) for key, value in cut_types.items() if value in cuts)

@@ -17,7 +17,7 @@ class SlaughterReport(DailyReport[Slaughter]):
         SCHEDULED_SWINE = '14-Day Scheduled Swine'
         NEGOTIATED_BARROWS_AND_GILTS = 'Barrows/Gilts Negotiated'
 
-    async def fetch(self, start: date, end: date) -> Iterator[Slaughter]:
+    async def get(self, start: date, end: date) -> Iterator[Slaughter]:
         end = min(self.latest, end)
         slaughter = await Repository(self).query(start, end, self.Section.BARROWS_AND_GILTS)
         return map(parse_record, slaughter)

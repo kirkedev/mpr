@@ -12,7 +12,7 @@ from .slaughter.cash_index import cash_index_report
 
 @singledispatch
 async def get(start: date, end=date.today()) -> DataFrame:
-    slaughter = await lm_hg201.fetch(start - timedelta(days=5), end)
+    slaughter = await lm_hg201.get(start - timedelta(days=5), end)
     return cash_index_report(slaughter)[start:]
 
 
