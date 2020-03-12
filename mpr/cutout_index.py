@@ -6,13 +6,13 @@ from functools import singledispatch
 
 from pandas import DataFrame
 
-from . import lm_pk602
+from mpr import cutout
 from .cutout.cutout_index import cutout_report
 
 
 @singledispatch
 async def get(start: date, end=date.today()) -> DataFrame:
-    records = await lm_pk602.get(start - timedelta(10), end)
+    records = await cutout.afternoon(start - timedelta(10), end)
     return cutout_report(records)[start:]
 
 

@@ -48,10 +48,11 @@ class Cutout(NamedTuple):
 
 
 def parse_record(cutout: Record, volume: Record) -> Cutout:
+    report = cutout['slug'].lower()
     report_date = parse_date(cutout['report_date'], date_format)
 
     return Cutout(
-        report=cutout['slug'].lower(),
+        report=report,
         date=report_date,
         report_date=report_date,
         primal_loads=float32(volume['temp_cuts_total_load']),

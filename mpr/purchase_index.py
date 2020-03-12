@@ -5,13 +5,13 @@ from datetime import timedelta
 from functools import singledispatch
 from pandas import DataFrame
 
-from . import lm_hg200
+from mpr import purchase
 from .purchase.purchase_index import purchase_report
 
 
 @singledispatch
 async def get(start: date, end=date.today()) -> DataFrame:
-    records = await lm_hg200.get(start - timedelta(10), end)
+    records = await purchase.daily(start - timedelta(10), end)
     return purchase_report(records)[start:]
 
 

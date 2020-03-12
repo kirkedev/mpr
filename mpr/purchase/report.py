@@ -1,14 +1,8 @@
-from datetime import date
-from typing import Iterator
-
-from .model import Purchase
-from .model import parse_record
 from ..data.report import DailyReport
 from ..data.report import Section
-from ..data.repository import Repository
 
 
-class PurchaseReport(DailyReport[Purchase]):
+class PurchaseReport(DailyReport):
     class Section(Section):
         VOLUME = 'Current Volume by Purchase Type'
         BARROWS_AND_GILTS = 'Barrows/Gilts (producer/packer sold)'
@@ -18,7 +12,7 @@ class PurchaseReport(DailyReport[Purchase]):
         SOWS = 'Sows'
         STATES = 'State of Origin'
 
-    async def get(self, start: date, end: date) -> Iterator[Purchase]:
-        end = min(self.latest, end)
-        purchases = await Repository(self).query(start, end, self.Section.BARROWS_AND_GILTS)
-        return map(parse_record, purchases)
+
+lm_hg200 = PurchaseReport('lm_hg200', 'Daily Direct Hog Prior Day - Purchased Swine', 8)
+lm_hg202 = PurchaseReport('lm_hg202', 'Daily Direct Hog - Morning', 11)
+lm_hg203 = PurchaseReport('lm_hg203', 'Daily Direct Hog - Afternoon', 15)

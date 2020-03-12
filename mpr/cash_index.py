@@ -6,14 +6,14 @@ from functools import singledispatch
 
 from pandas import DataFrame
 
-from . import lm_hg201
+from mpr import slaughter
 from .slaughter.cash_index import cash_index_report
 
 
 @singledispatch
 async def get(start: date, end=date.today()) -> DataFrame:
-    slaughter = await lm_hg201.get(start - timedelta(days=5), end)
-    return cash_index_report(slaughter)[start:]
+    records = await slaughter.daily(start - timedelta(days=5), end)
+    return cash_index_report(records)[start:]
 
 
 @get.register(int)
