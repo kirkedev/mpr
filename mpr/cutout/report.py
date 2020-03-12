@@ -4,12 +4,12 @@ from typing import Iterator
 
 from .model import Cutout
 from .model import parse_record
-from ..data.report import Report
+from ..data.report import DailyReport
 from ..data.report import Section
 from ..data.repository import Repository
 
 
-class CutoutReport(Report[Cutout]):
+class CutoutReport(DailyReport[Cutout]):
     class Section(Section):
         CUTOUT = 'Cutout and Primal Values'
         DAILY_CHANGE = 'Change From Prior Day'
@@ -27,5 +27,6 @@ class CutoutReport(Report[Cutout]):
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
     async def fetch(self, start: date, end: date) -> Iterator[Cutout]:
+        end = min(self.latest, end)
         cutout, volume = await Repository(self).query(start, end, self.Section.CUTOUT, self.Section.VOLUME)
         return starmap(parse_record, zip(cutout, volume))

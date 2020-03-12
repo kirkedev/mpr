@@ -1,15 +1,21 @@
 from abc import ABC
 from datetime import date
 from datetime import datetime
+from datetime import timedelta
 from enum import Enum
 from typing import Generic
 from typing import Iterator
-from typing import NamedTuple
+from typing import Tuple
 from typing import TypeVar
 
-from pytz import timezone
+from dateutil.tz import gettz
 
-Record = TypeVar('Record', bound=NamedTuple)
+Record = TypeVar('Record', bound=Tuple)
+
+
+class Section(str, Enum):
+    def __str__(self):
+        return self.value
 
 
 class Report(ABC, Generic[Record]):
@@ -25,15 +31,13 @@ class Report(ABC, Generic[Record]):
     def __str__(self):
         return self.slug
 
-    def has(self, end: date) -> bool:
-        now = datetime.now(tz=timezone('America/Chicago'))
-        release = now.replace(end.year, end.month, end.day, self.hour, 0, 0, 0)
-        return now > release
-
     async def fetch(self, start: date, end: date) -> Iterator[Record]:
         raise NotImplementedError
 
 
-class Section(str, Enum):
-    def __str__(self):
-        return self.value
+class DailyReport(Generic[Record], Report[Record]):
+    @property
+    def latest(self) -> date:
+        now = datetime.now(tz=gettz('America/Chicago'))
+        release = now.replace(hour=self.hour, minute=0, second=0, microsecond=0)
+        return now.date() if now > release else (now - timedelta(days=1)).date()

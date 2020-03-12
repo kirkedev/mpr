@@ -7,11 +7,11 @@ from .cut_type import cut_types
 from .model import Cut
 from .model import parse_record
 from ..data.report import Section
-from ..data.report import Report
+from ..data.report import DailyReport
 from ..data.repository import Repository
 
 
-class CutsReport(Report[Cut]):
+class CutsReport(DailyReport[Cut]):
     class Section(Section):
         LOIN = 'Loin Cuts'
         BUTT = 'Butt Cuts'
@@ -32,6 +32,8 @@ class CutsReport(Report[Cut]):
 
     async def fetch(self, start: date, end: date) -> Iterator[Cut]:
         cuts = self.cuts
-        sections = (CutsReport.Section(key) for key, value in cut_types.items() if value in cuts)
+        end = min(self.latest, end)
+        sections = (self.Section(key) for key, value in cut_types.items() if value in cuts)
         data = await Repository(self).query(start, end, *sections)
+
         return map(parse_record, data)
