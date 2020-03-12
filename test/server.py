@@ -7,9 +7,9 @@ from aiohttp.web import FileResponse
 from aiohttp.web import get
 from aiohttp.web_app import Application
 
-from mpr import lm_hg200
-from mpr import lm_hg201
-from mpr import lm_pk602
+from mpr.purchase.report import lm_hg200
+from mpr.slaughter.report import lm_hg201
+from mpr.cutout.report import lm_pk602
 from mpr.data.report import Report
 
 

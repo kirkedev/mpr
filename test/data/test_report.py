@@ -1,4 +1,4 @@
-from mpr import lm_hg201
+from mpr.slaughter.report import lm_hg201
 
 
 def test_report():

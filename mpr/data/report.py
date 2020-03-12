@@ -1,10 +1,8 @@
-from abc import ABC
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+
 from enum import Enum
-from typing import Generic
-from typing import Iterator
 from typing import Tuple
 from typing import TypeVar
 
@@ -18,7 +16,7 @@ class Section(str, Enum):
         return self.value
 
 
-class Report(ABC, Generic[Record]):
+class Report:
     slug: str
     description: str
     hour: int
@@ -31,11 +29,8 @@ class Report(ABC, Generic[Record]):
     def __str__(self):
         return self.slug
 
-    async def get(self, start: date, end: date) -> Iterator[Record]:
-        raise NotImplementedError
 
-
-class DailyReport(Generic[Record], Report[Record]):
+class DailyReport(Report):
     @property
     def latest(self) -> date:
         now = datetime.now(tz=gettz('America/Chicago'))
