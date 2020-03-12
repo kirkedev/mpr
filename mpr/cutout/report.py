@@ -20,5 +20,5 @@ class CutoutReport(DailyReport):
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
 
-lm_pk600 = CutoutReport('lm_pk600', 'National Daily Pork - Negotiated Sales - Morning', 11)
-lm_pk602 = CutoutReport('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon', 15)
+lm_pk600 = CutoutReport('lm_pk600', 'National Daily Pork - Negotiated Sales - Morning', hour=11)
+lm_pk602 = CutoutReport('lm_pk602', 'National Daily Pork - Negotiated Sales - Afternoon', hour=15)
