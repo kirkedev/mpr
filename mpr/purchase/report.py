@@ -18,7 +18,7 @@ class PurchaseReport(DailyReport[Purchase]):
         SOWS = 'Sows'
         STATES = 'State of Origin'
 
-    async def fetch(self, start: date, end: date) -> Iterator[Purchase]:
+    async def get(self, start: date, end: date) -> Iterator[Purchase]:
         end = min(self.latest, end)
         purchases = await Repository(self).query(start, end, self.Section.BARROWS_AND_GILTS)
         return map(parse_record, purchases)

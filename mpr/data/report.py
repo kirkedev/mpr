@@ -31,7 +31,7 @@ class Report(ABC, Generic[Record]):
     def __str__(self):
         return self.slug
 
-    async def fetch(self, start: date, end: date) -> Iterator[Record]:
+    async def get(self, start: date, end: date) -> Iterator[Record]:
         raise NotImplementedError
 
 

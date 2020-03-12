@@ -26,7 +26,7 @@ class CutoutReport(DailyReport[Cutout]):
         VARIETY = 'Variety Cuts'
         ADDED_INGREDIENT = 'Added Ingredient Cuts'
 
-    async def fetch(self, start: date, end: date) -> Iterator[Cutout]:
+    async def get(self, start: date, end: date) -> Iterator[Cutout]:
         end = min(self.latest, end)
         cutout, volume = await Repository(self).query(start, end, self.Section.CUTOUT, self.Section.VOLUME)
         return starmap(parse_record, zip(cutout, volume))
