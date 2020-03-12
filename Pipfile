@@ -8,10 +8,10 @@ python_version = "3.8"
 
 [packages]
 aiohttp = "*"
+isoweek = "*"
 numpy = "*"
 pandas = "*"
-pytz = "*"
-isoweek = "*"
+python-dateutil = "*"
 
 [dev-packages]
 behave = "*"
@@ -20,3 +20,5 @@ coveralls = "*"
 flake8 = "*"
 pytest = "*"
 pytest-asyncio = "*"
+mypy = "*"
+

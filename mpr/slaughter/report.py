@@ -3,12 +3,12 @@ from typing import Iterator
 
 from .model import Slaughter
 from .model import parse_record
-from ..data.report import Report
-from ..data.report import Section
+from ..data.report import DailyReport
 from ..data.repository import Repository
+from ..data.report import Section
 
 
-class SlaughterReport(Report):
+class SlaughterReport(DailyReport[Slaughter]):
     class Section(Section):
         SUMMARY = 'Summary'
         BARROWS_AND_GILTS = 'Barrows/Gilts'
@@ -18,5 +18,6 @@ class SlaughterReport(Report):
         NEGOTIATED_BARROWS_AND_GILTS = 'Barrows/Gilts Negotiated'
 
     async def fetch(self, start: date, end: date) -> Iterator[Slaughter]:
+        end = min(self.latest, end)
         slaughter = await Repository(self).query(start, end, self.Section.BARROWS_AND_GILTS)
         return map(parse_record, slaughter)
