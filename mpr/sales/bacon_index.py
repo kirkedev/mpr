@@ -44,23 +44,18 @@ def format_table(weight: Series, value: Series) -> DataFrame:
 
 
 def bacon_index_report(negotiated: Iterator[Sales], formula: Iterator[Sales]) -> DataFrame:
-    bacon = to_array(filter(fresh_bacon, chain(negotiated, formula)))
+    records = to_array(filter(fresh_bacon, chain(negotiated, formula)))
+    columns = ['date', 'report', 'avg_price', 'weight']
 
-    records = DataFrame(bacon, columns=['date', 'report', 'avg_price', 'weight']) \
-        .sort_values(by=['date', 'report']) \
-        .set_index(['date', 'report'])
-
-    weight = records.weight.rename('weight')
-    value = (records.avg_price * records.weight).rename('value')
+    bacon = DataFrame.from_records(records, columns=columns).set_index(['date', 'report'])
+    weight = bacon.weight.rename('weight')
+    value = (bacon.avg_price * bacon.weight).rename('value')
 
     totals = pivot_table(create_table(weight, value), index='date', aggfunc=nansum)
     index, change = with_change(totals.value / totals.weight)
 
-    table = create_table(
+    return create_table(
         index.rename('Bacon Index'),
         change.rename('Index Change'),
         totals.weight.rename('Total Weight'),
         format_columns(format_table(weight, value)))
-
-    print(table)
-    return table
