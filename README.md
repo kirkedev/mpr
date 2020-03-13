@@ -34,6 +34,9 @@ bin/cutout
 # View Lean Hog Purchases report
 bin/purchases
 
+# View CME Fresh Bacon Index report
+bin/bacon
+
 # View a USDA report by report slug
 bin/report lm_hg201
 

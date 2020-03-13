@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+pipenv run python3 -m mpr.bacon_index "$@"

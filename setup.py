@@ -12,6 +12,7 @@ setup(
     scripts=['bin/report'],
     entry_points={
         'console_scripts': [
+            'bacon=mpr.bacon_index:main',
             'cash=mpr.cash_index:main',
             'cutout=mpr.cutout_index:main',
             'purchases=mpr.purchase_index:main'
