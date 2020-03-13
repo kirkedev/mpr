@@ -43,20 +43,6 @@ class Sales(NamedTuple):
             allclose(self[6:], other[6:], equal_nan=True))
 
 
-def to_array(records: Iterator[Sales]) -> recarray:
-    return rec.array(list(records), dtype=dtype([
-        ('report', unicode(8)),
-        ('date', date64),
-        ('report_date', date64),
-        ('type', uint8),
-        ('description', unicode(64)),
-        ('weight', uint32),
-        ('avg_price', float32),
-        ('low_price', float32),
-        ('high_price', float32)
-    ]))
-
-
 def parse_record(record: Record) -> Sales:
     report_date = record['report_date']
     record_date = get_optional(record, 'report_for_date') or report_date
@@ -76,3 +62,17 @@ def parse_record(record: Record) -> Sales:
         avg_price=opt_float(record, 'weighted_average'),
         low_price=opt_float(record, 'price_range_low'),
         high_price=opt_float(record, 'price_range_high'))
+
+
+def to_array(records: Iterator[Sales]) -> recarray:
+    return rec.array(list(records), dtype=dtype([
+        ('report', unicode(8)),
+        ('date', date64),
+        ('report_date', date64),
+        ('type', uint8),
+        ('description', unicode(64)),
+        ('weight', uint32),
+        ('avg_price', float32),
+        ('low_price', float32),
+        ('high_price', float32)
+    ]))

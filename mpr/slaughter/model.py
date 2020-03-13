@@ -62,29 +62,6 @@ class Slaughter(NamedTuple):
         return self.total_value / self.total_weight
 
 
-def to_array(records: Iterator[Slaughter]) -> recarray:
-    return rec.array(list(records), dtype=dtype([
-        ('report', unicode(8)),
-        ('date', date64),
-        ('report_date', date64),
-        ('seller', uint8),
-        ('arrangement', uint8),
-        ('basis', uint8),
-        ('head_count', uint32),
-        ('base_price', float32),
-        ('net_price', float32),
-        ('low_price', float32),
-        ('high_price', float32),
-        ('live_weight', float32),
-        ('carcass_weight', float32),
-        ('sort_loss', float32),
-        ('backfat', float32),
-        ('loin_depth', float32),
-        ('loineye_area', float32),
-        ('lean_percent', float32)
-    ]))
-
-
 def parse_record(record: Record) -> Slaughter:
     purchase_type = record['purchase_type']
     (seller, arrangement, basis) = purchase_types[purchase_type]
@@ -108,3 +85,26 @@ def parse_record(record: Record) -> Slaughter:
         loin_depth=opt_float(record, 'avg_loin_depth'),
         loineye_area=opt_float(record, 'loineye_area'),
         lean_percent=opt_float(record, 'avg_lean_percent'))
+
+
+def to_array(records: Iterator[Slaughter]) -> recarray:
+    return rec.array(list(records), dtype=dtype([
+        ('report', unicode(8)),
+        ('date', date64),
+        ('report_date', date64),
+        ('seller', uint8),
+        ('arrangement', uint8),
+        ('basis', uint8),
+        ('head_count', uint32),
+        ('base_price', float32),
+        ('net_price', float32),
+        ('low_price', float32),
+        ('high_price', float32),
+        ('live_weight', float32),
+        ('carcass_weight', float32),
+        ('sort_loss', float32),
+        ('backfat', float32),
+        ('loin_depth', float32),
+        ('loineye_area', float32),
+        ('lean_percent', float32)
+    ]))
