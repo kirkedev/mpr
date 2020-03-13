@@ -7,6 +7,7 @@ from isoweek import Week
 from pandas import DataFrame
 
 from mpr.sales import Cut
+from mpr.sales import lm_pk610
 from mpr.sales import weekly_formula
 from mpr.sales import weekly_negotiated
 from mpr.sales.bacon_index import bacon_index_report
@@ -16,6 +17,14 @@ from mpr.sales.bacon_index import bacon_index_report
 async def get(start: date, end: date) -> DataFrame:
     first = Week.withdate(start) - 1
     monday = first.monday()
+
+    last = Week.withdate(end) - 1
+
+    if last.day(lm_pk610.weekday) > lm_pk610.latest:
+        last -= 1
+
+    end = last.saturday()
+
     formula_sales = await weekly_formula(monday, end, Cut.BELLY)
     negotiated_sales = await weekly_negotiated(monday, end, Cut.BELLY)
 
