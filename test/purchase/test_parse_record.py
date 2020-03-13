@@ -1,11 +1,14 @@
 import json
 from datetime import date
-from numpy import isnan
+
 from numpy import isclose
+from numpy import isnan
 
 from mpr.purchase.model import parse_record
 from mpr.purchase.model import to_array
-from mpr.purchase_type import Seller, Arrangement, Basis
+from mpr.purchase_type import Arrangement
+from mpr.purchase_type import Basis
+from mpr.purchase_type import Seller
 
 with open('test/resources/purchase.json') as resource:
     barrows_gilts = list(map(parse_record, json.load(resource)))

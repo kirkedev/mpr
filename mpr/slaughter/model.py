@@ -1,22 +1,22 @@
-from typing import NamedTuple
 from typing import Iterator
+from typing import NamedTuple
 
-from numpy import uint8
-from numpy import uint32
-from numpy import float32
-from numpy import recarray
 from numpy import allclose
 from numpy import dtype
+from numpy import float32
 from numpy import rec
+from numpy import recarray
+from numpy import uint32
+from numpy import uint8
 
 from .purchase_type import purchase_types
+from ..data import Date
 from ..data import Record
+from ..data import date64
+from ..data import date_ordinal
 from ..data import opt_float
 from ..data import opt_int
 from ..data import parse_date
-from ..data import date64
-from ..data import Date
-from ..data import date_ordinal
 from ..data import unicode
 
 date_format = "%m/%d/%Y"

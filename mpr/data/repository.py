@@ -20,8 +20,8 @@ from .api import Record
 from .archive import Archive
 from .archive import Records
 from .archive import Result
-from .report import Section
 from .report import Report
+from .report import Section
 
 
 def filter_before(records: Iterable[Record], end: date) -> Iterator[Record]:

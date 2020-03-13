@@ -1,5 +1,5 @@
-from ..data.report import Section
 from ..data.report import DailyReport
+from ..data.report import Section
 from ..data.report import WeeklyReport
 
 

@@ -1,9 +1,8 @@
-from numpy import isnan
 from numpy import isclose
+from numpy import isnan
 
-from mpr.data import opt_int
 from mpr.data import opt_float
-
+from mpr.data import opt_int
 from test import load_resource
 
 

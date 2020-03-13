@@ -4,8 +4,8 @@ from itertools import chain
 from numpy import isclose
 from numpy import nansum
 
-from mpr.sales.model import parse_record
 from mpr.sales.bacon_index import fresh_bacon
+from mpr.sales.model import parse_record
 from mpr.sales.model import to_array
 
 # https://www.cmegroup.com/trading/agricultural/livestock/cme-fresh-bacon-index.html

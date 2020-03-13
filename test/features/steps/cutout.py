@@ -1,5 +1,5 @@
-from behave import when
 from behave import then
+from behave import when
 from behave.api.async_step import async_run_until_complete
 
 from mpr import cutout_index

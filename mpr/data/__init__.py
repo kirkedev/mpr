@@ -4,12 +4,12 @@ from typing import Dict
 from typing import Iterator
 from typing import Optional
 
+from isoweek import Week
+from numpy import datetime64
+from numpy import dtype
 from numpy import float32
 from numpy import nan
-from numpy import dtype
 from numpy import uint32
-from numpy import datetime64
-from isoweek import Week
 
 date64 = dtype('datetime64[D]')
 Date = type(date64)

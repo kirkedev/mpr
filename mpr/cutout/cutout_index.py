@@ -1,8 +1,8 @@
 from typing import Iterator
 
 import pandas as pd
-from pandas import Series
 from pandas import DataFrame
+from pandas import Series
 
 from .model import Cutout
 from .model import to_array

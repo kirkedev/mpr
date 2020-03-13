@@ -1,5 +1,5 @@
-from typing import Tuple
 from enum import IntEnum
+from typing import Tuple
 
 
 class Seller(IntEnum):

@@ -1,9 +1,12 @@
 import json
 from datetime import date
-from numpy import isnan
-from numpy import isclose
 
-from mpr.purchase_type import Seller, Arrangement, Basis
+from numpy import isclose
+from numpy import isnan
+
+from mpr.purchase_type import Arrangement
+from mpr.purchase_type import Basis
+from mpr.purchase_type import Seller
 from mpr.slaughter.model import parse_record
 from mpr.slaughter.model import to_array
 

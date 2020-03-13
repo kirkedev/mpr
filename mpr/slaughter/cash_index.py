@@ -1,9 +1,9 @@
-from typing import Tuple
-from typing import Iterator
 from operator import itemgetter
+from typing import Iterator
+from typing import Tuple
 
-from pandas import Series
 from pandas import DataFrame
+from pandas import Series
 from pandas import pivot_table
 
 from .model import Slaughter
