@@ -43,21 +43,6 @@ class Purchase(NamedTuple):
             allclose(self[6:], other[6:], equal_nan=True))
 
 
-def to_array(records: Iterator[Purchase]) -> recarray:
-    return rec.array(list(records), dtype=dtype([
-        ('report', unicode(8)),
-        ('date', date64),
-        ('report_date', date64),
-        ('seller', uint8),
-        ('arrangement', uint8),
-        ('basis', uint8),
-        ('head_count', uint32),
-        ('avg_price', float32),
-        ('low_price', float32),
-        ('high_price', float32)
-    ]))
-
-
 def parse_record(record: Record) -> Purchase:
     report = record['slug'].lower()
     report_date = record['report_date']
@@ -77,3 +62,18 @@ def parse_record(record: Record) -> Purchase:
         avg_price=opt_float(record, 'wtd_avg'),
         low_price=opt_float(record, 'price_low'),
         high_price=opt_float(record, 'price_high'))
+
+
+def to_array(records: Iterator[Purchase]) -> recarray:
+    return rec.array(list(records), dtype=dtype([
+        ('report', unicode(8)),
+        ('date', date64),
+        ('report_date', date64),
+        ('seller', uint8),
+        ('arrangement', uint8),
+        ('basis', uint8),
+        ('head_count', uint32),
+        ('avg_price', float32),
+        ('low_price', float32),
+        ('high_price', float32)
+    ]))
