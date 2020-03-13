@@ -2,7 +2,7 @@ from behave import when
 from behave import then
 from behave.api.async_step import async_run_until_complete
 
-from mpr.cutout_index import get
+from mpr import cutout_index
 from test.features.steps import format_decimal
 from test.server import server
 
@@ -11,7 +11,7 @@ from test.server import server
 @async_run_until_complete
 async def request_cutout(context):
     async with server():
-        context.report = await get(context.start, context.end)
+        context.report = await cutout_index.get(context.start, context.end)
 
 
 @then('I will receive a report of cutout prices from June 2019')

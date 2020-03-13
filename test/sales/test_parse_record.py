@@ -4,17 +4,17 @@ from datetime import date
 from numpy import isclose
 from numpy import isnan
 
-from mpr.cuts.cut_type import CutType
-from mpr.cuts.model import parse_record
+from mpr.sales.cut import Cut
+from mpr.sales.model import parse_record
 
-with open('test/resources/cuts.json') as resource:
+with open('test/resources/sales.json') as resource:
     bacon = map(parse_record, json.load(resource))
 
 
 def test_first():
     record = next(bacon)
     assert record.report == 'lm_pk602'
-    assert record.type == CutType.BELLY
+    assert record.type == Cut.BELLY
     assert record.date == date(2019, 2, 1)
     assert record.description == 'Derind Belly 13-17#'
     assert record.weight == 151_772
@@ -26,7 +26,7 @@ def test_first():
 def test_second():
     record = next(bacon)
     assert record.report == 'lm_pk602'
-    assert record.type == CutType.BELLY
+    assert record.type == Cut.BELLY
     assert record.date == date(2019, 2, 1)
     assert record.description == 'Derind Belly 17-19#'
     assert record.weight == 0
@@ -38,7 +38,7 @@ def test_second():
 def test_third():
     record = next(bacon)
     assert record.report == 'lm_pk602'
-    assert record.type == CutType.BELLY
+    assert record.type == Cut.BELLY
     assert record.date == date(2019, 2, 1)
     assert record.description == 'Derind Belly 7-9#'
     assert record.weight == 0
@@ -50,7 +50,7 @@ def test_third():
 def test_fourth():
     record = next(bacon)
     assert record.report == 'lm_pk602'
-    assert record.type == CutType.BELLY
+    assert record.type == Cut.BELLY
     assert record.date == date(2019, 2, 1)
     assert record.description == 'Derind Belly 9-13#'
     assert record.weight == 35_620

@@ -1,4 +1,4 @@
-from mpr.cuts.model import parse_record
+from mpr.sales.model import parse_record
 
 
 def test_objects_are_the_same():
