@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 from asyncio import run
 from datetime import date
-from datetime import timedelta
 from functools import singledispatch
 
 from isoweek import Week
@@ -15,23 +14,27 @@ from mpr.sales.bacon_index import bacon_index_report
 
 @singledispatch
 async def get(start: date, end: date) -> DataFrame:
-    formula_sales = await weekly_formula(start, end, Cut.BELLY)
-    negotiated_sales = await weekly_negotiated(start, end, Cut.BELLY)
+    first = Week.withdate(start) - 1
+    monday = first.monday()
+
+    formula_sales = await weekly_formula(monday, end, Cut.BELLY)
+    negotiated_sales = await weekly_negotiated(monday, end, Cut.BELLY)
+
     return bacon_index_report(formula_sales, negotiated_sales)[start:end]
 
 
 @get.register(int)
 async def get_recent(n: int) -> DataFrame:
     today = date.today()
-    start = Week.withdate(today - timedelta(weeks=n))
-    end = Week.withdate(today)
+    first = Week.withdate(today) - n - 1
 
-    report = await get(start, end)
+    report = await get(first.monday(), today)
+
     return report.tail(n)
 
 
 def main():  # pragma: no cover
-    parser = ArgumentParser(description='Calculate the CME Fresh Bacon Index', usage='bacon [--weeks=10]')
+    parser = ArgumentParser(description='Calculate the CME Fresh Bacon Index', usage='bacon [--weeks=8]')
     parser.add_argument('--weeks', help='How many weeks to show', dest='weeks', type=int, default=8)
     n = parser.parse_args().weeks
     print(run(get(n)))
