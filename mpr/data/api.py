@@ -2,6 +2,7 @@ import json
 from datetime import date
 from io import BytesIO
 from os import environ
+from typing import AsyncContextManager
 from typing import TypeVar
 from typing import Tuple
 from typing import Iterator
@@ -38,16 +39,6 @@ def date_filter(start: date, end: date) -> str:
 
 def request_url(report: Report, start: date, end: date) -> str:
     return f'{report_url(report)}?filter={{"filters":[{date_filter(start, end)}]}}'
-
-
-async def fetch(report: Report, start: date, end=date.today()) -> Iterator[Record]:
-    url = request_url(report, start, end)
-
-    async with ClientSession(connector=TCPConnector(limit=4)) as session:
-        async with session.get(url) as response:
-            data = BytesIO(await response.read())
-            elements = ElementTree.iterparse(data, events=['start', 'end'])
-            return parse_elements(elements)
 
 
 def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) -> Iterator[Record]:
@@ -87,3 +78,26 @@ def parse_elements(elements: Iterator[ParsedElement], min_depth=1, max_depth=4) 
                 # clear the metadata and element tree after each report section
                 element.clear()
                 metadata.clear()
+
+
+class Client(AsyncContextManager):
+    report: Report
+    session: ClientSession
+
+    def __init__(self, report: Report):
+        self.report = report
+
+    async def __aenter__(self) -> 'Client':
+        self.session = ClientSession(connector=TCPConnector(limit_per_host=8))
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.session.close()
+
+    async def fetch(self, start: date, end: date) -> Iterator[Record]:
+        url = request_url(self.report, start, end)
+
+        async with self.session.get(url) as response:
+            data = BytesIO(await response.read())
+            elements = ElementTree.iterparse(data, events=['start', 'end'])
+            return parse_elements(elements)

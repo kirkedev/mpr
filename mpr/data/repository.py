@@ -15,7 +15,7 @@ from isoweek import Week
 
 from . import record_date
 from . import weeks
-from .api import fetch
+from .api import Client
 from .api import Record
 from .archive import Archive
 from .archive import Records
@@ -87,7 +87,7 @@ class Repository(PathLike):
     def __fspath__(self) -> str:
         return str(self.root / self.report.slug)
 
-    async def get(self, end: date) -> Archive:
+    async def get(self, client: Client, end: date) -> Archive:
         end = min(date.today(), end)
         week = Week.withdate(end)
         archive = Archive(Path(self), week)
@@ -96,7 +96,7 @@ class Repository(PathLike):
         if day == 6 or day == end.isoweekday():
             return archive
 
-        records = await fetch(self.report, week.day(day), end)
+        records = await client.fetch(week.day(day), end)
         archive.save(records, end)
         return archive
 
@@ -110,8 +110,10 @@ class Repository(PathLike):
     async def query(self, start: date, end: date, *sections: Section) -> Result: ...
 
     async def query(self, start: date, end: date, *sections: Section) -> Result:
-        archives = (self.get(min(week.saturday(), end)) for week in weeks(start, end))
-        reports = (report.get(*sections) for report in await gather(*archives))
+        async with Client(self.report) as client:
+            archives = (self.get(client, min(week.saturday(), end)) for week in weeks(start, end))
+            reports = (report.get(*sections) for report in await gather(*archives))
+
         n = len(sections)
 
         if n == 0:
