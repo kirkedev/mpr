@@ -7,10 +7,12 @@ from aiohttp.web import FileResponse
 from aiohttp.web import get
 from aiohttp.web_app import Application
 
-from mpr.purchase.report import lm_hg200
-from mpr.slaughter.report import lm_hg201
 from mpr.cutout.report import lm_pk602
 from mpr.data.report import Report
+from mpr.purchase.report import lm_hg200
+from mpr.slaughter.report import lm_hg201
+from mpr.sales.report import lm_pk610
+from mpr.sales.report import lm_pk620
 
 
 def route(report: Report):
@@ -25,7 +27,9 @@ def route(report: Report):
 routes = [
     route(lm_hg200),
     route(lm_hg201),
-    route(lm_pk602)
+    route(lm_pk602),
+    route(lm_pk610),
+    route(lm_pk620)
 ]
 
 

@@ -2,9 +2,9 @@ from typing import Tuple
 from typing import Iterator
 from operator import itemgetter
 
-import pandas as pd
 from pandas import Series
 from pandas import DataFrame
+from pandas import pivot_table
 
 from .model import Slaughter
 from .model import to_array
@@ -12,24 +12,22 @@ from .. import create_table
 from .. import with_change
 from ..purchase_type import Arrangement
 
+arrangements = (Arrangement.NEGOTIATED, Arrangement.MARKET_FORMULA, Arrangement.NEGOTIATED_FORMULA)
+
 total_weight = lambda head_count, weight: head_count * weight
 total_value = lambda weight, price: weight * price
 weighted_price = lambda value, weight: value / weight
 
 
 def filter_arrangement(records: Iterator[Slaughter]) -> Iterator[Slaughter]:
-    return filter(lambda it: it.arrangement in (
-        Arrangement.NEGOTIATED,
-        Arrangement.MARKET_FORMULA,
-        Arrangement.NEGOTIATED_FORMULA
-    ), records)
+    return (record for record in records if record.arrangement in arrangements)
 
 
 def format_table(head_count: Series, carcass_weight: Series, net_price: Series) -> DataFrame:
     table = create_table(head_count, carcass_weight, net_price).unstack()
 
     get_arrangement = itemgetter(1)
-    columns = filter(lambda it: get_arrangement(it) != Arrangement.NEGOTIATED_FORMULA, table.columns)
+    columns = (column for column in table.columns if get_arrangement(column) != Arrangement.NEGOTIATED_FORMULA)
     return table[sorted(columns, key=get_arrangement)]
 
 
@@ -55,7 +53,7 @@ def cash_index_report(slaughter: Iterator[Slaughter]) -> DataFrame:
     weight = total_weight(head_count=head_count, weight=carcass_weight).rename('weight')
     value = total_value(weight=weight, price=net_price).rename('value')
 
-    total_values = pd.pivot_table(create_table(weight, value), index='date')
+    total_values = pivot_table(create_table(weight, value), index='date')
     daily_price, daily_change = with_change(weighted_price(**total_values))
 
     rolling_totals = total_values.rolling(2).sum().dropna()

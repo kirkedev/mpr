@@ -3,8 +3,8 @@ from datetime import datetime
 from dateutil import utils
 from dateutil.tz import tz
 
-from mpr.cuts.report import lm_pk602
-from mpr.cuts.report import lm_pk620
+from mpr.sales.report import lm_pk602
+from mpr.sales.report import lm_pk620
 
 
 def test_report():
