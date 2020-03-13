@@ -1,10 +1,10 @@
 import json
 
 from aiohttp.test_utils import TestServer
+from aiohttp.web import Application
 from aiohttp.web import FileResponse
 from aiohttp.web import Request
 from aiohttp.web import get
-from aiohttp.web_app import Application
 
 from mpr.cutout.report import lm_pk602
 from mpr.data.report import Report
