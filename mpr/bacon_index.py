@@ -33,8 +33,8 @@ async def get_recent(n: int) -> DataFrame:
 def main():  # pragma: no cover
     parser = ArgumentParser(description='Calculate the CME Fresh Bacon Index', usage='bacon [--weeks=8]')
     parser.add_argument('--weeks', help='How many weeks to show', dest='weeks', type=int, default=8)
-    n = parser.parse_args().weeks
-    print(run(get(n)))
+    weeks = parser.parse_args().weeks
+    print(run(get(weeks)))
 
 
 if __name__ == '__main__':
