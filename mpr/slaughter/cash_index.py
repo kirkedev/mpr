@@ -44,7 +44,7 @@ def format_column(column: Tuple[str, int]) -> str:
 def cash_index_report(slaughter: Iterator[Slaughter]) -> DataFrame:
     records = to_array(filter_arrangement(slaughter))
     columns = ['date', 'arrangement', 'head_count', 'carcass_weight', 'net_price']
-    data = DataFrame(records, columns=columns).set_index(['date', 'arrangement'])
+    data = DataFrame.from_records(records, columns=columns).set_index(['date', 'arrangement'])
 
     head_count = data.head_count
     carcass_weight = data.carcass_weight

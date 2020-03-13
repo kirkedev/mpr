@@ -19,7 +19,7 @@ def cutout_index(loads: Series, carcass_price: Series) -> Series:
 
 
 def cutout_report(records: Iterator[Cutout]) -> DataFrame:
-    data = DataFrame(to_array(records)).sort_values(by='date').set_index('date')
+    data = DataFrame.from_records(to_array(records)).set_index('date')
 
     loads = data.primal_loads + data.trimming_loads
     carcass_price, price_change = with_change(data.carcass_price)

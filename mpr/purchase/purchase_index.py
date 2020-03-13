@@ -43,7 +43,7 @@ def format_column(column: Tuple[str, int]) -> str:
 def purchase_report(purchases: Iterator[Purchase]) -> DataFrame:
     records = to_array(filter_arrangement(purchases))
     columns = ['date', 'arrangement', 'head_count', 'avg_price', 'low_price', 'high_price']
-    data = DataFrame(records, columns=columns).set_index(['date', 'arrangement'])
+    data = DataFrame.from_records(records, columns=columns).set_index(['date', 'arrangement'])
 
     head_count = data.head_count
     avg_price = data.avg_price.rename('Price')
