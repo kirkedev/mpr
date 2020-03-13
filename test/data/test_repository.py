@@ -4,8 +4,8 @@ from pathlib import Path
 from pytest import fixture
 from pytest import mark
 
-from mpr.cutout.report import lm_pk602
 from mpr.cutout.report import CutoutReport
+from mpr.cutout.report import lm_pk602
 from mpr.data.repository import Repository
 from mpr.data.repository import merge_reports
 from mpr.data.repository import slice_dates

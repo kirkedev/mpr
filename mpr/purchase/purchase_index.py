@@ -1,15 +1,15 @@
-from typing import Tuple
-from typing import Iterator
 from operator import itemgetter
+from typing import Iterator
+from typing import Tuple
 
 import pandas as pd
-from pandas import Series
 from pandas import DataFrame
+from pandas import Series
 
 from .model import Purchase
 from .model import to_array
-from .. import with_change
 from .. import create_table
+from .. import with_change
 from ..purchase_type import Arrangement
 from ..purchase_type import Basis
 

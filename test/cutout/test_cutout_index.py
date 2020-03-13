@@ -2,13 +2,12 @@ import json
 from datetime import date
 from itertools import starmap
 
-from numpy import isclose
 from numpy import allclose
+from numpy import isclose
 from numpy import sum
-
 from pandas import DataFrame
-from pandas import pivot_table
 from pandas import concat
+from pandas import pivot_table
 
 from mpr.cutout.model import parse_record
 from mpr.cutout.model import to_array

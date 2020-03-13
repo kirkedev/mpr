@@ -25,7 +25,7 @@ async def weekly_negotiated(start: date, end: date, *cuts: Cut) -> Iterator[Sale
     start = first.monday()
 
     last = Week.withdate(min(date.today(), end))
-    if last.day(lm_pk610.weekday) > lm_pk610.latest:
+    if last.day(lm_pk610.weekday) < lm_pk610.latest:
         last -= 1
 
     return map(parse_record, await Repository(lm_pk610).query(start, last.saturday(), *report_sections(*cuts)))
@@ -36,7 +36,7 @@ async def weekly_formula(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
     start = first.monday()
 
     last = Week.withdate(end) + 1
-    if last.day(lm_pk620.weekday) > lm_pk620.latest:
+    if last.day(lm_pk620.weekday) < lm_pk620.latest:
         last -= 1
 
     return map(parse_record, await Repository(lm_pk620).query(start, last.saturday(), *report_sections(*cuts)))

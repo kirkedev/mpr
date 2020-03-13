@@ -3,6 +3,7 @@ from asyncio import run
 from datetime import date
 from datetime import timedelta
 from functools import singledispatch
+
 from pandas import DataFrame
 
 from mpr import purchase

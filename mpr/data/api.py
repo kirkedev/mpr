@@ -3,9 +3,9 @@ from datetime import date
 from io import BytesIO
 from os import environ
 from typing import AsyncContextManager
-from typing import TypeVar
-from typing import Tuple
 from typing import Iterator
+from typing import Tuple
+from typing import TypeVar
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 

@@ -1,11 +1,11 @@
-from typing import NamedTuple
 from typing import Iterator
+from typing import NamedTuple
 
-from numpy import float32
-from numpy import recarray
 from numpy import allclose
 from numpy import dtype
+from numpy import float32
 from numpy import rec
+from numpy import recarray
 from numpy import uint32
 from numpy import uint8
 

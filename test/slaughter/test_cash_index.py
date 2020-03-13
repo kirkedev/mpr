@@ -1,5 +1,6 @@
 import json
 from datetime import date
+
 import numpy as np
 
 from mpr.purchase_type import Arrangement

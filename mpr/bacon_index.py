@@ -16,7 +16,6 @@ from mpr.sales.bacon_index import bacon_index_report
 async def get(start: date, end: date) -> DataFrame:
     first = Week.withdate(start) - 1
     monday = first.monday()
-
     formula_sales = await weekly_formula(monday, end, Cut.BELLY)
     negotiated_sales = await weekly_negotiated(monday, end, Cut.BELLY)
 
@@ -27,9 +26,7 @@ async def get(start: date, end: date) -> DataFrame:
 async def get_recent(n: int) -> DataFrame:
     today = date.today()
     first = Week.withdate(today) - n - 1
-
     report = await get(first.monday(), today)
-
     return report.tail(n)
 
 

@@ -1,18 +1,17 @@
 import json
 
 from aiohttp.test_utils import TestServer
-
-from aiohttp.web import Request
 from aiohttp.web import FileResponse
+from aiohttp.web import Request
 from aiohttp.web import get
 from aiohttp.web_app import Application
 
 from mpr.cutout.report import lm_pk602
 from mpr.data.report import Report
 from mpr.purchase.report import lm_hg200
-from mpr.slaughter.report import lm_hg201
 from mpr.sales.report import lm_pk610
 from mpr.sales.report import lm_pk620
+from mpr.slaughter.report import lm_hg201
 
 
 def route(report: Report):
