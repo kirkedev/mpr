@@ -16,15 +16,13 @@ from mpr.sales.bacon_index import bacon_index_report
 @singledispatch
 async def get(start: date, end: date) -> DataFrame:
     first = Week.withdate(start) - 1
+    last = Week.withdate(end)
     monday = first.monday()
-
-    last = Week.withdate(end) - 1
 
     if last.day(lm_pk610.weekday) > lm_pk610.latest:
         last -= 1
 
     end = last.saturday()
-
     formula_sales = await weekly_formula(monday, end, Cut.BELLY)
     negotiated_sales = await weekly_negotiated(monday, end, Cut.BELLY)
 
