@@ -3,12 +3,12 @@ from datetime import date
 from itertools import chain
 from itertools import dropwhile
 from itertools import takewhile
-from operator import methodcaller
 from os import PathLike
 from pathlib import Path
-from typing import Dict
 from typing import Iterable
 from typing import Iterator
+from typing import Tuple
+from typing import Union
 from typing import overload
 
 from isoweek import Week
@@ -19,9 +19,10 @@ from .api import Client
 from .api import Record
 from .archive import Archive
 from .archive import Records
-from .archive import Result
 from .report import Report
 from .report import Section
+
+Result = Union[Records, Tuple[Records, ...]]
 
 
 def filter_before(records: Iterable[Record], end: date) -> Iterator[Record]:
@@ -38,35 +39,6 @@ def slice_dates(reports: Iterable[Record], start: date, end: date) -> Iterator[R
 
 def merge(reports: Iterable[Iterable[Record]], start: date, end: date) -> Records:
     return list(slice_dates(chain.from_iterable(reports), start, end))
-
-
-def update_section(result: Dict[str, Iterable[Record]], section: str, values: Iterable[Record]):
-    if section not in result:
-        result[section] = list(values)
-    else:
-        result[section] += values
-
-
-def merge_reports(reports: Iterable[Dict[str, Records]], start: date, end: date) -> Dict[str, Records]:
-    first, *others = reports
-
-    if len(others) == 0:
-        return {section: list(slice_dates(values, start, end)) for section, values in first.items()}
-
-    result = {section: list(filter_after(values, start)) for section, values in first.items()}
-
-    if len(others) == 1:
-        last = others[0]
-    else:
-        *middle, last = others
-
-        for section, values in chain.from_iterable(map(methodcaller('items'), middle)):
-            update_section(result, section, values)
-
-    for section, values in last.items():
-        update_section(result, section, filter_before(values, end))
-
-    return result
 
 
 class Repository(PathLike):
@@ -101,24 +73,19 @@ class Repository(PathLike):
         return archive
 
     @overload
-    async def query(self, start: date, end: date) -> Dict[str, Records]: ...
-
-    @overload
     async def query(self, start: date, end: date, __section: Section) -> Records: ...
 
     @overload
-    async def query(self, start: date, end: date, *sections: Section) -> Result: ...
+    async def query(self, start: date, end: date, __section: Section, *others: Section) -> Result: ...
 
-    async def query(self, start: date, end: date, *sections: Section) -> Result:
+    async def query(self, start: date, end: date, section: Section, *others: Section) -> Result:
+        sections = (section, *others)
+
         async with Client(self.report) as client:
             archives = (self.get(client, min(week.saturday(), end)) for week in weeks(start, end))
             reports = (report.get(*sections) for report in await gather(*archives))
 
-        n = len(sections)
-
-        if n == 0:
-            return merge_reports(reports, start, end)
-        elif n == 1:
-            return merge(reports, start, end)
-        else:
+        if len(sections) > 1:
             return tuple(merge(report, start, end) for report in zip(*reports))
+        else:
+            return merge(reports, start, end)
