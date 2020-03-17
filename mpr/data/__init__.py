@@ -4,6 +4,7 @@ from typing import Dict
 from typing import Iterator
 from typing import Optional
 
+from dateutil.tz import gettz
 from isoweek import Week
 from numpy import datetime64
 from numpy import dtype
@@ -36,6 +37,11 @@ def opt_float(record: Record, key: str) -> float32:
 def opt_int(record: Record, key: str) -> uint32:
     value = get_optional(record, key)
     return uint32(strip_commas(value)) if value else 0
+
+
+def chicago_time(hour: Optional[int] = None) -> datetime:
+    result = datetime.now(gettz('America/Chicago'))
+    return result if hour is None else result.replace(hour=hour, minute=0, second=0, microsecond=0)
 
 
 def record_date(record: Record) -> date:
