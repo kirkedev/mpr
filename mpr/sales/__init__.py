@@ -22,9 +22,9 @@ async def daily(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
 
 async def weekly_negotiated(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
     first = Week.withdate(start)
+    last = Week.withdate(min(date.today(), end))
     start = first.monday()
 
-    last = Week.withdate(min(date.today(), end))
     if last.day(lm_pk610.weekday) < lm_pk610.latest:
         last -= 1
 
@@ -33,9 +33,9 @@ async def weekly_negotiated(start: date, end: date, *cuts: Cut) -> Iterator[Sale
 
 async def weekly_formula(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
     first = Week.withdate(start) + 1
+    last = Week.withdate(end) + 1
     start = first.monday()
 
-    last = Week.withdate(end) + 1
     if last.day(lm_pk620.weekday) < lm_pk620.latest:
         last -= 1
 
