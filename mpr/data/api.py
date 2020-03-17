@@ -88,7 +88,7 @@ class Client(AsyncContextManager['Client']):
         self.report = report
 
     async def __aenter__(self) -> 'Client':
-        self.session = ClientSession(connector=TCPConnector(limit_per_host=8))
+        self.session = ClientSession(connector=TCPConnector(limit_per_host=4))
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
