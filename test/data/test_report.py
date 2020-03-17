@@ -1,10 +1,21 @@
+from datetime import date
 from datetime import datetime
+from datetime import time
+from typing import Optional
 
-from dateutil import utils
-from dateutil.tz import tz
+from dateutil.tz import gettz
 
+from mpr.data import report
 from mpr.sales.report import lm_pk602
 from mpr.sales.report import lm_pk620
+
+
+def chicago_time(today: date, at: time):
+    def get_time(hour: Optional[int] = None) -> datetime:
+        result = datetime.combine(today, at, tzinfo=gettz('America/Chicago'))
+        return result if hour is None else result.replace(hour=hour, minute=0, second=0, microsecond=0)
+
+    return get_time
 
 
 def test_report():
@@ -23,10 +34,7 @@ def test_section():
 
 
 def test_daily_yesterday(monkeypatch):
-    def today(timezone: tz = None) -> datetime:
-        return datetime(2019, 6, 20, 14, 55, tzinfo=timezone)
-
-    monkeypatch.setattr(utils, 'today', today)
+    monkeypatch.setattr(report, 'chicago_time', chicago_time(date(2019, 6, 20), time(14, 55)))
 
     latest = lm_pk602.latest
     assert latest.year == 2019
@@ -35,10 +43,7 @@ def test_daily_yesterday(monkeypatch):
 
 
 def test_daily_today(monkeypatch):
-    def today(timezone: tz = None) -> datetime:
-        return datetime(2019, 6, 20, 15, 5, tzinfo=timezone)
-
-    monkeypatch.setattr(utils, 'today', today)
+    monkeypatch.setattr(report, 'chicago_time', chicago_time(date(2019, 6, 20), time(15, 5)))
 
     latest = lm_pk602.latest
     assert latest.year == 2019
@@ -47,10 +52,7 @@ def test_daily_today(monkeypatch):
 
 
 def test_daily_weekend(monkeypatch):
-    def today(timezone: tz = None) -> datetime:
-        return datetime(2019, 6, 16, 11, tzinfo=timezone)
-
-    monkeypatch.setattr(utils, 'today', today)
+    monkeypatch.setattr(report, 'chicago_time', chicago_time(date(2019, 6, 16), time(11)))
 
     latest = lm_pk602.latest
     assert latest.year == 2019
@@ -59,10 +61,7 @@ def test_daily_weekend(monkeypatch):
 
 
 def test_weekly_before_release(monkeypatch):
-    def today(timezone: tz = None) -> datetime:
-        return datetime(2019, 6, 17, 9, 55, tzinfo=timezone)
-
-    monkeypatch.setattr(utils, 'today', today)
+    monkeypatch.setattr(report, 'chicago_time', chicago_time(date(2019, 6, 17), time(9, 55)))
 
     latest = lm_pk620.latest
     assert latest.year == 2019
@@ -71,10 +70,7 @@ def test_weekly_before_release(monkeypatch):
 
 
 def test_weekly_after_release(monkeypatch):
-    def today(timezone: tz = None) -> datetime:
-        return datetime(2019, 6, 17, 10, 5, tzinfo=timezone)
-
-    monkeypatch.setattr(utils, 'today', today)
+    monkeypatch.setattr(report, 'chicago_time', chicago_time(date(2019, 6, 17), time(10, 5)))
 
     latest = lm_pk620.latest
     assert latest.year == 2019

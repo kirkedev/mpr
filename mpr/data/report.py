@@ -6,10 +6,10 @@ from enum import Enum
 from typing import Tuple
 from typing import TypeVar
 
-from dateutil import utils
 from dateutil.relativedelta import relativedelta
-from dateutil.tz import gettz
 from isoweek import Week
+
+from mpr.data import chicago_time
 
 Record = TypeVar('Record', bound=Tuple)
 
@@ -41,14 +41,14 @@ class Report(ABC):
 class DailyReport(Report):
     @property
     def latest(self) -> date:
-        today = utils.today(gettz('America/Chicago'))
-        weekday = today.weekday()
+        now = chicago_time()
+        weekday = now.weekday()
 
         if weekday > 4:
-            return today - timedelta(days=weekday - 4)
+            return now - timedelta(days=weekday - 4)
 
-        release = today.replace(hour=self.hour, minute=0, second=0, microsecond=0)
-        return today.date() if today > release else (today - timedelta(days=1)).date()
+        release = chicago_time(self.hour)
+        return now.date() if now > release else (now - timedelta(days=1)).date()
 
 
 class WeeklyReport(Report):
@@ -60,8 +60,7 @@ class WeeklyReport(Report):
 
     @property
     def latest(self) -> date:
-        today = utils.today(gettz('America/Chicago'))
-        release = today.replace(hour=self.hour, minute=0, second=0, microsecond=0)
-
-        return Week.withdate(today).day(self.weekday) if today > release else \
-            (today - relativedelta(weeks=1, weekday=self.weekday)).date()
+        now = chicago_time()
+        release_date = Week.withdate(now.date()).day(self.weekday)
+        release = chicago_time(self.hour).replace(release_date.year, release_date.month, release_date.day)
+        return release.date() if now > release else (release - relativedelta(weeks=1)).date()
