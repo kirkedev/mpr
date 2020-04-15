@@ -20,7 +20,7 @@ from isoweek import Week
 
 from . import record_date
 from .api import Record
-from ..data.report import Section
+from .report import Section
 
 Records = List[Record]
 Result = Union[Records, Tuple[Records, ...], Dict[str, Records]]

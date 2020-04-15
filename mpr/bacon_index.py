@@ -6,11 +6,11 @@ from functools import singledispatch
 from isoweek import Week
 from pandas import DataFrame
 
-from mpr.sales import Cut
-from mpr.sales import lm_pk610
-from mpr.sales import weekly_formula
-from mpr.sales import weekly_negotiated
-from mpr.sales.bacon_index import bacon_index_report
+from .sales import Cut
+from .sales import lm_pk610
+from .sales import weekly_formula
+from .sales import weekly_negotiated
+from .sales.bacon_index import bacon_index_report
 
 
 @singledispatch

@@ -9,7 +9,7 @@ from typing import TypeVar
 from dateutil.relativedelta import relativedelta
 from isoweek import Week
 
-from mpr.data import chicago_time
+from . import chicago_time
 
 Record = TypeVar('Record', bound=Tuple)
 
@@ -47,8 +47,8 @@ class DailyReport(Report):
         if weekday > 4:
             return now - timedelta(days=weekday - 4)
 
-        release = chicago_time(self.hour)
-        return now.date() if now > release else (now - timedelta(days=1)).date()
+        latest = now if now > chicago_time(self.hour) else now - timedelta(days=1)
+        return latest.date()
 
 
 class WeeklyReport(Report):
@@ -63,4 +63,6 @@ class WeeklyReport(Report):
         now = chicago_time()
         release_date = Week.withdate(now.date()).day(self.weekday)
         release = chicago_time(self.hour).replace(release_date.year, release_date.month, release_date.day)
-        return release.date() if now > release else (release - relativedelta(weeks=1)).date()
+        latest = release if now > release else release - relativedelta(weeks=1)
+
+        return latest.date()
