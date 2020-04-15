@@ -4,7 +4,9 @@ export MPR_SERVER='http://localhost:8080'
 set -e
 pipenv run flake8 mpr
 pipenv run coverage erase
-pipenv run coverage run -m pytest "$@"
+pipenv run coverage run --parallel-mode -m pytest
+pipenv run coverage run --parallel-mode -m behave -m --tags="-pending"
 echo
+pipenv run coverage combine
 pipenv run coverage report
 echo

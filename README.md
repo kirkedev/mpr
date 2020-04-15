@@ -40,11 +40,8 @@ bin/bacon
 # View a USDA report by report slug
 bin/report lm_hg201
 
-# Lint and run unit tests
-bin/tests
-
 # Lint and run unit and acceptance tests
-bin/check
+bin/tests
 
 # Wipe reports cache
 bin/wipe

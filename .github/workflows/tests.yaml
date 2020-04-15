@@ -32,7 +32,7 @@ jobs:
         pipenv install --dev
 
     - name: Run tests
-      run: bin/check
+      run: bin/tests
 
     - name: Upload coverage report
       run: pipenv run coveralls
