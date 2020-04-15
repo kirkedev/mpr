@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
+export MPR_SERVER='http://localhost:8080'
+set -e
 ./bin/clean
+tox
 pipenv run python3 setup.py sdist bdist_wheel

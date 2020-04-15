@@ -23,9 +23,6 @@ jobs:
         pip install --upgrade pip pipenv tox twine setuptools
         pipenv install --dev
 
-    - name: Run tests
-      run: tox
-
     - name: Build package
       run: bin/build
 
