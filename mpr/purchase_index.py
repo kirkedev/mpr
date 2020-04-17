@@ -6,21 +6,21 @@ from functools import singledispatch
 
 from pandas import DataFrame
 
-from mpr import purchase
-from .purchase.purchase_index import purchase_report
+from mpr import purchases
+from .purchases.purchase_index import purchase_report
 
 
 @singledispatch
 async def get(start: date, end=date.today()) -> DataFrame:
-    records = await purchase.daily(start - timedelta(10), end)
+    records = await purchases.daily(start - timedelta(10), end)
     return purchase_report(records)[start:]
 
 
 @get.register(int)
 async def get_recent(n: int) -> DataFrame:
     today = date.today()
-    purchases = await get(today - timedelta(days=n + 10), today)
-    return purchases.tail(n)
+    records = await get(today - timedelta(days=n + 10), today)
+    return records.tail(n)
 
 
 def main():  # pragma: no cover

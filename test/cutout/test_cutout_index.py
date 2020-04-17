@@ -18,14 +18,14 @@ with open('test/resources/cutout.json') as resource:
 
 
 def test_daily_prices():
-    last = records[records.date == date(2019, 2, 27)][0]
-    assert isclose(last.carcass_price, 59.57)
-    assert isclose(last.loin_price, 57.98)
-    assert isclose(last.butt_price, 66.48)
-    assert isclose(last.picnic_price, 34.76)
-    assert isclose(last.rib_price, 110.69)
-    assert isclose(last.ham_price, 45.24)
-    assert isclose(last.belly_price, 97.67)
+    record = records[records.date == date(2019, 2, 27)][0]
+    assert isclose(record.carcass_price, 59.57)
+    assert isclose(record.loin_price, 57.98)
+    assert isclose(record.butt_price, 66.48)
+    assert isclose(record.picnic_price, 34.76)
+    assert isclose(record.rib_price, 110.69)
+    assert isclose(record.ham_price, 45.24)
+    assert isclose(record.belly_price, 97.67)
 
 
 def test_cutout_index():

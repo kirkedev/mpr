@@ -15,9 +15,8 @@ from ..data.repository import Repository
 
 async def daily(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
     end = min(end, lm_pk602.latest)
-    sales = await Repository(lm_pk602).query(start, end, *report_sections(*cuts))
-
-    return map(parse_record, sales)
+    records = await Repository(lm_pk602).query(start, end, *report_sections(*cuts))
+    return map(parse_record, records)
 
 
 async def weekly_negotiated(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
@@ -28,7 +27,8 @@ async def weekly_negotiated(start: date, end: date, *cuts: Cut) -> Iterator[Sale
     if last.day(lm_pk610.weekday) < lm_pk610.latest:
         last -= 1
 
-    return map(parse_record, await Repository(lm_pk610).query(start, last.saturday(), *report_sections(*cuts)))
+    records = await Repository(lm_pk610).query(start, last.saturday(), *report_sections(*cuts))
+    return map(parse_record, records)
 
 
 async def weekly_formula(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
@@ -39,4 +39,5 @@ async def weekly_formula(start: date, end: date, *cuts: Cut) -> Iterator[Sales]:
     if last.day(lm_pk620.weekday) < lm_pk620.latest:
         last -= 1
 
-    return map(parse_record, await Repository(lm_pk620).query(start, last.saturday(), *report_sections(*cuts)))
+    records = await Repository(lm_pk620).query(start, last.saturday(), *report_sections(*cuts))
+    return map(parse_record, records)

@@ -3,15 +3,11 @@ from abc import abstractmethod
 from datetime import date
 from datetime import timedelta
 from enum import Enum
-from typing import Tuple
-from typing import TypeVar
 
 from dateutil.relativedelta import relativedelta
 from isoweek import Week
 
 from . import chicago_time
-
-Record = TypeVar('Record', bound=Tuple)
 
 
 class Section(str, Enum):

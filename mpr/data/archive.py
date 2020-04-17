@@ -18,8 +18,8 @@ from zipfile import ZipFile
 
 from isoweek import Week
 
+from . import Record
 from . import record_date
-from .api import Record
 from .report import Section
 
 Records = List[Record]

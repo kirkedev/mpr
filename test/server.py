@@ -8,7 +8,7 @@ from aiohttp.web import get
 
 from mpr.cutout.report import lm_pk602
 from mpr.data.report import Report
-from mpr.purchase.report import lm_hg200
+from mpr.purchases.report import lm_hg200
 from mpr.sales.report import lm_pk610
 from mpr.sales.report import lm_pk620
 from mpr.slaughter.report import lm_hg201

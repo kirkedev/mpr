@@ -16,8 +16,7 @@
     "label": "Barrows/Gilts",
     "highest_net_price": "57.72",
     "avg_live_weight": "267.62"
-},
-{
+}, {
     "avg_backfat": ".62",
     "avg_carcass_weight": "218.24",
     "base_price": "59.20",
@@ -35,8 +34,7 @@
     "for_date_begin": "02/20/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_net_price": "54.07",
     "slug": "LM_HG201",
     "avg_backfat": ".64",
@@ -54,8 +52,7 @@
     "highest_net_price": "74.75",
     "avg_lean_percent": "56.03",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "avg_sort_loss": "-1.57",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
     "lowest_net_price": "45.54",
@@ -73,16 +70,14 @@
     "for_date_begin": "02/20/2019",
     "label": "Barrows/Gilts",
     "avg_lean_percent": "55.78"
-},
-{
+}, {
     "slug": "LM_HG201",
     "report_date": "02/21/2019",
     "head_count": "1,359",
     "for_date_begin": "02/20/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_lean_percent": "56.02",
     "base_price": "55.85",
     "head_count": "278,671",
@@ -100,8 +95,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "avg_live_weight": "284.48"
-},
-{
+}, {
     "avg_backfat": ".62",
     "avg_lean_percent": "55.44",
     "avg_net_price": "53.45",
@@ -119,8 +113,7 @@
     "head_count": "7,920",
     "for_date_begin": "02/20/2019",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "head_count": "142,767",
     "avg_loin_depth": "2.52",
     "avg_live_weight": "286.96",
@@ -133,8 +126,7 @@
     "for_date_begin": "02/20/2019",
     "avg_carcass_weight": "218.09",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "avg_live_weight": "269.06",
     "head_count": "8,549",
     "avg_carcass_weight": "197.01",
@@ -152,8 +144,7 @@
     "avg_lean_percent": "54.45",
     "label": "Barrows/Gilts",
     "loineye_area": "6.97"
-},
-{
+}, {
     "avg_lean_percent": "56.24",
     "avg_sort_loss": "-1.90",
     "slug": "LM_HG201",
@@ -171,8 +162,7 @@
     "label": "Barrows/Gilts",
     "avg_live_weight": "286.82",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_carcass_weight": "213.67",
     "avg_lean_percent": "56.10",
     "slug": "LM_HG201",
@@ -190,8 +180,7 @@
     "base_price": "52.24",
     "label": "Barrows/Gilts",
     "avg_live_weight": "283.71"
-},
-{
+}, {
     "avg_backfat": ".69",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
     "head_count": "91,931",
@@ -209,16 +198,14 @@
     "label": "Barrows/Gilts",
     "loineye_area": "7.66",
     "lowest_net_price": "48.08"
-},
-{
+}, {
     "slug": "LM_HG201",
     "for_date_begin": "02/19/2019",
     "report_date": "02/20/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula",
     "head_count": "1,484"
-},
-{
+}, {
     "avg_live_weight": "283.02",
     "avg_lean_percent": "55.98",
     "highest_net_price": "70.33",
@@ -236,8 +223,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "avg_carcass_weight": "213.06"
-},
-{
+}, {
     "slug": "LM_HG201",
     "avg_lean_percent": "56.31",
     "avg_live_weight": "277.19",
@@ -255,8 +241,7 @@
     "report_date": "02/20/2019",
     "label": "Barrows/Gilts",
     "highest_net_price": "56.94"
-},
-{
+}, {
     "loineye_area": "7.63",
     "slug": "LM_HG201",
     "avg_live_weight": "285.68",
@@ -269,8 +254,7 @@
     "report_date": "02/20/2019",
     "label": "Barrows/Gilts",
     "avg_loin_depth": "2.54"
-},
-{
+}, {
     "lowest_net_price": "39.18",
     "avg_loin_depth": "2.60",
     "slug": "LM_HG201",
@@ -288,8 +272,7 @@
     "avg_carcass_weight": "212.25",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/18/2019"
-},
-{
+}, {
     "loineye_area": "8.15",
     "highest_net_price": "73.59",
     "avg_sort_loss": "-1.83",
@@ -307,8 +290,7 @@
     "label": "Barrows/Gilts",
     "for_date_begin": "02/18/2019",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "head_count": "127,391",
     "lowest_net_price": "40.57",
     "avg_live_weight": "284.74",
@@ -326,8 +308,7 @@
     "avg_backfat": ".65",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/18/2019"
-},
-{
+}, {
     "avg_live_weight": "282.24",
     "avg_lean_percent": "55.70",
     "lowest_net_price": "46.13",
@@ -345,16 +326,14 @@
     "loineye_area": "7.72",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/18/2019"
-},
-{
+}, {
     "slug": "LM_HG201",
     "for_date_begin": "02/18/2019",
     "head_count": "1,580",
     "report_date": "02/19/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_live_weight": "283.97",
     "avg_backfat": ".66",
     "slug": "LM_HG201",
@@ -372,8 +351,7 @@
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "for_date_begin": "02/18/2019",
     "avg_net_price": "58.25"
-},
-{
+}, {
     "loineye_area": "8.23",
     "highest_net_price": "55.23",
     "slug": "LM_HG201",
@@ -391,8 +369,7 @@
     "label": "Barrows/Gilts",
     "for_date_begin": "02/18/2019",
     "head_count": "7,311"
-},
-{
+}, {
     "slug": "LM_HG201",
     "avg_loin_depth": "2.51",
     "avg_live_weight": "285.03",
@@ -405,8 +382,7 @@
     "loineye_area": "7.53",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/18/2019"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "avg_backfat": ".58",
     "avg_sort_loss": "-1.64",
@@ -424,8 +400,7 @@
     "avg_loin_depth": "2.71",
     "label": "Barrows/Gilts",
     "loineye_area": "8.16"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "avg_backfat": ".58",
     "slug": "LM_HG201",
@@ -443,8 +418,7 @@
     "avg_carcass_weight": "217.67",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "head_count": "214,082",
     "slug": "LM_HG201",
@@ -462,8 +436,7 @@
     "loineye_area": "8.04",
     "avg_backfat": ".64",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "avg_loin_depth": "2.53",
     "highest_net_price": "77.92",
@@ -481,16 +454,14 @@
     "avg_live_weight": "286.32",
     "avg_sort_loss": "-1.70",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "slug": "LM_HG201",
     "for_date_begin": "02/15/2019",
     "head_count": "1,121",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "base_price": "55.84",
     "avg_lean_percent": "56.01",
@@ -508,8 +479,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "loineye_area": "7.97"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "avg_lean_percent": "56.56",
     "avg_backfat": ".58",
@@ -527,8 +497,7 @@
     "avg_loin_depth": "2.75",
     "avg_net_price": "53.74",
     "avg_live_weight": "287.57"
-},
-{
+}, {
     "report_date": "02/18/2019",
     "avg_carcass_weight": "218.51",
     "slug": "LM_HG201",
@@ -541,8 +510,7 @@
     "head_count": "227,378",
     "label": "Barrows/Gilts",
     "loineye_area": "7.66"
-},
-{
+}, {
     "avg_sort_loss": "-1.72",
     "avg_backfat": ".58",
     "head_count": "7,850",
@@ -560,8 +528,7 @@
     "label": "Barrows/Gilts",
     "avg_live_weight": "284.82",
     "avg_loin_depth": "2.54"
-},
-{
+}, {
     "lowest_net_price": "47.77",
     "base_price": "54.62",
     "slug": "LM_HG201",
@@ -579,8 +546,7 @@
     "label": "Barrows/Gilts",
     "avg_sort_loss": "-1.89",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_backfat": ".65",
     "slug": "LM_HG201",
     "avg_lean_percent": "55.89",
@@ -598,8 +564,7 @@
     "avg_net_price": "55.06",
     "label": "Barrows/Gilts",
     "lowest_net_price": "43.48"
-},
-{
+}, {
     "avg_net_price": "62.50",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
     "avg_sort_loss": "-1.66",
@@ -617,16 +582,14 @@
     "for_date_begin": "02/14/2019",
     "base_price": "61.55",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "slug": "LM_HG201",
     "report_date": "02/15/2019",
     "head_count": "1,009",
     "for_date_begin": "02/14/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_net_price": "57.71",
     "avg_sort_loss": "-1.75",
     "lowest_net_price": "43.62",
@@ -644,8 +607,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "avg_lean_percent": "55.86"
-},
-{
+}, {
     "loineye_area": "7.99",
     "avg_net_price": "53.34",
     "highest_net_price": "57.94",
@@ -663,8 +625,7 @@
     "head_count": "7,572",
     "label": "Barrows/Gilts",
     "avg_carcass_weight": "206.93"
-},
-{
+}, {
     "avg_carcass_weight": "219.31",
     "slug": "LM_HG201",
     "avg_live_weight": "288.90",
@@ -677,8 +638,7 @@
     "label": "Barrows/Gilts",
     "loineye_area": "7.62",
     "avg_loin_depth": "2.54"
-},
-{
+}, {
     "head_count": "5,857",
     "loineye_area": "6.64",
     "slug": "LM_HG201",
@@ -696,8 +656,7 @@
     "avg_lean_percent": "54.37",
     "label": "Barrows/Gilts",
     "avg_backfat": ".55"
-},
-{
+}, {
     "avg_backfat": ".62",
     "head_count": "36,487",
     "loineye_area": "8.29",
@@ -715,8 +674,7 @@
     "avg_loin_depth": "2.75",
     "avg_sort_loss": "-1.94",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "lowest_net_price": "38.90",
     "highest_net_price": "64.15",
     "avg_carcass_weight": "215.33",
@@ -734,8 +692,7 @@
     "head_count": "143,189",
     "label": "Barrows/Gilts",
     "avg_sort_loss": "-1.74"
-},
-{
+}, {
     "avg_net_price": "61.90",
     "base_price": "60.98",
     "avg_sort_loss": "-1.52",
@@ -753,16 +710,14 @@
     "report_date": "02/14/2019",
     "highest_net_price": "79.19",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "head_count": "913",
     "slug": "LM_HG201",
     "for_date_begin": "02/13/2019",
     "report_date": "02/14/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_lean_percent": "55.96",
     "slug": "LM_HG201",
     "head_count": "271,858",
@@ -780,8 +735,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "avg_net_price": "57.58"
-},
-{
+}, {
     "lowest_net_price": "50.05",
     "head_count": "7,294",
     "base_price": "51.37",
@@ -799,8 +753,7 @@
     "loineye_area": "8.04",
     "report_date": "02/14/2019",
     "purchase_type": "Pack. Sold (All Purchase Types)"
-},
-{
+}, {
     "loineye_area": "7.63",
     "slug": "LM_HG201",
     "avg_carcass_weight": "218.14",
@@ -813,8 +766,7 @@
     "report_date": "02/14/2019",
     "label": "Barrows/Gilts",
     "avg_loin_depth": "2.54"
-},
-{
+}, {
     "avg_backfat": ".58",
     "for_date_begin": "02/12/2019",
     "avg_sort_loss": "-2.27",
@@ -832,8 +784,7 @@
     "report_date": "02/13/2019",
     "label": "Barrows/Gilts",
     "base_price": "49.46"
-},
-{
+}, {
     "head_count": "35,809",
     "avg_net_price": "57.54",
     "avg_backfat": ".62",
@@ -851,8 +802,7 @@
     "label": "Barrows/Gilts",
     "highest_net_price": "75.76",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_backfat": ".65",
     "avg_carcass_weight": "213.55",
     "for_date_begin": "02/12/2019",
@@ -870,8 +820,7 @@
     "report_date": "02/13/2019",
     "label": "Barrows/Gilts",
     "avg_sort_loss": "-1.74"
-},
-{
+}, {
     "for_date_begin": "02/12/2019",
     "avg_carcass_weight": "212.62",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
@@ -889,16 +838,14 @@
     "report_date": "02/13/2019",
     "head_count": "85,444",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "for_date_begin": "02/12/2019",
     "slug": "LM_HG201",
     "report_date": "02/13/2019",
     "head_count": "1,213",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "loineye_area": "7.92",
     "avg_backfat": ".65",
     "for_date_begin": "02/12/2019",
@@ -916,8 +863,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "avg_lean_percent": "55.86"
-},
-{
+}, {
     "head_count": "8,650",
     "avg_net_price": "54.74",
     "for_date_begin": "02/12/2019",
@@ -935,8 +881,7 @@
     "report_date": "02/13/2019",
     "avg_lean_percent": "56.45",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "avg_carcass_weight": "217.30",
     "head_count": "150,985",
     "for_date_begin": "02/12/2019",
@@ -949,8 +894,7 @@
     "report_date": "02/13/2019",
     "label": "Barrows/Gilts",
     "avg_loin_depth": "2.54"
-},
-{
+}, {
     "head_count": "8,912",
     "slug": "LM_HG201",
     "avg_backfat": ".63",
@@ -968,8 +912,7 @@
     "highest_net_price": "57.75",
     "label": "Barrows/Gilts",
     "avg_net_price": "51.51"
-},
-{
+}, {
     "avg_net_price": "57.22",
     "loineye_area": "8.26",
     "head_count": "36,614",
@@ -987,8 +930,7 @@
     "label": "Barrows/Gilts",
     "avg_carcass_weight": "217.25",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "slug": "LM_HG201",
     "avg_sort_loss": "-1.82",
     "avg_lean_percent": "56.04",
@@ -1006,8 +948,7 @@
     "avg_backfat": ".65",
     "avg_net_price": "56.07",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "avg_lean_percent": "55.85",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
     "avg_loin_depth": "2.61",
@@ -1025,16 +966,14 @@
     "label": "Barrows/Gilts",
     "avg_carcass_weight": "212.49",
     "lowest_net_price": "49.91"
-},
-{
+}, {
     "slug": "LM_HG201",
     "head_count": "1,218",
     "report_date": "02/12/2019",
     "for_date_begin": "02/11/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_lean_percent": "56.01",
     "avg_backfat": ".65",
     "loineye_area": "7.99",
@@ -1052,8 +991,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "avg_live_weight": "284.58"
-},
-{
+}, {
     "avg_sort_loss": "-2.86",
     "head_count": "8,538",
     "avg_lean_percent": "55.47",
@@ -1071,8 +1009,7 @@
     "avg_backfat": ".61",
     "label": "Barrows/Gilts",
     "avg_loin_depth": "2.54"
-},
-{
+}, {
     "loineye_area": "7.59",
     "avg_loin_depth": "2.53",
     "avg_lean_percent": "54.35",
@@ -1085,8 +1022,7 @@
     "for_date_begin": "02/11/2019",
     "avg_live_weight": "282.35",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "head_count": "17,320",
     "avg_net_price": "52.54",
     "avg_live_weight": "275.63",
@@ -1104,8 +1040,7 @@
     "base_price": "50.36",
     "label": "Barrows/Gilts",
     "report_date": "02/11/2019"
-},
-{
+}, {
     "avg_live_weight": "289.86",
     "highest_net_price": "70.53",
     "for_date_begin": "02/08/2019",
@@ -1123,8 +1058,7 @@
     "label": "Barrows/Gilts",
     "report_date": "02/11/2019",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_sort_loss": "-1.75",
     "avg_lean_percent": "56.20",
     "base_price": "53.95",
@@ -1142,8 +1076,7 @@
     "label": "Barrows/Gilts",
     "report_date": "02/11/2019",
     "avg_carcass_weight": "215.85"
-},
-{
+}, {
     "highest_net_price": "75.50",
     "avg_backfat": ".69",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
@@ -1161,16 +1094,14 @@
     "label": "Barrows/Gilts",
     "report_date": "02/11/2019",
     "avg_loin_depth": "2.54"
-},
-{
+}, {
     "head_count": "1,261",
     "for_date_begin": "02/08/2019",
     "slug": "LM_HG201",
     "label": "Barrows/Gilts",
     "report_date": "02/11/2019",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_sort_loss": "-1.78",
     "for_date_begin": "02/08/2019",
     "slug": "LM_HG201",
@@ -1188,8 +1119,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "head_count": "392,819"
-},
-{
+}, {
     "avg_lean_percent": "56.01",
     "for_date_begin": "02/08/2019",
     "slug": "LM_HG201",
@@ -1207,8 +1137,7 @@
     "label": "Barrows/Gilts",
     "report_date": "02/11/2019",
     "head_count": "12,409"
-},
-{
+}, {
     "avg_loin_depth": "2.49",
     "avg_live_weight": "287.27",
     "for_date_begin": "02/08/2019",
@@ -1221,8 +1150,7 @@
     "avg_backfat": ".65",
     "label": "Barrows/Gilts",
     "report_date": "02/11/2019"
-},
-{
+}, {
     "highest_net_price": "57.07",
     "avg_carcass_weight": "192.65",
     "slug": "LM_HG201",
@@ -1240,8 +1168,7 @@
     "label": "Barrows/Gilts",
     "avg_net_price": "52.40",
     "lowest_net_price": "40.59"
-},
-{
+}, {
     "head_count": "40,561",
     "loineye_area": "8.26",
     "avg_sort_loss": "-2.04",
@@ -1259,8 +1186,7 @@
     "label": "Barrows/Gilts",
     "avg_net_price": "57.73",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_lean_percent": "55.96",
     "lowest_net_price": "46.53",
     "slug": "LM_HG201",
@@ -1278,8 +1204,7 @@
     "avg_backfat": ".64",
     "label": "Barrows/Gilts",
     "loineye_area": "7.97"
-},
-{
+}, {
     "highest_net_price": "77.53",
     "avg_net_price": "63.68",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
@@ -1297,16 +1222,14 @@
     "head_count": "79,211",
     "label": "Barrows/Gilts",
     "base_price": "62.75"
-},
-{
+}, {
     "slug": "LM_HG201",
     "report_date": "02/08/2019",
     "for_date_begin": "02/07/2019",
     "label": "Barrows/Gilts",
     "head_count": "1,680",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_net_price": "58.89",
     "avg_backfat": ".65",
     "avg_carcass_weight": "214.31",
@@ -1324,8 +1247,7 @@
     "avg_live_weight": "284.68",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)"
-},
-{
+}, {
     "loineye_area": "7.99",
     "avg_lean_percent": "55.67",
     "avg_sort_loss": "-2.28",
@@ -1343,8 +1265,7 @@
     "purchase_type": "Pack. Sold (All Purchase Types)",
     "avg_backfat": ".64",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "avg_loin_depth": "2.49",
     "loineye_area": "7.48",
     "slug": "LM_HG201",
@@ -1357,8 +1278,7 @@
     "avg_backfat": ".67",
     "label": "Barrows/Gilts",
     "avg_carcass_weight": "217.25"
-},
-{
+}, {
     "avg_carcass_weight": "203.65",
     "avg_live_weight": "277.34",
     "base_price": "50.65",
@@ -1376,8 +1296,7 @@
     "head_count": "7,472",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/06/2019"
-},
-{
+}, {
     "avg_backfat": ".62",
     "avg_sort_loss": "-2.19",
     "slug": "LM_HG201",
@@ -1395,8 +1314,7 @@
     "for_date_begin": "02/06/2019",
     "avg_net_price": "57.73",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "lowest_net_price": "42.72",
     "highest_net_price": "65.69",
     "avg_net_price": "56.89",
@@ -1414,8 +1332,7 @@
     "label": "Barrows/Gilts",
     "for_date_begin": "02/06/2019",
     "avg_lean_percent": "56.02"
-},
-{
+}, {
     "avg_sort_loss": "-1.52",
     "avg_lean_percent": "55.45",
     "avg_net_price": "63.17",
@@ -1433,16 +1350,14 @@
     "highest_net_price": "80.02",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/06/2019"
-},
-{
+}, {
     "slug": "LM_HG201",
     "report_date": "02/07/2019",
     "head_count": "1,644",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/06/2019",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_carcass_weight": "214.67",
     "loineye_area": "7.95",
     "slug": "LM_HG201",
@@ -1460,8 +1375,7 @@
     "avg_sort_loss": "-1.81",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)"
-},
-{
+}, {
     "avg_carcass_weight": "207.80",
     "avg_lean_percent": "55.95",
     "loineye_area": "8.06",
@@ -1479,8 +1393,7 @@
     "purchase_type": "Pack. Sold (All Purchase Types)",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/06/2019"
-},
-{
+}, {
     "avg_loin_depth": "2.52",
     "slug": "LM_HG201",
     "purchase_type": "Packer Owned",
@@ -1493,8 +1406,7 @@
     "avg_lean_percent": "54.14",
     "label": "Barrows/Gilts",
     "for_date_begin": "02/06/2019"
-},
-{
+}, {
     "highest_net_price": "56.45",
     "avg_sort_loss": "-2.42",
     "avg_backfat": ".65",
@@ -1512,8 +1424,7 @@
     "head_count": "6,711",
     "label": "Barrows/Gilts",
     "avg_live_weight": "268.42"
-},
-{
+}, {
     "base_price": "58.06",
     "report_date": "02/06/2019",
     "slug": "LM_HG201",
@@ -1531,8 +1442,7 @@
     "label": "Barrows/Gilts",
     "avg_live_weight": "286.93",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_lean_percent": "56.01",
     "lowest_net_price": "45.11",
     "avg_live_weight": "283.00",
@@ -1550,8 +1460,7 @@
     "avg_backfat": ".64",
     "label": "Barrows/Gilts",
     "loineye_area": "7.95"
-},
-{
+}, {
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
     "report_date": "02/06/2019",
     "slug": "LM_HG201",
@@ -1569,16 +1478,14 @@
     "base_price": "62.73",
     "lowest_net_price": "48.91",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "report_date": "02/06/2019",
     "slug": "LM_HG201",
     "for_date_begin": "02/05/2019",
     "head_count": "1,883",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "base_price": "58.00",
     "avg_live_weight": "283.52",
     "report_date": "02/06/2019",
@@ -1596,8 +1503,7 @@
     "highest_net_price": "69.65",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)"
-},
-{
+}, {
     "avg_sort_loss": "-1.52",
     "base_price": "53.53",
     "avg_lean_percent": "55.91",
@@ -1615,8 +1521,7 @@
     "purchase_type": "Pack. Sold (All Purchase Types)",
     "lowest_net_price": "50.94",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "loineye_area": "7.57",
     "head_count": "147,496",
     "report_date": "02/06/2019",
@@ -1629,8 +1534,7 @@
     "avg_live_weight": "285.34",
     "label": "Barrows/Gilts",
     "avg_lean_percent": "54.17"
-},
-{
+}, {
     "highest_net_price": "58.20",
     "avg_sort_loss": "-2.28",
     "slug": "LM_HG201",
@@ -1648,8 +1552,7 @@
     "avg_backfat": ".65",
     "avg_net_price": "51.39",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "lowest_net_price": "41.27",
     "avg_sort_loss": "-1.97",
     "loineye_area": "8.08",
@@ -1667,8 +1570,7 @@
     "highest_net_price": "70.50",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "base_price": "55.37",
     "highest_net_price": "67.59",
     "lowest_net_price": "39.04",
@@ -1686,8 +1588,7 @@
     "avg_sort_loss": "-1.70",
     "label": "Barrows/Gilts",
     "loineye_area": "7.97"
-},
-{
+}, {
     "avg_carcass_weight": "211.42",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
     "avg_sort_loss": "-1.33",
@@ -1705,16 +1606,14 @@
     "label": "Barrows/Gilts",
     "base_price": "61.59",
     "avg_live_weight": "281.62"
-},
-{
+}, {
     "slug": "LM_HG201",
     "head_count": "3,735",
     "for_date_begin": "02/04/2019",
     "report_date": "02/05/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "highest_net_price": "72.77",
     "base_price": "57.67",
     "avg_carcass_weight": "214.04",
@@ -1732,8 +1631,7 @@
     "avg_lean_percent": "55.92",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)"
-},
-{
+}, {
     "avg_lean_percent": "55.67",
     "base_price": "53.94",
     "avg_net_price": "55.22",
@@ -1751,8 +1649,7 @@
     "highest_net_price": "62.48",
     "purchase_type": "Pack. Sold (All Purchase Types)",
     "avg_carcass_weight": "213.39"
-},
-{
+}, {
     "loineye_area": "7.46",
     "slug": "LM_HG201",
     "head_count": "148,675",
@@ -1765,8 +1662,7 @@
     "avg_backfat": ".68",
     "report_date": "02/05/2019",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "avg_loin_depth": "2.61",
     "base_price": "51.80",
     "slug": "LM_HG201",
@@ -1784,8 +1680,7 @@
     "highest_net_price": "57.85",
     "label": "Barrows/Gilts",
     "avg_sort_loss": "-2.16"
-},
-{
+}, {
     "avg_lean_percent": "56.29",
     "loineye_area": "8.23",
     "highest_net_price": "69.91",
@@ -1803,8 +1698,7 @@
     "avg_carcass_weight": "218.50",
     "avg_net_price": "59.14",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "highest_net_price": "67.65",
     "slug": "LM_HG201",
     "avg_backfat": ".64",
@@ -1822,8 +1716,7 @@
     "avg_sort_loss": "-1.85",
     "label": "Barrows/Gilts",
     "loineye_area": "7.97"
-},
-{
+}, {
     "avg_loin_depth": "2.49",
     "avg_carcass_weight": "213.73",
     "loineye_area": "7.48",
@@ -1841,16 +1734,14 @@
     "avg_sort_loss": "-1.51",
     "for_date_begin": "02/01/2019",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "slug": "LM_HG201",
     "report_date": "02/04/2019",
     "for_date_begin": "02/01/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula",
     "head_count": "683"
-},
-{
+}, {
     "base_price": "57.81",
     "avg_backfat": ".65",
     "slug": "LM_HG201",
@@ -1868,8 +1759,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "avg_carcass_weight": "215.47"
-},
-{
+}, {
     "loineye_area": "7.94",
     "head_count": "15,214",
     "slug": "LM_HG201",
@@ -1887,8 +1777,7 @@
     "for_date_begin": "02/01/2019",
     "label": "Barrows/Gilts",
     "highest_net_price": "64.42"
-},
-{
+}, {
     "loineye_area": "7.57",
     "avg_loin_depth": "2.52",
     "slug": "LM_HG201",
@@ -1901,8 +1790,7 @@
     "for_date_begin": "02/01/2019",
     "label": "Barrows/Gilts",
     "avg_carcass_weight": "218.47"
-},
-{
+}, {
     "loineye_area": "7.10",
     "report_date": "02/01/2019",
     "avg_carcass_weight": "198.34",
@@ -1920,8 +1808,7 @@
     "avg_backfat": ".65",
     "avg_live_weight": "267.52",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "base_price": "56.73",
     "avg_net_price": "58.80",
     "report_date": "02/01/2019",
@@ -1939,8 +1826,7 @@
     "avg_carcass_weight": "216.97",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Other Market Formula"
-},
-{
+}, {
     "avg_lean_percent": "55.98",
     "report_date": "02/01/2019",
     "slug": "LM_HG201",
@@ -1958,8 +1844,7 @@
     "base_price": "55.77",
     "label": "Barrows/Gilts",
     "avg_net_price": "57.59"
-},
-{
+}, {
     "report_date": "02/01/2019",
     "avg_backfat": ".72",
     "purchase_type": "Prod. Sold Other Purchase Arrangement",
@@ -1977,16 +1862,14 @@
     "lowest_net_price": "47.47",
     "highest_net_price": "79.08",
     "label": "Barrows/Gilts"
-},
-{
+}, {
     "report_date": "02/01/2019",
     "slug": "LM_HG201",
     "head_count": "165",
     "for_date_begin": "01/31/2019",
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold Negotiated Formula"
-},
-{
+}, {
     "avg_live_weight": "284.24",
     "report_date": "02/01/2019",
     "avg_carcass_weight": "214.07",
@@ -2004,8 +1887,7 @@
     "label": "Barrows/Gilts",
     "purchase_type": "Prod. Sold (All Purchase Types)",
     "lowest_net_price": "46.07"
-},
-{
+}, {
     "report_date": "02/01/2019",
     "head_count": "4,705",
     "avg_net_price": "55.52",
@@ -2023,8 +1905,7 @@
     "label": "Barrows/Gilts",
     "avg_sort_loss": "-1.94",
     "avg_lean_percent": "55.88"
-},
-{
+}, {
     "report_date": "02/01/2019",
     "avg_loin_depth": "2.53",
     "loineye_area": "7.61",

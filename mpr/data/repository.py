@@ -13,10 +13,10 @@ from typing import overload
 
 from isoweek import Week
 
+from . import Record
 from . import record_date
 from . import weeks
-from .api import Client
-from .api import Record
+from .client import Client
 from .archive import Archive
 from .archive import Records
 from .report import Report
