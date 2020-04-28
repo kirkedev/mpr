@@ -26,10 +26,10 @@ setup(
     include_package_data=True,
     python_requires='>=3.7.*',
     install_requires=[
-        'aiohttp >3.6, <4.0', 
+        'aiohttp >3.6, <4.0',
+        'isoweek >1.3.0, <1.4.0',
         'numpy >1.15.0, <1.19.0', 
         'pandas >1.0.0, <1.1.0', 
-        'python-dateutil >2.8.0, <2.9.0',
-        'pytz==2019.3'
+        'python-dateutil >2.8.0, <2.9.0'
     ],
     setup_requires=['wheel'])
