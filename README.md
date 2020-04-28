@@ -37,9 +37,6 @@ bin/purchases
 # View CME Fresh Bacon Index report
 bin/bacon
 
-# View a USDA report by report slug
-bin/report lm_hg201
-
 # Lint and run unit and acceptance tests
 bin/tests
 
