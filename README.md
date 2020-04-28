@@ -37,7 +37,7 @@ bin/purchases
 # View CME Fresh Bacon Index report
 bin/bacon
 
-# Lint and run unit and acceptance tests
+# Lint and run unit and acceptance tests with coverage
 bin/tests
 
 # Wipe reports cache

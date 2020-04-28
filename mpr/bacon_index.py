@@ -37,7 +37,7 @@ async def get_recent(n: int) -> DataFrame:
     return report.tail(n)
 
 
-def main():  # pragma: no cover
+def main():
     parser = ArgumentParser(description='Calculate the CME Fresh Bacon Index', usage='bacon [--weeks=8]')
     parser.add_argument('--weeks', help='How many weeks to show', dest='weeks', type=int, default=8)
     weeks = parser.parse_args().weeks
