@@ -5,7 +5,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 tag = os.popen('git describe').read()
-version = '0.0.0' if match(r"v[\d\.]+", tag) is None else tag[1:]
+version = '0.0.0' if match(r"v\d\.\d.\d", tag) is None else tag[1:]
 
 setup(
     name='mpr',
