@@ -13,7 +13,6 @@ from .purchase_type import purchase_types
 from ..data import Date
 from ..data import Record
 from ..data import date64
-from ..data import date_ordinal
 from ..data import get_optional
 from ..data import opt_float
 from ..data import opt_int
@@ -36,7 +35,7 @@ class Purchase(NamedTuple):
     high_price: float32
 
     def __hash__(self) -> int:
-        return hash((self[0], *map(date_ordinal, self[1:3]), *self[3:6]))
+        return hash(self[:6])
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Purchase) and hash(self) == hash(other) and

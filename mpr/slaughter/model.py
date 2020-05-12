@@ -13,7 +13,6 @@ from .purchase_type import purchase_types
 from ..data import Date
 from ..data import Record
 from ..data import date64
-from ..data import date_ordinal
 from ..data import opt_float
 from ..data import opt_int
 from ..data import parse_date
@@ -43,7 +42,7 @@ class Slaughter(NamedTuple):
     lean_percent: float32
 
     def __hash__(self) -> int:
-        return hash((self[0], *map(date_ordinal, self[1:3]), self[3:6]))
+        return hash(self[:6])
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Slaughter) and hash(self) == hash(other) and

@@ -10,7 +10,6 @@ from numpy import recarray
 from ..data import Date
 from ..data import Record
 from ..data import date64
-from ..data import date_ordinal
 from ..data import parse_date
 from ..data import unicode
 
@@ -32,7 +31,7 @@ class Cutout(NamedTuple):
     belly_price: float32
 
     def __hash__(self) -> int:
-        return hash((self[0], *map(date_ordinal, self[1:3])))
+        return hash(self[:3])
 
     def __eq__(self, other) -> bool:
         return (isinstance(other, Cutout) and hash(self) == hash(other) and

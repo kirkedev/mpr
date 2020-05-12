@@ -52,10 +52,6 @@ def parse_date(date_string: str, date_format: str) -> date64:
     return datetime64(datetime.strptime(date_string, date_format).date(), 'D')
 
 
-def date_ordinal(it: date64) -> uint32:
-    return it.astype(date).toordinal()
-
-
 def weeks(start: date, end: date) -> Iterator[Week]:
     for week in range(Week.withdate(start).toordinal(), Week.withdate(end).toordinal() + 1):
         yield Week.fromordinal(week)
