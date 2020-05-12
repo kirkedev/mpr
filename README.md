@@ -37,6 +37,9 @@ bin/purchases
 # View CME Fresh Bacon Index report
 bin/bacon
 
+# Start jupyter notebook server
+bin/notebook
+
 # Lint and run unit and acceptance tests with coverage
 bin/tests
 
