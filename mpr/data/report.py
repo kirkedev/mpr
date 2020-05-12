@@ -41,9 +41,10 @@ class DailyReport(Report):
         weekday = now.weekday()
 
         if weekday > 4:
-            return now - timedelta(days=weekday - 4)
+            latest = now - timedelta(days=weekday - 4)
+        else:
+            latest = now if now > chicago_time(self.hour) else now - timedelta(days=1)
 
-        latest = now if now > chicago_time(self.hour) else now - timedelta(days=1)
         return latest.date()
 
 
